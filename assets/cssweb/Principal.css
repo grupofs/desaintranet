@@ -1,0 +1,43 @@
+/********************************************************************/
+    
+/********************************************************************/    
+/*** PANEL TABS PRIMARY ***/
+    .with-nav-tabs.panel-tabfs .nav-tabs > li > a,
+    .with-nav-tabs.panel-tabfs .nav-tabs > li > a:hover,
+    .with-nav-tabs.panel-tabfs .nav-tabs > li > a:focus {
+        color: #fff;
+    }
+    .with-nav-tabs.panel-tabfs .nav-tabs > .open > a,
+    .with-nav-tabs.panel-tabfs .nav-tabs > .open > a:hover,
+    .with-nav-tabs.panel-tabfs .nav-tabs > .open > a:focus,
+    .with-nav-tabs.panel-tabfs .nav-tabs > li > a:hover,
+    .with-nav-tabs.panel-tabfs .nav-tabs > li > a:focus {
+        color: #fff;
+        background-color: #188E58;
+        border-color: transparent;
+    }
+    .with-nav-tabs.panel-tabfs .nav-tabs > li.active > a,
+    .with-nav-tabs.panel-tabfs .nav-tabs > li.active > a:hover,
+    .with-nav-tabs.panel-tabfs .nav-tabs > li.active > a:focus {
+        color: #0BBC6B;
+        background-color: #fff;
+        border-color: #0BBC6B;
+        border-bottom-color: transparent;
+    }
+    .with-nav-tabs.panel-tabfs .nav-tabs > li.dropdown .dropdown-menu {
+        background-color: #0BBC6B;
+        border-color: #00a65a;
+    }
+    .with-nav-tabs.panel-tabfs .nav-tabs > li.dropdown .dropdown-menu > li > a {
+        color: #fff;   
+    }
+    .with-nav-tabs.panel-tabfs .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
+    .with-nav-tabs.panel-tabfs .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
+        background-color: #00a65a;
+    }
+    .with-nav-tabs.panel-tabfs .nav-tabs > li.dropdown .dropdown-menu > .active > a,
+    .with-nav-tabs.panel-tabfs .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
+    .with-nav-tabs.panel-tabfs .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
+        background-color: #10D27A;
+    }
+/*** FIN PANEL TABS PRIMARY ***/

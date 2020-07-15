@@ -1,0 +1,48 @@
+
+	#button-fs {
+		border: none;
+		background: #73AD21;
+		color: #f2f2f2;
+		padding: 10px;
+		font-size: 18px;
+		border-radius: 5px;
+		position: relative;
+		box-sizing: border-box;
+		transition: all 500ms ease; 
+	}
+	
+	#button-fs:hover {
+		background: rgba(0,0,0,0);
+		color: #3a7999;
+		box-shadow: inset 0 0 0 3px #3a7999;
+    cursor: pointer;
+	}
+
+	#rcornersfs {
+	    border-radius: 25px;  
+      border: 2px solid #73AD21;
+      background: #f2f2f2;      
+  }
+
+  spa { 
+      display:block;
+      font-size:.8em;
+      margin:0px 0 10px;
+      padding:5px 0 5px 11px;
+      width:200px
+  }
+/* fecha de caducidad */
+*[data-sprite-src]{
+  background: url('../images/sprite-28-07-2018-20-19.png') no-repeat top right;
+}
+
+*[data-sprite-src="../images/fondofs.png"]{
+  background-position: -128px -147px;
+
+}
+
+.login-page{
+  padding-top: 10px;
+  background: url(../images/fondofs.png);
+
+}

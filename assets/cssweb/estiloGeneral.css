@@ -1,0 +1,74 @@
+/*COLORES DE TEXTO*/
+    .text-requerido {
+        color: #FD0202;
+        font-weight:bold;
+    }
+     
+
+/*COLORES CRICULOS*/
+    .circle-red {
+        color: #F44336 !important;
+    }
+    .circle-green {
+        color: #4CAF50 !important;
+    }
+    .circle-yellow {
+        color: #eff31d !important;
+    }
+    .circle-blue {
+        color: #0019f7 !important;
+    }
+
+/*MARCO DE FORMULARIOS CON TITULO*/
+    fieldset.scheduler-border{
+        border: 2px groove #2DC87B !important;
+        padding: 0 0.8em 1.4em 0.8em !important;
+        margin: 0 0.8em 1.5em 0.8em !important;
+        box-shadow: 0px 0px 0px 0px #000 !important;
+    }
+    legend.scheduler-border{
+        font-size: 1.2em !important;
+        font-weight: bold !important;
+        text-align: left !important;
+        width: auto;
+        padding: 0 10px;
+        border-bottom: none;
+        font-family: Verdana;
+    } 
+    .labelcol{
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+
+/*TAMAÑO DE LAS COLUMNAS EN DATATABLE*/
+    .col-xxl{
+        min-width: 400px !important;
+    }
+    .col-xl{
+        min-width: 320px !important;
+    }
+    .col-l{
+        min-width: 280px !important;
+    }
+    .col-lm{
+        min-width: 220px !important;
+    }
+    .col-m{
+        min-width: 180px !important;
+    }
+    .col-sm{
+        min-width: 120px !important;
+    }
+    .col-s{
+        min-width: 80px !important;
+    }
+    .col-xs{
+        min-width: 10px !important;
+    }
+
+/*SOMBREAR FILA DE UNA DATATABLE*/
+    table.dataTable tbody tr:hover {
+        background-color:#C1DDE7 !important;
+    }
+
+    table.dataTable thead {background-color:#CED3E3}

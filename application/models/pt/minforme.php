@@ -45,9 +45,6 @@ class Minforme extends CI_Model {
         }	
     }
 
-
-
-	
     public function getbuscarinforme($parametros) { // Recupera Listado de informes
         
 		$procedure = "call sp_appweb_pt_buscarinforme(?,?,?,?,?,?,?)";
@@ -168,7 +165,7 @@ class Minforme extends CI_Model {
     }    	
     public function getlistregistro($parametros) { // Recupera Listado de Registros
         
-		$procedure = "call sp_appweb_pt_getlistregistros(?)";
+		$procedure = "call sp_appweb_pt_getlistregistros(?,?)";
 		$query = $this->db-> query($procedure,$parametros);
 
 		if ($query->num_rows() > 0) { 
@@ -213,6 +210,28 @@ class Minforme extends CI_Model {
     public function getrecuperaregrecinto($parametros) { // Recupera datos del producto y equipo
         
 		$procedure = "call sp_appweb_pt_getrecuperaregrecinto(?)";
+		$query = $this->db-> query($procedure,$parametros);
+
+		if ($query->num_rows() > 0) { 
+			return $query->result();
+		}{
+			return False;
+		}	
+    }
+    public function getrecuperaregequiproduc($parametros) { // Recupera datos del producto y equipo
+        
+		$procedure = "call sp_appweb_pt_getrecuperaregequiproduc(?)";
+		$query = $this->db-> query($procedure,$parametros);
+
+		if ($query->num_rows() > 0) { 
+			return $query->result();
+		}{
+			return False;
+		}	
+    }
+    public function getrecuperaregestuproduc($parametros) { // Recupera datos del producto y equipo
+        
+		$procedure = "call sp_appweb_pt_getrecuperaregestuproduc(?)";
 		$query = $this->db-> query($procedure,$parametros);
 
 		if ($query->num_rows() > 0) { 

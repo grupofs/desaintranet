@@ -202,7 +202,8 @@ class Cinforme extends CI_Controller {
     public function getlistregistro() {	// Recupera Listado de Registros	
          
         $parametros = array(
-			'@idptinforme' => $this->input->post('Idinforme')
+			'@idptinforme' => $this->input->post('idinforme'),
+			'@idptservicio' => $this->input->post('idptservicio')
 		);		
 		$resultado = $this->minforme->getlistregistro($parametros);
 		echo json_encode($resultado);
@@ -237,6 +238,22 @@ class Cinforme extends CI_Controller {
 			'@idptregrecinto' => $this->input->post('idptregrecinto')
 		);		
 		$resultado = $this->minforme->getrecuperaregrecinto($parametros);
+		echo json_encode($resultado);
+	}
+    public function getrecuperaregequiproduc() { // Recupera datos del producto y equipo
+        
+		$parametros = array(
+			'@idptregequipo' => $this->input->post('idptregequipo')
+		);		
+		$resultado = $this->minforme->getrecuperaregequiproduc($parametros);
+		echo json_encode($resultado);
+	}
+    public function getrecuperaregestuproduc() { // Recupera datos del producto y equipo
+        
+		$parametros = array(
+			'@idptregprocestudio' => $this->input->post('idptregprocestudio')
+		);		
+		$resultado = $this->minforme->getrecuperaregestuproduc($parametros);
 		echo json_encode($resultado);
 	}
     public function getEstudio() {	// Visualizar los Estudios de Registro	

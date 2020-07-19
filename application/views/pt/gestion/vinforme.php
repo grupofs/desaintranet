@@ -250,7 +250,7 @@
                                                 <table id="tblListRegitro" class="table table-striped table-bordered" style="width:100%">
                                                     <thead>
                                                     <tr>
-                                                        <th>Estudio</th>
+                                                        <th>Estudio | Servicios</th>
                                                         <th>Tipo - Producto | Recinto | Equipo | Conclusion </th>
                                                         <th>Nombre del Producto | Descripcion del Equipo | Descripcion de lo Ocurrido</th>
                                                         <th></th>
@@ -1405,13 +1405,15 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-8">
                                                     <div class="form-group">
                                                         <label>Equipo(s)</label>
                                                         <input type="text" class="form-control" id="txtEquiposReg15" name="txtEquiposReg15">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
+                                            </div> 
+                                            <div class="row">
+                                                <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label>Productos - Líneas</label>
                                                         <input type="text" class="form-control" id="txtProdLineaReg15" name="txtProdLineaReg15">

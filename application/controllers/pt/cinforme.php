@@ -248,12 +248,20 @@ class Cinforme extends CI_Controller {
 		$resultado = $this->minforme->getrecuperaregequiproduc($parametros);
 		echo json_encode($resultado);
 	}
-    public function getrecuperaregestuproduc() { // Recupera datos del producto y equipo
+    public function getrecuperaregestu() { // Recupera datos del producto y equipo
         
 		$parametros = array(
 			'@idptregprocestudio' => $this->input->post('idptregprocestudio')
 		);		
-		$resultado = $this->minforme->getrecuperaregestuproduc($parametros);
+		$resultado = $this->minforme->getrecuperaregestu($parametros);
+		echo json_encode($resultado);
+	}
+    public function getrecuperaregestuproducequi() { // Recupera datos del producto y equipo
+        
+		$parametros = array(
+			'@idptregprocestudio' => $this->input->post('idptregprocestudio')
+		);		
+		$resultado = $this->minforme->getrecuperaregestuproducequi($parametros);
 		echo json_encode($resultado);
 	}
     public function getEstudio() {	// Visualizar los Estudios de Registro	
@@ -488,6 +496,19 @@ class Cinforme extends CI_Controller {
 			);
 			$retorna = $this->minforme->setregestudio14($parametros);
 			echo json_encode($retorna);	
+		} elseif ($RegEstudio == 15){
+			$parametros = array(
+				'@idptregistro'   		=>  $idptregistro,
+				'@idptinforme'    		=>  $idptinforme,
+				'@idptregestudio'   	=>  $ptclase,
+				'@idptregprocestudio'   =>  $this->input->post('hdnIdregprocestudio'),
+				'@idservicio'		   	=>  $this->input->post('cboserviciosReg15'),
+				'@descripcion_equipo'   =>  $this->input->post('txtEquiposReg15'),
+				'@nombre_producto'     	=>  $this->input->post('txtProdLineaReg15'),
+				'@accion'           	=>  $accion
+			);
+			$retorna = $this->minforme->setregestudio15($parametros);
+			echo json_encode($retorna);	
 		}
 
         	
@@ -632,6 +653,10 @@ class Cinforme extends CI_Controller {
         );
 		$resultado = $this->minforme->getEnvases($parametros);
 		echo json_encode($resultado);
-	}
+	}	
+	public function getServicioAudi() {	// Visualizar Servicios en CBO	        
+	 	$resultado = $this->minforme->getServicioAudi();
+	 	echo json_encode($resultado);
+ }
 }
 ?>

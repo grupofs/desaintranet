@@ -3174,9 +3174,9 @@ recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecin
                 $('#txtLotesReg14').val(this.lotes);
                 $('#txtPHmatprimaReg14').val(this.ph_materia_prima);
                 $('#txtPHprodfinReg14').val(this.ph_producto_final);
-                $('#txtDiamReg14').val(this.diametro);
-                $('#txtAltuReg14').val(this.altura);
-                $('#txtGrosReg14').val(this.grosor);
+                $('#txtDiamReg14').val(this.diametrop);
+                $('#txtAltuReg14').val(this.alturap);
+                $('#txtGrosReg14').val(this.grosorp);
                 $('#txtDevcalReg14').val(this.nroprocal);
                 $('#txtDescriequipoReg14').val(this.descripcion_equipo);
                 $('#txtIdenequipoReg14').val(this.identificacion);
@@ -3184,7 +3184,7 @@ recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecin
                 
                 var $tipo_conclusion = this.tipo_conclusion;
                 var $particulas = this.particulas;
-                var $dimension = this.dimension;
+                var $dimension = this.dimensionp;
 
                 $('#cboTipoconcluReg14').val($tipo_conclusion).trigger("change"); 
                 $('#cbollevapartReg14').val($particulas).trigger("change");

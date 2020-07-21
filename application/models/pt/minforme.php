@@ -309,6 +309,38 @@ class Minforme extends CI_Model {
             return $query->result(); 
         }   
     } 
+    public function setregestudio04($parametros) {  // Registrar estudio 04 PT
+        $this->db->trans_begin();
+
+        $procedure = "call sp_appweb_pt_setregistro04(?,?,?,?,?,?,?,?);";
+        $query = $this->db->query($procedure,$parametros);
+
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+        }
+        else
+        {
+            $this->db->trans_commit();
+            return $query->result(); 
+        }   
+    } 
+    public function setregestudio05($parametros) {  // Registrar estudio 05 PT
+        $this->db->trans_begin();
+
+        $procedure = "call sp_appweb_pt_setregistro05(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        $query = $this->db->query($procedure,$parametros);
+
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+        }
+        else
+        {
+            $this->db->trans_commit();
+            return $query->result(); 
+        }   
+    } 
     public function setregestudio06($parametros) {  // Registrar estudio 06 PT
         $this->db->trans_begin();
 

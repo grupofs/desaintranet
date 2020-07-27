@@ -119,11 +119,25 @@
                     <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars fa-2x"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <h2>BIENVENIDO,</h2>
+                    <div class="row">
+                        <img class="img-fluid" src="<?php echo public_url_ftp(); ?>Imagenes/user/<?php echo $imgperfil ?>" alt="Photo" style="max-height:60px; margin-right:10px; float:left;">
+                    </div>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <h4 style="margin-top:6px; margin-left:5px;"><?php echo $nombres ?></h4>
-                    <input type="hidden" id="hdnccia" name="hdnccia" value= <?php echo $ccia;?> >
+                    <div class="row">
+                    <div class="col-sm-6">
+                        <h4 style="margin-top:6px; margin-left:5px;"><?php echo $nombres ?></h4>
+                        <div style="font-weight:bold; font-size:14px;">
+                            &nbsp;FCE: 23456&nbsp;&nbsp;&nbsp;FFR#
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="pull-right text-right" style="width:550px;">
+                        Carretera a Siquinalá, Km. 58.5    
+                        </div>
+                        <input type="hidden" id="hdnccia" name="hdnccia" value= <?php echo $ccia;?> >
+                    </div>
+                    </div>
                 </li>
             </ul>
 

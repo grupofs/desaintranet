@@ -547,19 +547,22 @@ class Cregcapa extends CI_Controller {
 	}
 
 	public function import_parti() {
-	
-		$config['upload_path'] = 'FTPfileserver/Archivos/Temp/';
-		$config['allowed_types'] = 'csv|xlsx|xls';
-		$config['max_size'] = '60048';
+
+		$id_capa 			= $this->input->post('mhdnIdCapamigra');
+
+		$config['upload_path'] 		= 'FTPfileserver/Archivos/Temp/';
+		$config['allowed_types'] 	= 'xlsx|xls';
+		$config['max_size'] 		= '60048';
+		$config['overwrite'] 		= TRUE;
 		
 		$this->load->library('upload',$config);
 		$this->upload->initialize($config);
 		
-		if (!$this->upload->do_upload('file')) {
+		if (!($this->upload->do_upload('fileMigra'))) {
 			//si al subirse hay algun error 
 			$data['uploadError'] = $this->upload->display_errors();
 			$error = '';
-			echo $error;
+			return $error;
 			 
 		} else {
 			$data = $this->upload->data();
@@ -576,21 +579,25 @@ class Cregcapa extends CI_Controller {
 			for ($i = 2; $i <= $sheets['numRows']; $i++) {
 				if ($sheets['cells'][$i][1] == '') break;
 
-				$data_excel[$i - 1]['@idmicro']         = null;
-				$data_excel[$i - 1]['@fmicro']          = $sheets['cells'][$i][1];
-				$data_excel[$i - 1]['@idtienda']        = $sheets['cells'][$i][2];
-				$data_excel[$i - 1]['@idareatienda']    = $sheets['cells'][$i][3];
-				$data_excel[$i - 1]['@tipo_monitoreo']  = $sheets['cells'][$i][4];
-				$data_excel[$i - 1]['@nroconforme']     = $sheets['cells'][$i][5];
-				$data_excel[$i - 1]['@nronoconforme']   = $sheets['cells'][$i][6];
-				$data_excel[$i - 1]['@parametro']       = $sheets['cells'][$i][7];
-				$data_excel[$i - 1]['@condicion']       = $sheets['cells'][$i][8];
-				$data_excel[$i - 1]['@accion']         = 'N';
+				$data_excel[$i - 1]['@id_capa']     = $id_capa;
+				$data_excel[$i - 1]['@nrodni']      = $sheets['cells'][$i][1];
+				$data_excel[$i - 1]['@nombres']     = $sheets['cells'][$i][2];
+				$data_excel[$i - 1]['@appaterno']   = $sheets['cells'][$i][3];
+				$data_excel[$i - 1]['@apmaterno']  	= $sheets['cells'][$i][4];
+				$data_excel[$i - 1]['@email']     	= $sheets['cells'][$i][5];
+				$data_excel[$i - 1]['@nrofono']   	= $sheets['cells'][$i][6];
 
-				//$procedure = "call sp_appweb_inspectienda_insertemicro(?,?,?,?,?,?,?,?,?,?)";
-				//$query = $this->db-> query($procedure,$data_excel[$i - 1]);
+				$this->db->trans_begin();				
+				$procedure = "call usp_at_capa_migralist_participante(?,?,?,?,?,?,?)";
+				$query = $this->db-> query($procedure,$data_excel[$i - 1]);
+				if ($this->db->trans_status() === FALSE){
+					$this->db->trans_rollback();
+				}else{
+					$this->db->trans_commit();
+				} 
 			}
-	   
+			
+			return TRUE; 
 			//redirect('cinsptiendamicro/insptiendamicro');
 		}
 	}

@@ -256,7 +256,7 @@ class Spreadsheet_Excel_Reader
      *
      * Some basic initialisation
      */ 
-    function Spreadsheet_Excel_Reader()
+    function __construct()
     {
         $pcache = new OLERead();
         $this->_ole =& $pcache;
@@ -375,7 +375,7 @@ class Spreadsheet_Excel_Reader
             }
             //var_dump(strlen($ole->getData($i, 0, $ole->getDataLength($i))), $pps->Name, md5($this->data), $ole->getDataLength($i));
         }
-//exit;
+ //exit;
         $this->_parse();
 
         return sizeof($this->sheets) > 0;
@@ -400,7 +400,7 @@ class Spreadsheet_Excel_Reader
         $res = $this->_ole->read($sFileName);
 
         if ($this->isError($res)) {
-//        var_dump($res);
+ //        var_dump($res);
             return $this->raiseError($res);
         }
 
@@ -562,7 +562,7 @@ class Spreadsheet_Excel_Reader
                                                          }
                                                 }
                                                 $retstr = ($asciiEncoding) ? $retstr : $this->_encodeUTF16($retstr);
-//                                              echo "Str $i = $retstr\n";
+ //                                              echo "Str $i = $retstr\n";
                                         if ($richString){
                                                   $spos += 4 * $formattingRuns;
                                                 }
@@ -733,7 +733,7 @@ class Spreadsheet_Excel_Reader
     //echo "code $code $length";
         while($cont) {
             //echo "mem= ".memory_get_usage()."\n";
-//            $r = &$this->file->nextRecord();
+ //            $r = &$this->file->nextRecord();
             $lowcode = ord($this->data[$spos]);
             if ($lowcode == SPREADSHEET_EXCEL_READER_TYPE_EOF) break;
             $code = $lowcode | ord($this->data[$spos+1])<<8;

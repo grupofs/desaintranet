@@ -169,13 +169,13 @@ $("#btnBuscar").click(function (){
               data        :   null,
               targets     :   0
             },
-            {"orderable": false, data: 'NROINFOR', targets: 1, "class": "col-m"},
-            {"orderable": false, data: 'RAZONSOCIAL', targets: 2, "class": "col-xm"},
-            {"orderable": false, data: 'RESPONSABLE', targets: 3, "class": "col-l"},
-            {"orderable": false, data: 'FECHINFOR', targets: 4},
+            {"orderable": false, data: 'NROINFOR', targets: 1, "class": "col-sm"},
+            {"orderable": false, data: 'RAZONSOCIAL', targets: 2, "class": "col-l"},
+            {"orderable": false, data: 'RESPONSABLE', targets: 3, "class": "col-m"},
+            {"orderable": false, data: 'FECHINFOR', targets: 4, "class": "col-sm"},
             {"orderable": false, data: 'DESCRIPSERV', targets: 5},
             {"orderable": false, data: 'NROPROPU', targets: 6},
-            {responsivePriority: 1, "orderable": false, "class": "col-c", 
+            {responsivePriority: 1, "orderable": false, "class": "col-s", 
               render:function(data, type, row){                
                   return  '<div>'+ 
                     '<a data-toggle="modal" title="Editar" style="cursor:pointer; color:#3c763d;" data-target="#modalEditInfor" onClick="javascript:selInformeedit(\''+row.IDINFOR+'\',\''+row.idptevaluacion+'\',\''+row.NROINFOR+'\',\''+row.FECHINFOR+'\',\''+row.idresponsable+'\',\''+row.ARCHIVO+'\',\''+row.ruta_informe+'\',\''+row.descripcion+'\',\''+row.descripcion_archivo+'\');"><span class="fas fa-edit" aria-hidden="true"> </span> </a>'+
@@ -675,10 +675,10 @@ recuperaListinforme = function(){
             dataSrc : ''        
         },
         'columns'	: [
-            {"orderable": false, data: 'nro_informe', targets: 0},
-            {"orderable": false, data: 'fecha_informe', targets: 1},
-            {"orderable": false, data: 'RESPONSABLE', targets: 2},
-            {"orderable": false, 
+            {"orderable": false, data: 'nro_informe', targets: 0, "class": "col-m"},
+            {"orderable": false, data: 'fecha_informe', targets: 1, "class": "col-sm"},
+            {"orderable": false, data: 'RESPONSABLE', targets: 2, "class": "col-lm"},
+            {"orderable": false, "class": "col-s", 
               render:function(data, type, row){                
                   return  '<div>'+
                   '<a data-toggle="modal" title="Editar" style="cursor:pointer; color:#3c763d;" data-target="#modalCreaInfor" onClick="javascript:selInforme(\''+row.idptinforme+'\',\''+row.idptevaluacion+'\',\''+row.nro_informe+'\',\''+row.fecha_informe+'\',\''+row.idresponsable+'\',\''+row.archivo_informe+'\',\''+row.ruta_informe+'\',\''+row.descripcion+'\',\''+row.descripcion_archivo+'\');"><span class="fas fa-edit" aria-hidden="true"> </span> </a>'+
@@ -687,7 +687,7 @@ recuperaListinforme = function(){
                   '</div>'
               }
             },
-            {"orderable": false, 
+            {"orderable": false, "class": "col-xl", 
               render:function(data, type, row){                
                   return  '<div>'+    
                     ' <a onClick="javascript:insertRegistro(\''+row.idptinforme+'\',\''+row.idptevaluacion+'\',\''+row.idptservicio+'\',\''+row.descripcion_serv+'\',\''+row.nro_informe+'\');"class="btn btn-outline-success btn-sm hidden-xs hidden-sm"><i class="fas fa-plus-circle" style="cursor:pointer;"> Agregar Registro </i>  </a>'+
@@ -728,7 +728,7 @@ selInforme= function(idptinforme,idptevaluacion,nro_informe,fecha_informe,idresp
 
 recuperaListregistro = function(Idinforme,nro_informe){
     document.querySelector('#lblInforme').innerText = nro_informe;
-
+    
     otblListRegitro = $('#tblListRegitro').DataTable({
         'bJQueryUI'     : true, 
         'scrollY'     	: '200px',
@@ -744,18 +744,19 @@ recuperaListregistro = function(Idinforme,nro_informe){
             "url"   : baseurl+"pt/cinforme/getlistregistro/",
             "type"  : "POST", 
             "data": function ( d ) {
-                d.Idinforme  = Idinforme; 
+                d.idinforme  = Idinforme; 
+                d.idptservicio  = $('#hdnidserv').val();
             },     
             dataSrc : ''        
         },
         'columns'	: [
-            {"orderable": false, data: 'descripcion_estudio', targets: 0},
-            {"orderable": false, data: 'DESC', targets: 1},
-            {"orderable": false, data: 'TIPO', targets: 2},
+            {"orderable": false, data: 'ESTUDIO', targets: 0},
+            {"orderable": false, data: 'TIPO', targets: 1},
+            {"orderable": false, data: 'DESC', targets: 2},
             {"orderable": false, 
               render:function(data, type, row){                
                   return  '<div>'+    
-                    ' <a onClick="javascript:selRegistro(\''+row.idptregistro+'\',\''+row.idptinforme+'\',\''+row.idptregequipo+'\',\''+row.idptregproducto+'\',\''+row.idptservicio+'\',\''+row.descripcion_serv+'\',\''+row.idptregestudio+'\',\''+row.descripcion_estudio+'\',\''+row.idptregrecinto+'\',\''+row.idptregprocestudio+'\');"><i class="fas fa-edit" style="color:#088A08; cursor:pointer;"> </i> </a>'+
+                    ' <a onClick="javascript:selRegistro(\''+row.idptregistro+'\',\''+row.idptinforme+'\',\''+row.idptregequipo+'\',\''+row.idptregproducto+'\',\''+row.idptservicio+'\',\''+row.descripcion_serv+'\',\''+row.idptregestudio+'\',\''+row.ESTUDIO+'\',\''+row.idptregrecinto+'\',\''+row.idptregprocestudio+'\');"><i class="fas fa-edit" style="color:#088A08; cursor:pointer;"> </i> </a>'+
                   '</div>'
               }
             }
@@ -770,7 +771,7 @@ $('#btnRetornarLista').click(function(){
 
 // REGISTROS POR EVALUACION
 insertRegistro= function(idptinforme,idptevaluacion,idptservicio,descripcion_serv,nro_informe){
-    
+
     $('#tabinforme a[href="#tabinforme-reg"]').tab('show'); 
 
     $('#frmMantRegistro').trigger("reset");
@@ -790,9 +791,12 @@ insertRegistro= function(idptinforme,idptevaluacion,idptservicio,descripcion_ser
     $('#12Registro').hide();
     $('#13Registro').hide();
     $('#14Registro').hide();
+    $('#15Registro').hide();
 
     $('#hdnAccionptreg').val('N');  
     $('#hdnIdreginfor').val(idptinforme);
+    $('#hdnnroinforme').val(nro_informe);
+    
     $('#hdnIdregservi').val(idptservicio);
     $('#txtregservi').val(descripcion_serv);
     
@@ -800,9 +804,7 @@ insertRegistro= function(idptinforme,idptevaluacion,idptservicio,descripcion_ser
     $('#hdnIdregproducto').val(); 
     $('#hdnIdregrecinto').val(); 
     $('#hdnIdregprocestudio').val(); 
-    
-    recuperaListregistro(idptinforme,nro_informe); 
-
+        
     $('#btnNuevoReg').hide();
     $('#btnGrabarReg').show();
     
@@ -825,6 +827,11 @@ insertRegistro= function(idptinforme,idptevaluacion,idptservicio,descripcion_ser
         $('#14Registro').show();
         $('#divEstudio').hide();        
         mostrarRegistro(14);
+    }else if(v_RegServi == 6){
+        $('#hdnIdRegEstudio').val('15');
+        $('#15Registro').show();
+        $('#divEstudio').hide();        
+        mostrarRegistro(15);
     }else{
         $('#06Registro').hide();
         $('#08Registro').hide();
@@ -876,6 +883,7 @@ mostrarRegistro = function(v_RegEstu){
         $('#12Registro').hide();
         $('#13Registro').hide();
         $('#14Registro').hide();
+        $('#15Registro').hide();
 
         var params = { 
             "idptregestudio":v_RegEstu 
@@ -938,6 +946,7 @@ mostrarRegistro = function(v_RegEstu){
         $('#12Registro').hide();
         $('#13Registro').hide();
         $('#14Registro').hide();
+        $('#15Registro').hide();
 
         $('#divphmp').hide();
         $('#divphpf').hide();
@@ -1075,6 +1084,7 @@ mostrarRegistro = function(v_RegEstu){
         $('#12Registro').hide();
         $('#13Registro').hide();
         $('#14Registro').hide();
+        $('#15Registro').hide();
 
         $('#divphmp06').hide();
         $('#divphpf06').hide();
@@ -1132,6 +1142,7 @@ mostrarRegistro = function(v_RegEstu){
         $('#12Registro').hide();
         $('#13Registro').hide();
         $('#14Registro').hide();
+        $('#15Registro').hide();
 
         $('#divphmp08').hide();
         $('#divphpf08').hide();
@@ -1200,6 +1211,7 @@ mostrarRegistro = function(v_RegEstu){
         $('#12Registro').hide();
         $('#13Registro').hide();
         $('#14Registro').hide();
+        $('#15Registro').hide();
 
         $('#divEvalrec').hide();
 
@@ -1237,6 +1249,7 @@ mostrarRegistro = function(v_RegEstu){
         $('#12Registro').hide();
         $('#13Registro').hide();
         $('#14Registro').hide();
+        $('#15Registro').hide();
 
 
         var params = { 
@@ -1288,6 +1301,7 @@ mostrarRegistro = function(v_RegEstu){
         $('#12Registro').hide();
         $('#13Registro').hide();
         $('#14Registro').hide();
+        $('#15Registro').hide();
 
 
         var params = { 
@@ -1339,6 +1353,7 @@ mostrarRegistro = function(v_RegEstu){
         $('#12Registro').show();
         $('#13Registro').hide();
         $('#14Registro').hide();
+        $('#15Registro').hide();
 
         
         var params = { 
@@ -1405,6 +1420,7 @@ mostrarRegistro = function(v_RegEstu){
         $('#12Registro').hide();
         $('#13Registro').show();
         $('#14Registro').hide();
+        $('#15Registro').hide();
 
                 
         var params = { 
@@ -1485,6 +1501,7 @@ mostrarRegistro = function(v_RegEstu){
         $('#12Registro').hide();
         $('#13Registro').hide();
         $('#14Registro').show();
+        $('#15Registro').hide();
 
 
         $('#divphmp14').hide();
@@ -1601,6 +1618,37 @@ mostrarRegistro = function(v_RegEstu){
                 alert('Error, no se puede cargar la lista desplegable de establecimiento');
             }
         });
+    }else if(v_RegEstu == 15){
+        $('#01Registro').hide();
+        $('#02Registro').hide();
+        $('#03Registro').hide();
+        $('#04Registro').hide();
+        $('#05Registro').hide();
+        $('#06Registro').hide();
+        $('#07Registro').hide();
+        $('#08Registro').hide();
+        $('#09Registro').hide();
+        $('#10Registro').hide();
+        $('#11Registro').hide();
+        $('#12Registro').hide();
+        $('#13Registro').hide();
+        $('#14Registro').hide();
+        $('#15Registro').show();
+    
+        $.ajax({
+            type: 'ajax',
+            method: 'post',
+            url: baseurl+"pt/cinforme/getServicioAudi",
+            dataType: "JSON",
+            async: true,
+            data: params,
+            success:function(result){
+                $("#cboserviciosReg15").html(result);  
+            },
+            error: function(){
+                alert('Error, no se puede cargar la lista desplegable de establecimiento');
+            }
+        });
     }else if(v_RegEstu == ''){
         $('#01Registro').hide();
         $('#02Registro').hide();
@@ -1616,6 +1664,7 @@ mostrarRegistro = function(v_RegEstu){
         $('#12Registro').hide();
         $('#13Registro').hide();
         $('#14Registro').hide();
+        $('#15Registro').hide();
     }
 }
 
@@ -2353,10 +2402,10 @@ selRegistro= function(idptregistro,idptinforme,idptregequipo,idptregproducto,idp
     }
     
     
-    recuperaRegistro(idptregestudio,idptregequipo,idptregproducto,idptregrecinto);
+    recuperaRegistro(idptregestudio,idptregequipo,idptregproducto,idptregrecinto,idptregprocestudio);
 };
 
-recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecinto){
+recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecinto,idptregprocestudio){
     
     if(v_RegEstu == 1){
         
@@ -2374,6 +2423,7 @@ recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecin
         $('#12Registro').hide();
         $('#13Registro').hide();
         $('#14Registro').hide();
+        $('#15Registro').hide();
 
         var parametros = { 
             "idptregequipo":idptregequipo 
@@ -2467,6 +2517,7 @@ recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecin
         $('#12Registro').hide();
         $('#13Registro').hide();
         $('#14Registro').hide();
+        $('#15Registro').hide();
 
         $('#divphmp').hide();
         $('#divphpf').hide();
@@ -2643,6 +2694,7 @@ recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecin
         $('#12Registro').hide();
         $('#13Registro').hide();
         $('#14Registro').hide();
+        $('#15Registro').hide();
 
         $('#divphmp06').hide();
         $('#divphpf06').hide();
@@ -2728,6 +2780,7 @@ recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecin
         $('#12Registro').hide();
         $('#13Registro').hide();
         $('#14Registro').hide();
+        $('#15Registro').hide();
 
         $('#divphmp08').hide();
         $('#divphpf08').hide();
@@ -2831,6 +2884,8 @@ recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecin
         $('#12Registro').hide();
         $('#13Registro').hide();
         $('#14Registro').hide();
+        $('#15Registro').hide();
+
         var parametros = { 
             "idptregrecinto":idptregrecinto 
         };
@@ -2847,19 +2902,14 @@ recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecin
         });      
         request.done(function( respuesta ) {            
             $.each(respuesta, function() {
-                var $idtipoproducto = this.id_tiporecinto;  
-                var $idsiparticula = this.id_siparticula; 
-                var $idenvase = this.id_envase; 
+                var $idtiporecinto = this.id_tiporecinto;
 
-                $('#txtNombprodReg08').val(this.nombre_producto);
-                $('#txtPHmatprimaReg08').val(this.ph_materia_prima);
-                $('#txtPHprodfinReg08').val(this.ph_producto_final);
-                $('#txtDiamReg08').val(this.diametro);
-                $('#txtAltuReg08').val(this.altura);
-                $('#txtGrosReg08').val(this.grosor);
-
-                $('#cbollevapartReg08').val(this.particulas).trigger("change");
-                $('#cboDimenReg08').val(this.dimension).trigger("change");
+                $('#txtnrorecintosReg09').val(this.nro_recintos);
+                $('#txtareaevalReg09').val(this.area_evaluada);
+                $('#txtNroposReg09').val(this.nro_posiciones);
+                $('#txtNrovolalmaReg09').val(this.vol_almacen);
+                
+                $('#cboevaluacionReg09').val(this.eval_recinto).trigger("change");
                 
                 var params = { 
                     "idptregestudio":v_RegEstu 
@@ -2867,48 +2917,18 @@ recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecin
                 $.ajax({
                     type: 'ajax',
                     method: 'post',
-                    url: baseurl+"pt/cinforme/getTipoproducto",
+                    url: baseurl+"pt/cinforme/getTiporecinto",
                     dataType: "JSON",
                     async: true,
                     data: params,
                     success:function(result){
-                        $("#cboTipoprodReg08").html(result); 
-                        $('#cboTipoprodReg08').val($idtipoproducto).trigger("change"); 
+                        $("#cboTiporecintoReg09").html(result);
+                        $('#cboTiporecintoReg09').val($idtiporecinto).trigger("change");   
                     },
                     error: function(){
                         alert('Error, no se puede cargar la lista desplegable de establecimiento');
                     }
-                });
-                $.ajax({
-                    type: 'ajax',
-                    method: 'post',
-                    url: baseurl+"pt/cinforme/getParticulas",
-                    dataType: "JSON",
-                    async: true,
-                    data: params,
-                    success:function(result){
-                        $("#cboParticulasReg08").html(result);
-                        $('#cboParticulasReg08').val($idsiparticula).trigger("change");   
-                    },
-                    error: function(){
-                        alert('Error, no se puede cargar la lista desplegable de establecimiento');
-                    }
-                });
-                $.ajax({
-                    type: 'ajax',
-                    method: 'post',
-                    url: baseurl+"pt/cinforme/getEnvases",
-                    dataType: "JSON",
-                    async: true,
-                    data: params,
-                    success:function(result){
-                        $("#cboEnvaseReg08").html(result);  
-                        $('#cboEnvaseReg08').val($idenvase).trigger("change");   
-                    },
-                    error: function(){
-                        alert('Error, no se puede cargar la lista desplegable de establecimiento');
-                    }
-                });
+                });                
             });
         });
     }else if(v_RegEstu == 10){
@@ -2926,6 +2946,71 @@ recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecin
         $('#12Registro').hide();
         $('#13Registro').hide();
         $('#14Registro').hide();
+        $('#15Registro').hide();
+
+        var parametros = { 
+            "idptregequipo":idptregequipo 
+        };
+        var request = $.ajax({
+            type: 'ajax',
+            method: 'post',
+            url: baseurl+"pt/cinforme/getrecuperaregequiproduc",
+            dataType: "JSON",
+            async: true,
+            data: parametros,
+            error: function(){
+                alert('Error, no se puede cargar la lista desplegable de establecimiento');
+            }
+        });      
+        request.done(function( respuesta ) {            
+            $.each(respuesta, function() {
+                var $idsiparticula = this.id_siparticula; 
+                var $idenvase = this.id_envase; 
+
+                $('#txtnrorecintosReg10').val(this.nro_equipos);
+                $('#txtareaevalReg10').val(this.area_evaluada);
+                $('#txtNroposReg10').val(this.nro_posiciones);
+                $('#txtNrovolalmaReg10').val(this.vol_almacen);
+                $('#txtNombprodReg10').val(this.nombre_producto);                
+                
+                var params = { 
+                    "idptregestudio":v_RegEstu 
+                };
+                
+                $.ajax({
+                    type: 'ajax',
+                    method: 'post',
+                    url: baseurl+"pt/cinforme/getParticulas",
+                    dataType: "JSON",
+                    async: true,
+                    data: params,
+                    success:function(result)
+                    {
+                        $("#cboFormaprodReg10").html(result);  
+                        $('#cboFormaprodReg10').val($idsiparticula).trigger("change");
+                    },
+                    error: function(){
+                        alert('Error, no se puede cargar la lista desplegable de forma de producto');
+                    }
+                });
+                $.ajax({
+                    type: 'ajax',
+                    method: 'post',
+                    url: baseurl+"pt/cinforme/getEnvases",
+                    dataType: "JSON",
+                    async: true,
+                    data: params,
+                    success:function(result)
+                    {
+                        $("#cboEnvaseReg10").html(result);  
+                        $('#cboEnvaseReg10').val($idenvase).trigger("change");
+                    },
+                    error: function(){
+                        alert('Error, no se puede cargar la lista desplegable de envases');
+                    }
+                });
+            });
+        });
     }else if(v_RegEstu == 11){
         $('#01Registro').hide();
         $('#02Registro').hide();
@@ -2941,6 +3026,72 @@ recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecin
         $('#12Registro').hide();
         $('#13Registro').hide();
         $('#14Registro').hide();
+        $('#15Registro').hide();
+        
+
+        var parametros = { 
+            "idptregprocestudio":idptregprocestudio 
+        };
+        var request = $.ajax({
+            type: 'ajax',
+            method: 'post',
+            url: baseurl+"pt/cinforme/getrecuperaregestuproduc",
+            dataType: "JSON",
+            async: true,
+            data: parametros,
+            error: function(){
+                alert('Error, no se puede cargar la lista desplegable de establecimiento');
+            }
+        });      
+        request.done(function( respuesta ) {            
+            $.each(respuesta, function() {
+                var $tipo_equirecinto = this.tipo_equirecinto;
+                var $idsiparticula = this.id_siparticula; 
+                var $idenvase = this.id_envase; 
+
+                $('#txtIdenequipoReg11').val(this.identificacion);
+                $('#txtNombprodReg11').val(this.nombre_producto);
+
+                $('#cboRecintoReg11').val($tipo_equirecinto).trigger("change");                
+                
+                var params = { 
+                    "idptregestudio":v_RegEstu 
+                };
+                
+                $.ajax({
+                    type: 'ajax',
+                    method: 'post',
+                    url: baseurl+"pt/cinforme/getParticulas",
+                    dataType: "JSON",
+                    async: true,
+                    data: params,
+                    success:function(result)
+                    {
+                        $("#cboFormaprodReg11").html(result);  
+                        $('#cboFormaprodReg11').val($idsiparticula).trigger("change");
+                    },
+                    error: function(){
+                        alert('Error, no se puede cargar la lista desplegable de forma de producto');
+                    }
+                });
+                $.ajax({
+                    type: 'ajax',
+                    method: 'post',
+                    url: baseurl+"pt/cinforme/getEnvases",
+                    dataType: "JSON",
+                    async: true,
+                    data: params,
+                    success:function(result)
+                    {
+                        $("#cboEnvaseReg11").html(result);  
+                        $('#cboEnvaseReg11').val($idenvase).trigger("change");
+                    },
+                    error: function(){
+                        alert('Error, no se puede cargar la lista desplegable de envases');
+                    }
+                });
+            });
+        });
     }else if(v_RegEstu == 12){
         $('#01Registro').hide();
         $('#02Registro').hide();
@@ -2956,6 +3107,8 @@ recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecin
         $('#12Registro').show();
         $('#13Registro').hide();
         $('#14Registro').hide();
+        $('#15Registro').hide();
+
     }else if(v_RegEstu == 13){
         $('#01Registro').hide();
         $('#02Registro').hide();
@@ -2971,6 +3124,8 @@ recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecin
         $('#12Registro').hide();
         $('#13Registro').show();
         $('#14Registro').hide();
+        $('#15Registro').hide();
+
     }else if(v_RegEstu == 14){
         $('#01Registro').hide();
         $('#02Registro').hide();
@@ -2985,7 +3140,230 @@ recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecin
         $('#11Registro').hide();
         $('#12Registro').hide();
         $('#13Registro').hide();
-        $('#14Registro').show();}
+        $('#14Registro').show();
+        $('#15Registro').hide();
+        
+
+        var parametros = { 
+            "idptregprocestudio":idptregprocestudio 
+        };
+        var request = $.ajax({
+            type: 'ajax',
+            method: 'post',
+            url: baseurl+"pt/cinforme/getrecuperaregestuproducequi",
+            dataType: "JSON",
+            async: true,
+            data: parametros,
+            error: function(){
+                alert('Error, no se puede cargar la lista desplegable de establecimiento');
+            }
+        });      
+        request.done(function( respuesta ) {            
+            $.each(respuesta, function() {
+                var $idtipoproducto = this.id_tipoproducto;
+                var $idsiparticula = this.id_siparticula; 
+                var $idsiparticulaliquido = this.id_siparticula_liquido; 
+                var $idenvase = this.id_envase; 
+                var $idtipoequipo = this.id_tipoequipo; 
+                var $idmediocalienta = this.id_mediocalienta; 
+                var $idequipofabricante = this.id_equipofabricante;
+
+                $('#txtDescriocurridoReg14').val(this.descripcion_estudio);
+                $('#txtComentocurridoReg14').val(this.comentarios);
+                $('#txtNombprodReg14').val(this.nombre_producto);
+                $('#txtLotesReg14').val(this.lotes);
+                $('#txtPHmatprimaReg14').val(this.ph_materia_prima);
+                $('#txtPHprodfinReg14').val(this.ph_producto_final);
+                $('#txtDiamReg14').val(this.diametrop);
+                $('#txtAltuReg14').val(this.alturap);
+                $('#txtGrosReg14').val(this.grosorp);
+                $('#txtDevcalReg14').val(this.nroprocal);
+                $('#txtDescriequipoReg14').val(this.descripcion_equipo);
+                $('#txtIdenequipoReg14').val(this.identificacion);
+
+                
+                var $tipo_conclusion = this.tipo_conclusion;
+                var $particulas = this.particulas;
+                var $dimension = this.dimensionp;
+
+                $('#cboTipoconcluReg14').val($tipo_conclusion).trigger("change"); 
+                $('#cbollevapartReg14').val($particulas).trigger("change");
+                $('#cboDimenReg14').val($dimension).trigger("change");
+                
+                var params = { 
+                    "idptregestudio":v_RegEstu 
+                };
+
+                $.ajax({
+                    type: 'ajax',
+                    method: 'post',
+                    url: baseurl+"pt/cinforme/getTipoproducto",
+                    dataType: "JSON",
+                    async: true,
+                    data: params,
+                    success:function(result){
+                        $("#cboTipoprodReg14").html(result);  
+                        $('#cboTipoprodReg14').val($idtipoproducto).trigger("change");
+                    },
+                    error: function(){
+                        alert('Error, no se puede cargar la lista desplegable de establecimiento');
+                    }
+                });
+                $.ajax({
+                    type: 'ajax',
+                    method: 'post',
+                    url: baseurl+"pt/cinforme/getParticulas",
+                    dataType: "JSON",
+                    async: true,
+                    data: params,
+                    success:function(result)
+                    {
+                        $("#cboParticulasReg14").html(result);  
+                        $('#cboParticulasReg14').val($idsiparticula).trigger("change");
+                    },
+                    error: function(){
+                        alert('Error, no se puede cargar la lista desplegable de forma de producto');
+                    }
+                });
+                $.ajax({
+                    type: 'ajax',
+                    method: 'post',
+                    url: baseurl+"pt/cinforme/getLiquidogob",
+                    dataType: "JSON",
+                    async: true,
+                    data: params,
+                    success:function(result){
+                        $("#txtLiqgobReg14").html(result);  
+                        $('#txtLiqgobReg14').val($idsiparticulaliquido).trigger("change");
+                    },
+                    error: function(){
+                        alert('Error, no se puede cargar la lista desplegable de establecimiento');
+                    }
+                });
+                $.ajax({
+                    type: 'ajax',
+                    method: 'post',
+                    url: baseurl+"pt/cinforme/getEnvases",
+                    dataType: "JSON",
+                    async: true,
+                    data: params,
+                    success:function(result)
+                    {
+                        $("#cboEnvaseReg14").html(result);  
+                        $('#cboEnvaseReg14').val($idenvase).trigger("change");
+                    },
+                    error: function(){
+                        alert('Error, no se puede cargar la lista desplegable de envases');
+                    }
+                });
+                $.ajax({
+                    type: 'ajax',
+                    method: 'post',
+                    url: baseurl+"pt/cinforme/getTipoequipo",
+                    dataType: "JSON",
+                    async: true,
+                    data: params,
+                    success:function(result){
+                        console.log($idtipoequipo);
+                        $("#cboTipoequipoReg14").html(result);  
+                        $('#cboTipoequipoReg14').val($idtipoequipo).trigger("change");
+                    },
+                    error: function(){
+                        alert('Error, no se puede cargar la lista desplegable de establecimiento');
+                    }
+                });
+                $.ajax({
+                    type: 'ajax',
+                    method: 'post',
+                    url: baseurl+"pt/cinforme/getMediocalen",
+                    dataType: "JSON",
+                    async: true,
+                    data: params,
+                    success:function(result){
+                        $("#cboMediocalientaReg14").html(result);  
+                        $('#cboMediocalientaReg14').val($idmediocalienta).trigger("change");
+                    },
+                    error: function(){
+                        alert('Error, no se puede cargar la lista desplegable de establecimiento');
+                    }
+                });
+                $.ajax({
+                    type: 'ajax',
+                    method: 'post',
+                    url: baseurl+"pt/cinforme/getFabricante",
+                    dataType: "JSON",
+                    async: true,
+                    data: params,
+                    success:function(result){
+                        $("#cboFabricanteReg14").html(result);  
+                        $('#cboFabricanteReg14').val($idequipofabricante).trigger("change");
+                    },
+                    error: function(){
+                        alert('Error, no se puede cargar la lista desplegable de establecimiento');
+                    }
+                });
+            });
+        });
+
+    }else if(v_RegEstu == 15){
+            $('#01Registro').hide();
+            $('#02Registro').hide();
+            $('#03Registro').hide();
+            $('#04Registro').hide();
+            $('#05Registro').hide();
+            $('#06Registro').hide();
+            $('#07Registro').hide();
+            $('#08Registro').hide();
+            $('#09Registro').hide();
+            $('#10Registro').hide();
+            $('#11Registro').hide();
+            $('#12Registro').hide();
+            $('#13Registro').hide();
+            $('#14Registro').hide();
+            $('#15Registro').show();
+
+            var parametros = { 
+                "idptregprocestudio":idptregprocestudio 
+            };
+            var request = $.ajax({
+                type: 'ajax',
+                method: 'post',
+                url: baseurl+"pt/cinforme/getrecuperaregestu",
+                dataType: "JSON",
+                async: true,
+                data: parametros,
+                error: function(){
+                    alert('Error, no se puede cargar la lista desplegable de establecimiento');
+                }
+            });      
+            request.done(function( respuesta ) {            
+                $.each(respuesta, function() {
+                    var $idservicio = this.idservicio;
+    
+                    $('#txtEquiposReg15').val(this.descripcion_equipo);
+                    $('#txtProdLineaReg15').val(this.nombre_producto);
+                    
+                    var params = { 
+                        "idptregestudio":v_RegEstu 
+                    };
+                    $.ajax({
+                        type: 'ajax',
+                        method: 'post',
+                        url: baseurl+"pt/cinforme/getServicioAudi",
+                        dataType: "JSON",
+                        async: true,
+                        data: params,
+                        success:function(result){
+                            $("#cboserviciosReg15").html(result);
+                            $('#cboserviciosReg15').val($idservicio).trigger("change");   
+                        },
+                        error: function(){
+                            alert('Error, no se puede cargar la lista desplegable de establecimiento');
+                        }
+                    });
+                });
+            });
+    }
 }
 
 $('#btnNuevoReg').click(function(){   
@@ -3027,8 +3405,11 @@ $('#btnNuevoReg').click(function(){
 });
 
 $('#btnRetornarEval').click(function(){
+    $('#frmMantRegistro').trigger("reset");
     $('#tabinforme a[href="#tabinforme-eval"]').tab('show');
     var $idptinforme = $('#hdnIdreginfor').val();
+    var $nro_informe = $('#hdnnroinforme').val();
+    recuperaListregistro($idptinforme,$nro_informe);
 });
 
 

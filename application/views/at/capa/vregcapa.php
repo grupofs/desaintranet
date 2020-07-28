@@ -295,6 +295,7 @@
                                     <div class="row">
                                         <div class="col-sm-12 text-left">                                    
                                             <div class="input-group mb-3">
+                                                <input type="hidden" id="mhdnIdcapacitaparti" name="mhdnIdcapacitaparti" >
                                                 Nombres o Apellidos / Nro DNI :&nbsp;&nbsp;
                                                 <input type="text" class="form-control" name="txtbuscar" id="txtbuscar">
                                                 <span class="input-group-append">
@@ -842,25 +843,73 @@
 <!-- /.modal-importar-parti -->
 <div class="modal fade" id="modalImportparti" data-backdrop="static" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header text-center bg-success">
-                <h4 class="modal-title w-100 font-weight-bold">Importar Participantes</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <?php
-                echo form_open_multipart('at/capa/cregcapa/import_parti');
-                echo form_upload('file');
-                echo '<br/>';
-                echo form_submit(null, 'Upload');
-                echo form_close();
-                ?>
-            </div>
-            <div class="modal-footer" style="background-color: #dff0d8;">
-                <button type="reset" class="btn btn-default" id="mbtnCImportparti" data-dismiss="modal">Cancelar</button>
-            </div>
+        <div class="modal-content"> 
+                <div class="modal-header text-center bg-success">
+                    <h4 class="modal-title w-100 font-weight-bold">Importar Participantes</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body"> 
+                    <div class="form-group">     
+                    <div class="row">                
+                        <div class="col-sm-12">           
+            <!--<form class="form-horizontal" id="frmImport" name="frmImport" action="<?= base_url('at/capa/cregcapa/import_parti')?>" method="POST" enctype="multipart/form-data" role="form">
+                
+                            <input type="hidden" id="mhdnIdCapamigra" name="mhdnIdCapamigra">
+                            <div class="text-info">Archivo</div>                        
+                            <div class="input-group">
+                                <input class="form-control" type="text" name="txtFile" id="txtFile">                                                     
+                                <span class="input-group-append">                                
+                                    <div class="fileUpload btn btn-secondary">
+                                        <span>Archivo</span>
+                                        <input type="file" class="upload" id="fileMigra" name="fileMigra" onchange="adjFile()"/>                      
+                                    </div> 
+                                </span>  
+                            </div>
+                            <span style="color: red; font-size: 13px;">+ Los archivos deben estar en formato pdf, docx o xlsx y no deben pesar mas de 60 MB</span>                            
+                        
+                <div class="modal-footer" style="background-color: #dff0d8;">
+                    <button type="submit" class="btn btn-info" id="mbtnGUpload">Upload</button>
+                    <button type="reset" class="btn btn-default" id="mbtnCImportparti" data-dismiss="modal">Cancelar</button>
+                </div>
+                            $data = array(
+                                'name'          => 'mhdnIdCapamigra',
+                                'id'            => 'mhdnIdCapamigra'
+                            );            
+                            echo form_input($data);
+            </form>-->
+                        <?php               
+
+                            echo form_open_multipart('at/capa/cregcapa/import_parti');
+                        ?>
+                            
+                        <?php
+                            $upload_data = array(
+                                'type'  => 'file',
+                                'name'  => 'fileMigra',
+                                'id'    => 'fileMigra',
+                                'class' => 'upload'
+                            );
+                            echo form_upload($upload_data);
+                            echo '<br/>';
+                            $data = [
+                                'id'      => 'mbtnGUpload',
+                                'type'    => 'submit',
+                                'class'   => 'btn btn-info',
+                                'content' => 'Migrar'
+                            ];                
+                            echo form_button($data);
+                        ?>
+                            <button type="reset" class="btn btn-default" id="mbtnCImportparti" data-dismiss="modal">Cancelar</button>
+                            <input type="hidden" id="mhdnIdCapamigra" name="mhdnIdCapamigra">
+                        <?php
+                            echo form_close();
+                        ?>    
+                        </div> 
+                    </div>
+                    </div>
+                </div>
         </div>
     </div>
 </div>    

@@ -44,10 +44,6 @@ class Minforme extends CI_Model {
             return false;
         }	
     }
-
-
-
-	
     public function getbuscarinforme($parametros) { // Recupera Listado de informes
         
 		$procedure = "call sp_appweb_pt_buscarinforme(?,?,?,?,?,?,?)";
@@ -168,7 +164,7 @@ class Minforme extends CI_Model {
     }    	
     public function getlistregistro($parametros) { // Recupera Listado de Registros
         
-		$procedure = "call sp_appweb_pt_getlistregistros(?)";
+		$procedure = "call sp_appweb_pt_getlistregistros(?,?)";
 		$query = $this->db-> query($procedure,$parametros);
 
 		if ($query->num_rows() > 0) { 
@@ -213,6 +209,50 @@ class Minforme extends CI_Model {
     public function getrecuperaregrecinto($parametros) { // Recupera datos del producto y equipo
         
 		$procedure = "call sp_appweb_pt_getrecuperaregrecinto(?)";
+		$query = $this->db-> query($procedure,$parametros);
+
+		if ($query->num_rows() > 0) { 
+			return $query->result();
+		}{
+			return False;
+		}	
+    }
+    public function getrecuperaregequiproduc($parametros) { // Recupera datos del producto y equipo
+        
+		$procedure = "call sp_appweb_pt_getrecuperaregequiproduc(?)";
+		$query = $this->db-> query($procedure,$parametros);
+
+		if ($query->num_rows() > 0) { 
+			return $query->result();
+		}{
+			return False;
+		}	
+    }
+    public function getrecuperaregestuproduc($parametros) { // Recupera datos del producto y equipo
+        
+		$procedure = "call sp_appweb_pt_getrecuperaregestuproduc(?)";
+		$query = $this->db-> query($procedure,$parametros);
+
+		if ($query->num_rows() > 0) { 
+			return $query->result();
+		}{
+			return False;
+		}	
+    }
+    public function getrecuperaregestu($parametros) { // Recupera datos del producto y equipo
+        
+		$procedure = "call sp_appweb_pt_getrecuperaregestu(?)";
+		$query = $this->db-> query($procedure,$parametros);
+
+		if ($query->num_rows() > 0) { 
+			return $query->result();
+		}{
+			return False;
+		}	
+    }
+    public function getrecuperaregestuproducequi($parametros) { // Recupera datos del producto y equipo
+        
+		$procedure = "call sp_appweb_pt_getrecuperaregestuproducequi(?)";
 		$query = $this->db-> query($procedure,$parametros);
 
 		if ($query->num_rows() > 0) { 
@@ -305,22 +345,6 @@ class Minforme extends CI_Model {
         $this->db->trans_begin();
 
         $procedure = "call sp_appweb_pt_setregistro06(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-        $query = $this->db->query($procedure,$parametros);
-
-        if ($this->db->trans_status() === FALSE)
-        {
-            $this->db->trans_rollback();
-        }
-        else
-        {
-            $this->db->trans_commit();
-            return $query->result(); 
-        }   
-    } 
-    public function setregestudio07($parametros) {  // Registrar estudio 07 PT
-        $this->db->trans_begin();
-
-        $procedure = "call sp_appweb_pt_setregistro07(?,?,?,?,?,?,?,?);";
         $query = $this->db->query($procedure,$parametros);
 
         if ($this->db->trans_status() === FALSE)
@@ -433,6 +457,22 @@ class Minforme extends CI_Model {
         $this->db->trans_begin();
 
         $procedure = "call sp_appweb_pt_setregistro14(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        $query = $this->db->query($procedure,$parametros);
+
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+        }
+        else
+        {
+            $this->db->trans_commit();
+            return $query->result(); 
+        }   
+    }   
+    public function setregestudio15($parametros) {  // Registrar estudio 14 PT
+        $this->db->trans_begin();
+
+        $procedure = "call sp_appweb_pt_setregistro15(?,?,?,?,?,?,?,?);";
         $query = $this->db->query($procedure,$parametros);
 
         if ($this->db->trans_status() === FALSE)
@@ -594,6 +634,24 @@ class Minforme extends CI_Model {
             foreach ($query->result() as $row)
             {
                 $listas .= '<option value="'.$row->IDENV.'">'.$row->DESCRIPENV.'</option>';  
+            }
+               return $listas;
+        }{
+            return false;
+        }	
+    }
+    public function getServicioAudi() { // Visualizar Servicios en CBO	
+        
+        $procedure = "call sp_appweb_pt_getservicioaudi()";
+		$query = $this->db-> query($procedure);
+        
+        if ($query->num_rows() > 0) {
+
+            $listas = '<option value="%" selected="selected">::Elegir</option>';
+            
+            foreach ($query->result() as $row)
+            {
+                $listas .= '<option value="'.$row->IDSERVI.'">'.$row->DESCRIPSERV.'</option>';  
             }
                return $listas;
         }{

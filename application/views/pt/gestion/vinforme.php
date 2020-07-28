@@ -124,23 +124,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!--<div class="row">
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label>Busq. por</label>
-                                                    <select class="form-control" id="cboBuspor" name="cboBuspor" style="width: 100%;">
-                                                        <option value="P" selected="selected">Producto</option>
-                                                        <option value="E" >Equipo</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label>Nombre / Descripcion</label>
-                                                    <input type="text" class="form-control" id="txtnropropu" name="txtnropropu" placeholder="...">
-                                                </div>
-                                            </div>
-                                        </div>-->
                                     </div>                    
                         
                                     <div class="card-footer justify-content-between"> 
@@ -264,12 +247,12 @@
                                     <div class="box-body">                                   
                                         <div class="form-group">
                                             <div class="col-12"> 
-                                                <table id="tblListRegitro02" class="table table-striped table-bordered" style="width:100%">
+                                                <table id="tblListRegitro" class="table table-striped table-bordered" style="width:100%">
                                                     <thead>
                                                     <tr>
-                                                        <th>Estudio</th>
-                                                        <th>Tipo Producto - Recinto - Equipo - Conclusion </th>
-                                                        <th>Nombre Producto | Descripcion Equipo | Descipcion Ocurrido</th>
+                                                        <th>Estudio | Servicios</th>
+                                                        <th>Tipo - Producto | Recinto | Equipo | Conclusion </th>
+                                                        <th>Nombre del Producto | Descripcion del Equipo | Descripcion de lo Ocurrido</th>
                                                         <th></th>
                                                     </tr>
                                                     </thead>
@@ -284,9 +267,10 @@
                             <div class="tab-pane fade" id="tabinforme-reg" role="tabpanel" aria-labelledby="tabinforme-reg-tab">
                                 <form class="form-horizontal" id="frmMantRegistro" action="<?= base_url('pt/cinforme/setregistro')?>" method="POST" enctype="multipart/form-data" role="form">
                                     <input type="hidden" id="hdnIdptreg" name="hdnIdptreg"> <!-- ID -->
-                                    <input type="hidden" id="hdnAccionptreg" name="hdnAccionptreg" value="G">                                    
-                                    <input type="hidden" id="hdnIdreginfor" name="hdnIdreginfor">                                  
-                                    <input type="hidden" id="hdnIdregequipo" name="hdnIdregequipo">                                  
+                                    <input type="hidden" id="hdnAccionptreg" name="hdnAccionptreg" value="G">
+                                    <input type="hidden" id="hdnIdreginfor" name="hdnIdreginfor">
+                                    <input type="hidden" id="hdnnroinforme" name="hdnnroinforme">
+                                    <input type="hidden" id="hdnIdregequipo" name="hdnIdregequipo">
                                     <input type="hidden" id="hdnIdregproducto" name="hdnIdregproducto">
                                     <input type="hidden" id="hdnIdregrecinto" name="hdnIdregrecinto">
                                     <input type="hidden" id="hdnIdregprocestudio" name="hdnIdregprocestudio">
@@ -1409,6 +1393,33 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </fieldset>
+                                        <fieldset class="scheduler-border" id="15Registro">
+                                            <legend class="scheduler-border text-primary">REGISTROS</legend>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Servicio a Evaluar</label>
+                                                        <select class="form-control select2bs4" id="cboserviciosReg15" name="cboserviciosReg15" style="width: 100%;">
+                                                            <option value="" selected="selected">Cargando...</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="form-group">
+                                                        <label>Equipo(s)</label>
+                                                        <input type="text" class="form-control" id="txtEquiposReg15" name="txtEquiposReg15">
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Productos - Líneas</label>
+                                                        <input type="text" class="form-control" id="txtProdLineaReg15" name="txtProdLineaReg15">
+                                                    </div>
+                                                </div>
+                                            </div>                                            
                                         </fieldset>
                                         </div>
                                     </div>

@@ -202,7 +202,8 @@ class Cinforme extends CI_Controller {
     public function getlistregistro() {	// Recupera Listado de Registros	
          
         $parametros = array(
-			'@idptinforme' => $this->input->post('Idinforme')
+			'@idptinforme' => $this->input->post('idinforme'),
+			'@idptservicio' => $this->input->post('idptservicio')
 		);		
 		$resultado = $this->minforme->getlistregistro($parametros);
 		echo json_encode($resultado);
@@ -237,6 +238,30 @@ class Cinforme extends CI_Controller {
 			'@idptregrecinto' => $this->input->post('idptregrecinto')
 		);		
 		$resultado = $this->minforme->getrecuperaregrecinto($parametros);
+		echo json_encode($resultado);
+	}
+    public function getrecuperaregequiproduc() { // Recupera datos del producto y equipo
+        
+		$parametros = array(
+			'@idptregequipo' => $this->input->post('idptregequipo')
+		);		
+		$resultado = $this->minforme->getrecuperaregequiproduc($parametros);
+		echo json_encode($resultado);
+	}
+    public function getrecuperaregestu() { // Recupera datos del producto y equipo
+        
+		$parametros = array(
+			'@idptregprocestudio' => $this->input->post('idptregprocestudio')
+		);		
+		$resultado = $this->minforme->getrecuperaregestu($parametros);
+		echo json_encode($resultado);
+	}
+    public function getrecuperaregestuproducequi() { // Recupera datos del producto y equipo
+        
+		$parametros = array(
+			'@idptregprocestudio' => $this->input->post('idptregprocestudio')
+		);		
+		$resultado = $this->minforme->getrecuperaregestuproducequi($parametros);
 		echo json_encode($resultado);
 	}
     public function getEstudio() {	// Visualizar los Estudios de Registro	
@@ -456,11 +481,11 @@ class Cinforme extends CI_Controller {
 				'@id_siparticula'   	=>  $this->input->post('cboParticulasReg14'),
 				'@id_siparticula_liquido'	=>  $this->input->post('txtLiqgobReg14'),
 				'@id_envase'     		=>  $this->input->post('cboEnvaseReg14'),
+				'@nroprocal'  			=>  $this->input->post('txtDevcalReg14'),
 				'@dimension'       		=>  $this->input->post('cboDimenReg14'),
 				'@diametro'     		=>  $this->input->post('txtDiamReg14'),
 				'@altura'  				=>  $this->input->post('txtAltuReg14'),
 				'@grosor'       		=>  $this->input->post('txtGrosReg14'),
-				'@nroprocal'  			=>  $this->input->post('txtDevcalReg14'),
 				'@idptregequipo'    	=>  $this->input->post('hdnIdregequipo'),
 				'@descripcion_equipo'   =>  $this->input->post('txtDescriequipoReg14'),
 				'@id_tipoequipo'    	=>  $this->input->post('cboTipoequipoReg14'),
@@ -470,6 +495,19 @@ class Cinforme extends CI_Controller {
 				'@accion'           	=>  $accion
 			);
 			$retorna = $this->minforme->setregestudio14($parametros);
+			echo json_encode($retorna);	
+		} elseif ($RegEstudio == 15){
+			$parametros = array(
+				'@idptregistro'   		=>  $idptregistro,
+				'@idptinforme'    		=>  $idptinforme,
+				'@idptregestudio'   	=>  $ptclase,
+				'@idptregprocestudio'   =>  $this->input->post('hdnIdregprocestudio'),
+				'@idservicio'		   	=>  $this->input->post('cboserviciosReg15'),
+				'@descripcion_equipo'   =>  $this->input->post('txtEquiposReg15'),
+				'@nombre_producto'     	=>  $this->input->post('txtProdLineaReg15'),
+				'@accion'           	=>  $accion
+			);
+			$retorna = $this->minforme->setregestudio15($parametros);
 			echo json_encode($retorna);	
 		}
 
@@ -615,6 +653,10 @@ class Cinforme extends CI_Controller {
         );
 		$resultado = $this->minforme->getEnvases($parametros);
 		echo json_encode($resultado);
-	}
+	}	
+	public function getServicioAudi() {	// Visualizar Servicios en CBO	        
+	 	$resultado = $this->minforme->getServicioAudi();
+	 	echo json_encode($resultado);
+ }
 }
 ?>

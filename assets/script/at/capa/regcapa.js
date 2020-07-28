@@ -1158,7 +1158,7 @@ $("body").on("click","#aDelProgram",function(event){
 
 //
 recuperaListparti = function(idcapa){
-
+    $('#mhdnIdcapacitaparti').val(idcapa);
     otblListParticipantes = $('#tblListParticipantes').DataTable({ 
         'responsive'    : true,
         'bJQueryUI'     : true,
@@ -1220,6 +1220,50 @@ selParti = function(id_capa,id_capaparti,id_administrado,NOMBREPARTI,NRODNI,fono
     $('#mtxtTelparti').val(fono_celular);
 
 }
+
+$('#modalImportparti').on('shown.bs.modal', function (e) {
+    var IdcapaParti = $('#mhdnIdcapacitaparti').val();
+    $('#mhdnIdCapamigra').val(IdcapaParti);
+});
+
+adjFile=function(){
+    var archivoInput = document.getElementById('fileMigra');
+    var archivoRuta = archivoInput.value;
+    var extPermitidas = /(.xlsx|.xls)$/i;
+    
+    var filename = $('#fileMigra').val().replace(/.*(\/|\\)/, '');
+    $('#txtFile').val(filename);
+
+    if(!extPermitidas.exec(archivoRuta)){
+        alert('Asegurese de haber seleccionado un PDF, DOCX, XSLX');
+        archivoInput.value = '';  
+        $('#txtFile').val('');
+        return false;
+    }      
+};
+
+$('#frmImport').submit(function(event){
+    event.preventDefault();
+    
+    var request = $.ajax({
+        url:$('#frmImport').attr("action"),
+        type:$('#frmImport').attr("method"),
+        data:$('#frmImport').serialize(),
+        error: function(){
+            Vtitle = 'No se puede registrar por error';
+            Vtype = 'error';
+            sweetalert(Vtitle,Vtype);
+        }
+    });
+    request.done(function( respuesta ) {
+            otblListParticipantes.ajax.reload(null,false);      
+            Vtitle = this.respuesta;
+            Vtype = 'success';
+            sweetalert(Vtitle,Vtype);    
+            $('#frmImport').trigger("reset");                 
+            $('#mbtnCImportparti').click();
+    });
+});
 
 //
 $('#btnRetornarLista').click(function(){

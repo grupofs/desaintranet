@@ -931,6 +931,20 @@ mostrarRegistro = function(v_RegEstu){
                 alert('Error, no se puede cargar la lista desplegable de establecimiento');
             }
         });
+        $.ajax({
+            type: 'ajax',
+            method: 'post',
+            url: baseurl+"pt/cinforme/getEnvases",
+            dataType: "JSON",
+            async: true,
+            data: params,
+            success:function(result){
+                $("#cboEnvaseReg01").html(result);  
+            },
+            error: function(){
+                alert('Error, no se puede cargar la lista desplegable de establecimiento');
+            }
+        });
     }else if(v_RegEstu == 3){
         $('#01Registro').hide();
         $('#02Registro').hide();
@@ -2494,6 +2508,21 @@ recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecin
                     success:function(result){
                         $("#cboFabricanteReg01").html(result);  
                         $('#cboFabricanteReg01').val($idequipofabricante).trigger("change");
+                    },
+                    error: function(){
+                        alert('Error, no se puede cargar la lista desplegable de establecimiento');
+                    }
+                });
+                $.ajax({
+                    type: 'ajax',
+                    method: 'post',
+                    url: baseurl+"pt/cinforme/getEnvases",
+                    dataType: "JSON",
+                    async: true,
+                    data: params,
+                    success:function(result){
+                        $("#cboEnvaseReg01").html(result);  
+                        $('#cboEnvaseReg01').val($idequipofabricante).trigger("change");
                     },
                     error: function(){
                         alert('Error, no se puede cargar la lista desplegable de establecimiento');

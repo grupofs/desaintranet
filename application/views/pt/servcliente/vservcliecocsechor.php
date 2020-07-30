@@ -2,6 +2,7 @@
     $idusu = $this -> session -> userdata('s_idusuario');
     $codusu = $this -> session -> userdata('s_cusuario');
     $infousuario = $this->session->userdata('s_infodato');
+    $ccliente = $this->session->userdata('s_ccliente');
 ?>
 
 <style>
@@ -28,6 +29,7 @@
 <!-- Main content -->
 <section class="content" style="background-color: #E0F4ED;">
     <div class="container-fluid"> 
+        <input type="hidden" id="hdnccliente" name="hdnccliente" value="<?php echo $ccliente ?>">
         <div class="row">
             <div class="col-12">
                 <div class="card card-outline card-success">

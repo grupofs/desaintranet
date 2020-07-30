@@ -12,44 +12,39 @@ class Cservcliente extends CI_Controller {
     
     public function viewmapter() { // MAPEO TÉRMICO		
 		
-		$this->layout->js(array(public_url('script/pt/servclienteperfilusuario.js')));
+		$this->layout->js(array(public_url('script/pt/servcliente/servcliemapter.js')));
 
 		$data['content_for_layout'] = 'pt/servcliente/vservcliemapter';
         $this->parser->parse('seguridad/vprincipalClie',$data);
-    }
-    
+    }    
     public function viewcalfrio() { // LLENADO EN CALIENTE - FRIO		
 		
 		$this->layout->js(array(public_url('script/pt/servcliente/servcliecalfrio.js')));
 
 		$data['content_for_layout'] = 'pt/servcliente/vservcliecalfrio';
         $this->parser->parse('seguridad/vprincipalClie',$data);
-    }
-    
+    }    
     public function viewcocsechor() { // COCINADOR-SECADOR-HORNO		
 		
 		$this->layout->js(array(public_url('script/pt/servcliente/perfilusuario.js')));
 
 		$data['content_for_layout'] = 'pt/servcliente/vservcliecocsechor';
         $this->parser->parse('seguridad/vprincipalClie',$data);
-    }
-    
+    }    
     public function viewevaldesvi() { // EVALUACIÓN DE DESVIACIONES		
 		
-		$this->layout->js(array(public_url('script/pt/servcliente/perfilusuario.js')));
+		$this->layout->js(array(public_url('script/pt/servcliente/servclieevaldesvi.js')));
 
 		$data['content_for_layout'] = 'pt/servcliente/vservclieevaldesvi';
         $this->parser->parse('seguridad/vprincipalClie',$data);
-    }
-    
+    }    
     public function viewproacep() { // PROCESAMIENTO ASÉPTICO		
 		
-		$this->layout->js(array(public_url('script/pt/servcliente/perfilusuario.js')));
+		$this->layout->js(array(public_url('script/pt/servcliente/servclieproasep.js')));
 
 		$data['content_for_layout'] = 'pt/servcliente/vservclieproacep';
         $this->parser->parse('seguridad/vprincipalClie',$data);
-    }
-    
+	}	
     public function viewproconv() { // PROCESAMIENTO CONVENCIONAL		
 		
 		$this->layout->js(array(public_url('script/pt/servcliente/servclieproconv.js')));
@@ -58,6 +53,38 @@ class Cservcliente extends CI_Controller {
         $this->parser->parse('seguridad/vprincipalClie',$data);
     }
 
+    public function getmapterequipo() {	// Obtener equipo mapeo termico	
+		
+		$parametros = array(
+            '@ccliente'   => $this->input->post('ccliente')
+        );
+		$resultado = $this->mservcliente->getmapterequipo($parametros);
+		echo json_encode($resultado);
+	}
+    public function getmapterrecinto() {	// Obtener recinto mapeo termico	
+		
+		$parametros = array(
+            '@ccliente'   => $this->input->post('ccliente')
+        );
+		$resultado = $this->mservcliente->getmapterrecinto($parametros);
+		echo json_encode($resultado);
+	}
+    public function getmapterestudio() {	// Obtener estudio mapeo termico	
+		
+		$parametros = array(
+            '@ccliente'   => $this->input->post('ccliente')
+        );
+		$resultado = $this->mservcliente->getmapterestudio($parametros);
+		echo json_encode($resultado);
+	}
+    public function getmapterproducto() {	// Obtener producto mapeo termico	
+		
+		$parametros = array(
+            '@ccliente'   => $this->input->post('ccliente')
+        );
+		$resultado = $this->mservcliente->getmapterproducto($parametros);
+		echo json_encode($resultado);
+	}
 
     public function getproconvequipo() {	// Obtener numero de propuesta	
 		
@@ -75,6 +102,7 @@ class Cservcliente extends CI_Controller {
 		$resultado = $this->mservcliente->getproconvproducto($parametros);
 		echo json_encode($resultado);
 	}
+
     public function getcalfrioproducto() {	// Obtener numero de propuesta	
 		
 		$parametros = array(
@@ -89,6 +117,24 @@ class Cservcliente extends CI_Controller {
             '@ccliente'   => $this->input->post('ccliente')
         );
 		$resultado = $this->mservcliente->getcalfrioequipo($parametros);
+		echo json_encode($resultado);
+	}
+	
+    public function getproasepproducto() {	// Obtener numero de propuesta	
+		
+		$parametros = array(
+            '@ccliente'   => $this->input->post('ccliente')
+        );
+		$resultado = $this->mservcliente->getproasepproducto($parametros);
+		echo json_encode($resultado);
+	}
+	
+    public function getevaldesviestudio() {	// Obtener estudio mapeo termico	
+		
+		$parametros = array(
+            '@ccliente'   => $this->input->post('ccliente')
+        );
+		$resultado = $this->mservcliente->getevaldesviestudio($parametros);
 		echo json_encode($resultado);
 	}
 }

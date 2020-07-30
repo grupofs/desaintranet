@@ -42,9 +42,9 @@
                             <tr>
                                 <th></th>
                                 <th>TIPO</th>
-                                <th>DESCRIPCION</th>
                                 <th>MEDIO CALENTAMIENTO</th>
                                 <th>FABRICANTE</th>
+                                <th>ENVASE</th>
                                 <th>IDENTIFICACION</th>
                                 <th></th>
                                 <th></th>

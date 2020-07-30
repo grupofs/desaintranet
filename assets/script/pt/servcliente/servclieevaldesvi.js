@@ -1,15 +1,15 @@
 
-var otblListEquipos, otblListProductos;
+var otblListEstudios;
 var vccliente = $('#hdnccliente').val(); 
 
 $(document).ready(function() { 
-    listProducto()   
+    listEstudios();  
 });
 
-listProducto= function(){    
+listEstudios= function(){    
 
-    otblListProductos = $('#tblListProductos').DataTable({  
-        'responsive'    : false,
+    otblListEstudios = $('#tblListEstudios').DataTable({  
+        'responsive'    : true,
         'bJQueryUI'     : true,
         'scrollY'     	: '200px',
         'scrollX'     	: true, 
@@ -22,7 +22,7 @@ listProducto= function(){
         'ordering'		: false,  
         'stateSave'     : true,
         'ajax'	: {
-            "url"   : baseurl+"pt/cservcliente/getcalfrioproducto/",
+            "url"   : baseurl+"pt/cservcliente/getevaldesviestudio/",
             "type"  : "POST", 
             "data": function ( d ) {
                 d.ccliente      = vccliente;
@@ -36,10 +36,13 @@ listProducto= function(){
               data        :   null,
               targets     :   0
             },
-            {"orderable": false, data: 'PRODUCTO'},
+            {"orderable": false, data: 'DESC'},
             {"orderable": false, data: 'TIPO'},
-            {"orderable": false, data: 'ENVASE'},
+            {"orderable": false, data: 'PRODUCTO'},
             {"orderable": false, data: 'DIMENSION'},
+            {"orderable": false, data: 'NRODEVCAL'},
+            {"orderable": false, data: 'TIPOEQUIPO'},
+            {"orderable": false, data: 'IDEN'},
             {"orderable": false, 
                 render:function(data, type, row){
                     return '<div>'+
@@ -63,9 +66,11 @@ listProducto= function(){
         ]
     });   
     // Enumeracion 
-    otblListProductos.on( 'order.dt search.dt', function () { 
-        otblListProductos.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+    otblListEstudios.on( 'order.dt search.dt', function () { 
+        otblListEstudios.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
           cell.innerHTML = i+1;
           } );
-    }).draw() 
+    }).draw();  
 };
+
+

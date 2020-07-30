@@ -1,5 +1,5 @@
 
-var otblListEquipos, otblListProductos;
+var otblListProductos;
 var vccliente = $('#hdnccliente').val(); 
 
 $(document).ready(function() { 
@@ -22,7 +22,7 @@ listProducto= function(){
         'ordering'		: false,  
         'stateSave'     : true,
         'ajax'	: {
-            "url"   : baseurl+"pt/cservcliente/getcalfrioproducto/",
+            "url"   : baseurl+"pt/cservcliente/getproasepproducto/",
             "type"  : "POST", 
             "data": function ( d ) {
                 d.ccliente      = vccliente;
@@ -38,8 +38,7 @@ listProducto= function(){
             },
             {"orderable": false, data: 'PRODUCTO'},
             {"orderable": false, data: 'TIPO'},
-            {"orderable": false, data: 'ENVASE'},
-            {"orderable": false, data: 'DIMENSION'},
+            {"orderable": false, data: 'PARTICULA'},
             {"orderable": false, 
                 render:function(data, type, row){
                     return '<div>'+

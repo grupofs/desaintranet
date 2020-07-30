@@ -256,6 +256,14 @@ class Cinforme extends CI_Controller {
 		$resultado = $this->minforme->getrecuperaregestu($parametros);
 		echo json_encode($resultado);
 	}
+    public function getrecuperaregestuproduc() { // Recupera datos del producto y equipo
+        
+		$parametros = array(
+			'@idptregprocestudio' => $this->input->post('idptregprocestudio')
+		);		
+		$resultado = $this->minforme->getrecuperaregestuproduc($parametros);
+		echo json_encode($resultado);
+	}
     public function getrecuperaregestuproducequi() { // Recupera datos del producto y equipo
         
 		$parametros = array(

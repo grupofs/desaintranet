@@ -57,32 +57,6 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="card card-outline card-success">
-                    <div class="card-header">
-                        <h3 class="card-title">EQUIPOS</h3>
-                    </div>                
-                    <div class="card-body">
-                        <table id="tblListEquipos" class="table table-striped table-bordered" style="width:100%">
-                            <thead>
-                            <tr>
-                                <th></th>
-                                <th>TIPO</th>
-                                <th>DESCRIPCION</th>
-                                <th>FABRICANTE</th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 <!-- /.Main content -->

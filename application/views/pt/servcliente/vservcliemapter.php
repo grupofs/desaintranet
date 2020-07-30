@@ -2,6 +2,7 @@
     $idusu = $this -> session -> userdata('s_idusuario');
     $codusu = $this -> session -> userdata('s_cusuario');
     $infousuario = $this->session->userdata('s_infodato');
+    $ccliente = $this->session->userdata('s_ccliente');
 ?>
 
 <style>
@@ -28,11 +29,12 @@
 <!-- Main content -->
 <section class="content" style="background-color: #E0F4ED;">
     <div class="container-fluid"> 
+        <input type="hidden" id="hdnccliente" name="hdnccliente" value="<?php echo $ccliente ?>">
         <div class="row">
             <div class="col-12">
                 <div class="card card-outline card-success">
                     <div class="card-header">
-                        <h3 class="card-title">EQUIPOS / RECINTOS / ESTUDIOS</h3>
+                        <h3 class="card-title">EQUIPOS</h3>
                     </div>                
                     <div class="card-body">
                         <table id="tblListEquipos" class="table table-striped table-bordered" style="width:100%">
@@ -40,8 +42,62 @@
                             <tr>
                                 <th></th>
                                 <th>TIPO</th>
-                                <th>N° RECINTOS/EQUIPOS</th>
-                                <th>DESCRIPCION</th>
+                                <th>N° EQUIPOS</th>
+                                <th>AREA EVALUADA m2</th>
+                                <th>VOL. ENFRIA. m3</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-outline card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">RECINTOS</h3>
+                    </div>                
+                    <div class="card-body">
+                        <table id="tblListRecintos" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>TIPO</th>
+                                <th>N° RECINTOS</th>
+                                <th>AREA EVALUADA m2</th>
+                                <th>VOL. ALMA. m3</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-outline card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">ESTUDIOS</h3>
+                    </div>                
+                    <div class="card-body">
+                        <table id="tblListEstudios" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>TIPO</th>
+                                <th>RECINTO/EQUIPO</th>
+                                <th># ID</th>
                                 <th></th>
                                 <th></th>
                                 <th></th>

@@ -306,12 +306,16 @@
                                         <fieldset class="scheduler-border" id="01Registro">
                                             <legend class="scheduler-border text-primary">REGISTROS</legend>
                                             <div class="row">
+                                                <!-- /.
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Descripcion Equipo</label>
                                                         <input type="text" class="form-control" id="txtDescriequipoReg01" name="txtDescriequipoReg01">
                                                     </div>
                                                 </div>
+                                                -->
+                                                <input type="hidden" class="form-control" id="txtDescriequipoReg01" name="txtDescriequipoReg01">
+
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Tipo de Equipo</label>
@@ -328,12 +332,20 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Fabricante</label>
                                                         <select class="form-control select2bs4" id="cboFabricanteReg01" name="cboFabricanteReg01" style="width: 100%;">
+                                                            <option value="" selected="selected">Cargando...</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>ENVASE</label>
+                                                        <select class="form-control select2bs4" id="cboEnvaseReg01" name="cboEnvaseReg01" style="width: 100%;">
                                                             <option value="" selected="selected">Cargando...</option>
                                                         </select>
                                                     </div>
@@ -472,12 +484,14 @@
                                                 </div>  
                                             </div> 
                                             <div class="row">
+                                                <!-- /.
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Descripcion Equipo</label>
-                                                        <input type="text" class="form-control" id="txtDescriequipoReg02" name="txtDescriequipoReg02">
                                                     </div>
                                                 </div>
+                                                -->
+                                                <input type="hidden" class="form-control" id="txtDescriequipoReg02" name="txtDescriequipoReg02">
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Tipo de Equipo</label>
@@ -494,8 +508,6 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                            </div>              
-                                            <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Fabricante</label>
@@ -504,6 +516,8 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                            </div>              
+                                            <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label># o IDENTIFICACIÓN DEL EQUIPO</label>
@@ -879,12 +893,14 @@
                                                                             
                                                                 <div class="form-group">
                                                                     <div class="row">
+                                                                        <!--  
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
                                                                                 <label>Descripcion Equipo</label>
-                                                                                <input type="text" class="form-control" id="txtDescriequipoReg07" name="txtDescriequipoReg07">
                                                                             </div>
                                                                         </div>
+                                                                        -->
+                                                                        <input type="hidden" class="form-control" id="txtDescriequipoReg07" name="txtDescriequipoReg07">
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
                                                                                 <label>Tipo de Equipo</label>

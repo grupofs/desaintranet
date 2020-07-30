@@ -1,10 +1,10 @@
 
-var otblListEquipos, otblListProductos;
+var otblListEquipos, otblListRecintos;
 var vccliente = $('#hdnccliente').val(); 
 
 $(document).ready(function() { 
     listEquipo();  
-    listProducto();     
+    listRecintos();   
 });
 
 listEquipo= function(){    
@@ -23,7 +23,7 @@ listEquipo= function(){
         'ordering'		: false,  
         'stateSave'     : true,
         'ajax'	: {
-            "url"   : baseurl+"pt/cservcliente/getproconvequipo/",
+            "url"   : baseurl+"pt/cservcliente/getcocsechorequipo/",
             "type"  : "POST", 
             "data": function ( d ) {
                 d.ccliente      = vccliente;
@@ -38,10 +38,9 @@ listEquipo= function(){
               targets     :   0
             },
             {"orderable": false, data: 'TIPO'},
-            {"orderable": false, data: 'MEDIOCAL'},
-            {"orderable": false, data: 'FABRI'},
-            {"orderable": false, data: 'ENVASE'},
-            {"orderable": false, data: 'IDENTIF'},
+            {"orderable": false, data: 'NROEQUIPOS'},
+            {"orderable": false, data: 'AREAEVAL'},
+            {"orderable": false, data: 'VOLENFRIA'},
             {"orderable": false, 
                 render:function(data, type, row){
                     return '<div>'+
@@ -72,9 +71,9 @@ listEquipo= function(){
     }).draw();  
 };
 
-listProducto= function(){    
+listRecintos= function(){    
 
-    otblListProductos = $('#tblListProductos').DataTable({  
+    otblListRecintos = $('#tblListRecintos').DataTable({  
         'responsive'    : false,
         'bJQueryUI'     : true,
         'scrollY'     	: '200px',
@@ -88,7 +87,7 @@ listProducto= function(){
         'ordering'		: false,  
         'stateSave'     : true,
         'ajax'	: {
-            "url"   : baseurl+"pt/cservcliente/getproconvproducto/",
+            "url"   : baseurl+"pt/cservcliente/getcocsechorrecinto/",
             "type"  : "POST", 
             "data": function ( d ) {
                 d.ccliente      = vccliente;
@@ -102,11 +101,10 @@ listProducto= function(){
               data        :   null,
               targets     :   0
             },
-            {"orderable": false, data: 'PRODUCTO'},
-            {"orderable": false, data: 'ENVASE'},
             {"orderable": false, data: 'TIPO'},
-            {"orderable": false, data: 'NROPROCAL'},
-            {"orderable": false, data: 'DIMENSION'},
+            {"orderable": false, data: 'NRORECINTOS'},
+            {"orderable": false, data: 'AREAEVAL'},
+            {"orderable": false, data: 'VOLENFRIA'},
             {"orderable": false, 
                 render:function(data, type, row){
                     return '<div>'+
@@ -130,10 +128,12 @@ listProducto= function(){
         ]
     });   
     // Enumeracion 
-    otblListProductos.on( 'order.dt search.dt', function () { 
-        otblListProductos.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+    otblListRecintos.on( 'order.dt search.dt', function () { 
+        otblListRecintos.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
           cell.innerHTML = i+1;
           } );
     }).draw();  
 };
+
+
 

@@ -593,8 +593,9 @@ $('#frmCreaInfor').submit(function(event){
                 $('#mbtnCCreaInfor').click();     
                 Vtitle = this.respuesta;
                 Vtype = 'success';
-                sweetalert(Vtitle,Vtype);        
-                otblListRegInforme.ajax.reload(null,false);
+                sweetalert(Vtitle,Vtype); 
+                recuperaListinforme();       
+                //otblListRegInforme.ajax.reload(null,false);
             } 
             $('#sArchivo').val('N');  
         });

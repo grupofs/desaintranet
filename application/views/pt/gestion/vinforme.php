@@ -611,7 +611,7 @@
                                                                     <div class="row">
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
-                                                                                <label>Descripcion Equipo</label>
+                                                                                <label>Línea de Proceso</label>
                                                                                 <input type="text" class="form-control" id="txtDescriequipoReg04" name="txtDescriequipoReg04">
                                                                             </div>
                                                                         </div>
@@ -659,12 +659,6 @@
                                                                     <div class="row">
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
-                                                                                <label>Descripcion Equipo</label>
-                                                                                <input type="text" class="form-control" id="txtDescriequipoReg05" name="txtDescriequipoReg05">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <div class="form-group">
                                                                                 <label>Tipo de Equipo</label>
                                                                                 <select class="form-control select2bs4" id="cboTipoequipoReg05" name="cboTipoequipoReg05" style="width: 100%;">
                                                                                     <option value="" selected="selected">Cargando...</option>
@@ -679,29 +673,29 @@
                                                                                 </select>
                                                                             </div>
                                                                         </div>
-                                                                    </div>               
-                                                                </div>  
-                                                                <div class="form-group">
-                                                                    <div class="row"> 
-                                                                        <div class="col-md-3">
+                                                                        <div class="col-md-4">
                                                                             <div class="form-group">
                                                                                 <label>Modelo Llenadora</label>
                                                                                 <input type="text" class="form-control" id="txtModellenaReg05" name="txtModellenaReg05">
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-md-3">
+                                                                    </div>               
+                                                                </div>  
+                                                                <div class="form-group">
+                                                                    <div class="row"> 
+                                                                        <div class="col-md-4">
                                                                             <div class="form-group">
                                                                                 <label>Identificación de la llenadora</label>
                                                                                 <input type="text" class="form-control" id="txtIdllenaReg05" name="txtIdllenaReg05">
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-md-3">
+                                                                        <div class="col-md-4">
                                                                             <div class="form-group">
                                                                                 <label>Nro Llenadoras</label>
                                                                                 <input type="text" class="form-control" id="txtNrollenaReg05" name="txtNrollenaReg05">
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-md-3">
+                                                                        <div class="col-md-4">
                                                                             <div class="form-group">
                                                                                 <label>Volumen Llenado (L)</label>
                                                                                 <input type="text" class="form-control" id="txtVolullenaReg05" name="txtVolullenaReg05">

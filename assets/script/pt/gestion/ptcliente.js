@@ -20,7 +20,10 @@ $(document).ready(function() {
     $('#tabptcliente a[href="#tabptcliente-list"]').click(function(event){return false;});
     $('#tabptcliente a[href="#tabptcliente-reg"]').click(function(event){return false;});
     
-    $("#boxUbigeo").hide();
+    $("#boxDeparEstable").hide();
+    $("#boxProvEstable").hide();
+    $("#boxDistEstable").hide();
+    $("#boxUbigeo").hide(); 
 
     $.ajax({
         type: 'ajax',
@@ -317,6 +320,7 @@ $('#frmMantptClie').submit(function(event){
 });
 
 Agregarestable = function(ccliente,razonsocial,direccioncliente,dzip, cpais,dciudad,destado,cubigeo,dubigeo){
+  
   $('#mhdnIdClie').val(ccliente);
   $('#txtestableCI').val(razonsocial);
   $('#txtestabledireccion').val(direccioncliente);
@@ -405,17 +409,87 @@ $('#cboPaisEstable').change(function(){
     if(v_cpais == '290'){
       $("#boxCiudadEstable").hide();
       $("#boxEstadoEstable").hide();
-      $("#boxUbigeoEstable").show();      
+      $("#boxDeparEstable").show();
+      $("#boxProvEstable").show();
+      $("#boxDistEstable").show(); 
+      
+      $.ajax({
+        type: 'ajax',
+        method: 'post',
+        url: baseurl+"cglobales/getdepartamentos",
+        dataType: "JSON",
+        async: true,
+        success:function(result)
+        {
+            $('#cboDepaEsta').html(result);
+        },
+        error: function(){
+          alert('Error, No se puede autenticar por error');
+        }
+      });    
     } else {
       $("#boxCiudadEstable").show();
-      $("#boxEstadoEstable").show();
-      $("#boxUbigeoEstable").hide(); 
+      $("#boxEstadoEstable").show(); 
+      $("#boxDeparEstable").hide();
+      $("#boxProvEstable").hide();
+      $("#boxDistEstable").hide();
     }
 });
 
 $('#btnBuscarUbigeoEstable').click(function() {
   $("#modalUbigeo").modal();	
 });
+
+
+
+$('#cboDepaEsta').change(function(){
+  var v_cdepa = $( "#cboDepaEsta option:selected").attr("value");
+  var params = { "cdepa" : v_cdepa};  
+  $.ajax({
+    type: 'ajax',
+    method: 'post',
+    url: baseurl+"cglobales/getprovincias",
+    dataType: "JSON",
+    async: true,
+    data: params,
+    success:function(result){
+        $('#cboProvEsta').html(result);
+    },
+    error: function(){
+      alert('Error, No se puede autenticar por error');
+    }
+  });
+});
+
+$('#cboProvEsta').change(function(){
+  var v_cdepa = $( "#cboDepaEsta option:selected").attr("value");
+  var v_cprov = $( "#cboProvEsta option:selected").attr("value");
+  var params = { 
+    "cdepa" : v_cdepa,
+    "cprov" : v_cprov
+  };  
+  $.ajax({
+    type: 'ajax',
+    method: 'post',
+    url: baseurl+"cglobales/getdistritos",
+    dataType: "JSON",
+    async: true,
+    data: params,
+    success:function(result){
+        $('#cboDistEsta').html(result);
+    },
+    error: function(){
+      alert('Error, No se puede autenticar por error');
+    }
+  });
+});
+
+$('#cboProvEsta').change(function(){
+  var v_cubigeo = $( "#cboDist option:selected").attr("value");
+  $('#hdnidubigeoEstable').val(v_cubigeo);
+});
+
+
 
 $('#frmMantEstablecimiento').submit(function(event){
 

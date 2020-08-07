@@ -92,7 +92,7 @@ class Cptcliente extends CI_Controller {
             '@ESTADO' 	        =>  $this->input->post('cboestableEstado'),
             '@ACCION' 	        =>  $this->input->post('mhdnAccionEstable'),
             '@TELEFONO' 	    =>  $this->input->post('txtestablecelu'),
-            '@cubigeo' 	        =>  $this->input->post('mtxtUbigeoEstable'),
+            '@cubigeo' 	        =>  $this->input->post('hdnidubigeoEstable'),
             '@cpais' 	        =>  $this->input->post('cboPaisEstable'),
             '@dciudad' 	        =>  $this->input->post('txtCiudadEstable'),
             '@destado' 	        =>  $this->input->post('txtEstadoEstable'),

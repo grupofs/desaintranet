@@ -38,21 +38,7 @@ $(document).ready(function() {
         error: function(){
             alert('Error, No se puede autenticar por error = cboestado');
         }
-    });
-    $.ajax({
-        type: 'ajax',
-        method: 'post',
-        url: baseurl+"at/ctrlprov/cregctrolprov/getcbocalif",
-        dataType: "JSON",
-        async: true,
-        success:function(result)
-        {
-            $('#cbocalif').html(result);
-        },
-        error: function(){
-            alert('Error, No se puede autenticar por error = cbocalif');
-        }
-    });
+    })
 });
 
 fechaActual = function(){

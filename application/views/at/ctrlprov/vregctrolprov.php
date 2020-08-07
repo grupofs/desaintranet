@@ -119,14 +119,6 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label>Clasificacion</label>
-                                                    <select class="form-control select2bs4" id="cbocalif" name="cbocalif" multiple="multiple" data-placeholder="Seleccionar" style="width: 100%;">
-                                                        <option value="" selected="selected">Cargando...</option>
-                                                    </select>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="card-footer justify-content-between" style="background-color: #E0F4ED;"> 

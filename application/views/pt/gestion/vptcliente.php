@@ -409,26 +409,41 @@
                                                 <input type="text" class="form-control" name="txtEstadoEstable" id="txtEstadoEstable">
                                             </div>
                                         </div> 
-                                        <div class="col-sm-6" id="boxUbigeoEstable">
-                                            <div class="text-info">Departamento / Distrito / Provincia</div>
-                                            <div class="input-group mb-3">
-                                                <input type="text" id="mtxtUbigeoEstable" name="mtxtUbigeoEstable" class="form-control">
-                                                <span class="input-group-append">
-                                                    <button type="button"  data-toggle="modal" data-target="#modalUbigeo" id="btnBuscarUbigeoEstable" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
-                                                </span>
-                                            </div>
-                                            <input type="hidden" id="hdnidubigeoEstable" name="hdnidubigeoEstable">
+                                        <div class="col-sm-3" id="boxDeparEstable">
+                                                    <div class="text-info">Departamento</div>
+                                                    <div>                            
+                                                        <select class="form-control select2bs4" id="cboDepaEsta" name="cboDepaEsta" style="width: 100%;">
+                                                            <option value="">Cargando...</option>
+                                                        </select>
+                                                    </div>                
                                         </div> 
+                                        <div class="col-sm-3" id="boxProvEstable">
+                                                    <div class="text-info">Provincia</div>
+                                                    <div>
+                                                        <select class="form-control select2bs4" id="cboProvEsta" name="cboProvEsta">
+                                                            <option value="">Cargando...</option>
+                                                        </select>
+                                                    </div>               
+                                        </div>
+                                        <div class="col-sm-3" id="boxDistEstable">
+                                                    <div class="text-info">Distrito</div>
+                                                    <div>
+                                                        <select class="form-control select2bs4" id="cboDistEsta" name="cboDistEsta">
+                                                            <option value="">Cargando...</option>
+                                                        </select>
+                                                    </div>               
+                                        </div>
+                                        <input type="hidden" id="hdnidubigeoEstable" name="hdnidubigeoEstable">
+                                    </div>                
+                                </div> 
+                                <div class="form-group">
+                                    <div class="row">  
                                         <div class="col-sm-3">
                                             <div class="text-info">Codigo Postal / ZIP</div>
                                             <div>
                                                 <input type="text" class="form-control" name="txtestablezip" id="txtestablezip">
                                             </div>
                                         </div> 
-                                    </div>                
-                                </div> 
-                                <div class="form-group">
-                                    <div class="row"> 
                                         <div class="col-sm-9">
                                             <div class="text-info">Dirección Planta</div>
                                             <div>

@@ -41,7 +41,7 @@
 <!-- /.content-header -->
 
 <!-- Main content -->
-<section class="content" style="background-color: #E0F4ED;">
+<section class="content">
     <div class="container-fluid">  
         <div class="card card-success">
             <div class="card-header">
@@ -116,16 +116,16 @@
                         
             <div class="card-footer justify-content-between"> 
                 <div class="row">
-                <div class="col-md-2"> 
-                    <div id="console-event"></div>                   
-                    <input type="checkbox" name="swVigencia" id="swVigencia" data-toggle="toggle" checked data-bootstrap-switch  data-on-text="Activos" data-off-text="Inactivos">
-                </div>
-                <div class="col-md-10">
-                    <div class="text-right">
-                        <button type="submit" class="btn btn-primary" id="btnBuscar"><i class="fas fa-search"></i> Buscar</button>    
-                        <button type="button" class="btn btn-outline-info" id="btnNuevo" data-toggle="modal" data-target="#modalCreaPropu"><i class="fas fa-plus"></i> Crear Nuevo</button>
+                    <div class="col-md-2"> 
+                        <div id="console-event"></div>                   
+                        <input type="checkbox" name="swVigencia" id="swVigencia" data-toggle="toggle" checked data-bootstrap-switch  data-on-text="Activos" data-off-text="Inactivos">
                     </div>
-                </div>
+                    <div class="col-md-10">
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary" id="btnBuscar"><i class="fas fa-search"></i> Buscar</button>    
+                            <button type="button" class="btn btn-outline-info" id="btnNuevo" data-toggle="modal" data-target="#modalCreaPropu"><i class="fas fa-plus"></i> Crear Nuevo</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

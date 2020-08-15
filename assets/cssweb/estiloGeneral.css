@@ -1,9 +1,39 @@
+
+/*DISEÑO PLANTILLA*/  
+    .content-header{
+        padding: 10px .5rem 0.5px !important; 
+    } 
+    .content-header .container-fluid h1 {
+        font-size: 1.5rem !important;
+    }  
+    .content-wrapper>.content {
+        padding: .5rem !important;
+    }
+    .content{
+        background-color: #e2e4e3 !important; 
+    }  
+    .card-footer{
+        background-color: #E0F4ED !important; 
+    }  
+    .btn-outline-info{
+        color: #09044e !important; 
+        border-color: #09044e !important;
+    }
+
+/*DISEÑO CONTROLES*/
+    /*Radio*/ 
+    .clearfix {
+        padding: 0.5rem !important;
+    }
+    .clearfix .icheck-primary {
+        padding-left: 10px;
+    }
+
 /*COLORES DE TEXTO*/
     .text-requerido {
         color: #FD0202;
         font-weight:bold;
     }
-     
 
 /*COLORES CRICULOS*/
     .circle-red {

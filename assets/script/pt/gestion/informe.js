@@ -2459,6 +2459,7 @@ recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecin
                 var $idtipoequipo = this.id_tipoequipo;
                 var $idmediocalienta = this.id_mediocalienta;
                 var $idequipofabricante = this.id_equipofabricante;
+                var $idenvase = this.id_envase;
                 
                 $('#txtDescriequipoReg01').val(this.descripcion_equipo);
                 $('#txtNroequipoReg01').val(this.nro_equipos);
@@ -2523,7 +2524,7 @@ recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecin
                     data: params,
                     success:function(result){
                         $("#cboEnvaseReg01").html(result);  
-                        $('#cboEnvaseReg01').val($idequipofabricante).trigger("change");
+                        $('#cboEnvaseReg01').val($idenvase).trigger("change");
                     },
                     error: function(){
                         alert('Error, no se puede cargar la lista desplegable de establecimiento');

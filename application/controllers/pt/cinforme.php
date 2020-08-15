@@ -305,6 +305,7 @@ class Cinforme extends CI_Controller {
 				'@nro_equipos'    		=>  $this->input->post('txtNroequipoReg01'),
 				'@nro_canastillas'    	=>  $this->input->post('txtNracanastReg01'),
 				'@identificacion'    	=>  $this->input->post('txtIdenequipoReg01'),
+				'@id_envase'    	=>  $this->input->post('cboEnvaseReg01'),
 				'@accion'           	=>  $accion,
 			);
 			$retorna = $this->minforme->setregestudio01($parametros);

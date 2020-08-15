@@ -6,6 +6,7 @@
     $infousuario = $this->session->userdata('s_infodato');
     $imgperfil = $this->session->userdata('s_druta'); 
     $nombperfil = $this->session->userdata('s_usu'); 
+    $usuario = $this->session->userdata('s_usuario');  
 
     if($imgperfil == ''):
         $imgperfil = 'avatar5.png';
@@ -120,10 +121,10 @@
                     <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars fa-2x"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <h2>BIENVENIDO,</h2>
+                    <h3>BIENVENIDO,</h3>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <h4 style="margin-top:6px; margin-left:5px;"><?php echo $nombres ?></h4>
+                    <h3 style="margin-left:5px;"><?php echo $nombres ?></h3>
                     <input type="hidden" id="hdnccia" name="hdnccia" value= <?php echo $ccia;?> >
                 </li>
             </ul>
@@ -167,7 +168,7 @@
                         <img src="<?php echo public_url_ftp(); ?>Imagenes/user/<?php echo $imgperfil ?>"  class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <h6 style="color:#fff;"><?php echo $nombperfil ?></h6> 
+                        <h6 style="color:#fff;"><?php echo $usuario ?></h6> 
                     </div>
                 </div>
 

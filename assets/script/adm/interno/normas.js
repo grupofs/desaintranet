@@ -83,9 +83,9 @@ $(document).ready(function(){
     });
 
 
-    $("#Todos").on("change", function () {
-        $("#FechaInicial").prop("disabled",$("#Todos").is(":checked"));
-        $("#FechaTermino").prop("disabled",$("#Todos").is(":checked"));
+    $("#chkFpubl").on("change", function () {
+        $("#txtFIni").prop("disabled",$("#chkFpubl").is(":checked"));
+        $("#txtFFin").prop("disabled",$("#chkFpubl").is(":checked"));
           if(this.checked == true){ 
             tipofind ='S'
           }
@@ -94,7 +94,7 @@ $(document).ready(function(){
           }; 
     });
 
-    $("#Todos").click();
+    $("#chkFpubl").click();
 
 
 
@@ -303,7 +303,7 @@ $(document).ready(function(){
   });
 
   // FORMATO DE FECHA
-  $('#txtFDesde,#txtFFinal').datetimepicker({
+  $('#txtFDesde,#txtFHasta').datetimepicker({
     format: 'DD/MM/YYYY',
     daysOfWeekDisabled: [0],
     locale:'es'

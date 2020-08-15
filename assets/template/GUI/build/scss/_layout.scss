@@ -577,22 +577,22 @@ body:not(.sidebar-mini-md) {
   }
 
   h1 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     margin: 0;
 
     .text-sm & {
-      font-size: 1.5rem;
+      font-size: 1.2rem;
     }
   }
 
   .breadcrumb {
     background: transparent;
-    line-height: 1.8rem;
+    line-height: 1.5rem;
     margin-bottom: 0;
     padding: 0;
 
     .text-sm & {
-      line-height: 1.5rem;
+      line-height: 1.2rem;
     }
   }
 }

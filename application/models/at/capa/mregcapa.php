@@ -282,6 +282,19 @@ class Mregcapa extends CI_Model {
 			return False;
 		}	
     }
+    public function setparticipante($parametros) {  // Registrar informe PT
+        $this->db->trans_begin();
+
+        $procedure = "call usp_at_capa_setparticipante(?,?,?,?,?);";
+        $query = $this->db->query($procedure,$parametros);
+
+        if ($this->db->trans_status() === FALSE){
+            $this->db->trans_rollback();
+        }else{
+            $this->db->trans_commit();
+            return $query->result(); 
+        }   
+    } 
 
 }
 ?>

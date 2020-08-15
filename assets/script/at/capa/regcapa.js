@@ -632,7 +632,11 @@ $('#frmRegCapa').submit(function(event){
 $('#btnParticiopantes').click(function(){
     $('#tabcapa a[href="#tabcapa-parti"]').tab('show');
     var vidcapa = $('#mtxtidcapa').val();
-    recuperaListparti(vidcapa); 
+    recuperaListparti(vidcapa);
+    $("#mtxtPerparti").prop({readonly:true});
+    $("#mtxtDniparti").prop({readonly:true});
+    $("#mtxtEmailparti").prop({readonly:true});
+    $("#mtxtTelparti").prop({readonly:true}); 
 });
 
 recuperaListcapadet = function(){
@@ -1189,10 +1193,11 @@ recuperaListparti = function(idcapa){
             },
             {"orderable": false, data: 'NRODNI', targets: 1},
             {"orderable": false, data: 'NOMBREPARTI', targets: 2},
+            {"orderable": false, data: 'NOTA', targets: 3},
             {"orderable": false, 
               render:function(data, type, row){                
                   return  '<div>'+
-                  '<a title="Editar" style="cursor:pointer; color:#3c763d;" onClick="javascript:selParti(\''+row.id_capa+'\',\''+row.id_capaparti+'\',\''+row.id_administrado+'\',\''+row.NOMBREPARTI+'\',\''+row.NRODNI+'\',\''+row.fono_celular+'\',\''+row.email+'\');"><span class="fas fa-edit" aria-hidden="true"> </span> </a>'+
+                  '<a title="Editar" style="cursor:pointer; color:#3c763d;" onClick="javascript:selParti(\''+row.id_capa+'\',\''+row.id_capaparti+'\',\''+row.id_administrado+'\',\''+row.NOMBREPARTI+'\',\''+row.NRODNI+'\',\''+row.fono_celular+'\',\''+row.email+'\',\''+row.NOTA+'\');"><span class="fas fa-edit" aria-hidden="true"> </span> </a>'+
                   '&nbsp;'+
                   '<a id="aDelParti" href="'+row.id_capaparti+'" title="Eliminar" style="cursor:pointer; color:#FF0000;"><span class="fas fa-trash-alt" aria-hidden="true"> </span></a>'+      
                   '</div>'
@@ -1208,7 +1213,7 @@ recuperaListparti = function(idcapa){
     }).draw();
 };
 
-selParti = function(id_capa,id_capaparti,id_administrado,NOMBREPARTI,NRODNI,fono_celular,email){
+selParti = function(id_capa,id_capaparti,id_administrado,NOMBREPARTI,NRODNI,fono_celular,email, NOTA){
     $('#mhdnAccionParti').val('A'); 
 
     $('#mhdnIdparti').val(id_capaparti);
@@ -1216,6 +1221,7 @@ selParti = function(id_capa,id_capaparti,id_administrado,NOMBREPARTI,NRODNI,fono
     $('#mhdnIdadmParti').val(id_administrado);
     $('#mtxtPerparti').val(NOMBREPARTI);
     $('#mtxtDniparti').val(NRODNI);
+    $('#mtxtNotaparti').val(NOTA);
     $('#mtxtEmailparti').val(email);
     $('#mtxtTelparti').val(fono_celular);
 
@@ -1229,26 +1235,95 @@ $('#modalImportparti').on('shown.bs.modal', function (e) {
 adjFile=function(){
     var archivoInput = document.getElementById('fileMigra');
     var archivoRuta = archivoInput.value;
-    var extPermitidas = /(.xlsx|.xls)$/i;
+    var extPermitidas = /(.xls)$/i;
     
     var filename = $('#fileMigra').val().replace(/.*(\/|\\)/, '');
     $('#txtFile').val(filename);
 
     if(!extPermitidas.exec(archivoRuta)){
-        alert('Asegurese de haber seleccionado un PDF, DOCX, XSLX');
+        alert('Asegurese de haber seleccionado un XLS');
         archivoInput.value = '';  
         $('#txtFile').val('');
         return false;
-    }      
+    }    
 };
 
-$('#frmImport').submit(function(event){
+$('#mbtnGUpload').click(function(){    
+    var parametrotxt = new FormData($("#frmImport")[0]);
+    var request = $.ajax({
+        data: parametrotxt,
+        method: 'post',
+        url: baseurl+"at/capa/cregcapa/import_parti",
+        dataType: "JSON",
+        async: true,
+        contentType: false,
+        processData: false,
+        error: function(){
+            alert('Error, no se cargó el archivo');
+        }
+    });
+    request.done(function( respuesta ) {
+        otblListParticipantes.ajax.reload(null,false);      
+        Vtitle = this.respuesta;
+        Vtype = 'success';
+        sweetalert(Vtitle,Vtype);    
+        $('#frmImport').trigger("reset");                 
+        $('#mbtnCImportparti').click();
+    });
+});
+
+$('#modalImportnota').on('shown.bs.modal', function (e) {
+    var IdcapaParti = $('#mhdnIdcapacitaparti').val();
+    $('#mhdnIdCapamigranota').val(IdcapaParti);
+});
+
+adjFilenota=function(){
+    var archivoInput = document.getElementById('fileMigranota');
+    var archivoRuta = archivoInput.value;
+    var extPermitidas = /(.xls)$/i;
+    
+    var filename = $('#fileMigranota').val().replace(/.*(\/|\\)/, '');
+    $('#txtFilenota').val(filename);
+
+    if(!extPermitidas.exec(archivoRuta)){
+        alert('Asegurese de haber seleccionado un XLS');
+        archivoInput.value = '';  
+        $('#txtFilenota').val('');
+        return false;
+    }    
+};
+
+$('#mbtnGUploadnota').click(function(){    
+    var parametrotxt = new FormData($("#frmImportnota")[0]);
+    var request = $.ajax({
+        data: parametrotxt,
+        method: 'post',
+        url: baseurl+"at/capa/cregcapa/import_nota",
+        dataType: "JSON",
+        async: true,
+        contentType: false,
+        processData: false,
+        error: function(){
+            alert('Error, no se cargó el archivo');
+        }
+    });
+    request.done(function( respuesta ) {
+        otblListParticipantes.ajax.reload(null,false);      
+        Vtitle = this.respuesta;
+        Vtype = 'success';
+        sweetalert(Vtitle,Vtype);    
+        $('#frmImportnota').trigger("reset");                 
+        $('#mbtnCImportnota').click();
+    });
+});
+
+$('#frmRegParti').submit(function(event){
     event.preventDefault();
     
     var request = $.ajax({
-        url:$('#frmImport').attr("action"),
-        type:$('#frmImport').attr("method"),
-        data:$('#frmImport').serialize(),
+        url:$('#frmRegParti').attr("action"),
+        type:$('#frmRegParti').attr("method"),
+        data:$('#frmRegParti').serialize(),
         error: function(){
             Vtitle = 'No se puede registrar por error';
             Vtype = 'error';
@@ -1256,12 +1331,13 @@ $('#frmImport').submit(function(event){
         }
     });
     request.done(function( respuesta ) {
+        var posts = JSON.parse(respuesta);        
+        $.each(posts, function() { 
             otblListParticipantes.ajax.reload(null,false);      
             Vtitle = this.respuesta;
             Vtype = 'success';
-            sweetalert(Vtitle,Vtype);    
-            $('#frmImport').trigger("reset");                 
-            $('#mbtnCImportparti').click();
+            sweetalert(Vtitle,Vtype);       
+        });
     });
 });
 

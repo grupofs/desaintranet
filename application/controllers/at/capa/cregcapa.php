@@ -66,8 +66,7 @@ class Cregcapa extends CI_Controller {
 		$ccliente 			= $this->input->post('cboregClie');
 		$cestablecimiento 	= $this->input->post('cboregEstab');
 		$comentarios 		= $this->input->post('mtxtComentarios');
-		$finicio 		= $this->input->post('mtxtFinicio');
-		$ffin 			= $this->input->post('mtxtFfin');
+		$finicio 			= $this->input->post('mtxtFinicio');
 		$accion 			= $this->input->post('hdnAccionregcapa');
         
         $parametros = array(
@@ -75,7 +74,6 @@ class Cregcapa extends CI_Controller {
             '@ccliente'   			=>  $ccliente,
             '@cestablecimiento'     =>  ($cestablecimiento == $varnull || $cestablecimiento == '%') ? '000000' : $this->input->post('cboregEstab'),
             '@fini'					=>  substr($finicio, 6, 4).'-'.substr($finicio,3 , 2).'-'.substr($finicio, 0, 2),
-            '@ffin'					=>  substr($ffin, 6, 4).'-'.substr($ffin,3 , 2).'-'.substr($ffin, 0, 2),
             '@comentarios'      	=>  $comentarios,
             '@accion'           	=>  $accion
         );
@@ -589,9 +587,10 @@ class Cregcapa extends CI_Controller {
 				$data_excel[$i - 1]['@apmaterno']  	= $sheets['cells'][$i][4];
 				$data_excel[$i - 1]['@email']     	= $sheets['cells'][$i][5];
 				$data_excel[$i - 1]['@nrofono']   	= $sheets['cells'][$i][6];
+				$data_excel[$i - 1]['@nota']   		= $sheets['cells'][$i][7];
 
 				$this->db->trans_begin();				
-				$procedure = "call usp_at_capa_migralist_participante(?,?,?,?,?,?,?)";
+				$procedure = "call usp_at_capa_migralist_participante(?,?,?,?,?,?,?,?)";
 				$query = $this->db-> query($procedure,$data_excel[$i - 1]);
 				if ($this->db->trans_status() === FALSE){
 					$this->db->trans_rollback();

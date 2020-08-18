@@ -150,5 +150,19 @@ class Msistemas extends CI_Model {
             return false;
         }			
     }  
+    public function getrolpermisos($parametros) { // Recuperar opciones por compañia
+        $procedure = "call sp_appweb_sistemas_getrolpermisos(?,?);";
+        $query = $this->db-> query($procedure,$parametros);
+            
+        if ($query->num_rows() > 0) {
+            $listas = '';            
+            foreach ($query->result() as $row) {
+                $listas .= '<option value="'.$row->id_opcion.'">'.$row->desc_opcion.'</option>';  
+            }
+            return $listas;
+        }{
+            return false;
+        }	
+    }
 }
 ?>

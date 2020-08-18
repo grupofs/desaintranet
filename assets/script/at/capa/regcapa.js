@@ -170,11 +170,11 @@ $("#btnBuscar").click(function (){
               targets     :   0,
             },
             {"orderable": false, data: 'DATOSCAPA', targets: 1},
-            {"orderable": false, data: 'FCAPACITACION', targets: 2, "class": "col-m"},
+            {"orderable": false, data: 'FCAPACITACION', targets: 2, "class": "col-sm"},
             {"orderable": false, data: 'DCURSO', targets: 3, "class": "col-lm"},
-            {"orderable": false, data: 'DTEMA', targets: 4, "class": "col-lm"},
+            {"orderable": false, data: 'DTEMA', targets: 4, "class": "col-xl"},
             {"orderable": false, data: 'DEXPOSITOR', targets: 5, "class": "col-m"},
-            {"orderable": false, "class": "col-l", 
+            {"orderable": false, 
               render:function(data, type, row){
                   var rpresent, rtaller, rexamen, rlist, rcerti;
                   if(row.ruta_presentacion != null) {
@@ -1166,7 +1166,7 @@ recuperaListparti = function(idcapa){
     otblListParticipantes = $('#tblListParticipantes').DataTable({ 
         'responsive'    : true,
         'bJQueryUI'     : true,
-        'scrollY'     	: '200px',
+        'scrollY'     	: '300px',
         'scrollX'     	: true, 
         'paging'      	: true,
         'processing'  	: true,     

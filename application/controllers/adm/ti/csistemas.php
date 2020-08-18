@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Csistemas extends CI_Controller {
 	function __construct() {
 		parent:: __construct();	
-		$this->load->model('adm/msistemas');
+		$this->load->model('adm/ti/msistemas');
 		$this->load->model('mglobales');
 		$this->load->library('encryption');
 		$this->load->helper(array('form','url','download','html','file'));
@@ -96,6 +96,17 @@ class Csistemas extends CI_Controller {
         
 		$resultado = $this->msistemas->getcborol();
 		echo json_encode($resultado);
-	}	
+	}
+
+    public function getrolpermisos() { // Visualizar listado de permisos por roles	
+        
+		$parametros = array(
+			'@id_rol' 		=>  $this->input->post('id_rol'),
+			'@id_modulo' 	=>  $this->input->post('id_modulo')
+		);
+		$resultado = $this->msistemas->getrolpermisos($parametros);
+		echo json_encode($resultado);
+	}		
+	
 }
 ?>

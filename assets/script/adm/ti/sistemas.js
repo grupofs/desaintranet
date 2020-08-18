@@ -20,7 +20,7 @@ $(document).ready(function () {
             "ordering"		: false,  
             'stateSave'     : true,  
             'ajax'        : {
-                "url"   : baseurl+"adm/csistemas/getlistarmodulos/",
+                "url"   : baseurl+"adm/ti/csistemas/getlistarmodulos/",
                 "type"  : "POST", 
                 "data"  : function (d) {  
                 },     
@@ -148,7 +148,7 @@ $(document).ready(function () {
             "ordering"		: false,  
             'stateSave'     : true, 
             'ajax'        : {
-                "url"   : baseurl+"adm/csistemas/getlistaropciones/",
+                "url"   : baseurl+"adm/ti/csistemas/getlistaropciones/",
                 "type"  : "POST", 
                 "data": function ( d ) {  
                 },     
@@ -199,7 +199,7 @@ $(document).ready(function () {
         $.ajax({
             type: 'ajax',
             method: 'post',
-            url: baseurl+"adm/csistemas/getmoduloxcia",
+            url: baseurl+"adm/ti/csistemas/getmoduloxcia",
             dataType: "JSON",
             async: true,
             data: params,
@@ -271,7 +271,7 @@ $(document).ready(function () {
             "ordering"		: false,  
             'stateSave'     : true, 
             'ajax'        : {
-                "url"   : baseurl+"adm/csistemas/getlistarroles/",
+                "url"   : baseurl+"adm/ti/csistemas/getlistarroles/",
                 "type"  : "POST", 
                 "data": function ( d ) {  
                 },     
@@ -350,7 +350,7 @@ $(document).ready(function () {
         $.ajax({
             type: 'ajax',
             method: 'post',
-            url: baseurl+"adm/csistemas/getcborol",
+            url: baseurl+"adm/ti/csistemas/getcborol",
             dataType: "JSON",
             async: true,
             success:function(result)
@@ -373,7 +373,7 @@ $(document).ready(function () {
         var groupColumn = 1;        
         oTable_listaperm = $('#tablalistaPerm').DataTable({
             'bJQueryUI'     : true,
-            'scrollY'     	: '280px',
+            'scrollY'     	: '350px',
             'scrollX'     	: true, 
             'paging'      	: true,
             'processing'  	: true,      
@@ -383,7 +383,7 @@ $(document).ready(function () {
             "ordering"		: false,  
             'stateSave'     : true, 
             'ajax'        : {
-                "url"   : baseurl+"adm/csistemas/getlistarperm/",
+                "url"   : baseurl+"adm/ti/csistemas/getlistarperm/",
                 "type"  : "POST", 
                 "data": function ( d ) {  
                     d.idrol = v_idrol; 
@@ -447,7 +447,7 @@ $(document).ready(function () {
         $.ajax({
             type: 'ajax',
             method: 'post',
-            url: baseurl+"adm/csistemas/getmoduloxcia",
+            url: baseurl+"adm/ti/csistemas/getmoduloxcia",
             dataType: "JSON",
             async: true,
             data: params,
@@ -463,7 +463,7 @@ $(document).ready(function () {
         $.ajax({
             type: 'ajax',
             method: 'post',
-            url: baseurl+"adm/csistemas/getrolxcia",
+            url: baseurl+"adm/ti/csistemas/getrolxcia",
             dataType: "JSON",
             async: true,
             data: params,
@@ -477,4 +477,30 @@ $(document).ready(function () {
             }
         }); 
     };
+
+    $('#btnRecuperaRol').click(function(){
+        v_idrol = $('#cboRolperm').val();
+        v_idmodulo = $('#cboModulopem').val();
+
+        var params = { 
+            "id_rol"    : v_idrol,
+            "id_modulo" : v_idmodulo
+        };
+
+        $.ajax({
+            type: 'ajax',
+            method: 'post',
+            url: baseurl+"adm/ti/csistemas/getrolpermisos",
+            dataType: "JSON",
+            async: true,
+            data: params,
+            success:function(result)
+            {
+                $('#dualOpciones[]').html(result);   
+            },
+            error: function(){
+            alert('Error, No se puede autenticar por error');
+            }
+        });
+    });
 

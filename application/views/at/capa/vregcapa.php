@@ -195,7 +195,7 @@
                                         <div class="row">                 
                                             <div class="col-sm-6">
                                             <div class="form-group">
-                                                <div class="text-info">Fecha Inicio</div>
+                                                <label>Fecha Inicio</label>
                                                 <div class="input-group date" id="mtxtFCapaini" data-target-input="nearest">
                                                     <input type="text" id="mtxtFinicio" name="mtxtFinicio" class="form-control datetimepicker-input" data-target="#mtxtFCapaini"/>
                                                     <div class="input-group-append" data-target="#mtxtFCapaini" data-toggle="datetimepicker">
@@ -203,26 +203,13 @@
                                                     </div>
                                                 </div>                        
                                             </div> 
-                                            </div>             
-                                            <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <div class="text-info">Fecha Fin</div>
-                                                <div class="input-group date" id="mtxtFCapafin" data-target-input="nearest">
-                                                    <input type="text" id="mtxtFfin" name="mtxtFfin" class="form-control datetimepicker-input" data-target="#mtxtFCapafin"/>
-                                                    <div class="input-group-append" data-target="#mtxtFCapafin" data-toggle="datetimepicker">
-                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                    </div>
-                                                </div>                        
                                             </div>
-                                            </div> 
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
+                                            <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Comentarios</label>
                                                     <input type="text" name="mtxtComentarios"id="mtxtComentarios" class="form-control" >
                                                 </div>
-                                            </div>
+                                            </div> 
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-6 text-left">
@@ -375,7 +362,7 @@
                                                 </div>                    
                                                 <div class="card-footer">
                                                     <div class="text-right">
-                                                        <button type="submit" id="btnGrabarCur" class="btn btn-success">Guardar</button>
+                                                        <button type="submit" id="btnGrabarParti" class="btn btn-success">Guardar</button>
                                                     </div>
                                                 </div>
                                                 </form>

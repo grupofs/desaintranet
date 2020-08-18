@@ -307,40 +307,37 @@
               <div class="card-body">
                 
                 <div class="row">
-                  <div class="col-md-12">
+                  <div class="col-md-6">
                     <h3 >Listado</h3> 
                     <div class="card">
                       <div class="card-body">
                           <div class="row">  
-                            <div class="col-md-6 offset-md-3">
+                            <div class="col-md-12">
                               <div class="form-group">
                                   <div class="text-light-blue"><label>ROLES</label></div>                
                                   <select id="cboRolList" name="cboRolList" class="form-control select2bs4" style="width: 100%;"></select>
                               </div>
                             </div>
                           </div>
-                          <div class="row"> 
-                          
+                          <div class="row">                           
                           <div class="col-md-12">
-                          <table id="tablalistaPerm" class="table table-striped table-bordered" style="width:100%"> 
-                              <thead>
-                              <tr>     
-                                <th>#</th> 
-                                <th>MODULO</th> 
-                                <th>OPCION</th> 
-                              </tr>
-                              </thead>
-                              <tbody>
-                              </tbody>                  
-                          </table>
+                            <table id="tablalistaPerm" class="table table-striped table-bordered" style="width:100%"> 
+                                <thead>
+                                <tr>     
+                                  <th>#</th> 
+                                  <th>MODULO</th> 
+                                  <th>OPCION</th> 
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>                  
+                            </table>
                           </div>
                           </div>
                       </div>
                     </div>
                   </div>
-                </div>  
-                <div class="row">
-                  <div class="col-md-12">
+                  <div class="col-md-6">
                     <h3>Mantenimiento</h3>
                     <div class="card">                      
                     <form class="form-horizontal" id="frmRegPerm" action="<?= base_url('adm/csistemas/setpermiso')?>" method="POST" enctype="multipart/form-data" role="form">              
@@ -349,7 +346,7 @@
                         <input type="hidden" id="mhdnAccionPerm" name="mhdnAccionPerm" value="N"> <!-- ACCION -->                                  
                         <div class="box-body">
                           <div class="row"> 
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                               <div class="form-group">                                                                                                                                                                                                                                                                                                                                                                                                                                                     
                                   <div class="text-light-blue">Compañia</div>                
                                   <select id="cboCiaperm" name="cboCiaperm" class="form-control" style="width: 100%;">
@@ -359,38 +356,41 @@
                                   </select>
                               </div> 
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-6">
                               <div class="form-group">
                                   <div class="text-light-blue">Rol</div>                
                                   <select id="cboRolperm" name="cboRolperm" class="form-control select2bs4" style="width: 100%;"></select>
                               </div>
-                            </div>
-                            <div class="col-sm-4">
+                            </div>  
+                          </div> 
+                          <div class="row">
+                            <div class="col-sm-6">
                               <div class="form-group">
                                   <div class="text-light-blue">Modulo</div>                
                                   <select id="cboModulopem" name="cboModulopem" class="form-control select2bs4" style="width: 100%;"></select>
                               </div>
-                            </div>  
+                            </div> 
+                            <div class="col-sm-6">
+                              <div class="form-group"> 
+                                <div class="text-light-blue">&nbsp;</div>     
+                                <div class="text-right">
+                                  <button type="button" id="btnRecuperaRol" class="btn btn-primary">Recuperar</button>
+                                  <button type="submit" id="btnGrabarRol" class="btn btn-success">Guardar</button>
+                                </div>
+                              </div>
+                            </div> 
                           </div> 
                           <div class="row"> 
                             <div class="col-12">
                               <div class="form-group">
                                 <label>Asignar Permisos</label>
-                                <select class="duallistbox" multiple="multiple">
-                                  <option selected>Alabama</option>
-                                  <option>Alaska</option>
+                                <select id="dualOpciones[]" name="dualOpciones[]" class="duallistbox" multiple="multiple">
                                 </select>
                               </div>
                             </div> 
                           </div>    
                         </div>   
-                      </div>                    
-                      <div class="card-footer">
-                        <div class="text-right">
-                          <button type="button" id="btnNuevoRol" class="btn btn-primary">Nuevo</button>
-                          <button type="submit" id="btnGrabarRol" class="btn btn-success">Guardar</button>
-                          </div>
-                      </div>
+                      </div>  
                     </form>
                     </div>
                   </div>

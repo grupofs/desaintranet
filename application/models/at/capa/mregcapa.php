@@ -14,7 +14,7 @@ class Mregcapa extends CI_Model {
 		$query = $this->db-> query($procedure);
         
         if ($query->num_rows() > 0) {
-            $listas = '<option value="%" selected="selected">::Elija</option>';            
+            $listas = '<option value="0" selected="selected">::Elija</option>';            
             foreach ($query->result() as $row){
                 $listas .= '<option value="'.$row->IDCLIE.'">'.$row->DESCRIPCLIE.'</option>';  
             }
@@ -99,7 +99,7 @@ class Mregcapa extends CI_Model {
     public function setcapa($parametros) {  // Registrar informe PT
         $this->db->trans_begin();
 
-        $procedure = "call usp_at_capa_setcapa(?,?,?,?,?,?,?);";
+        $procedure = "call usp_at_capa_setcapa(?,?,?,?,?,?);";
         $query = $this->db->query($procedure,$parametros);
 
         if ($this->db->trans_status() === FALSE){

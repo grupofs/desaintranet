@@ -305,6 +305,8 @@ switch (ENVIRONMENT)
 
 	define('VIEWPATH', $view_folder.DIRECTORY_SEPARATOR);
 
+	date_default_timezone_set('America/Lima');
+
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE

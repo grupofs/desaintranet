@@ -8,267 +8,269 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Layout
 {
-	/**
-	 * [$CI description]: Instancia del Objeto de CodeIgniter.
-	 * @var [type]
-	 */
-	private $CI;
+    /**
+     * [$CI description]: Instancia del Objeto de CodeIgniter.
+     * @var [type]
+     */
+    private $CI;
 
-	/**
-	 * [$layout description]: Nombre del layout por defecto.
-	 * @var string
-	 */
-	public $layout		= 'app';
+    /**
+     * [$layout description]: Nombre del layout por defecto.
+     * @var string
+     */
+    public $layout = 'app';
 
-	/**
-	 * [$js description]: Archivos JS para insertar en el layout.
-	 * @var string
-	 */
-	public $js			= '';
+    /**
+     * [$js description]: Archivos JS para insertar en el layout.
+     * @var string
+     */
+    public $js = '';
 
-	/**
-	 * [$css description]: Archivos CSS para insertar en el layout.
-	 * @var string
-	 */
-	public $css			= '';
+    /**
+     * [$css description]: Archivos CSS para insertar en el layout.
+     * @var string
+     */
+    public $css = '';
 
-	/**
-	 * [__construct description]
-	 * @param string $layout [description]: Inicializa la instancia de
-	 * CodeIgniter y setea el layout por defecto.
-	 */
-	public function __construct($layout = 'vprincipal')
-	{
-		$this->CI		=& get_instance();
-		$this->layout	= $layout;
-	}
+    /**
+     * [__construct description]
+     * @param string $layout [description]: Inicializa la instancia de
+     * CodeIgniter y setea el layout por defecto.
+     */
+    public function __construct($layout = 'vprincipal')
+    {
+        $this->CI =& get_instance();
+        $this->layout = $layout;
+    }
 
-	/**
-	 * [setLayout description]: Setea el layout a utilizar
-	 * @param [type] $layout [description]: Nombre del layout
-	 */
-	function setLayout($layout)
-	{
-		$this->layout	= $layout;
-	}
+    /**
+     * [setLayout description]: Setea el layout a utilizar
+     * @param [type] $layout [description]: Nombre del layout
+     */
+    function setLayout($layout)
+    {
+        $this->layout = $layout;
+    }
 
-	/**
-	 * Retorna o renderea una vista
-	 *
-	 * @param	string		$view			Nombre de la vista a procesar
-	 * @param	array		$data			Datos que se enviaran a la vista
-	 * @param	boolean		$return			Determina si una vista debe ser devuelta o rendereada directamente
-	 * @return	string						Si se pasa $return en true, devuelve el contenido de la vista
-	 */
-	function view($view = null, $data = null, $return = false)
-	{
-		$layout			= "seguridad/{$this->layout}";
-		$vista			= (substr($view, 0, 1) == '/' ? $view : "{$this->CI->router->directory}{$this->CI->router->class}/{$view}");
-		$load_view		= array('content_for_layout' => $this->CI->load->view($vista, $data, true));
+    /**
+     * Retorna o renderea una vista
+     *
+     * @param    string $view Nombre de la vista a procesar
+     * @param    array $data Datos que se enviaran a la vista
+     * @param    boolean $return Determina si una vista debe ser devuelta o rendereada directamente
+     * @return    string                        Si se pasa $return en true, devuelve el contenido de la vista
+     */
+    function view($view = null, $data = null, $return = false)
+    {
+        $layout = "seguridad/{$this->layout}";
+        $vista = (substr($view, 0, 1) == '/' ? $view : "{$this->CI->router->directory}{$this->CI->router->class}/{$view}");
+        $load_view = array('content_for_layout' => $this->CI->load->view($vista, $data, true));
 
-		if ( $return )
-			return $this->CI->load->view($layout, $load_view, true);
-		else
-			$this->CI->load->view($layout, $load_view, false);
-	}
+        if ($return)
+            return $this->CI->load->view($layout, $load_view, true);
+        else
+            $this->CI->load->view($layout, $load_view, false);
+    }
 
-	/**
-	 * Retorna o renderea un elemento
-	 *
-	 * @param	string		$view			Nombre de la vista a procesar
-	 * @param	array		$data			Datos que se enviaran a la vista
-	 * @param	boolean		$return			Determina si una vista debe ser devuelta o rendereada directamente
-	 * @return	string						Si se pasa $return en true, devuelve el contenido de la vista
-	 */
-	public function element($view = null, $data = null, $return = false)
-	{
-		$element			= "elements/{$view}";
-		$content_for_layout	= $data;
+    /**
+     * Retorna o renderea un elemento
+     *
+     * @param    string $view Nombre de la vista a procesar
+     * @param    array $data Datos que se enviaran a la vista
+     * @param    boolean $return Determina si una vista debe ser devuelta o rendereada directamente
+     * @return    string                        Si se pasa $return en true, devuelve el contenido de la vista
+     */
+    public function element($view = null, $data = null, $return = false)
+    {
+        $element = "elements/{$view}";
+        $content_for_layout = $data;
 
-		if ( $return )
-			return $this->CI->load->view($element, compact('content_for_layout'), true);
-		else
-			$this->CI->load->view($element, compact('content_for_layout'), false);
-	}
+        if ($return)
+            return $this->CI->load->view($element, compact('content_for_layout'), true);
+        else
+            $this->CI->load->view($element, compact('content_for_layout'), false);
+    }
 
-	/**
-	 * Variables para mejorar el SEO del sitio
-	 * @var string
-	 */
-	public $title       	= 'Plataforma Grupo FS';
-	public $author 			= 'Sistemas FS';
-	public $descripcion 	= 'Plataforma web intranet de Grupo fs y FS Certificaciones';
-	public $keywords    	= 'Uso Interno de los usuarios de internos';
-	public $applicationName = 'System Web';
-	public $generator 		= 'CodeIgniter System';
-	public $robots			= 'index, follow';
+    /**
+     * Variables para mejorar el SEO del sitio
+     * @var string
+     */
+    public $title = 'Plataforma Grupo FS';
+    public $author = 'Sistemas FS';
+    public $descripcion = 'Plataforma web intranet de Grupo fs y FS Certificaciones';
+    public $keywords = 'Uso Interno de los usuarios de internos';
+    public $applicationName = 'System Web';
+    public $generator = 'CodeIgniter System';
+    public $robots = 'index, follow';
 
-	/**
-	 * [setTitle description]: Este método nos da acceso al título y asignar
-	 * un nuevo valor de la propiedad o del elemento.
-	 * @param [type] $title [description]
-	 */
-	public function setTitle($title)
-	{
-		$this->title = $title;
-	}
+    /**
+     * [setTitle description]: Este método nos da acceso al título y asignar
+     * un nuevo valor de la propiedad o del elemento.
+     * @param [type] $title [description]
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
 
-	/**
-	 * [getTitle description]: Este método nos permite obtener o mostrar el valor
-	 * de la propiedad o elemento.
-	 * @return [type] [description]
-	 */
-	public function getTitle()
-	{
-		return $this->title;
-	}
+    /**
+     * [getTitle description]: Este método nos permite obtener o mostrar el valor
+     * de la propiedad o elemento.
+     * @return [type] [description]
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
-	/**
-	 * [setauthor description]: Este método nos da acceso al author y asignar
-	 * un nuevo valor de la propiedad o del elemento.
-	 * @param [type] $author [description]
-	 */
-	public function setAuthor($author)
-	{
-		$this->author = $author;
-	}
+    /**
+     * [setauthor description]: Este método nos da acceso al author y asignar
+     * un nuevo valor de la propiedad o del elemento.
+     * @param [type] $author [description]
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+    }
 
-	/**
-	 * [getauthor description]: Este método nos permite obtener o mostrar el valor
-	 * de la propiedad o elemento.
-	 * @return [type] [description]
-	 */
-	public function getAuthor()
-	{
-		return $this->author;
-	}
+    /**
+     * [getauthor description]: Este método nos permite obtener o mostrar el valor
+     * de la propiedad o elemento.
+     * @return [type] [description]
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
 
-	/**
-	 * [setDescripcion description]: Este método nos da acceso a la descripción y
-	 * asignar un nuevo valor de la propiedad o del elemento.
-	 * @param [type] $descripcion [description]
-	 */
-	public function setDescripcion($descripcion)
-	{
-		$this->descripcion = $descripcion;
-	}
+    /**
+     * [setDescripcion description]: Este método nos da acceso a la descripción y
+     * asignar un nuevo valor de la propiedad o del elemento.
+     * @param [type] $descripcion [description]
+     */
+    public function setDescripcion($descripcion)
+    {
+        $this->descripcion = $descripcion;
+    }
 
-	/**
-	 * [getDescripcion description]: Este método nos permite obtener o mostrar el valor
-	 * de la propiedad o elemento.
-	 * @return [type] [description]
-	 */
-	public function getDescripcion()
-	{
-		return $this->descripcion;
-	}
+    /**
+     * [getDescripcion description]: Este método nos permite obtener o mostrar el valor
+     * de la propiedad o elemento.
+     * @return [type] [description]
+     */
+    public function getDescripcion()
+    {
+        return $this->descripcion;
+    }
 
-	/**
-	 * [setKeywords description]: Este método nos da acceso a las keywords y asignar
-	 * un nuevo valor de la propiedad o del elemento.
-	 * @param [type] $keywords [description]
-	 */
-	public function setKeywords($keywords)
-	{
-		$this->keywords = $keywords;
-	}
+    /**
+     * [setKeywords description]: Este método nos da acceso a las keywords y asignar
+     * un nuevo valor de la propiedad o del elemento.
+     * @param [type] $keywords [description]
+     */
+    public function setKeywords($keywords)
+    {
+        $this->keywords = $keywords;
+    }
 
-	/**
-	 * [getKeywords description]: Este método nos permite obtener o mostrar el valor
-	 * de la propiedad o elemento.
-	 * @return [type] [description]
-	 */
-	public function getKeywords()
-	{
-		return $this->keywords;
-	}
+    /**
+     * [getKeywords description]: Este método nos permite obtener o mostrar el valor
+     * de la propiedad o elemento.
+     * @return [type] [description]
+     */
+    public function getKeywords()
+    {
+        return $this->keywords;
+    }
 
-	/**
-	 * [setApplicationName description]: Este método nos da acceso al nombre de
-	 * de la aplicación y asignar un nuevo valor de la propiedad o del elemento.
-	 * @param [type] $applicationName [description]
-	 */
-	public function setApplicationName($applicationName)
-	{
-		$this->applicationName = $applicationName;
-	}
+    /**
+     * [setApplicationName description]: Este método nos da acceso al nombre de
+     * de la aplicación y asignar un nuevo valor de la propiedad o del elemento.
+     * @param [type] $applicationName [description]
+     */
+    public function setApplicationName($applicationName)
+    {
+        $this->applicationName = $applicationName;
+    }
 
-	/**
-	 * [getApplicationName description]: Este método nos permite obtener o mostrar el valor
-	 * de la propiedad o elemento.
-	 * @return [type] [description]
-	 */
-	public function getApplicationName()
-	{
-		return $this->applicationName;
-	}
+    /**
+     * [getApplicationName description]: Este método nos permite obtener o mostrar el valor
+     * de la propiedad o elemento.
+     * @return [type] [description]
+     */
+    public function getApplicationName()
+    {
+        return $this->applicationName;
+    }
 
-	/**
-	 * [setGenerator description]: Este método nos da acceso al Generador de
-	 * de la aplicación y asignar un nuevo valor de la propiedad o del elemento.
-	 * @param [type] $generator [description]
-	 */
-	public function setGenerator($generator)
-	{
-		$this->generator = $generator;
-	}
+    /**
+     * [setGenerator description]: Este método nos da acceso al Generador de
+     * de la aplicación y asignar un nuevo valor de la propiedad o del elemento.
+     * @param [type] $generator [description]
+     */
+    public function setGenerator($generator)
+    {
+        $this->generator = $generator;
+    }
 
-	/**
-	 * [getGenerator description]: Este método nos permite obtener o mostrar el valor
-	 * de la propiedad o elemento.
-	 * @return [type] [description]
-	 */
-	public function getGenerator()
-	{
-		return $this->generator;
-	}
+    /**
+     * [getGenerator description]: Este método nos permite obtener o mostrar el valor
+     * de la propiedad o elemento.
+     * @return [type] [description]
+     */
+    public function getGenerator()
+    {
+        return $this->generator;
+    }
 
-	/**
-	 * [setRobots description]: Este método nos da acceso a los Robots de
-	 * de la aplicación y asignar un nuevo valor de la propiedad o del elemento.
-	 * @param [type] $robots [description]
-	 */
-	public function setRobots($robots)
-	{
-		$this->robots = $robots;
-	}
+    /**
+     * [setRobots description]: Este método nos da acceso a los Robots de
+     * de la aplicación y asignar un nuevo valor de la propiedad o del elemento.
+     * @param [type] $robots [description]
+     */
+    public function setRobots($robots)
+    {
+        $this->robots = $robots;
+    }
 
-	/**
-	 * [getRobots description]: Este método nos permite obtener o mostrar el valor
-	 * de la propiedad o elemento.
-	 * @return [type] [description]
-	 */
-	public function getRobots()
-	{
-		return $this->robots;
-	}
+    /**
+     * [getRobots description]: Este método nos permite obtener o mostrar el valor
+     * de la propiedad o elemento.
+     * @return [type] [description]
+     */
+    public function getRobots()
+    {
+        return $this->robots;
+    }
 
-	/**
-	 * Captura y formatea los archivos JS para insertar a la vista
-	 *
-	 * @param	array		$archivos		Arreglo de archivos
-	 */
-	public function js($archivos = array())
-	{
-		foreach ( $archivos as $archivo )
-			$this->js .= "<script type=\"text/javascript\" src=\"{$archivo}\"></script>";
-	}
-	public function getJs()
-	{
-		return $this->js;
-	}
-	
+    /**
+     * Captura y formatea los archivos JS para insertar a la vista
+     *
+     * @param    array $archivos Arreglo de archivos
+     */
+    public function js($archivos = array())
+    {
+        foreach ($archivos as $archivo) {
+            $this->js .= "<script type=\"text/javascript\" src=\"{$archivo}\"></script>";
+        }
+    }
 
-	/**
-	 * Captura y formatea los archivos JS para insertar a la vista
-	 *
-	 * @param	array		$archivos		Arreglo de archivos
-	 */
-	public function css($archivos = array())
-	{
-		foreach ( $archivos as $archivo )
-			$this->css .= "<link type=\"text/css\" rel=\"stylesheet\" href=\"{$archivo}\" />\n";
-	}
+    public function getJs()
+    {
+        return $this->js;
+    }
+
+
+    /**
+     * Captura y formatea los archivos JS para insertar a la vista
+     *
+     * @param    array $archivos Arreglo de archivos
+     */
+    public function css($archivos = array())
+    {
+        foreach ($archivos as $archivo)
+            $this->css .= "<link type=\"text/css\" rel=\"stylesheet\" href=\"{$archivo}\" />\n";
+    }
 }
 
 /* End of file Layout.php */

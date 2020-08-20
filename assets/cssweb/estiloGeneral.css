@@ -72,3 +72,59 @@
     }
 
     table.dataTable thead {background-color:#CED3E3}
+
+
+body.swal2-toast-shown .swal2-container.swal2-shown {
+    background: #28a745;
+}
+
+.swal2-toast {
+    background: #ffffff;
+}
+
+.swal2-popup.swal2-toast .swal2-icon {
+    margin-right: 10px;
+}
+
+.swal2-popup.swal2-toast.swal2-show {
+    padding: 10px;
+}
+
+.evaluar-estado-proceso-background {
+    color: #000;
+}
+
+.evaluar-estado-aprobado-background {
+    background-color: #0af501;
+}
+
+.evaluar-estado-rechazado-background {
+    background-color: #ff0700;
+    color: #fff;
+}
+
+.evaluar-estado-observado-background {
+    background-color: #fff200;
+    color: #333;
+}
+
+.evaluar-estado-pendiente-background {
+    background-color: #ff6900;
+    color: #fff;
+}
+
+.evaluar-estado-proceso-color, .select2-results__options[id*="cbostatus"] .select2-results__option:nth-child(1) {
+    /*color: red;*/
+}
+.evaluar-estado-aprobado-color, .select2-results__options[id*="cbostatus"] .select2-results__option:nth-child(2) {
+    color: #0af501;
+}
+.evaluar-estado-rechazado-color, .select2-results__options[id*="cbostatus"] .select2-results__option:nth-child(3) {
+    color: #ff0700;
+}
+.evaluar-estado-observado-color, .select2-results__options[id*="cbostatus"] .select2-results__option:nth-child(4) {
+    color: #fff200;
+}
+.evaluar-estado-pendiente-color, .select2-results__options[id*="cbostatus"] .select2-results__option:nth-child(5) {
+    color: #ff6900;
+}

@@ -66,8 +66,8 @@
   <!-- Bootstrap4 Duallistbox -->
   <link rel="stylesheet" href="<?php echo public_url(); ?>template/GUI/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
 
-  <!-- summernote 
-  <link rel="stylesheet" href="<?php echo public_url(); ?>template/GUI/plugins/summernote/dist/css/summernote-bs4.css">-->
+  <!--  summernote -->
+  <link rel="stylesheet" href="<?php echo public_url(); ?>template/GUI/plugins/summernote/summernote-bs4.css">
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="<?php echo public_url(); ?>cssweb/fontsgoogleapis.css">
@@ -103,6 +103,11 @@
 
     button.nav-link:hover {
         background-color: rgba(255,255,255,.1) !important;
+    }
+
+    table.dataTable thead .sorting:before, table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:before, table.dataTable thead .sorting_desc_disabled:after {
+        bottom: 0;
+        font-size: 1.2rem;
     }
 
   </style>
@@ -340,8 +345,9 @@
         <script src="<?php echo public_url(); ?>template/GUI/plugins/select2/js/select2.full.min.js"></script>
         <!-- Bootstrap4 Duallistbox -->
         <script src="<?php echo public_url(); ?>template/GUI/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
-        <!-- Summernote
-        <script src="<?php echo public_url(); ?>template/GUI/plugins/summernote/summernote-bs4.min.js"></script> -->
+        <!-- Summernote  -->
+        <script src="<?php echo public_url(); ?>template/GUI/plugins/summernote/summernote-bs4.min.js"></script>
+        <script src="<?php echo public_url(); ?>template/GUI/plugins/summernote/lang/summernote-es-ES.min.js"></script>
         <!-- overlayScrollbars -->
         <script src="<?php echo public_url(); ?>template/GUI/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
         <!-- SweetAlert2-->
@@ -364,16 +370,54 @@
         <!-- AdminLTE for demo purposes -->
         <script src="<?php echo public_url(); ?>template/GUI/dist/js/demo.js"></script>
         <!-- Principal Main -->
-        <script src="<?php echo public_url(); ?>script/principal.js"></script>
+        <script src="<?php echo public_url(); ?>script/principal.js?v1000000001"></script>
     <!-- /.SCRIPTS  -->
 
-    <?php echo $this->layout->getJs(); ?>
-
     <!-- Script Generales -->
-    <script type="text/javascript">   
-        var baseurl = "<?php echo base_url();?>"; 
+    <script type="text/javascript">
+        const BASE_URL = "<?php echo base_url();?>";
+        var baseurl = "<?php echo base_url();?>";
         var ccia = "<?php echo $ccia ?>";
+        $(document).ready(function() {
+
+            //Date picker
+            $('.datepicker').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                autoclose: true,
+                theme: 'bootstrap4',
+                locale: {
+                    format: 'DD/MM/YYYY',
+                    daysOfWeek: [
+                        'Do',
+                        'Lu',
+                        'Ma',
+                        'Mi',
+                        'Ju',
+                        'Vi',
+                        'Sa'
+                    ],
+                    monthNames: [
+                        'Enero',
+                        'Febrero',
+                        'Marzo',
+                        'Abril',
+                        'Mayo',
+                        'Junio',
+                        'Julio',
+                        'Agosto',
+                        'Setiembre',
+                        'Octubre',
+                        'Noviembre',
+                        'Diciembre'
+                    ]
+                }
+            })
+
+        });
     </script>
+
+    <?php echo $this->layout->getJs(); ?>
 
 </body>
 </html>

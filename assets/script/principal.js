@@ -84,7 +84,7 @@ cerrarModal = function() {
 	sweetalert = function(Vtitle,Vtype){
 		Toast.fire({
 		type: Vtype,
-		title: Vtitle
+		title: Vtitle,
 		})
 	};
 /* /. Globales - Principal - Main */
@@ -92,11 +92,11 @@ cerrarModal = function() {
 /* Script Formularios */
 	bsCustomFileInput.init();
 
-	$('.select2').select2()
+	$('.select2').select2();
 
 	$('.select2bs4').select2({
 		theme: 'bootstrap4'
-	})        
+	});
 
 	$("input[data-bootstrap-switch]").each(function(){
 		$(this).bootstrapSwitch('state', $(this).prop('checked'));
@@ -118,3 +118,45 @@ switch(myCoolJavascriptVariable[4]) {
         break;
 		
 }; */
+
+(function($) {
+
+	$.fn.refreshSelect2 = function(data) {
+		data = (typeof data === 'undefined') ? [] : data;
+		this.select2('data', data);
+		const options = data.map(function(item) {
+			return '<option value="' + item.id + '" >' + item.text + '</option>';
+		});
+		$(this[0]).html(options.join('')).change();
+	};
+
+})(jQuery);
+
+const objPrincipal = {};
+
+$(function() {
+
+	/**
+	 * Muestra una carga a un boton y lo desactiva
+	 * @param boton
+     */
+	objPrincipal.botonCargando = function(boton) {
+		const icon = boton.find('i.fa');
+		if (icon.length) icon.hide();
+		boton.prepend('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" ></span>');
+		boton.prop('disabled', true);
+	};
+
+	/**
+	 * Libera el boton de la carga y lo activa
+	 * @param boton
+     */
+	objPrincipal.liberarBoton = function(boton) {
+		const carga = boton.find('span.spinner-border');
+		const icon = boton.find('i.fa');
+		if (carga.length) carga.remove();
+		if (icon.length) icon.show();
+		boton.prop('disabled', false);
+	}
+
+});

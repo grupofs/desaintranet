@@ -1259,6 +1259,23 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 		return $this;
 	}
 
+	/**
+	 * @param int $value
+	 * @param int $offset OFFSET value
+	 * @return CI_DB_query_builder
+	 */
+	public function limitAnyWhere($value, $offset = 0)
+	{
+		$limit = " TOP {$value}";
+		if ($offset > 0) {
+			$limit .= ", {$offset}";
+		}
+		if (!empty($this->qb_select)) {
+            $this->qb_select[0] = $limit . " " . $this->qb_select[0];
+		}
+		return $this;
+	}
+
 	// --------------------------------------------------------------------
 
 	/**

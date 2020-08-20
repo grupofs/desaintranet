@@ -3,7 +3,28 @@
 ?>
 
 <style>
-
+    tab {
+        display: inline-block; 
+        margin-left: 100px; 
+    }
+    tr.subgroup,
+    tr.subgroup:hover {
+        background-color: #F2F2F2 !important;
+        /* color: blue; */
+        font-weight: bold;
+    }
+    .group{
+            background-color:#D5D8DC !important;
+            font-size:15px;
+            color:#000000!important;
+            opacity:0.7;
+    }
+    .subgroup{
+        cursor: pointer;
+    }
+    .modal-lg{
+        max-width: 1000px !important;
+    }
 </style>
 
 <!-- content-header -->
@@ -123,7 +144,12 @@
                                     </div>
                                     <div class="card-footer justify-content-between" style="background-color: #E0F4ED;"> 
                                         <div class="row">
-                                            <div class="col-md-12">
+                                            <div class="col-md-8">
+                                                <div class="text-left"> 
+                                                    <button type="button" class="btn btn-outline-info" id="btnNuevo"><i class="fas fa-plus"></i> Crear Nuevo</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
                                                 <div class="text-right">
                                                     <button type="submit" class="btn btn-primary" id="btnBuscar"><i class="fas fa-search"></i> Buscar</button>    
                                                 </div>
@@ -136,23 +162,16 @@
                                     <div class="col-12">
                                         <div class="card card-outline card-success">
                                             <div class="card-header">
-                                                <h3 class="card-title">Listado de Inspecciones</h3>
-                                            </div> 
-                                            <div class="card-footer justify-content-between" style="background-color: #E0F4ED;"> 
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="text-left"> 
-                                                            <button type="button" class="btn btn-outline-info" id="btnNuevo"><i class="fas fa-plus"></i> Crear Nuevo</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <h3 class="card-title">Listado de Inspecciones - <label id="lblCliente"></label></h3>
                                             </div>                                       
                                             <div class="card-body">
-                                                <table id="tblListInforme" class="table table-striped table-bordered" style="width:100%">
+                                                <table id="tblListctrlprov" class="table table-striped table-bordered" style="width:100%">
                                                     <thead>
                                                     <tr>
-                                                        <th>Codigo</th>
-                                                        <th>Proveedor - (Maquilador) - Establecimiento</th>
+                                                        <th colspan="12">[Codigo] :: Proveedor - (Maquilador) - Establecimiento</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>desc_gral</th>
                                                         <th>Area Cliente</th>
                                                         <th>Linea Proceso</th>
                                                         <th>Periodo</th>
@@ -429,6 +448,110 @@
     </div>
 </section>
 <!-- /.Main content -->
+
+
+<!-- /.modal-crear-inspeccion --> 
+<div class="modal fade" id="modalCreainsp" data-backdrop="static" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form class="form-horizontal" id="frmCreainsp" name="frmCreainsp" action="<?= base_url('at/capa/cregcapa/setinspeccion')?>" method="POST" enctype="multipart/form-data" role="form"> 
+
+        <div class="modal-header text-center bg-success">
+            <h4 class="modal-title w-100 font-weight-bold">Registro de Inspeccion</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">          
+            <input type="hidden" id="mhdnAccionInsp" name="mhdnAccionInsp" value="A">                          
+            <div class="form-group">  
+                <div class="row">
+                    <div class="col-md-2"> 
+                        <div class="text-info">Codigo</div>
+                        <div>    
+                            <input type="text" name="mhdnIdinsp"id="mhdnIdinsp" class="form-control" disabled = true><!-- ID -->
+                        </div>
+                    </div>
+                    <div class="col-md-10"> 
+                        <div class="text-info">Clientes</div>
+                        <div>    
+                            <input type="text" name="mtxtDatos"id="mtxtDatos" class="form-control" disabled = true>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">                        
+                        <div class="text-info">Proveedor</div>
+                        <div>
+                            <select class="form-control select2bs4" id="cboregClie" name="cboregClie" style="width: 100%;">
+                                <option value="" selected="selected">Cargando...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">    
+                        <div class="text-info">Maquilador</div>
+                        <div>
+                            <select class="form-control select2bs4" id="cboregClie" name="cboregClie" style="width: 100%;">
+                                <option value="" selected="selected">Cargando...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="text-info">Establecimiento</div>
+                        <div>
+                            <select class="form-control select2bs4" id="cboregClie" name="cboregClie" style="width: 100%;">
+                                <option value="" selected="selected">Cargando...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="text-info">Dir. Inspeccion</div>
+                        <div>
+                            <input type="text" name="mtxtComentarios"id="mtxtComentarios" class="form-control" >
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="text-info">Area del Cliente</div>
+                        <div>
+                            <select class="form-control select2bs4" id="cboregClie" name="cboregClie" style="width: 100%;">
+                                <option value="" selected="selected">Cargando...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="text-info">Linea de Proceso</div>
+                        <div>
+                            <select class="form-control select2bs4" id="cboregClie" name="cboregClie" style="width: 100%;">
+                                <option value="" selected="selected">Cargando...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-info">Producto Marca</div>
+                        <div>
+                            <input type="text" name="mtxtComentarios"id="mtxtComentarios" class="form-control" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer justify-content-between" style="background-color: #dff0d8;">
+            <button type="reset" class="btn btn-default" id="mbtnCCreainsp" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-info" id="mbtnGCreainsp">Grabar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> 
+<!-- /.modal-->
 
 <!-- Script Generales -->
 <script type="text/javascript">

@@ -116,6 +116,26 @@ class Mregctrolprov extends CI_Model {
             return false;
         }	
     }
+    public function getbuscarctrlprov($parametros) { // Recupera Listado de Propuestas        
+		$procedure = "call usp_at_ctrlprov_getbuscarctrlprov(?,?,?,?,?,?,?,?,?)";
+		$query = $this->db-> query($procedure,$parametros);
+
+		if ($query->num_rows() > 0) { 
+			return $query->result();
+		}{
+			return False;
+		}	
+    }
+    public function getrecuperainsp($parametros) { // Recupera Listado de Propuestas        
+		$procedure = "call usp_at_ctrlprov_getrecuperainsp(?)";
+		$query = $this->db-> query($procedure,$parametros);
+
+		if ($query->num_rows() > 0) { 
+			return $query->result();
+		}{
+			return False;
+		}	
+    }
 
 }
 ?>

@@ -125,6 +125,56 @@ $(function() {
         });
     };
 
+    /**
+     * Boton para el siguiente
+     */
+    objProducto.siguiente = function() {
+        var siguienteBoton = null;
+        $('.producto-elegir').each(function(post, boton) {
+            boton = $(boton);
+            const lista = $(boton.parent('li'));
+            if (lista.hasClass('active')) {
+                // Sirve para indicar que la siguiente lista es la adectuada
+                const siguienteLista = lista.next('.page-item');
+                if (siguienteLista.length) {
+                    siguienteBoton = siguienteLista.find('button.producto-elegir');
+                    if(siguienteBoton.length <= 0) {
+                        siguienteBoton = null;
+                    }
+                }
+                return false;
+            }
+        });
+        if (siguienteBoton) {
+            objEvaluar.buscar(siguienteBoton.data('id'), siguienteBoton);
+        }
+    };
+
+    /**
+     * Sirve para volver al boton anterior
+     */
+    objProducto.anterior = function() {
+        var anteriorBoton = null;
+        $('.producto-elegir').each(function(post, boton) {
+            boton = $(boton);
+            const lista = $(boton.parent('li'));
+            if (lista.hasClass('active')) {
+                // Sirve para indicar que la siguiente lista es la adectuada
+                const siguienteLista = lista.prev('.page-item');
+                if (siguienteLista.length) {
+                    anteriorBoton = siguienteLista.find('button.producto-elegir');
+                    if(anteriorBoton.length <= 0) {
+                        anteriorBoton = null;
+                    }
+                }
+                return false;
+            }
+        });
+        if (anteriorBoton) {
+            objEvaluar.buscar(anteriorBoton.data('id'), anteriorBoton);
+        }
+    };
+
 });
 
 $(document).ready(function() {
@@ -132,5 +182,9 @@ $(document).ready(function() {
     $('button#btnActualizarProducto').click(objProducto.guardar);
 
     $(document).on('click', '.producto-elegir', objProducto.elegir);
+
+    $(document).on('click', '.producto-siguiente', objProducto.siguiente);
+
+    $(document).on('click', '.producto-anterior', objProducto.anterior);
 
 });

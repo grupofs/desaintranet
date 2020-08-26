@@ -74,5 +74,81 @@ class Mnormas extends CI_Model {
             return False;
         }		   
     }
+    
+    public function getpublicacion() /* Listado Publicación */
+    { 
+        $sql = "call sp_appweb_get_publicacion()";
+        $query  = $this->db->query($sql);
+        
+        if ($query->num_rows() > 0) {
+            return $query -> result();
+        }{
+            return false;
+        }		   
+    }
+
+    public function guardarnormativa($parametros){ /* Guarda Normativa */
+
+        $procedure = "call sp_appweb_gestdoc_guardarnormas(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $query = $this->db-> query($procedure,$parametros);
+        //return 1;
+        return ($query == true) ? 1 : false;
+
+    }
+
+    public function editarnormativa($parametros){ /* Edita Normativa */
+
+        $procedure = "call sp_appweb_gestdoc_editarnormas(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $query = $this->db-> query($procedure,$parametros);
+        //
+        return ($query == true) ? 1 : false;
+
+    }	
+
+    public function deleteNormativa($idnorma){
+        $procedure = "call sp_appweb_gestdoc_eliminarnorma(?)";
+        $query = $this->db-> query($procedure,$idnorma);
+        //
+        return ($query == true) ? 1 : false;
+    }
+
+    public function getbuscarguia($parametros){ /* Lista la Busqueda por SP con parametros */
+		
+        $procedure = "call sp_appweb_gestdoc_buscarguia(?)";
+        $query = $this->db-> query($procedure,$parametros);
+
+        if ($query->num_rows() > 0) { 
+            return $query->result();
+        }{
+            return False;
+        }		   
+    }
+
+
+    public function getlistnormas()	{
+        $procedure = "call sp_appweb_gestdoc_listanormas()";
+        $query = $this->db-> query($procedure);
+
+        if ($query->num_rows() > 0) { 
+            return $query->result();
+        }{
+            return False;
+        }		   
+    }
+    
+    public function guardarguia($parametros){
+        $procedure = "call sp_appweb_gestdoc_guardarguia(?,?,?,?,?,?,?)";
+        $query = $this->db->query($procedure,$parametros);
+        return ($query == true) ? 1 : false;
+    }
+
+    
+    public function delete_guia($parametros){ 
+
+        $procedure = "call sp_appweb_gestdoc_eliminarguia(?)";
+        $query = $this->db-> query($procedure,$parametros);
+        return ($query == true) ? true : false;
+
+    }
 }
 ?>

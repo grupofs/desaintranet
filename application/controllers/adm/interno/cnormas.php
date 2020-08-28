@@ -293,8 +293,6 @@ class Cnormas extends CI_Controller {
         echo json_encode($resultado);
 	}
 	
-	
-
     public function guardarguia(){
         $parametros['@id_norma'] = $this->input->post('mtxtidnormag');
         $parametros['@detalleguia'] = $this->input->post('detalle_guia');
@@ -340,5 +338,62 @@ class Cnormas extends CI_Controller {
 		}
 	}
 
+	public function subirArchivoguiaEdit(){
+
+		$config['upload_path'] = 'FTPfileserver/Archivos/Normas/';
+		$config['allowed_types'] = 'pdf|xlsx|docx|doc|xls';
+		$config['max_size'] = '60048';
+		$this->load->library('upload',$config);
+		$this->upload->initialize($config);
+		if (!$this->upload->do_upload('mtxtguianormarchEdit')) {
+			$data['uploadError'] = $this->upload->display_errors();
+			$error = '';
+			return $error;
+			 
+		} else {
+
+			 $data = $this->upload->data();
+
+			 $path = array(
+					 $prueba1 = $data['file_name'],
+					 $prueba2 = $config['upload_path'],
+			 );
+			 echo json_encode($path);
+
+		}
+	}
+
+	public function editarGuia(){
+
+		$parametros['@idguia'] = $this->input->post('idGuiaEditar');
+		$parametros['@detalleguia'] = $this->input->post('detalle_guiaEdit');
+		$parametros['@observacionguia'] = $this->input->post('observacion_guiaEdit');
+		$parametros['@itemguia'] = $this->input->post('mtxtitemguiaEdit');
+		$parametros['@archivo'] = $this->input->post('normaArchivoEdit');
+		$parametros['@urlguia'] = $this->input->post('url_guiaEdit');
+		$parametros['@normaarch'] = $this->input->post('archivoGuiaEdit');
+
+		$respuesta = $this->mnormas->editarGuia($parametros);
+
+			
+		echo json_encode($respuesta);
+	}
+
+	/*REGISTRAR INSTIRUCION */
+	public function addInstitucion(){
+		$parametros['@DESCRIPINST'] = $this->input->post('txtAddInstitucion');
+		$parametros['@ABREVINST'] = $this->input->post('txtAddAbreviInstitu');
+		$respuesta = $this->mnormas->addInstitucion($parametros);
+		echo json_encode($respuesta);
+						
+	}
+
+	/* REGISTRAR PUBLICACION */
+	public function addPublicacion(){
+		$parametros['@DESCRIPUBLI'] = $this->input->post('txtAddPublicacion');
+		$parametros['@ABREVPUBLI'] = $this->input->post('txtAddAbreviPubli');
+		$respuesta = $this->mnormas->addPublicacion($parametros);
+		echo json_encode($respuesta);		
+	}
 
 }

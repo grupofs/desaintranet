@@ -25,7 +25,6 @@ var iduser = $('#mtxtidusunormas').val();
 $(document).ready(function () {
 	$("#txtruta,#txtrutaEdit").val("FTPfileserver/Archivos/Normas/"); //RUTA PARA EL ARCHIVO AL AGREGAR NORMA
 	
-	
 	$.ajax({ //Obtener Documento
 		type: 'ajax',
 		method: 'post',
@@ -58,7 +57,7 @@ $(document).ready(function () {
 		}
 	);
 
-<<<<<<< HEAD
+	
 	$.post(baseurl + "adm/interno/cnormas/getinstitucion", {},
 		function (data) {
 			var c = JSON.parse(data);
@@ -68,6 +67,8 @@ $(document).ready(function () {
 		}
 	);
 
+
+
 	$.post(baseurl + "adm/interno/cnormas/getpublicacion", {},
 		function (data) {
 			var c = JSON.parse(data);
@@ -76,6 +77,7 @@ $(document).ready(function () {
 			})
 		}
 	);
+
 
 	// OCULTAR/MOSTRAR BUSQUEDA AVANZADA
 	$("#chkAvanzado").on("change", function () {
@@ -99,7 +101,6 @@ $(document).ready(function () {
 
 	$("#Todos").click();
 
-=======
     $("#chkFpubl").on("change", function () {
         $("#txtFIni").prop("disabled",$("#chkFpubl").is(":checked"));
         $("#txtFFin").prop("disabled",$("#chkFpubl").is(":checked"));
@@ -112,7 +113,6 @@ $(document).ready(function () {
     });
 
     $("#chkFpubl").click();
->>>>>>> 3eb593cfdca45920529bfe8c97248b6c568e1d24
 
 
 	// Iniciar Tabla
@@ -319,14 +319,14 @@ consultgestdocum = function () {
 
 		/****************************************************/
 		// Enumeracion 
-		/*oTable.on( 'order.dt search.dt', function () { 
-		  oTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-		    cell.innerHTML = i+1;
-		  } );
-		}).draw();
-		*/
+		// oTable.on( 'order.dt search.dt', function () { 
+		//   oTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+		//     cell.innerHTML = i+1;
+		//   } );
+		// }).draw();
+		
 
-		/* DETALLE GESTDOCUM */
+		// /* DETALLE GESTDOCUM */
 		// $('#tblListado tbody').on('click','td.details-control', function () {
 
 		//   var tr = $(this).closest('tr');
@@ -388,29 +388,29 @@ $('input[type=radio][name=rbtEst]').change(function () {
 
 
 /* PERMISOS CREAR NUEVO */
-// $("#btnNuevo").hide();
+$("#btnNuevo").hide();
 
-// if(iduser == 112){
-//   $("#btnNuevo").show();
-// }else if(iduser == 2){
-//   $("#btnNuevo").show();
-// }else if(iduser == 49){
-//   $("#btnNuevo").show();
-// }else if(iduser == 92){
-//   $("#btnNuevo").show();
-// }else if(iduser == 66){
-//   $("#btnNuevo").show();
-// }else if(iduser == 78){
-//   $("#btnNuevo").show();
-// }else if(iduser == 63){
-//   $("#btnNuevo").show();
-// }else if(iduser == 1){
-//   $("#btnNuevo").show();
-// }else if(iduser == 50){
-//   $("#btnNuevo").show();
-// }else{
-//   $("#btnNuevo").hide();
-// }
+if(iduser == 112){
+  $("#btnNuevo").show();
+}else if(iduser == 2){
+  $("#btnNuevo").show();
+}else if(iduser == 49){
+  $("#btnNuevo").show();
+}else if(iduser == 92){
+  $("#btnNuevo").show();
+}else if(iduser == 66){
+  $("#btnNuevo").show();
+}else if(iduser == 78){
+  $("#btnNuevo").show();
+}else if(iduser == 63){
+  $("#btnNuevo").show();
+}else if(iduser == 1){
+  $("#btnNuevo").show();
+}else if(iduser == 50){
+  $("#btnNuevo").show();
+}else{
+  $("#btnNuevo").hide();
+}
 
 $('#btnNuevo').click(function () {
 
@@ -783,7 +783,7 @@ SelGuiaNorma = function(id_Norma){
                         {"orderable": false, 
                           render:function(data, type, row){  
                             return  '<div>'+  
-                                      '<a href="#" data-original-title="Editar" data-toggle="modal" data-target="#modalEditGuia" onClick="javascript:SelEditGuia(\''+row.IDGUIA+'\',\''+row.DESCRIPCION+'\',\''+row.OBSERVACION+'\',\''+row.ITEM_GUIA+'\',\''+row.ARCHIVO+'\',\''+row.URL+'\',\''+row.NORMARCHIVO+'\');"><i class="fa fa-edit fa-2x" data-original-title="Editar" data-toggle="tooltip"></i></a>'+
+                                      '<a href="#" data-original-title="Editar" data-toggle="modal" data-target="#modalEditarGuia" onClick="javascript:SelEditGuia(\''+row.IDGUIA+'\',\''+row.DESCRIPCION+'\',\''+row.OBSERVACION+'\',\''+row.ITEM_GUIA+'\',\''+row.ARCHIVO+'\',\''+row.URL+'\',\''+row.NORMARCHIVO+'\');"><i class="fa fa-edit fa-2x" data-original-title="Editar" data-toggle="tooltip"></i></a>'+
                                       '&nbsp; &nbsp;'+
                                       '<a href="#" data-original-title="Eliminar" onClick="javascript:SelDeleteGuia(\''+row.IDGUIA+'\');"><i class="fa fa-trash fa-2x" data-original-title="Eliminar" data-toggle="tooltip"></i></a>'+
                                     '</div>'   
@@ -792,12 +792,10 @@ SelGuiaNorma = function(id_Norma){
 
                       ], 
     });
-<<<<<<< HEAD
 };
 
 
 /*************************************************/
-
 
 
 /**************************************************** */
@@ -860,19 +858,6 @@ $('#mbtnVincular').click(function(){
 
 	/****************************************************/
 
-=======
-  }
-  
-  $('#btnBuscar').click(function(){
-    consultgestdocum();
-  });
-
-  // FORMATO DE FECHA
-  $('#txtFDesde,#txtFHasta').datetimepicker({
-    format: 'DD/MM/YYYY',
-    daysOfWeekDisabled: [0],
-    locale:'es'
->>>>>>> 3eb593cfdca45920529bfe8c97248b6c568e1d24
 });
 
 
@@ -1006,3 +991,180 @@ function registrar_archivoGuia() {
 	}
 
 }
+
+SelEditGuia = function(id_guia,detalle_guia,obs_guia,item_guia,archivoGuia,url,normArchiv){
+	$("#idGuiaEditar").val(id_guia);
+	$("#detalle_guiaEdit").val(detalle_guia);
+	$("#observacion_guiaEdit").val(obs_guia);
+	$("#mtxtitemguiaEdit").val(item_guia);
+	$("#normaArchivoEdit,#norma_archivoEdit").val(archivoGuia);
+	$("#url_guiaEdit").val(url);
+	$("#archivoGuiaActual").text(normArchiv);
+	$("#archivoGuiaEdit").val(normArchiv);
+}
+
+function registrar_archivoEditarGuia() {
+	var archivoInput = document.getElementById('mtxtguianormarchEdit');
+	var archivoRuta = archivoInput.value;
+	var extPermitidas = /(.pdf|.docx|.xlsx|.doc|.xls)$/i;
+
+	if (!extPermitidas.exec(archivoRuta)) {
+		alert('Asegurese de haber seleccionado un PDF, DOCX, XSLX');
+		archivoInput.value = '';
+		return false;
+	} else {
+		var parametrotxt = new FormData($("#frmEditarGuia")[0]);
+
+		$.ajax({
+			data: parametrotxt,
+			method: 'post',
+			url: baseurl + "adm/interno/cnormas/subirArchivoguiaEdit",
+			dataType: "JSON",
+			async: true,
+			contentType: false,
+			processData: false,
+			success: function (response) {
+
+				folder = response[0];
+				$("#archivoGuiaEdit").val(folder); //ASIGNAMOS EL NOMBRE AL ARCHIVO PARA GUARDAR
+				rutaarchivo = response[1];
+
+			},
+			error: function () {
+				alert('Error, no se cargó el archivo');
+			}
+
+		});
+	}
+
+}
+
+$("#frmEditarGuia").submit(function(e){
+	e.preventDefault();
+
+	var datos = $("#frmEditarGuia").serialize();
+
+	$.ajax({
+		type:'ajax',
+		data: datos,
+		method: 'post',
+		url: baseurl + "adm/interno/cnormas/editarGuia",
+		dataType: "JSON",
+		async: true,
+		success: function (response) {
+
+			if (response == 1) {
+				Vtitle = 'Cambios Guardados Correctamente';
+				Vtype = 'success';
+				sweetalert(Vtitle,Vtype);
+				$("#btnCerrarEditarGuiaModal").click();
+				tblguia.ajax.reload(null,false);
+			} else {
+				Vtitle = 'Problemas al Guardar Datos!';
+				Vtype = 'error';
+				sweetalert(Vtitle,Vtype);
+			}
+
+		},
+		error: function () {
+				Vtitle = 'Problemas con el Servidor, solicte Ayuda!';
+				Vtype = 'error';
+				sweetalert(Vtitle,Vtype);
+		}
+
+	});
+})
+
+$("#frmAddInstitucionModal").submit(function(e){
+	e.preventDefault();
+	var datos = $("#frmAddInstitucionModal").serialize();
+
+	$.ajax({
+		type:'ajax',
+		method:'post',
+		url: baseurl+'adm/interno/cnormas/addInstitucion',
+		async : true,
+		data : datos,
+		dataType: 'JSON',
+		success: function(result){
+
+			if (result == 1) {
+				Vtitle = 'Se Agrego Correctamente';
+				Vtype = 'success';
+				sweetalert(Vtitle,Vtype);
+				$("#modalAddInstitucion").modal("hide");
+				
+			} else {
+				Vtitle = 'Ups,no se pudo Agregar!';
+				Vtype = 'error';
+				sweetalert(Vtitle,Vtype);
+			}
+			
+			 
+		},
+		error: function(){
+			Vtitle = 'Ups, problemas con el Servidor!';
+			Vtype = 'error';
+			sweetalert(Vtitle,Vtype);
+		},
+		complete: function () {
+			$.post(baseurl + "adm/interno/cnormas/getinstitucion", {},
+				function (data) {
+					var c = JSON.parse(data);
+					$.each(c, function (i, item) {
+						$('#institucioncboavz,#institucioncboavzNew,#institucioncboavzEdit').append('<option value="' + item.id_institucion + '">' + item.institucion_abrevia + '</option>');
+					})
+				}
+			);; 
+		}
+	});
+
+})
+
+
+$("#frmAddPublicacionModal").submit(function(e){
+	e.preventDefault();
+	var datos = $("#frmAddPublicacionModal").serialize();
+
+	$.ajax({
+		type:'ajax',
+		method:'post',
+		url: baseurl+'adm/interno/cnormas/addPublicacion',
+		async : true,
+		data : datos,
+		dataType: 'JSON',
+		success: function(result){
+
+			if (result == 1) {
+				Vtitle = 'Se Agrego Correctamente';
+				Vtype = 'success';
+				sweetalert(Vtitle,Vtype);
+				$("#modalAddPublicacion").modal("hide");
+				
+			} else {
+				Vtitle = 'Ups,no se pudo Agregar!';
+				Vtype = 'error';
+				sweetalert(Vtitle,Vtype);
+			}
+			
+			 
+		},
+		error: function(){
+			Vtitle = 'Ups, problemas con el Servidor!';
+			Vtype = 'error';
+			sweetalert(Vtitle,Vtype);
+		},
+		complete: function () {
+			
+			$.post(baseurl + "adm/interno/cnormas/getpublicacion", {},
+				function (data) {
+					var c = JSON.parse(data);
+					$.each(c, function (i, item) {
+						$('#mtxtPublicacion,#mtxtPublicacionEdit').append('<option value="' + item.id_publicacion + '">' + item.publicacion_descripcion + '</option>');
+					})
+				}
+			);
+		}
+	});
+
+})

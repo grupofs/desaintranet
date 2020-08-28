@@ -150,5 +150,25 @@ class Mnormas extends CI_Model {
         return ($query == true) ? true : false;
 
     }
+
+    public function editarGuia($parametros){
+
+        $procedure = "call sp_appweb_gestdoc_editaGuia(?,?,?,?,?,?,?)";
+        $query = $this->db-> query($procedure,$parametros);
+        return ($query == true) ? 1 : false;
+
+    }
+
+    public function addInstitucion($parametros){
+        $procedure = "call sp_appweb_gestdoc_guardarInstitucion(?,?)";
+        $query	= 	$this->db-> query($procedure, $parametros);
+        return ($query == true) ? 1 : false;
+    }
+
+    public function addPublicacion($parametros){
+        $procedure = "call sp_appweb_gestdoc_guardarPublicacion(?,?)";
+        $query	= 	$this->db-> query($procedure, $parametros);
+        return ($query == true) ? 1 : false;
+    }
 }
 ?>

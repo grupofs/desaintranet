@@ -363,8 +363,18 @@ class Cexpediente extends CI_Controller
             if (empty($producto)) {
                 throw new Exception('El producto a eliminar no pudo ser encontrado. Vuelva a intentarlo.');
             }
-            if (!$this->mproducto->eliminar($producto->id_producto, $expediente->id_expediente)) {
-                throw new Exception('El Producto no pudo ser eliminado, vuelva a intentarlo.');
+            // Elimina la evaluacionP
+            $evaluacion = $this->mevaluar->buscarExpediente($expediente->id_expediente, $producto->id_producto);
+            if (!empty($evaluacion)) {
+                $eliminarEvaluacion = $this->mevaluar->eliminar($evaluacion->id_evaluador);
+                if (!$eliminarEvaluacion) {
+                    throw new Exception('La evaluación no pudo ser eliminada.');
+                }
+            }
+            // Elimina el producto
+            $eliminarProducto = $this->mproducto->eliminar($producto->id_producto, $expediente->id_expediente);
+            if (!$eliminarProducto) {
+                throw new Exception('El Producto: no pudo ser eliminado.');
             }
             if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();

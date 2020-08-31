@@ -172,9 +172,35 @@ $(function() {
     /**
      * Poder enviar un correo del expediente
      * @param idExpediente
+     * @param boton
      */
-    objLista.email = function (idExpediente) {
-        console.log(idExpediente);
+    objLista.email = function (idExpediente, boton) {
+        if (objFiltro.cargando) {
+            sweetalert('Aún existe una carga pediente, porfavor espere!', 'error');
+        } else {
+            objFiltro.cargando = true;
+            boton = $(boton);
+            objPrincipal.botonCargando(boton);
+            $.ajax({
+                url: BASE_URL + 'ar/evalprod/cevaluar/envio_correo',
+                method: 'POST',
+                data: {
+                    id_expediente: idExpediente
+                },
+                dataType: 'json'
+            }).done(function (res) {
+                if (res.error) {
+                    sweetalert(res.error, 'error');
+                } else {
+                    sweetalert(res.mensaje, 'success');
+                }
+            }).fail(function () {
+                sweetalert('Error en el proceso de ejecución', 'error');
+            }).always(function () {
+                objPrincipal.liberarBoton(boton);
+                objFiltro.cargando = false;
+            });
+        }
     };
 
 });

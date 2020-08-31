@@ -306,14 +306,6 @@
                                         <fieldset class="scheduler-border" id="01Registro">
                                             <legend class="scheduler-border text-primary">REGISTROS</legend>
                                             <div class="row">
-                                                <!-- /.
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>Descripcion Equipo</label>
-                                                        <input type="text" class="form-control" id="txtDescriequipoReg01" name="txtDescriequipoReg01">
-                                                    </div>
-                                                </div>
-                                                -->
                                                 <input type="hidden" class="form-control" id="txtDescriequipoReg01" name="txtDescriequipoReg01">
 
                                                 <div class="col-md-4">
@@ -1121,7 +1113,7 @@
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label>Nro. de Recintos/Equipos</label>
+                                                        <label>Nro. de Recintos</label>
                                                         <input type="text" class="form-control" id="txtnrorecintosReg12" name="txtnrorecintosReg12">
                                                     </div>
                                                 </div>
@@ -1192,7 +1184,7 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label>Nro. de Recintos/Equipos</label>
+                                                        <label>Nro. de Equipos</label>
                                                         <input type="text" class="form-control" id="txtnrorecintosReg13" name="txtnrorecintosReg13">
                                                     </div>
                                                 </div>

@@ -217,6 +217,17 @@ class Minforme extends CI_Model {
 			return False;
 		}	
     }
+    public function getrecuperaregrecintoproduc($parametros) { // Recupera datos del producto y equipo
+        
+		$procedure = "call sp_appweb_pt_getrecuperaregrecintoproduc(?)";
+		$query = $this->db-> query($procedure,$parametros);
+
+		if ($query->num_rows() > 0) { 
+			return $query->result();
+		}{
+			return False;
+		}	
+    }
     public function getrecuperaregequiproduc($parametros) { // Recupera datos del producto y equipo
         
 		$procedure = "call sp_appweb_pt_getrecuperaregequiproduc(?)";

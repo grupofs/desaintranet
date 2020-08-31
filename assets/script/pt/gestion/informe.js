@@ -3140,6 +3140,86 @@ recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecin
         $('#14Registro').hide();
         $('#15Registro').hide();
 
+        var parametros = { 
+            "idptregrecinto":idptregrecinto 
+        };
+        var request = $.ajax({
+            type: 'ajax',
+            method: 'post',
+            url: baseurl+"pt/cinforme/getrecuperaregrecintoproduc",
+            dataType: "JSON",
+            async: true,
+            data: parametros,
+            error: function(){
+                alert('Error, no se puede cargar la lista desplegable de establecimiento');
+            }
+        });      
+        request.done(function( respuesta ) {            
+            $.each(respuesta, function() {
+                var $idtiporecinto = this.id_tiporecinto;
+                var $idmediocalienta = this.id_mediocalienta; 
+                var $idsiparticula = this.id_siparticula; 
+
+                $('#txtnrorecintosReg12').val(this.nro_recintos);
+                $('#txtareaevalReg12').val(this.area_evaluada);
+                $('#txtnrocochesReg12').val(this.nro_coches);
+                $('#txtIdenrecintoReg12').val(this.identificacion);
+                $('#txtnombproductoReg12').val(this.nombre_producto);
+                
+                $('#cboevaluacionReg12').val(this.eval_recinto).trigger("change");
+                
+                var params = { 
+                    "idptregestudio":v_RegEstu 
+                };
+                $.ajax({
+                    type: 'ajax',
+                    method: 'post',
+                    url: baseurl+"pt/cinforme/getTiporecinto",
+                    dataType: "JSON",
+                    async: true,
+                    data: params,
+                    success:function(result){
+                        $("#cboRecintoReg12").html(result);
+                        $('#cboRecintoReg12').val($idtiporecinto).trigger("change");   
+                    },
+                    error: function(){
+                        alert('Error, no se puede cargar la lista desplegable de Tipo Recinto');
+                    }
+                });                
+                $.ajax({
+                    type: 'ajax',
+                    method: 'post',
+                    url: baseurl+"pt/cinforme/getMediocalen",
+                    dataType: "JSON",
+                    async: true,
+                    data: params,
+                    success:function(result){
+                        $("#cboMediocalReg12").html(result);  
+                        $('#cboMediocalReg12').val($idmediocalienta).trigger("change");
+                    },
+                    error: function(){
+                        alert('Error, no se puede cargar la lista desplegable de Medio Calentamiento');
+                    }
+                });      
+                $.ajax({
+                    type: 'ajax',
+                    method: 'post',
+                    url: baseurl+"pt/cinforme/getParticulas",
+                    dataType: "JSON",
+                    async: true,
+                    data: params,
+                    success:function(result)
+                    {
+                        $("#cboPresentaReg12").html(result);  
+                        $('#cboPresentaReg12').val($idsiparticula).trigger("change");
+                    },
+                    error: function(){
+                        alert('Error, no se puede cargar la lista desplegable de Presentacion');
+                    }
+                });              
+            });
+        });
+
     }else if(v_RegEstu == 13){
         $('#01Registro').hide();
         $('#02Registro').hide();
@@ -3156,6 +3236,118 @@ recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecin
         $('#13Registro').show();
         $('#14Registro').hide();
         $('#15Registro').hide();
+
+        var parametros = { 
+            "idptregequipo":idptregequipo 
+        };
+        var request = $.ajax({
+            type: 'ajax',
+            method: 'post',
+            url: baseurl+"pt/cinforme/getrecuperaregequiproduc",
+            dataType: "JSON",
+            async: true,
+            data: parametros,
+            error: function(){
+                alert('Error, no se puede cargar la lista desplegable de establecimiento');
+            }
+        });      
+        request.done(function( respuesta ) {            
+            $.each(respuesta, function() {
+                var $idtipoequipo = this.id_tipoequipo; 
+                var $idequipofabricante = this.id_equipofabricante; 
+                var $idmediocalienta = this.id_mediocalienta; 
+                var $idsiparticula = this.id_siparticula; 
+
+                $('#txtCapacidadReg13').val(this.capacidad);
+                $('#txtnrorecintosReg13').val(this.nro_equipos);
+                $('#txtnrocochesReg13').val(this.nro_canastillas);
+                $('#txtIdenequipoReg13').val(this.identificacion);
+                $('#txtnombproductReg13').val(this.nombre_producto);                
+                
+                var params = { 
+                    "idptregestudio":v_RegEstu 
+                };
+                $.ajax({
+                    type: 'ajax',
+                    method: 'post',
+                    url: baseurl+"pt/cinforme/getTipoequipo",
+                    dataType: "JSON",
+                    async: true,
+                    data: params,
+                    success:function(result){
+                        console.log($idtipoequipo);
+                        $("#cboTipoequipoReg13").html(result);  
+                        $('#cboTipoequipoReg13').val($idtipoequipo).trigger("change");
+                    },
+                    error: function(){
+                        alert('Error, no se puede cargar la lista desplegable de establecimiento');
+                    }
+                });
+                $.ajax({
+                    type: 'ajax',
+                    method: 'post',
+                    url: baseurl+"pt/cinforme/getFabricante",
+                    dataType: "JSON",
+                    async: true,
+                    data: params,
+                    success:function(result){
+                        $("#cboFabricanteReg13").html(result);  
+                        $('#cboFabricanteReg13').val($idequipofabricante).trigger("change");
+                    },
+                    error: function(){
+                        alert('Error, no se puede cargar la lista desplegable de establecimiento');
+                    }
+                });
+                
+                $.ajax({
+                    type: 'ajax',
+                    method: 'post',
+                    url: baseurl+"pt/cinforme/getParticulas",
+                    dataType: "JSON",
+                    async: true,
+                    data: params,
+                    success:function(result)
+                    {
+                        $("#cboFormaprodReg10").html(result);  
+                        $('#cboFormaprodReg10').val($idsiparticula).trigger("change");
+                    },
+                    error: function(){
+                        alert('Error, no se puede cargar la lista desplegable de forma de producto');
+                    }
+                });
+                $.ajax({
+                    type: 'ajax',
+                    method: 'post',
+                    url: baseurl+"pt/cinforme/getMediocalen",
+                    dataType: "JSON",
+                    async: true,
+                    data: params,
+                    success:function(result){
+                        $("#cboMediocalReg13").html(result);  
+                        $('#cboMediocalReg13').val($idmediocalienta).trigger("change");
+                    },
+                    error: function(){
+                        alert('Error, no se puede cargar la lista desplegable de establecimiento');
+                    }
+                });
+                $.ajax({
+                    type: 'ajax',
+                    method: 'post',
+                    url: baseurl+"pt/cinforme/getParticulas",
+                    dataType: "JSON",
+                    async: true,
+                    data: params,
+                    success:function(result)
+                    {
+                        $("#cboPresentaReg13").html(result);  
+                        $('#cboPresentaReg13').val($idsiparticula).trigger("change");
+                    },
+                    error: function(){
+                        alert('Error, no se puede cargar la lista desplegable de Presentacion');
+                    }
+                }); 
+            });
+        });
 
     }else if(v_RegEstu == 14){
         $('#01Registro').hide();

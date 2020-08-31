@@ -1,5 +1,6 @@
 
 var oTable_listamodulo, oTable_listaopcion, oTable_listarol, oTable_listaperm;
+var oTable_listaOpcmod;
 
 $(document).ready(function () {
     
@@ -430,7 +431,6 @@ $(document).ready(function () {
         
     $('#tablalistaPerm tbody').on( 'click', 'tr.group', function () {
         var currentOrder = oTable_listaperm.order()[0];
-        alert(currentOrder[0]);
     } );
 
     $('#cboCiaperm').change(function(){ 
@@ -480,27 +480,98 @@ $(document).ready(function () {
 
     $('#btnRecuperaRol').click(function(){
         v_idrol = $('#cboRolperm').val();
-        v_idmodulo = $('#cboModulopem').val();
+        v_idmodulo = $('#cboModulopem').val(); 
 
+        oTable_listaOpcmod = $('#tablalistaOpcmod').DataTable({
+            'bJQueryUI'     : true,
+            'scrollY'     	: '350px',
+            'scrollX'     	: true, 
+            'paging'      	: false,
+            'processing'  	: true,      
+            'bDestroy'    	: true,
+            'info'        	: false,
+            'filter'      	: false, 
+            "ordering"		: false,  
+            'stateSave'     : true, 
+            'ajax'        : {
+                "url"   : baseurl+"adm/ti/csistemas/getrolpermisos/",
+                "type"  : "POST", 
+                "data": function ( d ) {   
+                    d.idrol = v_idrol;  
+                    d.idmodulo = v_idmodulo;  
+                    d.sele = '0';
+                },     
+                dataSrc : ''        
+            },
+            'columns'     : [
+                {data: 'desc_opcion', targets: 0},
+                {"orderable": false, 
+                    render:function(data, type, row){
+                        return '<div>' +
+                                '<a title="Editar" style="cursor:pointer; color:#3c763d;" onclick="javascript:selePermRol(\''+row.id_rol+'\',\''+row.id_modulo+'\',\''+row.id_opcion+'\',\''+row.sele+'\');"><span class="fas fa-angle-right fa-2x" aria-hidden="true"> </span> </a>' +
+                                '</div>' ; 
+                    }
+                } 
+            ]    
+        });
+
+        oTable_listaOpcrol = $('#tablalistaOpcrol').DataTable({
+            'bJQueryUI'     : true,
+            'scrollY'     	: '350px',
+            'scrollX'     	: true, 
+            'paging'      	: false,
+            'processing'  	: true,      
+            'bDestroy'    	: true,
+            'info'        	: false,
+            'filter'      	: false, 
+            "ordering"		: false,  
+            'stateSave'     : true, 
+            'ajax'        : {
+                "url"   : baseurl+"adm/ti/csistemas/getrolpermisos/",
+                "type"  : "POST", 
+                "data": function ( d ) {   
+                    d.idrol = v_idrol;  
+                    d.idmodulo = v_idmodulo;  
+                    d.sele = '1';
+                },     
+                dataSrc : ''        
+            },
+            'columns'     : [
+                {"orderable": false, targets: 0, 
+                    render:function(data, type, row){
+                        return '<div>' +
+                                '<a title="Editar" style="cursor:pointer; color:#3c763d;" onclick="javascript:selePermRol(\''+row.id_rol+'\',\''+row.id_modulo+'\',\''+row.id_opcion+'\',\''+row.sele+'\');"><span class="fas fa-angle-left fa-2x" aria-hidden="true"> </span> </a>' +
+                                '</div>' ; 
+                    }
+                } ,
+                {data: 'desc_opcion', targets: 1},
+            ]    
+        });
+    });
+
+    selePermRol = function(idrol,idmodulo,idopcion,sele){
         var params = { 
-            "id_rol"    : v_idrol,
-            "id_modulo" : v_idmodulo
+            "idrol" : idrol,
+            "idmodulo" : idmodulo,
+            "idopcion" : idopcion,
+            "sele" : sele
         };
-
+        
         $.ajax({
             type: 'ajax',
             method: 'post',
-            url: baseurl+"adm/ti/csistemas/getrolpermisos",
+            url: baseurl+"adm/ti/csistemas/setasignarperm",
             dataType: "JSON",
             async: true,
             data: params,
             success:function(result)
             {
-                $('#dualOpciones[]').html(result);   
+                oTable_listaOpcmod.ajax.reload(null,false);                  
+                oTable_listaOpcrol.ajax.reload(null,false);
             },
             error: function(){
             alert('Error, No se puede autenticar por error');
             }
-        });
-    });
+        }); 
+    };
 

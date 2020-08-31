@@ -151,18 +151,30 @@ class Msistemas extends CI_Model {
         }			
     }  
     public function getrolpermisos($parametros) { // Recuperar opciones por compañia
-        $procedure = "call sp_appweb_sistemas_getrolpermisos(?,?);";
+        $procedure = "call sp_appweb_sistemas_getrolpermisos(?,?,?);";
         $query = $this->db-> query($procedure,$parametros);
-            
-        if ($query->num_rows() > 0) {
-            $listas = '';            
-            foreach ($query->result() as $row) {
-                $listas .= '<option value="'.$row->id_opcion.'">'.$row->desc_opcion.'</option>';  
-            }
-            return $listas;
-        }{
-            return false;
-        }	
+
+		if ($query->num_rows() > 0) { 
+			return $query->result();
+		}{
+			return False;
+		}	
     }
+    public function setasignarperm($parametros) { // Registra el opcion del menu
+		$this->db->trans_begin();
+
+		$procedure = "call sp_appweb_sistemas_setasignarperm(?,?,?,?);";
+		$this->db-> query($procedure,$parametros);
+
+		if ($this->db->trans_status() === FALSE)
+		{
+			$this->db->trans_rollback();
+		}
+		else
+		{
+			$this->db->trans_commit();
+			return 'Guardo Correctamente';
+		}   
+	}  
 }
 ?>

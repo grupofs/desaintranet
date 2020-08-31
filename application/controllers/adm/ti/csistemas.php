@@ -101,10 +101,23 @@ class Csistemas extends CI_Controller {
     public function getrolpermisos() { // Visualizar listado de permisos por roles	
         
 		$parametros = array(
-			'@id_rol' 		=>  $this->input->post('id_rol'),
-			'@id_modulo' 	=>  $this->input->post('id_modulo')
+			'@id_rol' 		=>  $this->input->post('idrol'),
+			'@id_modulo' 	=>  $this->input->post('idmodulo'),
+			'@sele' 		=>  $this->input->post('sele')
 		);
 		$resultado = $this->msistemas->getrolpermisos($parametros);
+		echo json_encode($resultado);
+	}	
+
+    public function setasignarperm() { // Registrar Permisos	
+        
+		$parametros = array(
+			'@id_rol' 		=>  $this->input->post('idrol'),
+			'@id_modulo' 	=>  $this->input->post('idmodulo'),
+			'@id_opcion' 	=>  $this->input->post('idopcion'),
+			'@sele' 		=>  $this->input->post('sele')
+		);
+		$resultado = $this->msistemas->setasignarperm($parametros);
 		echo json_encode($resultado);
 	}		
 	

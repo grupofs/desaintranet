@@ -5,7 +5,6 @@
 ?>
 
 <style>
-
 </style>
 
 <!-- content-header -->
@@ -68,7 +67,7 @@
                   <div class="col-md-4">
                     <h3>Mantenimiento</h3>
                     <div class="card">                      
-                    <form class="form-horizontal" id="frmRegModulo" action="<?= base_url('adm/csistemas/setmodulo')?>" method="POST" enctype="multipart/form-data" role="form">              
+                    <form class="form-horizontal" id="frmRegModulo" action="<?= base_url('adm/ti/csistemas/setmodulo')?>" method="POST" enctype="multipart/form-data" role="form">              
                       <div class="card-body">                    
                           <input type="hidden" id="mhdnIdmodulo" name="mhdnIdmodulo" > <!-- ID -->   
                           <input type="hidden" id="mhdnAccionMod" name="mhdnAccionMod" value="N"> <!-- ACCION -->                                  
@@ -162,7 +161,7 @@
                   <div class="col-md-4">
                     <h3>Mantenimiento</h3>
                     <div class="card">                      
-                    <form class="form-horizontal" id="frmRegOpcion" action="<?= base_url('adm/csistemas/setopcion')?>" method="POST" enctype="multipart/form-data" role="form">              
+                    <form class="form-horizontal" id="frmRegOpcion" action="<?= base_url('adm/ti/csistemas/setopcion')?>" method="POST" enctype="multipart/form-data" role="form">              
                       <div class="card-body">                    
                         <input type="hidden" id="mhdnIdopcion" name="mhdnIdopcion" > <!-- ID -->   
                         <input type="hidden" id="mhdnAccionOpc" name="mhdnAccionOpc" value="N"> <!-- ACCION -->                                  
@@ -251,7 +250,7 @@
                   <div class="col-md-4">
                     <h3>Mantenimiento</h3>
                     <div class="card">                      
-                    <form class="form-horizontal" id="frmRegRol" action="<?= base_url('adm/csistemas/setrol')?>" method="POST" enctype="multipart/form-data" role="form">              
+                    <form class="form-horizontal" id="frmRegRol" action="<?= base_url('adm/ti/csistemas/setrol')?>" method="POST" enctype="multipart/form-data" role="form">              
                       <div class="card-body">                    
                         <input type="hidden" id="mhdnIdrol" name="mhdnIdrol" > <!-- ID -->   
                         <input type="hidden" id="mhdnAccionRol" name="mhdnAccionRol" value="N"> <!-- ACCION -->                                  
@@ -340,7 +339,7 @@
                   <div class="col-md-6">
                     <h3>Mantenimiento</h3>
                     <div class="card">                      
-                    <form class="form-horizontal" id="frmRegPerm" action="<?= base_url('adm/csistemas/setpermiso')?>" method="POST" enctype="multipart/form-data" role="form">              
+                    <form class="form-horizontal" id="frmRegPerm" action="" method="POST" enctype="multipart/form-data" role="form">              
                       <div class="card-body">                    
                         <input type="hidden" id="mhdnIdperm" name="mhdnIperm" > <!-- ID -->   
                         <input type="hidden" id="mhdnAccionPerm" name="mhdnAccionPerm" value="N"> <!-- ACCION -->                                  
@@ -375,7 +374,6 @@
                                 <div class="text-light-blue">&nbsp;</div>     
                                 <div class="text-right">
                                   <button type="button" id="btnRecuperaRol" class="btn btn-primary">Recuperar</button>
-                                  <button type="submit" id="btnGrabarRol" class="btn btn-success">Guardar</button>
                                 </div>
                               </div>
                             </div> 
@@ -384,8 +382,32 @@
                             <div class="col-12">
                               <div class="form-group">
                                 <label>Asignar Permisos</label>
-                                <select id="dualOpciones[]" name="dualOpciones[]" class="duallistbox" multiple="multiple">
-                                </select>
+                                <div class="row">
+                                  <div class="col-6">
+                                    <table id="tablalistaOpcmod" class="table table-striped table-bordered" style="width:100%"> 
+                                        <thead>
+                                        <tr>     
+                                          <th>Opcion de Modulo</th> 
+                                          <th></th>  
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>                  
+                                    </table>
+                                  </div>
+                                  <div class="col-6">
+                                    <table id="tablalistaOpcrol" class="table table-striped table-bordered" style="width:100%"> 
+                                        <thead>
+                                        <tr>     
+                                          <th></th> 
+                                          <th>Opcion de Rol</th>   
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>                  
+                                    </table>
+                                  </div>
+                                </div>
                               </div>
                             </div> 
                           </div>    

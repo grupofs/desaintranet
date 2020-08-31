@@ -1,12 +1,25 @@
 /*
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @author Anthony
  */
 
 const objLista = {};
 
 $(function () {
+
+    /**
+     * VErifica si tiene un filtro realizado
+     * TRUE: Contiene filtro
+     * FALSE: No tiene un filtro
+     * @returns {boolean}
+     */
+    objLista.busquedaConFiltro = function() {
+        const tipo = $('#cboTipobuscar').val();
+        const proveedor = $('#cboProveedor').val();
+        const expediente = $('#txtExpediente').val();
+        return (tipo != 1 || proveedor != null || expediente != '');
+    };
 
     /**
      * Obtiene las columnas de la lista
@@ -73,12 +86,15 @@ $(function () {
         columnas.push({
             "orderable": false,
             render: function (data, type, row, settings) {
-                if (settings.row === 0) {
-                    return '<div class="text-left" >' +
-                        '<button class="btn btn-transparent text-dark btn-sm" onClick="objLista.eliminar(\'' + row.id_expediente + '\', this);">' +
-                        '<i class="fa fa-trash fa-2x" ></i>' +
-                        '</button>' +
-                        '</div>';
+                // Verifica que no tenga un filtro
+                if (!objLista.busquedaConFiltro()) {
+                    if (settings.row === 0) {
+                        return '<div class="text-left" >' +
+                            '<button class="btn btn-transparent text-dark btn-sm" onClick="objLista.eliminar(\'' + row.id_expediente + '\', this);">' +
+                            '<i class="fa fa-trash fa-2x" ></i>' +
+                            '</button>' +
+                            '</div>';
+                    }
                 }
             }
         });
@@ -308,6 +324,11 @@ $(function () {
                             id: response.datos.area.id_area,
                             text: response.datos.area.nombre
                         }] : [];
+                        // Datos del area de contacto
+                        const areaContacto = (response.datos.area_contacto) ? [{
+                            id: response.datos.area_contacto.id_contacto,
+                            text: response.datos.area_contacto.contacto
+                        }] : [];
                         objIngreso.imprimirDatos(
                             expediente.id_expediente,
                             'A',
@@ -319,7 +340,7 @@ $(function () {
                             provContact2,
                             provEmail2,
                             area,
-                            [{id: expediente.area_contacto, text: expediente.area_contacto}],
+                            areaContacto,
                             expediente.documentos
                         );
                         $('.contenedorItems').show();
@@ -357,7 +378,7 @@ $(function () {
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Si',
-                cancelButtonText: 'No, deseo eliminar!'
+                cancelButtonText: 'No deseo eliminar!'
             }).then(function(result) {
                 const accept = (result && result.value);
                 if (!accept) {

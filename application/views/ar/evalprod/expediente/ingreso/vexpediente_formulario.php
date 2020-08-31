@@ -39,13 +39,13 @@
                 </div>
                 <div class="col-sm-10">
                     <div class="row">
-                        <div class="col-10">
+                        <div class="col-sm-10 col-12">
                             <select id="cboProveedorreg" name="cboProveedorreg"
                                     class="form-control"
                                     style="width: 98%;">
                             </select>
                         </div>
-                        <div class="col-2">
+                        <div class="col-sm-2 col-12">
                             <button type="button" class="btn btn-info btn-block"
                                     id="btnNuevoProveedor">
                                 <i class="fa fa-plus"></i> Crear
@@ -100,11 +100,11 @@
                 </div>
                 <div class="col-sm-2 labelcol">
                     <label for="cboContacto" class="text-light-blue">
-                        Contac. TOTTUS <span class="fs-requerido text-danger">*</span>:
+                        Contac. TOTTUS:
                     </label>
                 </div>
                 <div class="col-sm-4">
-                    <input type="hidden" id="hdnContactotottus"
+                    <input type="hidden" class="d-none" id="hdnContactotottus"
                            name="hdnContactotottus">
                     <select id="cboContacto" name="cboContacto"
                             class="form-control select"

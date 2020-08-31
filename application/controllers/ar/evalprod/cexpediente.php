@@ -9,6 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @property mproducto mproducto
  * @property marea marea
  * @property mevaluar mevaluar
+ * @property marea_contacto marea_contacto
  */
 class Cexpediente extends CI_Controller
 {
@@ -36,6 +37,7 @@ class Cexpediente extends CI_Controller
         $this->load->model('ar/evalprod/mproducto', 'mproducto');
         $this->load->model('ar/evalprod/mevaluar', 'mevaluar');
         $this->load->model('ar/evalprod/marea', 'marea');
+        $this->load->model('ar/evalprod/marea_contacto', 'marea_contacto');
     }
 
     /**
@@ -93,15 +95,20 @@ class Cexpediente extends CI_Controller
         }
         $expediente = $this->mexpediente->buscarPorId($id);
         $area = null;
+        $areaContacto = null;
         $proveedor = null;
         if (!empty($expediente)) {
             $area = $this->marea->buscarPorId($expediente->id_area);
+            if (!empty($expediente->area_contacto)) {
+                $areaContacto = $this->marea_contacto->buscarPorNombre($expediente->area_contacto);
+            }
             $proveedor = $this->mproveedor->buscarPorId($expediente->id_proveedor);
         }
         echo json_encode([
             'datos' => [
                 'expediente' => $expediente,
                 'area' => $area,
+                'area_contacto' => $areaContacto,
                 'proveedor' => $proveedor,
             ]
         ]);
@@ -141,9 +148,11 @@ class Cexpediente extends CI_Controller
             if (empty($area)) {
                 throw new Exception('Debes elegir un área');
             }
-            $contactoTottus = $this->input->post('cboContacto');
-            if (empty($contactoTottus)) {
-                throw new Exception('Debes elegir un Contact. Tottus');
+            $areaContacto = $this->marea_contacto->buscarPorId($this->input->post('cboContacto'));
+            $contacto = '';
+            // Solo si exsite el contacto será guardado
+            if (!empty($areaContacto)) {
+                $contacto = $areaContacto->contacto;
             }
             $freg = $this->input->post('FechaReg');
             $arrayDocumentos = $this->input->post('documentos');
@@ -159,7 +168,7 @@ class Cexpediente extends CI_Controller
                 '@fecha' => substr($freg, 6, 4) . '-' . substr($freg, 3, 2) . '-' . substr($freg, 0, 2),
                 '@id_proveedor' => $proveedor->id_proveedor,
                 '@id_area' => $area->id_area,
-                '@area_contacto' => $contactoTottus,
+                '@area_contacto' => $contacto,
                 '@proveedor_nuevo' => 2, // Nunca sera un proveedor nuevo
                 '@documentos' => $documentos,
                 '@estado' => 1,

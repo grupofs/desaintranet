@@ -24,7 +24,7 @@
 <!-- /.content-header -->
 
 <!-- Main content -->
-<section class="content" style="background-color: #E0F4ED;">
+<section class="content" id="contenedorBusqueda" style="background-color: #E0F4ED;">
     <div class="container-fluid">  
         <div class="card card-success">
             <div class="card-header">
@@ -132,6 +132,17 @@
 </section>
 <!-- /.Main content -->
 
+<!-- Reg. Checklist -->
+<section class="content" id="contenedorRegchecklist" style="display: none" >
+    <div class="container-fluid">
+        <div class="card card-success">
+            <div class="card-body">
+                <?php $this->load->view('at/auditoria/formulario_regchecklist'); ?>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /.Reg. Checklist -->
 
 <!-- /.modal-crear-auditoria --> 
 <div class="modal fade" id="modalCreaaudi" data-backdrop="static" role="dialog" aria-hidden="true">

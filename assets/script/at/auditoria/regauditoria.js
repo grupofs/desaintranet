@@ -2,6 +2,37 @@
 var otblListAudi;
 var varfdesde = '%', varfhasta = '%';
 
+const objFormulario = {
+};
+$(function() {    
+    /**
+     * Muestra la lista ocultando el formulario
+     */
+    objFormulario.mostrarBusqueda = function () {
+        const boton = $('#btnAccionContenedorLista');
+        const icon = boton.find('i');
+        if (icon.hasClass('fa-minus')) icon.removeClass('fa-minus');
+        icon.addClass('fa-plus');
+        boton.click();
+        $('#contenedorRegchecklist').hide();
+        $('#contenedorBusqueda').show();
+        objFiltro.buscar()
+    };
+
+    /**
+     * Muestra el formulario ocultando la lista
+     */
+    objFormulario.mostrarRegistro = function () {
+        const boton = $('#btnAccionContenedorLista');
+        const icon = boton.find('i');
+        if (icon.hasClass('fa-plus')) icon.removeClass('fa-plus');
+        icon.addClass('fa-minus');
+        boton.click();
+        $('#contenedorRegchecklist').show();
+        $('#contenedorBusqueda').hide();
+    };
+});
+
 $(document).ready(function() {
     $('#txtFDesde,#txtFHasta').datetimepicker({
         format: 'DD/MM/YYYY',
@@ -300,9 +331,11 @@ $("#btnBuscar").click(function (){
             },
             {responsivePriority: 1, "orderable": false, "class": "col-s", 
                 render:function(data, type, row){
-                    return '<div>'+
-                    '<a title="Registro" style="cursor:pointer; color:#3c763d;" onClick="javascript:regChecklist(\''+row.cauditoriainspeccion+'\',\''+row.fservicio+'\',\''+row.cchecklist+'\',\''+row.cusuarioconsultor+'\');"><span class="fas fa-external-link-alt fa-2x" aria-hidden="true"> </span> </a>'+
-                    '</div>'
+                    return '<div class="text-left" >' +
+                    '<button class="btn btn-transparent btn-sm text-primary" onClick="objFormulario.mostrarRegistro(\'' + row.cauditoriainspeccion + '\', this);">' +
+                    '<i class="fa fa-pencil-alt fa-2x" ></i>' +
+                    '</button>' +
+                    '</div>';
                 }
             }
         ],  
@@ -332,3 +365,51 @@ $("#btnBuscar").click(function (){
           } );
     }).draw();  
 });
+
+listarChecklist = function(){
+    
+      
+    otblListAudi = $('#tblListAuditoria').DataTable({  
+        'responsive'    : false,
+        'bJQueryUI'     : true,
+        'scrollY'     	: '400px',
+        'scrollX'     	: true, 
+        'paging'      	: true,
+        'processing'  	: true,     
+        'bDestroy'    	: true,
+        'AutoWidth'     : false,
+        'info'        	: true,
+        'filter'      	: true, 
+        'ordering'		: false,  
+        'stateSave'     : true,
+        'ajax'	: {
+            "url"   : baseurl+"at/auditoria/cregauditoria/getlistarchecklist/",
+            "type"  : "POST", 
+            "data": function ( d ) {
+                d.cchecklist = $('#hdnChecklist').val(); 
+            },     
+            dataSrc : ''        
+        },
+        'columns'	: [
+            {"orderable": false, data: 'NUMCAB', targets: 0},
+            {"orderable": false, data: 'NUMDET', targets: 1},
+            {"orderable": false, data: 'DREQUISITO', targets: 2},
+            {"orderable": false, 
+                render:function(data, type, row){
+                    return '<div>'+
+                    '<a title="Editar" style="cursor:pointer; color:#3c763d;" onClick="javascript:selAudi(\''+row.cauditoriainspeccion+'\',\''+row.fservicio+'\',\''+row.ccliente+'\',\''+row.cestablecimiento+'\');"><span class="fas fa-edit fa-2x" aria-hidden="true"> </span> </a>'+
+                    '</div>'
+                }
+            },
+            {"orderable": false, 
+                render:function(data, type, row){
+                    return '<div class="text-left" >' +
+                    '<button class="btn btn-transparent btn-sm text-primary" onClick="objFormulario.mostrarRegistro(\'' + row.cauditoriainspeccion + '\', this);">' +
+                    '<i class="fa fa-pencil-alt fa-2x" ></i>' +
+                    '</button>' +
+                    '</div>';
+                }
+            }
+        ]
+    });   
+};

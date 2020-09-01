@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 /**
  * Class cevaluar
  *
@@ -328,7 +330,10 @@ class cevaluar extends CI_Controller
                 $proveedor = $rowpv->proveedor;
                 $expediente = $rowpv->expediente;
                 $status = $rowpv->status;
-                $fecha_limite = $rowpv->flimite;
+//                $fecha_limite = $rowpv->flimite;
+                // Agregando 15 dias habilitando de Lunes a Viernes
+                $fechaActual = Carbon::createFromFormat('Y-m-d', $rowpv->fecha, 'America/Lima');
+                $fecha_limite = $fechaActual->addWeekdays(15)->format('d-m-Y');
 
                 $nombre_status = "";
                 $color_status = '';
@@ -502,10 +507,9 @@ class cevaluar extends CI_Controller
                 $this->email->message($mensaje);
 
                 for ($i = 1; $i <= 1; $i++) {
-                    log_message('error', 'Envio de correo');
-//                    if (!$this->email->send()) {
-//                        throw new Exception($this->email->print_debugger());
-//                    }
+                    if (!$this->email->send()) {
+                        throw new Exception($this->email->print_debugger());
+                    }
                     sleep(1);
                 }
             }

@@ -44,15 +44,17 @@ class Memail extends CI_Model
             a.id_proveedor,
             a.expediente,
             b.nombre as 'proveedor',
+            a.fecha,
             DATEFORMAT(DATEADD(day, 15, a.fecha),'dd-mm-yyyy') as 'flimite',
             a.estado,
             if isnull(b.email_q, '0') = '0' or len(b.email_q) = 0
                 then b.email_p
                 else b.email_p + ',' + b.email_q
             end if as 'destino',
-            (select list(z.email) from evalprod_areacontacto z where (z.id_area = a.id_area or z.id_area = 0) and z.estado = 'A') as 'cc',
+            (select list(z.email) from evalprod_areacontacto z where (z.id_area = a.id_area) and z.estado = 'A') as 'cc',
             c.status
         ";
+        // (select list(z.email) from evalprod_areacontacto z where (z.id_area = a.id_area or z.id_area = 0) and z.estado = 'A') as 'cc',
         $from = "
             from evalprod_expediente a
             join evalprod_proveedor b on b.id_proveedor = a.id_proveedor

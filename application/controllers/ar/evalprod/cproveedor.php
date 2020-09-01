@@ -39,6 +39,7 @@ class Cproveedor extends CI_Controller
             show_404();
         }
         try {
+            $id = $this->input->post('mhdnIdproveedor');
             $proveedor = trim($this->input->post('mtxtProveedor'));
             $ruc = trim($this->input->post('mtxtRUC'));
             $contacto1 = trim($this->input->post('mtxtContactop'));
@@ -62,13 +63,13 @@ class Cproveedor extends CI_Controller
                 throw new Exception('Debes ingresar al menos un contacto.');
             }
             // Valida el RUC no exista
-            $validarRuc = $this->mproveedor->buscarPorRuc($ruc, $this->input->post('mhdnIdproveedor'));
+            /*$validarRuc = $this->mproveedor->buscarPorRuc($ruc, $id);
             if (!empty($validarRuc)) {
                 throw new Exception('El RUC del Proveedor ya existe.');
-            }
+            }*/
             $this->db->trans_begin();
             $parametros = array(
-                '@id_proveedor' => $this->input->post('mhdnIdproveedor'),
+                '@id_proveedor' => $id,
                 '@nombre' => $proveedor,
                 '@contacto_p' => $contacto1,
                 '@email_p' => $email1,

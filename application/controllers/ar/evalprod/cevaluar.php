@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 /**
  * Class cevaluar
  *
@@ -8,6 +10,7 @@
  * @property mproveedor mproveedor
  * @property mproducto mproducto
  * @property marea marea
+ * @property memail memail
  */
 class cevaluar extends CI_Controller
 {
@@ -22,6 +25,7 @@ class cevaluar extends CI_Controller
         $this->load->model('ar/evalprod/mproveedor', 'mproveedor');
         $this->load->model('ar/evalprod/mproducto', 'mproducto');
         $this->load->model('ar/evalprod/marea', 'marea');
+        $this->load->model('memail', 'memail');
     }
 
     /**
@@ -258,6 +262,265 @@ class cevaluar extends CI_Controller
         }
         $items = $this->mevaluar->obtenerCantidadEstados($id);
         echo json_encode(['items' => $items]);
+    }
+
+    /**
+     * Envío de correo
+     */
+    public function envio_correo()
+    {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+        try {
+            $id = $this->input->post('id_expediente');
+            $objExpediente = $this->mexpediente->buscarPorId($id);
+            if (empty($objExpediente)) {
+                throw new Exception('El expediente no pudo ser encontrado.');
+            }
+
+            $evaluaciones = $this->mevaluar->obtenerCantidadEstados($objExpediente->id_expediente);
+            if (empty($evaluaciones)) {
+                throw new Exception('No se encontraron evaluaciones. Vuelva a intentarlo.');
+            }
+            // Se valida que no existan evaluaciones pendientes
+            foreach ($evaluaciones as $evaluacion) {
+                $status = $evaluacion->flagEstado;
+                if (is_null($status) || $status == '') {
+                    throw new Exception('Aún tienes evaluaciones pendientes.');
+                }
+            }
+
+            $from = "tottusevalproduct@grupofs.com";
+            $namfrom = "TOTTUS EVALUACION";
+
+            //cargamos la libreria email de ci
+            $this->load->library("email");
+
+            $emailData = $this->memail->obtenerConfiguracion('001');
+            if (empty($emailData)) {
+                throw new Exception('Ocurrio un error al buscar la configuración del envío de correo.');
+            }
+            //configuracion para grupofs
+            $configGrupofs = array(
+                'protocol' => 'smtp',
+                'smtp_host' => $emailData->DSERVER,
+                'smtp_port' => $emailData->NPUERTO,
+                'smtp_user' => $emailData->DUSER,
+                'smtp_pass' => $emailData->DPASSWORD,
+                'mailtype' => 'html',
+                'charset' => 'utf-8',
+                'newline' => "\r\n"
+            );
+            $expediente = $this->memail->buscarExpediente($objExpediente->id_expediente);
+            if (empty($expediente)) {
+                throw new Exception('No se encontro evaluaciones para enviar.');
+            }
+
+            // Envío del correo
+            foreach ($expediente as $rowpv) {
+                $para = $rowpv->destino;
+                $copia = $rowpv->cc;
+
+                $mensaje = "";
+                $mensaje .= "Estimado Cliente: <br><br>Le informamos que, el resultado de la evaluaci&oacute;n de sus productos ha sido el siguiente:<br><br>";
+                $mensaje .= '<br>
+					<br>';
+
+                $proveedor = $rowpv->proveedor;
+                $expediente = $rowpv->expediente;
+                $status = $rowpv->status;
+//                $fecha_limite = $rowpv->flimite;
+                // Agregando 15 dias habilitando de Lunes a Viernes
+                $fechaActual = Carbon::createFromFormat('Y-m-d', $rowpv->fecha, 'America/Lima');
+                $fecha_limite = $fechaActual->addWeekdays(15)->format('d-m-Y');
+
+                $nombre_status = "";
+                $color_status = '';
+                $letra_status = "";
+                switch ($status) {
+                    case 1:
+                        $nombre_status = "APROBADO";
+                        $color_status = 'bgcolor="#33FF00"';
+                        $letra_status = "A";
+                        break;
+                    case 2:
+                        $nombre_status = "RECHAZADO";
+                        $color_status = 'bgcolor="#FF0000"';
+                        $letra_status = "R";
+                        break;
+                    case 3:
+                        $nombre_status = "OBSERVADO";
+                        $color_status = 'bgcolor="#FFFF00"';
+                        $letra_status = "O";
+                        break;
+                    case 4:
+                        $nombre_status = "PENDIENTE VIDA UTIL";
+                        $color_status = 'bgcolor="#FFFFCC"';
+                        $letra_status = "P";
+                        break;
+                }
+
+                $mensaje .= '
+								<table border="1" cellpadding="0" cellspacing="0"><tr style="text-align:center"><td ' . $color_status . ' width="131">' . $letra_status . '</td><td width="159">' . $nombre_status . '</td></tr></table><br><br>
+								<font color="#FF0000"><b>Se le recuerda que tiene <span style="text-decoration: underline;">hasta el ' . $fecha_limite . '</span> para subsanar observaciones y/o proceder con el recojo de su muestra.
+								Asimismo cualquier duda comunicarse al tel&eacute;fono 4800561 Anexos 112-139.</b></font><br><br>';
+                $mensaje .= '
+								<table style="text-align: center; font-size: xx-small;" border="1" cellpadding="0" cellspacing="0" width="2600">
+								  <tbody>
+									<tr style="background-color:#bbbbbb;">
+									  <td>FECHA DE INGRESO</td>
+									  <td>FECHA DE EVALUADO</td>
+									  <td>FECHA LEV. OBS.</td>
+									  <td>AREA</td>
+									  <td>EAN/GTIN</td>
+									  <td>PRODUCTO<br/>(DESCRIPCION/MARCA/PRESENTACION)</td>
+									  <td>FABRICANTE</td>
+									  <td>PROVEEDOR</td>
+									  <td>COD. R. S./ NSO/ R.D.</td>
+									  <td>FECHA DE EMISION DE R.S/ N.S.O/ A.S</td>
+									  <td>FECHA VENC.R.S./N.S.O./A.S.</td>
+									  <td>CONDICIONES DE CONSERVACION (TRANSPORTE, ALMACENAMIENTO, PRODUCTO)</td>
+									  <td >TIEMPO DE VIDA UTIL</td>
+									  <td >PAIS DE PROCEDENCIA</td>
+									  <td>OBSERVACIONES</td>
+									  <td>ACUERDOS CON EL PROVEEDOR Y/O LEVANTAMIENTO DE OBSERVACIONES</td>
+									  <td>RESPONSABLE</td>
+									  <td>FECHA</td>
+									  <td>STATUS</td>
+									</tr>';
+
+                $rsdet = $this->memail->buscarExpedienteDetalle($objExpediente->id_expediente, $status);
+                if (empty($rsdet)) {
+                    throw new Exception('No se encontro el detalle del expediente.');
+                }
+                foreach ($rsdet as $rowdet) {
+
+                    $tiempo_m = $rowdet->tiempo_m;
+                    $fechaingreso = $rowdet->fechaingreso;
+                    $f_evaluado = $rowdet->f_evaluado;
+                    $f_levantamiento = $rowdet->f_levantamiento;
+                    $area = $rowdet->area;
+                    $codigo = $rowdet->codigo;
+                    $descripcion = $rowdet->descripcion;
+                    $marca = $rowdet->marca;
+                    $presentacion = $rowdet->presentacion;
+                    $fabricante = $rowdet->fabricante;
+                    $proveedor = $rowdet->proveedor;
+                    $rs = $rowdet->rs;
+                    $fecha_emision = $rowdet->fecha_emision;
+                    $fecha_vcto = $rowdet->fecha_vcto;
+                    $c_c = $rowdet->c_c;
+                    $t_v_u = $rowdet->t_v_u;
+                    $pais = $rowdet->pais;
+                    $observacion = $rowdet->observacion;
+                    $acuerdo = $rowdet->acuerdo;
+                    $responsable = $rowdet->responsable;
+                    $fecha = $rowdet->fecha;
+
+                    switch ($tiempo_m) {
+                        case 1:
+                            $tiempo_util = "D&iacute;as";
+                            break;
+                        case 2:
+                            $tiempo_util = "Meses";
+                            break;
+                        case 3:
+                            $tiempo_util = "Años";
+                            break;
+                        default;
+                        case 4:
+                            $tiempo_util = "NA";
+                            break;
+                    }
+
+                    $mensaje .= '
+									<tr>
+									<td>' . $fechaingreso . '</td>
+									<td>' . $f_evaluado . '</td>
+									<td>' . $f_levantamiento . '</td>
+									<td>' . $area . '</td>
+									<td>' . $codigo . '</td>
+									<td>' . $descripcion . '<br/>' . $marca . '<br/>' . $presentacion . '</td>
+									<td>' . $fabricante . '</td>
+									<td>' . $proveedor . '</td>
+									<td>' . $rs . '</td>
+									<td>' . $fecha_emision . '</td>
+									<td>' . $fecha_vcto . '</td>
+									<td style="text-align: left;">' . $c_c . '</td>
+									<td  >' . $t_v_u . " " . $tiempo_util . '</td>
+									<td  >' . $pais . '</td>
+									<td style="text-align: left;">' . $observacion . '</td>
+									<td style="text-align: left;">' . $acuerdo . '</td>
+									<td>' . $responsable . '</td>
+									<td>' . $fecha . '</td>
+									<td  ' . $color_status . ' >' . $letra_status . '</td>
+									</tr>';
+                }
+
+                $mensaje .= '</tbody>
+					</table><br>
+					Leyenda:<br> <br>
+					<table style="text-align: center; font-size: x-small;" border="1" cellpadding="0" cellspacing="0" width="295">
+					  <tbody>
+						<tr height="23">
+						  <td bgcolor="lime" height="23" valign="bottom" width="147"><p align="center"><strong><span lang="EN-US">A</span></strong><span lang="EN-US"> </span></p></td>
+						  <td height="23" valign="bottom" width="148"><p align="center"><span lang="EN-US">APROBADO</span><span lang="EN-US"> </span></p></td>
+						</tr>
+						<tr height="21">
+						  <td bgcolor="red" height="21" valign="bottom" width="147"><p align="center"><strong><span lang="EN-US">R</span></strong><span lang="EN-US"> </span></p></td>
+						  <td height="21" valign="bottom" width="148"><p align="center"><span lang="EN-US">RECHAZADO</span><span lang="EN-US"> </span></p></td>
+						</tr>
+						<tr height="21">
+						  <td bgcolor="yellow" height="21" valign="bottom" width="147"><p align="center"><strong><span lang="EN-US">O</span></strong><span lang="EN-US"> </span></p></td>
+						  <td height="21" valign="bottom" width="148"><p align="center"><span lang="EN-US">OBSERVADO</span><span lang="EN-US"> </span></p></td>
+						</tr>
+						<tr height="21">
+						  <td bgcolor="#FFFF99" height="21" valign="bottom" width="147"><p align="center"><strong><span lang="EN-US">P</span></strong><span lang="EN-US"> </span></p></td>
+						  <td height="21" valign="bottom" width="148"><p align="center"><span lang="EN-US">PENDIENTE VIDA &Uacute;TIL</span><span lang="EN-US"> </span></p></td>
+						</tr>
+					  </tbody>
+					</table><br><br>
+					Atentamente,<br><br>
+
+					<img alt="Grupo FS" src="' . base_url() . 'assets/images/firma_grupofs.png" />
+					<br><br>
+					';
+
+                if ($status == 3) {
+                    $mensaje .= "<font color='003399'>De acuerdo al Procedimiento se le otorga un plazo de QUINCE (15) d&iacute;as calendario, a partir de la fecha de evaluaci&oacute;n consignada en el cuadro, para que subsane las observaciones se&ntilde;aladas; caso contrario su expediente quedar&aacute; cerrado .</font><br><br>
+									   <font color='FF0000'>TODA SUBSANACION DEBE INGRESAR POR VIA REGULAR.</font>";
+                }
+
+                $to = $para;
+                $cc = $copia;
+
+                $asunto = $proveedor . " EXP. " . $expediente . " " . $nombre_status;
+
+                //cargamos la configuración para enviar con gmail
+                $this->email->initialize($configGrupofs);
+                $this->email->from($from, $namfrom);
+                $this->email->to($to);
+                $this->email->cc($cc);
+                $this->email->reply_to($from, $namfrom);
+                $this->email->subject($asunto);
+                $this->email->message($mensaje);
+
+                for ($i = 1; $i <= 1; $i++) {
+                    if (!$this->email->send()) {
+                        throw new Exception($this->email->print_debugger());
+                    }
+                    sleep(1);
+                }
+            }
+
+            echo json_encode([
+                'mensaje' => 'Correo enviado correctamente.'
+            ]);
+
+        } catch (Exception $ex) {
+            echo json_encode(['error' => $ex->getMessage()]);
+        }
     }
 
 }

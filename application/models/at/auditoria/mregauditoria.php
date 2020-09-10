@@ -1,10 +1,9 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Mregauditoria extends CI_Model {
-	function __construct() {
-		parent:: __construct();	
-		$this->load->library('session');
+    function __construct() {
+        parent::__construct();	
+        $this->load->library('session');
     }
     
    /** CONTROL DE PROVEEDORES **/ 
@@ -157,6 +156,44 @@ class Mregauditoria extends CI_Model {
 			return False;
 		}	
     }
+    public function getlistarchecklist($parametros) { // Recupera Listado de Propuestas        
+		$procedure = "call usp_at_audi_getlistarchecklist(?,?,?)";
+		$query = $this->db-> query($procedure,$parametros);
+
+		if ($query->num_rows() > 0) { 
+			return $query->result();
+		}{
+			return False;
+		}	
+    }
+    public function setregchecklist($parametros) {  // Registrar informe PT
+        $this->db->trans_begin();
+
+        $procedure = "call usp_at_audi_setregchecklist(?,?,?,?,?,?);";
+        $query = $this->db->query($procedure,$parametros);
+
+        if ($this->db->trans_status() === FALSE){
+            $this->db->trans_rollback();
+        }else{
+            $this->db->trans_commit();
+            return $query->result(); 
+        }   
+    }
+    public function setcalcularchecklist($parametros) {  // Registrar informe PT
+        $this->db->trans_begin();
+
+        $procedure = "call usp_at_audi_setcalcularchecklist(?,?,?);";
+        $query = $this->db->query($procedure,$parametros);
+
+        if ($this->db->trans_status() === FALSE){
+            $this->db->trans_rollback();
+        }else{
+            $this->db->trans_commit();
+            return $query->result(); 
+        }   
+    }
+    
 
 }
 ?>
+

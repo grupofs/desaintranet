@@ -1,5 +1,5 @@
 
-var otblListAudi;
+var otblListAudi, otblListChecklist;
 var varfdesde = '%', varfhasta = '%';
 
 const objFormulario = {
@@ -16,18 +16,23 @@ $(function() {
         boton.click();
         $('#contenedorRegchecklist').hide();
         $('#contenedorBusqueda').show();
-        objFiltro.buscar()
+        //objFiltro.buscar()
     };
 
     /**
      * Muestra el formulario ocultando la lista
      */
-    objFormulario.mostrarRegistro = function () {
+    objFormulario.mostrarRegistro = function (cauditoriainspeccion,fservicio,cchecklist) {
         const boton = $('#btnAccionContenedorLista');
         const icon = boton.find('i');
         if (icon.hasClass('fa-plus')) icon.removeClass('fa-plus');
         icon.addClass('fa-minus');
         boton.click();
+
+        $('#hdnIdaudi').val(cauditoriainspeccion);
+        $('#hdnFaudi').val(fservicio);
+        $('#hdnChecklist').val(cchecklist);
+        listarChecklist();
         $('#contenedorRegchecklist').show();
         $('#contenedorBusqueda').hide();
     };
@@ -73,6 +78,13 @@ fechaActual = function(){
     $('#txtFHasta').datetimepicker('date', moment(fechatring, 'DD/MM/YYYY') );
 
 };
+
+$("#cboClie").change(function(){ 
+    var select = document.getElementById("cboClie"), 
+    value = select.value, 
+    text = select.options[select.selectedIndex].innerText;
+    document.querySelector('#lblCliente').innerText = text;
+});
 	
 $('#txtFDesde').on('change.datetimepicker',function(e){	
     
@@ -318,46 +330,72 @@ $("#btnBuscar").click(function (){
               targets     :   0,
             },
             {"orderable": false, data: 'DESTABLE', targets: 1},
-            {"orderable": false, data: 'FAUDITORIA', targets: 2, "class": "col-sm"},
-            {"orderable": false, data: 'DAUDITOR', targets: 3, "class": "col-lm"},
-            {"orderable": false, data: 'DNROINFORME', targets: 4, "class": "col-xl"},
-            {"orderable": false, data: 'DRESULTADO', targets: 5, "class": "col-m"},
+            {"orderable": false, data: 'DSUBSERV', targets: 2},
+            {"orderable": false, data: 'FAUDITORIA', targets: 3},
+            {"orderable": false, data: 'DAUDITOR', targets: 4},
+            {"orderable": false, targets: 5, 
+                render:function(data, type, row){
+                    if(row.DNROINFORME == ''){
+                        return '<div></div>'
+                    }else{
+                        return '<div>' +
+                        '    <p><a title="Descargar" style="cursor:pointer;" onclick="excelInforme(\''+row.cauditoriainspeccion+'\',\''+row.fservicio+'\',\''+row.cchecklist+'\');"  class="pull-left">'+row.dinformefinal+'&nbsp;&nbsp;<i class="fas fa-file-excel" style="color:#3c763d;"></i></a><p>' +
+                        '</div>' ;
+                    }                     
+                }
+            },
+            {"orderable": false, data: 'DRESULTADO', targets: 6},
             {responsivePriority: 1, "orderable": false, "class": "col-s", 
                 render:function(data, type, row){
                     return '<div>'+
-                    '<a title="Editar" style="cursor:pointer; color:#3c763d;" onClick="javascript:selAudi(\''+row.cauditoriainspeccion+'\',\''+row.fservicio+'\',\''+row.ccliente+'\',\''+row.cestablecimiento+'\');"><span class="fas fa-edit fa-2x" aria-hidden="true"> </span> </a>'+
+                        '<a title="Editar" style="cursor:pointer; color:#3c763d;" onClick="javascript:selAudi(\''+row.cauditoriainspeccion+'\',\''+row.fservicio+'\',\''+row.ccliente+'\',\''+row.cestablecimiento+'\');"><span class="fas fa-edit fa-2x" aria-hidden="true"> </span> </a>'+
                     '</div>'
                 }
             },
             {responsivePriority: 1, "orderable": false, "class": "col-s", 
                 render:function(data, type, row){
                     return '<div class="text-left" >' +
-                    '<button class="btn btn-transparent btn-sm text-primary" onClick="objFormulario.mostrarRegistro(\'' + row.cauditoriainspeccion + '\', this);">' +
-                    '<i class="fa fa-pencil-alt fa-2x" ></i>' +
-                    '</button>' +
+                        '<a title="Checklist" style="cursor:pointer; color:blue;" onClick="objFormulario.mostrarRegistro(\'' + row.cauditoriainspeccion + '\',\'' + row.fservicio + '\', \'' + row.cchecklist + '\');"><span class="fa fa-pencil-alt fa-2x" aria-hidden="true"> </span> </a>'+
                     '</div>';
                 }
             }
         ],  
-        "columnDefs": [
-            { "visible": false, "targets": groupColumn }
+        "columnDefs": [{
+                "targets": [3], 
+                "data": null, 
+                "render": function(data, type, row) {
+                    if(row.zctipoestadoservicio == '018'){
+                        return '<div>'+
+                            '<p>'+row.FAUDITORIA+'</p>'+
+                        '</div>';
+                    }else{                        
+                        return '<div>'+
+                            '<p>'+row.FAUDITORIA+'<br>'+row.DESTADO+'</p>'
+                        '</div>';
+                    }
+                }
+            },
+            { "targets": [1], "visible": false }
         ],
         "drawCallback": function ( settings ) {
             var api = this.api();
-            var rows = api.rows( {page:'current'} ).nodes();
-            var last=null;
+            var rows = api.rows( {page:'all'} ).nodes();
+            var last = null;
+			var grupo;
  
-            api.column(groupColumn, {page:'current'} ).data().each( function ( group, i ) {
-                if ( last !== group ) {
+            api.column([1], {} ).data().each( function ( ctra, i ) { 
+                grupo = api.column(2).data()[i];
+                if ( last !== ctra ) {
                     $(rows).eq( i ).before(
-                        '<tr class="group"><td colspan="7">'+group+'</td></tr>'
-                    );
- 
-                    last = group;
+                        '<tr class="group"><td colspan="7" class="subgroup"><strong>'+ctra.toUpperCase()+'</strong></td></tr>'+
+                        '<tr class="group"><td colspan="7"><tab>Sub-Servicio : '+grupo+'</td></tr>'
+                    ); 
+                    last = ctra;
                 }
             } );
         } 
     });   
+    otblListAudi.column(2).visible( false );    
     // Enumeracion 
     otblListAudi.on( 'order.dt search.dt', function () { 
         otblListAudi.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
@@ -366,15 +404,22 @@ $("#btnBuscar").click(function (){
     }).draw();  
 });
 
+excelInforme = function(cauditoriainspeccion,fservicio,cchecklist){
+    window.open(baseurl+"at/auditoria/cexcelauditoria/excelinformes/"+cauditoriainspeccion+"/"+fservicio+"/"+cchecklist);
+};
+
+$('#btnRetornarLista').click(function(){
+    objFormulario.mostrarBusqueda();
+});
+
 listarChecklist = function(){
-    
       
-    otblListAudi = $('#tblListAuditoria').DataTable({  
+    otblListChecklist = $('#tblListChecklist').DataTable({  
         'responsive'    : false,
         'bJQueryUI'     : true,
         'scrollY'     	: '400px',
         'scrollX'     	: true, 
-        'paging'      	: true,
+        'paging'      	: false,
         'processing'  	: true,     
         'bDestroy'    	: true,
         'AutoWidth'     : false,
@@ -386,6 +431,8 @@ listarChecklist = function(){
             "url"   : baseurl+"at/auditoria/cregauditoria/getlistarchecklist/",
             "type"  : "POST", 
             "data": function ( d ) {
+                d.idaudi = $('#hdnIdaudi').val();
+                d.fechaaudi = $('#hdnFaudi').val();
                 d.cchecklist = $('#hdnChecklist').val(); 
             },     
             dataSrc : ''        
@@ -393,23 +440,151 @@ listarChecklist = function(){
         'columns'	: [
             {"orderable": false, data: 'NUMCAB', targets: 0},
             {"orderable": false, data: 'NUMDET', targets: 1},
-            {"orderable": false, data: 'DREQUISITO', targets: 2},
+            {"orderable": false, data: 'REQUISITO', targets: 2},
+            {"orderable": false, data: 'CDETALLEVALOR', targets: 3},
+            {"orderable": false, data: 'HALLAZGO', targets: 4},
             {"orderable": false, 
                 render:function(data, type, row){
-                    return '<div>'+
-                    '<a title="Editar" style="cursor:pointer; color:#3c763d;" onClick="javascript:selAudi(\''+row.cauditoriainspeccion+'\',\''+row.fservicio+'\',\''+row.ccliente+'\',\''+row.cestablecimiento+'\');"><span class="fas fa-edit fa-2x" aria-hidden="true"> </span> </a>'+
-                    '</div>'
-                }
-            },
-            {"orderable": false, 
-                render:function(data, type, row){
-                    return '<div class="text-left" >' +
-                    '<button class="btn btn-transparent btn-sm text-primary" onClick="objFormulario.mostrarRegistro(\'' + row.cauditoriainspeccion + '\', this);">' +
-                    '<i class="fa fa-pencil-alt fa-2x" ></i>' +
-                    '</button>' +
-                    '</div>';
+                    if(row.NUMDET == '' || row.HALLAZGO == '' ){
+                        return ''
+                    }else{
+                        return '<div>'+
+                        '<a title="Editar" style="cursor:pointer; color:#3c763d;" onClick="javascript:selHallazgo(\''+row.cauditoriainspeccion+'\',\''+row.fservicio+'\',\''+row.cchecklist+'\',\''+row.crequisitochecklist+'\');"><span class="fas fa-edit fa-2x" aria-hidden="true"> </span> </a>'+
+                        '</div>'
+                    }
                 }
             }
-        ]
+        ],
+        "columnDefs": [
+          {
+            "targets": [3], 
+            "data": "CDETALLEVALOR", 
+            "render": function(data, type, row) {                 
+                if(row.NUMDET == '' ){
+                    return ''
+                }else{             
+                    return ' <div class="btn-group">'+
+                    ' <button type="button" class="btn btn-default">'+row.ddetallevalor+'</button>'+
+                    ' <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">'+
+                    ' <span class="sr-only">Toggle Dropdown</span>'+
+                    ' <div class="dropdown-menu" role="menu">'+
+                    ' <a class="dropdown-item" onClick="cambiarValor(\''+row.cauditoriainspeccion+'\',\''+row.fservicio+'\',\''+row.cchecklist+'\',\''+row.crequisitochecklist+'\',\''+row.drequisito+'\',\''+"001"+'\');"><i style="color:green;" class="fas fa-check"></i>&nbsp;&nbsp;CUMPLE</a>'+
+                    ' <a class="dropdown-item" onClick="cambiarValor(\''+row.cauditoriainspeccion+'\',\''+row.fservicio+'\',\''+row.cchecklist+'\',\''+row.crequisitochecklist+'\',\''+row.drequisito+'\',\''+"002"+'\');"><i style="color:red;" class="fas fa-exclamation-triangle"></i>&nbsp;&nbsp;NO CUMPLE</a>'+
+                    ' </div>'+
+                    ' </button>'+ 
+                    '</div>' 
+                }                      
+            }
+          },
+        ], 
     });   
 };
+
+cambiarValor = function(cauditoriainspeccion,fservicio,cchecklist,crequisitochecklist,drequisito,cdetallevalor){
+         
+    if(cdetallevalor == '001'){
+        
+        var params = { 
+            "mhdncauditoriainspeccion":cauditoriainspeccion, 
+            "mhdnfservicio":fservicio, 
+            "mhdncchecklist":cchecklist, 
+            "mhdncrequisitochecklist":crequisitochecklist, 
+            "mhdncdetallevalor":cdetallevalor,  
+            "mtxthallazgo":'', 
+        };
+        var request = $.ajax({
+            type: 'ajax',
+            method: 'post',
+            url: baseurl+"at/auditoria/cregauditoria/setregchecklist",
+            dataType: "JSON",
+            async: true,
+            data: params,
+            error: function(){
+                Vtitle = 'No se puede registrar por error';
+                Vtype = 'error';
+                sweetalert(Vtitle,Vtype);
+            }
+        });
+        request.done(function( respuesta ) {
+            $.each(respuesta, function() {     
+                Vtitle = this.respuesta;
+                Vtype = 'success';
+                sweetalert(Vtitle,Vtype); 
+                otblListChecklist.ajax.reload(null,false);  
+            });  
+        });
+    }else if(cdetallevalor == '002'){
+        
+        $('#frmHallazgo').trigger("reset");
+        $('#mhdncdetallevalor').val(cdetallevalor);
+
+        $('#mhdncauditoriainspeccion').val(cauditoriainspeccion);    
+        $('#mhdnfservicio').val(fservicio);    
+        $('#mhdncchecklist').val(cchecklist);    
+        $('#mhdncrequisitochecklist').val(crequisitochecklist); 
+        $("#mtxtrequisito").prop({readonly:true});
+        $('#mtxtrequisito').val(drequisito);
+
+        $("#modalHallazgo").modal('show');
+    }
+}
+
+$('#frmHallazgo').submit(function(event){
+    event.preventDefault();
+    
+    var request = $.ajax({
+        url:$('#frmHallazgo').attr("action"),
+        type:$('#frmHallazgo').attr("method"),
+        data:$('#frmHallazgo').serialize(),
+        error: function(){
+            Vtitle = 'No se puede registrar por error';
+            Vtype = 'error';
+            sweetalert(Vtitle,Vtype);
+        }
+    });
+    request.done(function( respuesta ) {
+        var posts = JSON.parse(respuesta);        
+        $.each(posts, function() {        
+            Vtitle = this.respuesta;
+            Vtype = 'success';
+            sweetalert(Vtitle,Vtype);
+            otblListChecklist.ajax.reload(null,false);        
+            $('#mbtnCHallazgo').click();
+        });
+    });
+});
+
+$("#btnCalificar").click(function (){
+    var cauditoriainspeccion = $('#hdnIdaudi').val();
+    var fservicio = $('#hdnFaudi').val();
+    var cchecklist = $('#hdnChecklist').val();
+
+    var params = { 
+        "idaudi":cauditoriainspeccion, 
+        "fechaaudi":fservicio, 
+        "cchecklist":cchecklist 
+    };
+    var request = $.ajax({
+        type: 'ajax',
+        method: 'post',
+        url: baseurl+"at/auditoria/cregauditoria/setcalcularchecklist",
+        dataType: "JSON",
+        async: true,
+        data: params,
+        error: function(){
+            Vtitle = 'No se puede registrar por error';
+            Vtype = 'error';
+            sweetalert(Vtitle,Vtype);
+        }
+    });
+    request.done(function( respuesta ) {
+        $.each(respuesta, function() {     
+            Vtitle = this.respuesta;
+            Vtype = 'success';
+            sweetalert(Vtitle,Vtype);             
+            otblListAudi.ajax.reload(null,false);
+            objFormulario.mostrarBusqueda();  
+        });  
+    });
+});
+

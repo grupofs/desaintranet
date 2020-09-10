@@ -3,6 +3,28 @@
 ?>
 
 <style>
+    tab {
+        display: inline-block; 
+        margin-left: 30px; 
+    }
+    tr.subgroup,
+    tr.subgroup:hover {
+        background-color: #F2F2F2 !important;
+        /* color: blue; */
+        font-weight: bold;
+    }
+    .group{
+            background-color:#D5D8DC !important;
+            font-size:15px;
+            color:#000000!important;
+            opacity:0.7;
+    }
+    .subgroup{
+        cursor: pointer;
+    }
+    .modal-lg{
+        max-width: 1000px !important;
+    }
 </style>
 
 <!-- content-header -->
@@ -112,6 +134,7 @@
                             <tr>
                                 <th></th>
                                 <th>Establecimiento</th>
+                                <th>SUB-SERVICIO</th>
                                 <th>Fecha Auditoria</th>
                                 <th>Auditor</th>
                                 <th>Nro Informe - Reporte</th>
@@ -135,9 +158,13 @@
 <!-- Reg. Checklist -->
 <section class="content" id="contenedorRegchecklist" style="display: none" >
     <div class="container-fluid">
-        <div class="card card-success">
-            <div class="card-body">
-                <?php $this->load->view('at/auditoria/formulario_regchecklist'); ?>
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-success">
+                    <div class="card-body">
+                        <?php $this->load->view('at/auditoria/formulario_regchecklist'); ?>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

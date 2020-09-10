@@ -560,13 +560,6 @@ class Cctrlpermisos extends CI_Controller {
 	}
 
 
-
-
-
-
-
-
-
 	public function getlisthorasextras() { // Lista horas extras x empleado	   
 		$parametros = array(
 			'@id_empleado'    =>  $this->input->post('id_empleado')
@@ -693,6 +686,47 @@ class Cctrlpermisos extends CI_Controller {
 	}
 
 
+	public function excelinformes() { // Recupera resumen de permisos por empleados en excel	
+
+		$spreadsheet = new Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+
+		$spreadsheet->getDefaultStyle()
+			->getFont()
+			->setName('Arial')
+			->setSize(10);	
+
+		$sheet->setCellValue('A1','Listado de Permisos por Area')									
+			->setCellValue('A3','Area:')				
+			->setCellValue('E4','Vacaciones')
+			->setCellValue('J4','Permisos')
+			->setCellValue('A5','Nro.')
+			->setCellValue('B5','Empleado')
+			->setCellValue('C5','F. Ingreso')
+			->setCellValue('D5','F. Termino')
+			->setCellValue('E5','Periodo Vacaciones')
+			->setCellValue('F5','Dias Vacaciones')
+			->setCellValue('G5','Medio dias Cuentas Vacaciones')
+			->setCellValue('H5','Dias Tomados Vacaciones')
+			->setCellValue('I5','Dias Pendientes')
+			->setCellValue('J5','Horas Extras')
+			->setCellValue('K5','Horas Permisos')
+			->setCellValue('L5','Pendiente a Usar')
+			->setCellValue('M5','Descansos Medico');
+		
+
+		$sheet->setTitle('Permisos_area');
+
+		$writer = new Xlsx($spreadsheet);
+
+		$namesheet = "PermisosxArea.xlsx";
+
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="'.$namesheet.'"');
+		header('Cache-Control: max-age=0');										
+													
+		$writer->save('php://output');
+	}
    /* ------------- */
 
    

@@ -1,5 +1,15 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+//require __DIR__ . "/vendor/autoload.php";
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Style\Conditional;
 
 class Cregauditoria extends CI_Controller {
 	function __construct() {
@@ -108,6 +118,60 @@ class Cregauditoria extends CI_Controller {
 			'@idauditor'		=> ($this->input->post('idauditor') == '') ? '%' : $idauditor,
 		);		
 		$resultado = $this->mregauditoria->getbuscarauditoria($parametros);
+		echo json_encode($resultado);
+	}
+    public function getlistarchecklist() {	// Recupera Listado de Propuestas	
+        
+		$varnull 			= 	'';
+
+		$idaudi   = $this->input->post('idaudi');
+		$fechaaudi   = $this->input->post('fechaaudi');
+		$cchecklist   = $this->input->post('cchecklist');
+            
+        $parametros = array(
+			'@idaudi'     	=> $idaudi,
+			'@fechaaudi'   	=> $fechaaudi,
+			'@cchecklist'  	=> $cchecklist
+		);		
+		$resultado = $this->mregauditoria->getlistarchecklist($parametros);
+		echo json_encode($resultado);
+	}
+    public function setregchecklist() {	// Recupera Listado de Propuestas	
+        
+		$varnull 			= 	'';
+
+		$idaudi   = $this->input->post('mhdncauditoriainspeccion');
+		$fechaaudi   = $this->input->post('mhdnfservicio');
+		$cchecklist   = $this->input->post('mhdncchecklist');
+		$crequisitochecklist   = $this->input->post('mhdncrequisitochecklist');
+		$cdetvalrequisito   = $this->input->post('mhdncdetallevalor');
+		$dhallazgo   = $this->input->post('mtxthallazgo');
+            
+        $parametros = array(
+			'@idaudi'     	=> $idaudi,
+			'@fechaaudi'   	=> $fechaaudi,
+			'@cchecklist'  	=> $cchecklist,
+			'@crequisitochecklist' => $crequisitochecklist,
+			'@cdetvalrequisito' => $cdetvalrequisito,
+			'@dhallazgo'  	=> $dhallazgo
+		);		
+		$resultado = $this->mregauditoria->setregchecklist($parametros);
+		echo json_encode($resultado);
+	}
+    public function setcalcularchecklist() {	// Recupera Listado de Propuestas	
+        
+		$varnull 			= 	'';
+
+		$idaudi   = $this->input->post('idaudi');
+		$fechaaudi   = $this->input->post('fechaaudi');
+		$cchecklist   = $this->input->post('cchecklist');
+            
+        $parametros = array(
+			'@idaudi'     	=> $idaudi,
+			'@fechaaudi'   	=> $fechaaudi,
+			'@cchecklist'  	=> $cchecklist
+		);		
+		$resultado = $this->mregauditoria->setcalcularchecklist($parametros);
 		echo json_encode($resultado);
 	}
 }

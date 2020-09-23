@@ -6,7 +6,7 @@ class Mregauditoria extends CI_Model {
         $this->load->library('session');
     }
     
-   /** CONTROL DE PROVEEDORES **/ 
+   /** AUDITORIA **/ 
     public function getcboclieserv() { // Visualizar Clientes del servicio en CBO	
         
         $procedure = "call usp_at_audi_getcboclieserv()";
@@ -19,6 +19,24 @@ class Mregauditoria extends CI_Model {
             foreach ($query->result() as $row)
             {
                 $listas .= '<option value="'.$row->IDCLIE.'">'.$row->DESCRIPCLIE.'</option>';  
+            }
+               return $listas;
+        }{
+            return false;
+        }	
+    }
+    public function getcbosubserv($parametros) { // Visualizar Clientes del servicio en CBO	
+        
+        $procedure = "call usp_at_audi_getcbosubserv(?)";
+		$query = $this->db-> query($procedure,$parametros);
+        
+        if ($query->num_rows() > 0) {
+
+            $listas = '<option value="" selected="selected">::Elegir</option>';
+            
+            foreach ($query->result() as $row)
+            {
+                $listas .= '<option value="'.$row->CPTE.'">'.$row->SUBSERVICIO.'</option>';  
             }
                return $listas;
         }{
@@ -136,7 +154,7 @@ class Mregauditoria extends CI_Model {
     public function setauditoria($parametros) {  // Registrar informe PT
         $this->db->trans_begin();
 
-        $procedure = "call usp_at_audi_setauditoria(?,?,?,?,?,?,?,?,?,?);";
+        $procedure = "call usp_at_audi_setauditoria(?,?,?,?,?,?,?,?,?,?,?);";
         $query = $this->db->query($procedure,$parametros);
 
         if ($this->db->trans_status() === FALSE){

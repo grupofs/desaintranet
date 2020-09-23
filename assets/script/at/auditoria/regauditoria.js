@@ -136,11 +136,29 @@ $("#cboregClie").change(function(){
                 alert('Error, No se puede autenticar por error');
             }
         });
+        
+        $.ajax({
+            type: 'ajax',
+            method: 'post',
+            url: baseurl+"at/auditoria/cregauditoria/getcbosubserv",
+            dataType: "JSON",
+            async: true,
+            data: params,
+            success:function(result)
+            {
+                $('#cboregSubserv').html(result);
+            },
+            error: function(){
+                alert('Error, No se puede autenticar por error');
+            }
+        });
 });
 
 $('#btnNuevo').click(function(){
     $('#frmCreaaudi').trigger("reset");
     $("#modalCreaaudi").modal('show');
+
+    $("#cboregProvedor").prop({disabled:true}); 
 
     fechaActualreg();
 
@@ -235,6 +253,14 @@ $("#cboregRubro").change(function(){
             }
         });
 });
+
+$("#chkProveedor").on("change", function () {
+    if($("#chkProveedor").is(":checked") == true){ 
+        $("#cboregProvedor").prop({disabled:false}); 
+    }else if($("#chkProveedor").is(":checked") == false){ 
+        $("#cboregProvedor").prop({disabled:true}); 
+    }; 
+}); 
 
 $("#cboregChecklist").change(function(){ 
     var v_idchceklist = $('#cboregChecklist').val();

@@ -188,16 +188,24 @@
             <input type="hidden" id="mhdnAccionAudi" name="mhdnAccionAudi" value="N">                          
             <div class="form-group">  
                 <div class="row">
-                    <div class="col-md-4"> 
+                    <div class="col-md-2"> 
                         <div class="text-info">Codigo</div>
                         <div>    
                             <input type="text" name="mhdnIdaudi"id="mhdnIdaudi" class="form-control" disabled = true><!-- ID -->
                         </div>
                     </div>
-                    <div class="col-md-8"> 
+                    <div class="col-md-6"> 
                         <div class="text-info">Clientes</div>
                         <div>
                             <select class="form-control select2bs4" id="cboregClie" name="cboregClie" style="width: 100%;">
+                                <option value="" selected="selected">Cargando...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4"> 
+                        <div class="text-info">Sub-Servicio</div>
+                        <div>
+                            <select class="form-control select2bs4" id="cboregSubserv" name="cboregSubserv" style="width: 100%;">
                                 <option value="" selected="selected">Cargando...</option>
                             </select>
                         </div>
@@ -206,14 +214,26 @@
             </div>
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-12">                        
+                    <div class="col-md-6">                                     
+                        <div class="checkbox" id="lbchkpro">
+                            <div class="text-info">
+                                <b><input type="checkbox" id="chkProveedor" name="chkProveedor" ></b>&nbsp;&nbsp;Proveedor
+                            </div>
+                        </div>                  
+                        <div>
+                            <select class="form-control select2bs4" id="cboregProvedor" name="cboregProvedor" style="width: 100%;">
+                                <option value="" selected="selected">Cargando...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">                        
                         <div class="text-info">Establecimiento (Sede, Tienda, Local, etc)</div>
                         <div>
                             <select class="form-control select2bs4" id="cboregEstable" name="cboregEstable" style="width: 100%;">
                                 <option value="" selected="selected">Cargando...</option>
                             </select>
                         </div>
-                    </div>                    
+                    </div>  
                 </div> 
             </div>
             <div class="form-group">                

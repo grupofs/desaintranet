@@ -1,16 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-//require __DIR__ . "/vendor/autoload.php";
-
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use PhpOffice\PhpSpreadsheet\Style\Alignment;
-use PhpOffice\PhpSpreadsheet\Style\Fill;
-use PhpOffice\PhpSpreadsheet\Style\Border;
-use PhpOffice\PhpSpreadsheet\Style\Color;
-use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
-use PhpOffice\PhpSpreadsheet\Style\Conditional;
-
 class Cregauditoria extends CI_Controller {
 	function __construct() {
 		parent:: __construct();	
@@ -25,6 +14,14 @@ class Cregauditoria extends CI_Controller {
     public function getcboclieserv() {	// Visualizar Clientes del servicio en CBO	
         
 		$resultado = $this->mregauditoria->getcboclieserv();
+		echo json_encode($resultado);
+	} 
+    public function getcbosubserv() {	// Visualizar Sub Servicio de los Clientes en CBO	
+        
+        $parametros = array(
+            '@ccliente'   => $this->input->post('ccliente')
+        );
+		$resultado = $this->mregauditoria->getcbosubserv($parametros);
 		echo json_encode($resultado);
 	}
     public function getestableaudi() {	// Visualizar Establecimiento por Clientes en CBO	
@@ -83,6 +80,7 @@ class Cregauditoria extends CI_Controller {
 		$idsubnorma 		= $this->input->post('cboregRubro');
 		$idchecklist 		= $this->input->post('cboregChecklist');
 		$idformula 			= $this->input->post('cboregFormula');
+		$cinternopte 		= $this->input->post('cboregSubserv');
 		$accion 			= $this->input->post('mhdnAccionAudi');
         
         $parametros = array(
@@ -95,6 +93,7 @@ class Cregauditoria extends CI_Controller {
             '@idsubnorma'      		=>  $idsubnorma,
             '@idchecklist'      	=>  $idchecklist,
             '@idformula'      		=>  $idformula,
+            '@cinternopte'      	=>  $cinternopte,
             '@accion'           	=>  $accion
         );
         $resultado = $this->mregauditoria->setauditoria($parametros);

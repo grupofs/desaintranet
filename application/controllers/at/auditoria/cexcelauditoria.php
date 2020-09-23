@@ -1,15 +1,27 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-//require __DIR__ . "/vendor/autoload.php";
-
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Style\Conditional;
+
+use PhpOffice\PhpSpreadsheet\Chart\Chart;
+use PhpOffice\PhpSpreadsheet\Chart\DataSeries;
+use PhpOffice\PhpSpreadsheet\Chart\DataSeriesValues;
+use PhpOffice\PhpSpreadsheet\Chart\Layout;
+use PhpOffice\PhpSpreadsheet\Chart\Legend;
+use PhpOffice\PhpSpreadsheet\Chart\PlotArea;
+use PhpOffice\PhpSpreadsheet\Chart\Title;
+use PhpOffice\PhpSpreadsheet\Helper\Sample;
+
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+
+require __DIR__ . "/../../../../vendor/phpoffice/phpspreadsheet/samples/Header.php";
+
 
 class Cexcelauditoria extends CI_Controller {
 	function __construct() {
@@ -21,9 +33,10 @@ class Cexcelauditoria extends CI_Controller {
 		$this->load->library('form_validation');
     }
 
-	public function excelinformes($cauditoriainspeccion,$fservicio,$cchecklist) { // Recupera resumen de permisos por empleados en excel	
+  
+    public function excelinformes($cauditoriainspeccion,$fservicio,$cchecklist) {
      /*Estilos */
-        $titulo = [
+         $titulo = [
             'font'	=> [
                 'name' => 'Arial',
                 'size' =>12,
@@ -90,6 +103,27 @@ class Cexcelauditoria extends CI_Controller {
             ],
         ];
         $celdastexto = [
+            'borders'	=>[
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                    'color' => [ 
+                        'rgb' => '000000'
+                    ]
+                ]
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_LEFT,
+                'vertical' => Alignment::VERTICAL_CENTER,
+                'wrapText' => true,
+            ],
+        ];
+        $celdastextonegrita = [
+            'font'	=> [
+                'name' => 'Arial',
+                'size' =>10,
+                'color' => array('rgb' => 'FFFFFF'),
+                'bold' => true,
+            ], 
             'borders'	=>[
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,
@@ -188,14 +222,17 @@ class Cexcelauditoria extends CI_Controller {
 
      /*.Estilos*/
 
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
+        $helper = new Sample();
+        $spreadsheet  = new Spreadsheet();
+        $sheet  = $spreadsheet ->getActiveSheet();
+
+        $sheet->setTitle('S0');
 
         $spreadsheet->getDefaultStyle()
             ->getFont()
             ->setName('Arial')
             ->setSize(10);
-
+                
      /*Cabecera	*/
         $sheet->setCellValue('A1', '5S Formulario de auditoría rutinaría')
             ->mergeCells('A1:M1')
@@ -271,7 +308,12 @@ class Cexcelauditoria extends CI_Controller {
         $sheet->getColumnDimension('M')->setAutoSize(false)->setWidth(10.10);
 
         $sheet->getRowDimension('1')->setRowHeight(23.10);
-        $sheet->getRowDimension('10')->setRowHeight(33.10);
+        $sheet->getRowDimension('2')->setRowHeight(33.10);
+        $sheet->getRowDimension('3')->setRowHeight(23.10);
+        $sheet->getRowDimension('5')->setRowHeight(23.10);
+        $sheet->getRowDimension('7')->setRowHeight(23.10);
+        $sheet->getRowDimension('9')->setRowHeight(23.10);
+        $sheet->getRowDimension('10')->setRowHeight(23.10);
         $sheet->getRowDimension('12')->setRowHeight(33.10);
         $sheet->getRowDimension('13')->setRowHeight(33.10);
         $sheet->getRowDimension('14')->setRowHeight(33.10);
@@ -279,6 +321,81 @@ class Cexcelauditoria extends CI_Controller {
         $sheet->getRowDimension('16')->setRowHeight(33.10);
         
      /*.Cabecera*/
+
+     /*Hoja1*/
+        $spreadsheet->createSheet();
+        $spreadsheet->setActiveSheetIndex(1)->setCellValue('A1','"Separar lo necesario de lo innecesario"')
+                    ->mergeCells('A1:D1')
+                    ->setCellValue('A2','N°')
+                    ->setCellValue('B2','S1=Seiri=Clasificar')
+                    ->setCellValue('C2','Cumple / No Cumple')
+                    ->setCellValue('D2','Observaciones, comentarios, sugerencias de mejora que se encuentran en etapa de verificación S1')
+                    ->setCellValue('B13','Puntuación')
+                    ->setCellValue('A15','Nota: En caso que la pregunta no aplique para el área auditada se debera considerar puntaje en la calificación.')
+                    ->mergeCells('A15:D15');
+
+        $spreadsheet->getActiveSheet()->setTitle('S1');
+     /*.Hoja1*/
+
+     /*Hoja2*/
+        $spreadsheet->createSheet();
+        $spreadsheet->setActiveSheetIndex(2)->setCellValue('A1','"Un sitio para cada cosa y cada cosa en su sitio"')
+                    ->mergeCells('A1:D1')
+                    ->setCellValue('A2','N°')
+                    ->setCellValue('B2','S2=Seiton=Ordenar')
+                    ->setCellValue('C2','Cumple / No cumple')
+                    ->setCellValue('D2','Observaciones, comentarios, sugerencias de mejora que se encuentran en etapa de verificación S2')
+                    ->setCellValue('B13','Puntuación')
+                    ->setCellValue('A15','Nota: En caso que la pregunta no aplique para el área auditada se debera considerar puntaje en la calificación.')
+                    ->mergeCells('A15:D15');
+
+        $spreadsheet->getActiveSheet()->setTitle('S2');
+     /*.Hoja2*/
+
+     /*Hoja3*/
+        $spreadsheet->createSheet();
+        $spreadsheet->setActiveSheetIndex(3)->setCellValue('A1','"Limpiar el puesto de trabajo y los equipos y prevenir la suciedad y el desorden"')
+                    ->mergeCells('A1:D1')
+                    ->setCellValue('A2','N°')
+                    ->setCellValue('B2','S3=Seiso=Limpiar')
+                    ->setCellValue('C2','Cumple / No cumple')
+                    ->setCellValue('D2','Observaciones, comentarios, sugerencias de mejora que se encuentran en etapa de verificación S3')
+                    ->setCellValue('B13','Puntuación')
+                    ->setCellValue('A15','Nota: En caso que la pregunta no aplique para el área auditada se debera considerar puntaje en la calificación.')
+                    ->mergeCells('A15:D15');
+
+        $spreadsheet->getActiveSheet()->setTitle('S3');
+     /*.Hoja3*/
+
+     /*Hoja4*/
+        $spreadsheet->createSheet();
+        $spreadsheet->setActiveSheetIndex(4)->setCellValue('A1','"Eliminar anomalías evidentes con controles visuales"')
+                    ->mergeCells('A1:D1')
+                    ->setCellValue('A2','N°')
+                    ->setCellValue('B2','S4=Seiketsu=Estandarizar')
+                    ->setCellValue('C2','Cumple / No cumple')
+                    ->setCellValue('D2','Observaciones, comentarios, sugerencias de mejora que se encuentran en etapa de verificación S4')
+                    ->setCellValue('B13','Puntuación')
+                    ->setCellValue('A15','Nota: En caso que la pregunta no aplique para el área auditada se debera considerar puntaje en la calificación.')
+                    ->mergeCells('A15:D15');
+        $spreadsheet->getActiveSheet()->setTitle('S4');
+
+     /*.Hoja4*/
+
+     /*Hoja5*/
+        $spreadsheet->createSheet();
+        $spreadsheet->setActiveSheetIndex(5)->setCellValue('A1','"Hacer el hábito de la obediencia a las reglas"')
+                    ->mergeCells('A1:D1')
+                    ->setCellValue('A2','N°')
+                    ->setCellValue('B2','S5=Shitsuke=Disciplinar')
+                    ->setCellValue('C2','Cumple / No cumple')
+                    ->setCellValue('D2','Observaciones, comentarios, sugerencias de mejora que se encuentran en etapa de verificación S5')
+                    ->setCellValue('B13','Puntuación')
+                    ->setCellValue('A15','Nota: En caso que la pregunta no aplique para el área auditada se debera considerar puntaje en la calificación.')
+                    ->mergeCells('A15:D15');
+
+        $spreadsheet->getActiveSheet()->setTitle('S5');
+     /*.Hoja5*/
 
      /*Data*/
         $parametrosCabecera = array( 
@@ -296,8 +413,82 @@ class Cexcelauditoria extends CI_Controller {
             $resultado = $rowCabecera->resultado;
             $calificacion = $rowCabecera->calificacion;
             $valorsubtotal = $rowCabecera->valorsubtotal;
+            $crequisitochecklist = $rowCabecera->crequisitochecklist;
+            $cualidad = $rowCabecera->cualidad;            
 
             $sheet->setCellValue('E'.$icabe,$valorsubtotal);
+
+            $parametrosS = array( 
+                '@idaudi'	=> $cauditoriainspeccion,
+                '@fechaaudi'	=> $fservicio,
+                '@cchecklist'	=> $cchecklist,
+                '@cchecklistpadre'	=> $crequisitochecklist
+            );
+            $rptS = $this->mexcelauditoria->xlschecklistdetalle($parametrosS);
+            $iS = 3;
+            $i=1;
+            foreach($rptS as $rowS){
+                
+                $requisito = $rowS->requisito;
+                $valor = $rowS->valor;
+                $hallazgo = $rowS->hallazgo;
+                
+                if($crequisitochecklist == '0001'){
+                    $sheetS = $spreadsheet->setActiveSheetIndex(1);
+                }
+                if($crequisitochecklist == '0002'){
+                    $sheetS = $spreadsheet->setActiveSheetIndex(2);
+                }
+                if($crequisitochecklist == '0003'){
+                    $sheetS = $spreadsheet->setActiveSheetIndex(3);
+                }
+                if($crequisitochecklist == '0004'){
+                    $sheetS = $spreadsheet->setActiveSheetIndex(4);
+                }
+                if($crequisitochecklist == '0005'){
+                    $sheetS = $spreadsheet->setActiveSheetIndex(5);
+                }                    
+
+                $sheetS->setCellValue('A'.$iS,$i);
+                $sheetS->setCellValue('B'.$iS,$requisito);
+                $sheetS->setCellValue('C'.$iS,$valor);
+                $sheetS->setCellValue('D'.$iS,$hallazgo);
+
+                $sheetS->setCellValue('C13',$valorsubtotal);
+                $sheetS->setCellValue('D13',$cualidad);
+
+                $sheetS->getColumnDimension('A')->setAutoSize(false)->setWidth(6.10);
+                $sheetS->getColumnDimension('B')->setAutoSize(false)->setWidth(70.10);
+                $sheetS->getColumnDimension('C')->setAutoSize(false)->setWidth(12.10);
+                $sheetS->getColumnDimension('D')->setAutoSize(false)->setWidth(80.10);
+
+                $sheetS->getRowDimension('1')->setRowHeight(45.10);
+                $sheetS->getRowDimension('2')->setRowHeight(28.10);
+                $sheetS->getRowDimension('3')->setRowHeight(26.50);
+                $sheetS->getRowDimension('4')->setRowHeight(26.50);
+                $sheetS->getRowDimension('5')->setRowHeight(26.50);
+                $sheetS->getRowDimension('6')->setRowHeight(26.50);
+                $sheetS->getRowDimension('7')->setRowHeight(26.50);
+                $sheetS->getRowDimension('8')->setRowHeight(26.50);
+                $sheetS->getRowDimension('9')->setRowHeight(26.50);
+                $sheetS->getRowDimension('10')->setRowHeight(26.50);
+                $sheetS->getRowDimension('11')->setRowHeight(26.50);
+                $sheetS->getRowDimension('12')->setRowHeight(26.50);
+                $sheetS->getRowDimension('13')->setRowHeight(25.10);
+                $sheetS->getRowDimension('13')->setRowHeight(20.10);
+
+                $sheetS->getStyle('A1:D1')->applyFromArray($textochecklist);
+                $sheetS->getStyle('A2:D2')->applyFromArray($cabecera);
+                $sheetS->getStyle('A3:D12')->applyFromArray($celdastexto);
+                $sheetS->getStyle('C3:C12')->applyFromArray($celdastextocentro);
+                $sheetS->getStyle('B13')->applyFromArray($celdastextocentronegrita);
+                $sheetS->getStyle('C13:D13')->applyFromArray($celdastextocentronegrita);
+                $sheetS->getStyle('A15:D15')->applyFromArray($cabecera);
+
+                $iS++;
+                $i++;
+            }
+
             $icabe++;
         }
 
@@ -307,121 +498,66 @@ class Cexcelauditoria extends CI_Controller {
         $sheet->setCellValue('C9',$sedeaudi);
         $sheet->setCellValue('E17',$resultado);
         $sheet->setCellValue('D19',$calificacion);	
-     
+    
      /*.Data*/
 
-     /*Hoja1*/
-        $spreadsheet->createSheet();
-        $spreadsheet->setActiveSheetIndex(1)->setCellValue('A1','"Separar lo necesario de lo innecesario"')
-                    ->mergeCells('A1:D1')
-                    ->setCellValue('A2','N°')
-                    ->setCellValue('B2','S1=Seiri=Clasificar')
-                    ->setCellValue('C2','Cumple / No Cumple')
-                    ->setCellValue('D2','Observaciones, comentarios, sugerencias de mejora que se encuentran en etapa de verificación S1')
-                    ->setCellValue('B13','Puntuación')
-                    ->setCellValue('A15','Nota: En caso que la pregunta no aplique para el área auditada se debera considerar puntaje en la calificación.')
-                    ->mergeCells('A15:D15');
-
-        $spreadsheet->setActiveSheetIndex(1)->getColumnDimension('A')->setAutoSize(false)->setWidth(6.10);
-        $spreadsheet->setActiveSheetIndex(1)->getColumnDimension('B')->setAutoSize(false)->setWidth(60.10);
-        $spreadsheet->setActiveSheetIndex(1)->getColumnDimension('C')->setAutoSize(false)->setWidth(12.10);
-        $spreadsheet->setActiveSheetIndex(1)->getColumnDimension('D')->setAutoSize(false)->setWidth(74.10);
-
-        $spreadsheet->setActiveSheetIndex(1)->getRowDimension('1')->setRowHeight(45.10);
-        $spreadsheet->setActiveSheetIndex(1)->getRowDimension('2')->setRowHeight(25.10);
-        $spreadsheet->setActiveSheetIndex(1)->getRowDimension('13')->setRowHeight(25.10);
-        $spreadsheet->setActiveSheetIndex(1)->getRowDimension('13')->setRowHeight(20.10);
-
-        $spreadsheet->setActiveSheetIndex(1)->getStyle('A1:D1')->applyFromArray($textochecklist);
-        $spreadsheet->setActiveSheetIndex(1)->getStyle('A2:D2')->applyFromArray($cabecera);
-        $spreadsheet->setActiveSheetIndex(1)->getStyle('B13')->applyFromArray($celdastextocentronegrita);
-        $spreadsheet->setActiveSheetIndex(1)->getStyle('A15')->applyFromArray($cabecera);
-
-        $parametrosS1 = array( 
-            '@idaudi'	=> $cauditoriainspeccion,
-            '@fechaaudi'	=> $fservicio,
-            '@cchecklist'	=> $cchecklist,
-            '@cchecklistpadre'	=> '0001'
+     /*Grafico*/
+        
+        $dataSeriesLabels = [
+            new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, null, null, 1), // 2011
+        ];
+        $xAxisTickValues = [
+            new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_STRING, 'S0!$C$12:$C$16', null, 5), // Jan to Dec
+        ];
+        $dataSeriesValues = [
+            new DataSeriesValues(DataSeriesValues::DATASERIES_TYPE_NUMBER, 'S0!$E$12:$E$16', null, 5),
+        ];
+        
+        $series = new DataSeries(
+            DataSeries::TYPE_RADARCHART, // plotType
+            null, // plotGrouping (Radar charts don't have any grouping)
+            range(0, count($dataSeriesValues) - 1), // plotOrder
+            $dataSeriesLabels, // plotLabel
+            $xAxisTickValues, // plotCategory
+            $dataSeriesValues, // plotValues
+            null, // plotDirection
+            null, // smooth line
+            DataSeries::STYLE_MARKER  // plotStyle
         );
-        $rptS1 = $this->mexcelauditoria->xlschecklistdetalle($parametrosS1);
-        $iS1 = 3;
-        $i=1;
-        foreach($rptS1 as $rowS1){
-            
-            $requisito = $rowS1->requisito;
-            $valor = $rowS1->valor;
-            $hallazgo = $rowS1->hallazgo;
-
-            $spreadsheet->setActiveSheetIndex(1)->setCellValue('A'.$iS1,$i);
-            $spreadsheet->setActiveSheetIndex(1)->setCellValue('B'.$iS1,$requisito);
-            $spreadsheet->setActiveSheetIndex(1)->setCellValue('C'.$iS1,$valor);
-            $spreadsheet->setActiveSheetIndex(1)->setCellValue('D'.$iS1,$hallazgo);
-            $iS1++;
-            $i++;
-        }
-
-        $spreadsheet->getActiveSheet()->setTitle('S1');
-     /*.Hoja1*/
-
-     /*Hoja2*/
-        $spreadsheet->createSheet();
-        $spreadsheet->setActiveSheetIndex(2)->setCellValue('A1','"Un sitio para cada cosa y cada cosa en su sitio"')
-                    ->mergeCells('A1:D1')
-                    ->setCellValue('A2','N°')
-                    ->setCellValue('B2','S2=Seiton=Ordenar')
-                    ->setCellValue('C2','Cumple / No cumple')
-                    ->setCellValue('D2','Observaciones, comentarios, sugerencias de mejora que se encuentran en etapa de verificación S2');
-
-        $spreadsheet->setActiveSheetIndex(2)->getStyle('A1:D1')->applyFromArray($textochecklist);
-
-        $spreadsheet->getActiveSheet()->setTitle('S2');
-     /*.Hoja2*/
-
-     /*Hoja3*/
-        $spreadsheet->createSheet();
-        $spreadsheet->setActiveSheetIndex(3);
-        $spreadsheet->getActiveSheet()->setTitle('S3');
-     /*.Hoja3*/
-
-     /*Hoja4*/
-        $spreadsheet->createSheet();
-        $spreadsheet->setActiveSheetIndex(4);
-        $spreadsheet->getActiveSheet()->setTitle('S4');
-     /*.Hoja4*/
-
-     /*Hoja5*/
-        $spreadsheet->createSheet();
-        $spreadsheet->setActiveSheetIndex(5);
-        $spreadsheet->getActiveSheet()->setTitle('S5');
-     /*.Hoja5*/
-
-     /*		
-        $spreadsheet->createSheet(0);
-        $hoja1 = new Worksheet($spreadsheet,"S1");
-
-        $spreadsheet->addSheet($hoja1,2);
-
-        $hoja1->setCellValue('A1','"Separar lo necesario de lo innecesario"')
-        ->mergeCells('A1:D1')
-        ->setCellValue('A2','N°')
-        ->setCellValue('B2','S1=Seiri=Clasificar')
-        ->setCellValue('C2','Cumple / No cumple')
-        ->setCellValue('D2','Observaciones, comentarios, sugerencias de mejora que se encuentran en etapa de verificación S1');
-
-     */
-
-        $sheet->setTitle('S0');
-
-        $writer = new Xlsx($spreadsheet);
-
-        $namesheet = "ReporteInforme.xlsx";
-
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="'.$namesheet.'"');
-        header('Cache-Control: max-age=0');										
-                                                        
-        $writer->save('php://output');
-	}
-  
+        
+        $layout = new Layout();
+        
+        $plotArea = new PlotArea($layout, [$series]);
+        $legend = new Legend(Legend::POSITION_RIGHT, null, false);
+        
+        $title = new Title('Test Radar Chart');
+        
+        $chart = new Chart(
+            'chart1', // name
+            null, // title
+            null, // legend
+            $plotArea, // plotArea
+            true, // plotVisibleOnly
+            'gap', // displayBlanksAs
+            null, // xAxisLabel
+            null   // yAxisLabel - Radar charts don't have a Y-Axis
+        );
+        
+        $chart->setTopLeftPosition('D2');
+        $chart->setBottomRightPosition('F10');
+        
+        $sheet->addChart($chart);
+        
+     /*.Grafico*/
+        
+        // Save Excel 2007 file
+        $filename = 'ReporteInforme.xlsx';
+        $namesheet = 'temp/'.$filename;
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->setIncludeCharts(true);
+        $writer->save($namesheet);
+        $data = file_get_contents($namesheet); 
+        force_download($filename,$data); 
+    }
 }
 ?>

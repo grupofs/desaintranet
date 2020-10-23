@@ -159,4 +159,41 @@ $(function() {
 		boton.prop('disabled', false);
 	}
 
+	/**
+	 * Messages alert
+	 * Type: error, info, success, warning
+	 * @param {string} type
+	 * @param {string} message
+	 * @param {string|default=null} text
+	 */
+	objPrincipal.alert = function(type, message, text) {
+		text = (typeof text === 'undefined') ? '' : text;
+		Swal.fire({
+			type: type,
+			title: message,
+			text: text,
+			showCloseButton: true,
+			showConfirmButton: false
+		})
+	};
+
+	/**
+	 * Messages Notification
+	 * Type: error, info, success, warning
+	 * @param {string} type
+	 * @param {string} message
+	 */
+	objPrincipal.notify = function(type, message) {
+		let notify = Swal.mixin({
+			toast: true,
+			position: 'top-end',
+			showConfirmButton: false,
+			timer: 4000
+		});
+		notify.fire({
+			type: type,
+			title: message,
+		})
+	};
+
 });

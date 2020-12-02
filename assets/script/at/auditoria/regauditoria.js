@@ -22,7 +22,7 @@ $(function() {
     /**
      * Muestra el formulario ocultando la lista
      */
-    objFormulario.mostrarRegistro = function (cauditoriainspeccion,fservicio,cchecklist) {
+    objFormulario.mostrarRegistro = function (cauditoriainspeccion,fservicio,cchecklist,cestablecimiento) {
         const boton = $('#btnAccionContenedorLista');
         const icon = boton.find('i');
         if (icon.hasClass('fa-plus')) icon.removeClass('fa-plus');
@@ -32,7 +32,24 @@ $(function() {
         $('#hdnIdaudi').val(cauditoriainspeccion);
         $('#hdnFaudi').val(fservicio);
         $('#hdnChecklist').val(cchecklist);
-        listarChecklist();
+        
+        //listarChecklist();
+        var params = { "cestablecimiento":cestablecimiento};
+        $.ajax({
+            type: 'ajax',
+            method: 'post',
+            url: baseurl+"at/auditoria/cregauditoria/getcboregAreazona",
+            dataType: "JSON",
+            async: true,
+            data: params,
+            success:function(result){
+                $('#cboregAreazona').html(result);
+            },
+            error: function(){
+                alert('Error, No se puede autenticar por error');
+            }
+        });
+
         $('#contenedorRegchecklist').show();
         $('#contenedorBusqueda').hide();
     };
@@ -284,6 +301,22 @@ $("#cboregChecklist").change(function(){
                 alert('Error, No se puede autenticar por error = cboregFormula');
             }
         });
+
+        $.ajax({
+            type: 'ajax',
+            method: 'post',
+            url: baseurl+"at/auditoria/cregauditoria/getcbocriterio",
+            dataType: "JSON",
+            async: true,
+            data: params,
+            success:function(result)
+            {
+                $('#cboregCriterio').html(result);
+            },
+            error: function(){
+                alert('Error, No se puede autenticar por error = cboregCriterio');
+            }
+        });
 });
 
 fechaActualreg= function(){
@@ -381,7 +414,7 @@ $("#btnBuscar").click(function (){
             {responsivePriority: 1, "orderable": false, "class": "col-s", 
                 render:function(data, type, row){
                     return '<div class="text-left" >' +
-                        '<a title="Checklist" style="cursor:pointer; color:blue;" onClick="objFormulario.mostrarRegistro(\'' + row.cauditoriainspeccion + '\',\'' + row.fservicio + '\', \'' + row.cchecklist + '\');"><span class="fa fa-pencil-alt fa-2x" aria-hidden="true"> </span> </a>'+
+                        '<a title="Checklist" style="cursor:pointer; color:blue;" onClick="objFormulario.mostrarRegistro(\'' + row.cauditoriainspeccion + '\',\'' + row.fservicio + '\', \'' + row.cchecklist + '\', \'' + row.cestablecimiento + '\');"><span class="fa fa-pencil-alt fa-2x" aria-hidden="true"> </span> </a>'+
                     '</div>';
                 }
             }
@@ -438,6 +471,10 @@ $('#btnRetornarLista').click(function(){
     objFormulario.mostrarBusqueda();
 });
 
+$("#cboregAreazona").change(function(){ 
+    listarChecklist();
+});
+
 listarChecklist = function(){
       
     otblListChecklist = $('#tblListChecklist').DataTable({  
@@ -460,6 +497,7 @@ listarChecklist = function(){
                 d.idaudi = $('#hdnIdaudi').val();
                 d.fechaaudi = $('#hdnFaudi').val();
                 d.cchecklist = $('#hdnChecklist').val(); 
+                d.cestablearea = $('#cboregAreazona').val(); 
             },     
             dataSrc : ''        
         },
@@ -475,7 +513,7 @@ listarChecklist = function(){
                         return ''
                     }else{
                         return '<div>'+
-                        '<a title="Editar" style="cursor:pointer; color:#3c763d;" onClick="javascript:selHallazgo(\''+row.cauditoriainspeccion+'\',\''+row.fservicio+'\',\''+row.cchecklist+'\',\''+row.crequisitochecklist+'\');"><span class="fas fa-edit fa-2x" aria-hidden="true"> </span> </a>'+
+                        '<a title="Editar" style="cursor:pointer; color:#3c763d;" onClick="javascript:selHallazgo(\''+row.cauditoriainspeccion+'\',\''+row.fservicio+'\',\''+row.cchecklist+'\',\''+row.crequisitochecklist+'\',\''+row.cestablearea+'\');"><span class="fas fa-edit fa-2x" aria-hidden="true"> </span> </a>'+
                         '</div>'
                     }
                 }
@@ -494,8 +532,8 @@ listarChecklist = function(){
                     ' <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">'+
                     ' <span class="sr-only">Toggle Dropdown</span>'+
                     ' <div class="dropdown-menu" role="menu">'+
-                    ' <a class="dropdown-item" onClick="cambiarValor(\''+row.cauditoriainspeccion+'\',\''+row.fservicio+'\',\''+row.cchecklist+'\',\''+row.crequisitochecklist+'\',\''+row.drequisito+'\',\''+"001"+'\');"><i style="color:green;" class="fas fa-check"></i>&nbsp;&nbsp;CUMPLE</a>'+
-                    ' <a class="dropdown-item" onClick="cambiarValor(\''+row.cauditoriainspeccion+'\',\''+row.fservicio+'\',\''+row.cchecklist+'\',\''+row.crequisitochecklist+'\',\''+row.drequisito+'\',\''+"002"+'\');"><i style="color:red;" class="fas fa-exclamation-triangle"></i>&nbsp;&nbsp;NO CUMPLE</a>'+
+                    ' <a class="dropdown-item" onClick="cambiarValor(\''+row.cauditoriainspeccion+'\',\''+row.fservicio+'\',\''+row.cchecklist+'\',\''+row.crequisitochecklist+'\',\''+row.drequisito+'\',\''+"001"+'\',\''+row.cestablearea+'\');"><i style="color:green;" class="fas fa-check"></i>&nbsp;&nbsp;CUMPLE</a>'+
+                    ' <a class="dropdown-item" onClick="cambiarValor(\''+row.cauditoriainspeccion+'\',\''+row.fservicio+'\',\''+row.cchecklist+'\',\''+row.crequisitochecklist+'\',\''+row.drequisito+'\',\''+"002"+'\',\''+row.cestablearea+'\');"><i style="color:red;" class="fas fa-exclamation-triangle"></i>&nbsp;&nbsp;NO CUMPLE</a>'+
                     ' </div>'+
                     ' </button>'+ 
                     '</div>' 
@@ -506,7 +544,7 @@ listarChecklist = function(){
     });   
 };
 
-cambiarValor = function(cauditoriainspeccion,fservicio,cchecklist,crequisitochecklist,drequisito,cdetallevalor){
+cambiarValor = function(cauditoriainspeccion,fservicio,cchecklist,crequisitochecklist,drequisito,cdetallevalor,cestablearea){
          
     if(cdetallevalor == '001'){
         
@@ -516,7 +554,8 @@ cambiarValor = function(cauditoriainspeccion,fservicio,cchecklist,crequisitochec
             "mhdncchecklist":cchecklist, 
             "mhdncrequisitochecklist":crequisitochecklist, 
             "mhdncdetallevalor":cdetallevalor,  
-            "mtxthallazgo":'', 
+            "mtxthallazgo":'',
+            "mhdncestablearea": cestablearea,
         };
         var request = $.ajax({
             type: 'ajax',
@@ -550,6 +589,7 @@ cambiarValor = function(cauditoriainspeccion,fservicio,cchecklist,crequisitochec
         $('#mhdncrequisitochecklist').val(crequisitochecklist); 
         $("#mtxtrequisito").prop({readonly:true});
         $('#mtxtrequisito').val(drequisito);
+        $('#mhdncestablearea').val(cestablearea);
 
         $("#modalHallazgo").modal('show');
     }

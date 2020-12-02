@@ -117,6 +117,25 @@ class Mctrlpermisos extends CI_Model {
 		}	
     }
 
+	public function delPermisos($parametros) { //Eliminar Registro		
+        $this->db->trans_begin();
+
+		$procedure = "call sp_appweb_rrhh_deletelistvacacionespermisos(?)";
+        $query = $this->db-> query($procedure,$parametros);
+        
+        if ($this->db->trans_status() === FALSE){
+            $this->db->trans_rollback();
+        }
+        else{
+            $this->db->trans_commit();
+            if ($query->num_rows() > 0) {
+                return $query->result();
+            }{
+                return False;
+            }	
+        }   
+	}
+
 
    /* ------------- */
 

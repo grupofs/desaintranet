@@ -262,7 +262,7 @@
                             <div class="box box-success">
                                 <div class="box-header with-border">
                                     <div class="input-group mb-3">
-                                        <button type="button" class="btn btn-outline-primary" id="btnNuevoVaca" ><i class="fas fa-plus"></i>Nuevo</button>
+                                        <button type="button" class="btn btn-outline-primary" id="btnNuevoPerm" ><i class="fas fa-plus"></i>Nuevo</button>
                                     </div>
                                 </div>                                                
                                 <div class="panel-body"> 

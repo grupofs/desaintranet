@@ -60,6 +60,10 @@ $(function () {
             elFechaInicio.val(moment().subtract(1, 'days').format('DD/MM/YYYY'));
             elFechaFinal.val(currentDate);
         }
+        if (tipoValor === 0) {
+            elFechaInicio.val('');
+            elFechaFinal.val('');
+        }
     };
 
     /**
@@ -91,8 +95,9 @@ $(function () {
                             d.ccliente = $('#idcliente').val();
                             d.cproveedor = $('#cboProveedor').val();
                             d.expediente = $('#txtExpediente').val();
-                            d.fdesde = (parseInt(tipo) == 0) ? '%' : $('#FechaDesde').val();
-                            d.fhasta = (parseInt(tipo) == 0) ? '%' : $('#FechaHasta').val();
+                            d.tipo = tipo;
+                            d.fdesde = (parseInt(tipo) == 0) ? '' : $('#FechaDesde').val();
+                            d.fhasta = (parseInt(tipo) == 0) ? '' : $('#FechaHasta').val();
                         },
                         beforeSend: function () {
                             objPrincipal.botonCargando(boton);

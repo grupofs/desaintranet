@@ -2,9 +2,12 @@ var Vtitle, Vtype, vccia, timeExpira;
 var oTable_listaadministrado;
 
 vccia = $('#hdnccia').val();
+vsessionAct = $('#hdsessionAct').val();
 
 ExpiraSession = function() {
-	$('#modalExpired').modal('show');
+	if (vsessionAct == 'N'){
+		$('#modalExpired').modal('show');
+	}
 }
 
 window.setInterval("ExpiraSession()",3600000);
@@ -101,7 +104,8 @@ cerrarModal = function() {
 	$("input[data-bootstrap-switch]").each(function(){
 		$(this).bootstrapSwitch('state', $(this).prop('checked'));
 	});
-
+	
+	$('[data-mask]').inputmask()
 
 	$('.duallistbox').bootstrapDualListbox();
 /* /. Script Formularios */

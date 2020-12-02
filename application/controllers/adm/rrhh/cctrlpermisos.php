@@ -559,6 +559,11 @@ class Cctrlpermisos extends CI_Controller {
 		echo json_encode($resultado);
 	}
 
+	public function delPermisos(){
+		$parametros['@id_permisosvacaciones'] = $this->input->post('vidpermisosvacaciones');		
+		$resultado = $this->mctrlpermisos->delPermisos($parametros);
+		echo json_encode($resultado);
+	}
 
 	public function getlisthorasextras() { // Lista horas extras x empleado	   
 		$parametros = array(

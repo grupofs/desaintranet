@@ -44,6 +44,7 @@
 <section class="content">
     <div class="container-fluid">  
         <div class="card card-success">
+        <form class="form-horizontal" id="frmbuscahomo" name="frmbuscahomo" action="<?= base_url('pt/cpropuesta/excelpropu')?>" method="POST" enctype="multipart/form-data" role="form"> 
             <div class="card-header">
                 <h3 class="card-title">BUSQUEDA</h3>
                 <div class="card-tools">
@@ -101,7 +102,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>Estado</label>
-                            <select class="select2bs4" id="cboEst" name="cboEst" multiple="multiple" data-placeholder="Seleccionar" style="width: 100%;">
+                            <select class="select2bs4" id="cboEst" name="cboEst[]" multiple="multiple" data-placeholder="Seleccionar" style="width: 100%;">
                                 
                                 <option value="1">Aceptado</option>  
                                 <option value="2">Pendiente</option>  
@@ -122,12 +123,14 @@
                     </div>
                     <div class="col-md-10">
                         <div class="text-right">
-                            <button type="submit" class="btn btn-primary" id="btnBuscar"><i class="fas fa-search"></i> Buscar</button>    
+                            <button type="button" class="btn btn-primary" id="btnBuscar"><i class="fas fa-search"></i> Buscar</button>    
                             <button type="button" class="btn btn-outline-info" id="btnNuevo" data-toggle="modal" data-target="#modalCreaPropu"><i class="fas fa-plus"></i> Crear Nuevo</button>
+                            <button type="submit" class="btn btn-info" id="btnexcel" disabled="true"><i class="fa fw fa-file-excel-o"></i> Exportar Excel</button>  
                         </div>
                     </div>
                 </div>
             </div>
+        </form>
         </div>
         <div class="row">
             <div class="col-12">

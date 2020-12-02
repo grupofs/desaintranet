@@ -17,13 +17,13 @@ class Cexpediente extends CI_Controller
      * Ruta para el ingreso de FICHA
      * @var string
      */
-    private $carpetaFICHA = '1/04/07/FICHAS/';
+    private $carpetaFICHA = '10407/FICHAS/';
 
     /**
      * Ruta para el ingreso de PDF
      * @var string
      */
-    private $carpetaPDF = '1/04/07/PDF/';
+    private $carpetaPDF = '10407/PDF/';
 
 
     /**
@@ -55,13 +55,13 @@ class Cexpediente extends CI_Controller
         $expedientes = $this->input->post('expediente');
 
         $ccliente = (empty($ccliente)) ? '00005' : $ccliente;
-        $fdesde = ($fdesde == '%') ? null : substr($fdesde, 6, 4) . '-' . substr($fdesde, 3, 2) . '-' . substr($fdesde, 0, 2);
-        $fhasta = ($fhasta == '%') ? null : substr($fhasta, 6, 4) . '-' . substr($fhasta, 3, 2) . '-' . substr($fhasta, 0, 2);
+        $fdesde = ($fdesde == '') ? null : substr($fdesde, 6, 4) . '-' . substr($fdesde, 3, 2) . '-' . substr($fdesde, 0, 2);
+        $fhasta = ($fhasta == '') ? null : substr($fhasta, 6, 4) . '-' . substr($fhasta, 3, 2) . '-' . substr($fhasta, 0, 2);
 
         $parametros = array(
             '@ccliente' => $ccliente,
             '@cproveedor' => $cproveedor,
-            '@expediente' => (empty($expedientes)) ? '%' : "%{$expedientes}%",
+            '@expediente' => (empty($expedientes)) ? '' : "%{$expedientes}%",
             '@fdesde' => $fdesde,
             '@fhasta' => $fhasta,
         );
@@ -406,21 +406,26 @@ class Cexpediente extends CI_Controller
                 throw new Exception('El expediente no pudo ser encontrado.');
             }
             $nombreficha = 'expediente_' . $expediente->id_expediente . '-' . $expediente->fecha . '.pdf';
-            $rutaficha = $this->carpetaFICHA . $nombreficha;
+            $rutaficha = RUTA_ARCHIVOS . $this->carpetaFICHA;
+            $rutaarchivoficha = $this->carpetaFICHA . $nombreficha;
+            
+            !is_dir($rutaficha) && @mkdir($rutaficha, 0777, true);
 
-            $config['upload_path'] = RUTA_ARCHIVOS . $this->carpetaFICHA;
-            $config['file_name'] = $nombreficha;
-            $config['allowed_types'] = 'pdf';
-            $config['max_size'] = '60048';
+            $config['upload_path']      = $rutaficha;
+            $config['file_name']        = $nombreficha;
+            $config['allowed_types']    = 'pdf';
+            $config['max_size']         = '60048';
+            $config['overwrite'] 		= TRUE;
+
             $this->load->library('upload', $config);
             $this->upload->initialize($config);
 
             if (!($this->upload->do_upload('ficha_arhivo'))) {
                 throw new Exception($this->upload->display_errors());
             } else {
-                $expediente->ruta_ficha = $rutaficha; // Se almacena para devolverlo como respuesta
+                $expediente->ruta_ficha = $rutaarchivoficha; // Se almacena para devolverlo como respuesta
                 $actualizar = $this->mexpediente->actualizar($expediente->id_expediente, [
-                    'ruta_ficha' => $rutaficha
+                    'ruta_ficha' => $rutaarchivoficha
                 ]);
                 if (!$actualizar) {
                     throw new Exception('No se pudo actualizar la ficha cargada. Vuelva a intentarlo.');
@@ -486,22 +491,27 @@ class Cexpediente extends CI_Controller
             if (empty($expediente)) {
                 throw new Exception('El expediente no pudo ser encontrado.');
             }
-            $nombreficha = 'expediente_' . $expediente->id_expediente . '-' . $expediente->fecha . '.pdf';
-            $rutaficha = $this->carpetaPDF . $nombreficha;
+            $nombrepdf = 'expediente_' . $expediente->id_expediente . '-' . $expediente->fecha . '.pdf';
+            $rutapdf = RUTA_ARCHIVOS . $this->carpetaPDF;
+            $rutaarchivopdf = $this->carpetaPDF . $nombrepdf;
+            
+            !is_dir($rutapdf) && @mkdir($rutapdf, 0777, true);
 
-            $config['upload_path'] = RUTA_ARCHIVOS . $this->carpetaPDF;
-            $config['file_name'] = $nombreficha;
-            $config['allowed_types'] = 'pdf';
-            $config['max_size'] = '60048';
+            $config['upload_path']      = $rutapdf;
+            $config['file_name']        = $nombrepdf;
+            $config['allowed_types']    = 'pdf';
+            $config['max_size']         = '60048';
+            $config['overwrite'] 		= TRUE;
+
             $this->load->library('upload', $config);
             $this->upload->initialize($config);
 
             if (!($this->upload->do_upload('pdf_arhivo'))) {
                 throw new Exception($this->upload->display_errors());
             } else {
-                $expediente->ruta_expediente = $rutaficha; // Se almacena para devolverlo como respuesta
+                $expediente->ruta_expediente = $rutaarchivopdf; // Se almacena para devolverlo como respuesta
                 $actualizar = $this->mexpediente->actualizar($expediente->id_expediente, [
-                    'ruta_expediente' => $rutaficha
+                    'ruta_expediente' => $rutaarchivopdf
                 ]);
                 if (!$actualizar) {
                     throw new Exception('No se pudo actualizar la ficha cargada. Vuelva a intentarlo.');
@@ -551,6 +561,261 @@ class Cexpediente extends CI_Controller
             echo json_encode(['error' => $ex->getMessage()]);
         }
     }
+
+    /** 
+     * Recupera los cartas a proveedores
+     */
+    public function genPdfcargorecepcion($id_expediente) 
+    { 
+        $this->load->library('pdfgenerator');
+        
+		
+		$parametros = array( 
+            '@id_expediente'   	=> $id_expediente,
+		);			
+		$resultado = $this->mexpediente->pdfCargoRecepcion_cab($parametros);
+		if ($resultado){
+			foreach($resultado as $row){
+				$vfecha         = $row->vfecha;
+				$fecha 		    = $row->fecha;
+				$expediente 	= $row->expediente;
+				$proveedor 	    = $row->proveedor;
+				$contacto_p 	= $row->contacto_p;
+				$email_p 		= $row->email_p;
+				$contacto_q 	= $row->contacto_q;
+				$email_q 		= $row->email_q;
+				$area 		    = $row->area;
+				$area_contacto 	= $row->area_contacto;
+				$Tiporpov 	    = $row->Tiporpov;
+                $documentos     = $row->documentos;                
+                
+                $date = date_create($fecha);  
+                date_add($date,date_interval_create_from_date_string("15 days"));
+                $fechavence = date_format($date, "d-m-Y");
+                
+                $html = '<html>
+                    <head>
+                        <title>'.$expediente.'</title>
+                        <link rel="shortcut icon" href="./assets/images/ico-gfs.ico" class="img-circle" type="image/x-icon" />
+                        <style>
+                            @page {
+                                margin: 0.5in 0.5in 0.5in 0.5in;;
+                            }
+                            .teacherPage {
+                                    page: teacher;
+                                    page-break-after: always;
+                            }
+                            p{
+                                font-weight: bold;
+                                font: 15px arial, sans-serif;
+                                text-align: center;
+                            }
+                            table tbody tr td{
+                                font-family: "Helvetica";
+                                font-size: 9pt;
+                            }
+                            .cuerpo {
+                                text-align: justify;
+                            }
+                            img.izquierda {
+                                float: left;
+                            }
+                            img.derecha {
+                                float: right;
+                            }
+                        </style>
+                    </head>
+                    <body>';
+
+                $html .= '<div class="teacherPage">				
+                    <page>					
+                    <table width="700px" style="font-family:arial; font-size:10px;">
+                        <tr>
+                            <td align="left" colspan="2">
+                                <img src="./FTPfileserver/Imagenes/formatos/10407/cargo/00005/tottus.png" width="120" height="40" />
+                            </td>
+                            <td align="right" colspan="2">
+                                <img src="./FTPfileserver/Imagenes/formatos/10407/cargo/00005/gfs_75.png" width="120" height="40" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center" colspan="4">
+                            <p>CARGO DE RECEPCION DE MUESTRAS PARA EVALUACION</p>
+                            </td>
+                        </tr>
+                        <tr style="height:25px;"><td colspan="4"></td></tr>
+                        <tr>
+                            <td width="80px">Fecha:</td>
+                            <td width="250px">'.$vfecha.'</td>
+                            <td width="80px">Expediente:</td>
+                            <td width="250px">'.$expediente.'</td>
+                        </tr>
+                        <tr style="height:15px;"><td colspan="4"></td></tr>
+                        <tr>
+                            <td>Proveedor:</td>
+                            <td colspan="3">'.$proveedor.'</td>
+                        </tr>
+                        <tr style="height:15px;"><td colspan="4"></td></tr>
+                        <tr>
+                            <td>Contacto 1:</td>
+                            <td>'.$contacto_p.'</td>
+                            <td>Email 1:</td>
+                            <td>'.$email_p.'</td>
+                        </tr>
+                        <tr style="height:15px;"><td colspan="4"></td></tr>
+                        <tr>
+                            <td>Contacto 2:</td>
+                            <td>'.$contacto_q.'</td>
+                            <td>Email 2:</td>
+                            <td>'.$email_q.'</td>
+                        </tr>
+                        <tr style="height:15px;"><td colspan="4"></td></tr>                        
+                        <tr>
+                            <td>Area:</td>
+                            <td>'.$area.'</td>
+                            <td>Contacto TOTTUS:</td>
+                            <td>'.$area_contacto.'</td>
+                        </tr>
+                        <tr style="height:15px;"><td colspan="4"></td></tr> 
+                        <tr>
+                            <td>Tipo Prov.:</td>
+                            <td>'.$Tiporpov.'</td>
+                            <td></td>
+                            <td></td>
+                        </tr> 
+                    </table>  
+                    <p>&nbsp;</p>';
+                    $m = '0';
+                    $f = '0';
+                    $r = '0';
+                    $h = '0';
+                    $l = '0';
+                    $i = '0';
+                    $o = '0';
+
+                    $expediente_r=explode("-",$documentos);
+                    $cantidad=count($expediente_r);
+                    for($z=0;$z<$cantidad;$z++){
+                        if($expediente_r[$z]==1){
+                            $m = '1';
+                        }
+                        if($expediente_r[$z]==2){
+                            $f = '1';
+                        }
+                        if($expediente_r[$z]==3){
+                            $r = '1';
+                        }
+                        if($expediente_r[$z]==4){
+                            $h = '1';
+                        }
+                        if($expediente_r[$z]==5){
+                            $l = '1';
+                        }
+                        if($expediente_r[$z]==6){
+                            $i = '1';
+                        }
+                        if($expediente_r[$z]==7){
+                            $o = '1';
+                        }
+                    }
+                $html .= '<table width="700px" class="marco" align="center" style="font-family:arial; font-size:10px; border: 1px solid black;">
+                    <tr>
+                        <td style="height:10px;" colspan="8" align="center">DOCUMENTOS</td>
+                    </tr>
+                    <tr>
+                        <td width="70px" style="height:10px;">&nbsp;Muestra</td>
+                        <td width="15px" align="left">
+                            <?php if($m=="1"){ ?> 
+                            <img src="./FTPfileserver/Imagenes/formatos/10407/cargo/correcto.jpg" alt="Smiley face" width="15" height="15" align="center">
+                            <?php } ?>                   
+                        </td>
+                        <td width="80px">&nbsp;Ficha Tecnica</td>
+                        <td width="15px" align="left">
+                            <?php if($f=="1"){ ?> 
+                            <img src="./FTPfileserver/Imagenes/formatos/10407/cargo/correcto.jpg" alt="Smiley face" width="15" height="15" align="center">
+                            <?php } ?>   
+                        </td>
+                        <td width="60px">&nbsp;RS/NSO/RD</td>
+                        <td width="15px" align="left">
+                            <?php if($r=="1"){ ?> 
+                            <img src="./FTPfileserver/Imagenes/formatos/10407/cargo/correcto.jpg" alt="Smiley face" width="15" height="15" align="center">
+                            <?php } ?>  
+                        </td>
+                        <td width="60px">&nbsp;Hoja de Seguridad</td>
+                        <td width="15px" align="left">
+                            <?php if($h=="1"){ ?> 
+                            <img src="./FTPfileserver/Imagenes/formatos/10407/cargo/correcto.jpg" alt="Smiley face" width="15" height="15" align="center">
+                            <?php } ?>  
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="height:10px;">&nbsp;Licencia de Func.</td>
+                        <td align="left">
+                            <?php if($l=="1"){ ?> 
+                            <img src="./FTPfileserver/Imagenes/formatos/10407/cargo/correcto.jpg" alt="Smiley face" width="15" height="15" align="center">
+                            <?php } ?>  
+                        </td>
+                        <td colspan="2" >&nbsp;Inspeccion Higienico Sanitaria</td>
+                        <td colspan="2" align="left">
+                            <?php if($i=="1"){ ?> 
+                            <img src="./FTPfileserver/Imagenes/formatos/10407/cargo/correcto.jpg" alt="Smiley face" width="15" height="15" align="center">
+                            <?php } ?>  
+                        </td>
+                        <td>&nbsp;Otros</td>
+                        <td  align="left">
+                            <?php if($o=="1"){ ?> 
+                            <img src="./FTPfileserver/Imagenes/formatos/10407/cargo/correcto.jpg" alt="Smiley face" width="15" height="15" align="center">
+                            <?php } ?>  
+                        </td>
+                    </tr>
+                    </table>
+                    <p>&nbsp;</p>';
+                $html .= '<table width="700px" class="marco" align="center" style="font-family:arial; font-size:10px; border: 1px solid black;">
+                    <tr>
+                        <td width="20px">N°</td>
+                        <td width="90px" align="center">EAN</td>
+                        <td width="250px" align="center">Descripción</td>
+                        <td width="100px" align="center">Marca</td>
+                        <td width="120px" align="center">Presentación</td>
+                        <td width="100px" align="center">Observaciones</td>
+                    </tr>';
+                    $resultadoDet = $this->mexpediente->pdfCargoRecepcion_det($parametros);
+                    if ($resultadoDet){
+                        $posDet = 1;
+                        foreach($resultadoDet as $rowDet){
+                            $codigo         = $rowDet->codigo;
+                            $descripcion 	= $rowDet->descripcion;
+                            $marca 	        = $rowDet->marca;
+                            $presentacion 	= $rowDet->presentacion;
+                            $observacion 	= $rowDet->observacion;
+
+                            $html .= '<tr style="font-family:arial; font-size:9px;">
+                                <td>'.$posDet.'</td>
+                                <td>'.$codigo.'</td>
+                                <td>'.$descripcion.'</td>
+                                <td>'.$marca.'</td>
+                                <td>'.$presentacion.'</td>
+                                <td>'.$observacion.'</td>
+                            </tr>';
+                            $posDet++;
+                        }
+                    }
+                $html .= '</table>
+                    <p>&nbsp;</p>
+                    <div align="justify" style="padding-right: 15px; padding-left: 15px;">  
+                        <span style="font-family:arial; font-size:10px;" align="justify">Importante : La muestra para la evaluación, puede ser abierta o rasgada, considerar que las muestras no regresarán para foto y otros. Es preciso señalar que usted cuenta con 15 dias(
+                        '.$fechavence.') contados a partir de la recepcion de las muestras para proceder con su recojo sin considerar el estado de evaluación (Aprobado / Observado / Rechazado). El recojo no aplica para los productos
+                        que tienen un tiempo menor o igual a 15 diás de viada útil.</span>
+                    </div>
+                    </page>
+                    </div>';
+			}
+		}
+        $html .= '</body></html>';
+		$filename = $expediente;
+		$this->pdfgenerator->generate($html, $filename);
+        //echo $html;
+	}
 
 }
 

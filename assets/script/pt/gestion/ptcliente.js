@@ -1,6 +1,137 @@
 
-var oTableCliente;
+var oTableCliente, tblEstablecimiento;
 var folderimage;
+
+const objFormulario = {
+};
+$(function() {    
+    /**
+     * Muestra la lista ocultando el formulario
+     */
+    objFormulario.mostrarBusqueda = function () {
+        const boton = $('#btnAccionContenedorLista');
+        const icon = boton.find('i');
+        if (icon.hasClass('fa-minus')) icon.removeClass('fa-minus');
+        icon.addClass('fa-plus');
+        boton.click();
+        $('#contenedorRegestable').hide();
+        $('#contenedorBusqueda').show();
+        //objFiltro.buscar()
+    };
+
+    /**
+     * Muestra el formulario ocultando la lista
+     */
+    objFormulario.mostrarRegistro = function (ccliente,razonsocial,direccioncliente,dzip, cpais,dciudad,destado,cubigeo,dubigeo) {
+        const boton = $('#btnAccionContenedorLista');
+        const icon = boton.find('i');
+        if (icon.hasClass('fa-plus')) icon.removeClass('fa-plus');
+        icon.addClass('fa-minus');
+        boton.click();
+        
+        $('#mhdnIdClie').val(ccliente);
+        $('#txtestableCI').val(razonsocial);
+        $('#txtestabledireccion').val(direccioncliente);
+        $('#txtestablezip').val(dzip);
+
+        $('#cboPaisEstable').val(cpais).trigger("change");
+        $('#txtCiudadEstable').val(dciudad);
+        $('#txtEstadoEstable').val(destado);
+
+        $('#hdnidubigeoEstable').val(cubigeo);
+        $('#mtxtUbigeoEstable').val(dubigeo); 
+        $('#mhdnAccionEstable').val('N');   
+        
+
+        
+        tblEstablecimiento = $('#tblEstablecimiento').DataTable({
+          "bJQueryUI": true,
+          'bStateSave': true,
+          'scrollY':        400,
+          'scrollX':        true,
+          'scrollCollapse': true,
+          "ordering": false,
+          'fixedColumns':{
+            'leftColumns': false,// Fijo primera columna
+            'rightColumns':1
+          },
+
+          'bDestroy'    : true,
+          'lengthMenu'  : [[10, 20, 30, -1], [10, 20, 30, "Todo"]],
+          'paging'      : true,
+          'info'        : true,
+          'filter'      : true,   
+          'stateSave'   : true,
+          'ajax'        : {
+                            "url"   : baseurl+"pt/cptcliente/getbuscarestablecimiento",
+                            "type"  : "POST", 
+                            "data": function ( d ) {
+                                d.IDCLIENTE = ccliente
+
+                            },     
+                            dataSrc : ''        
+                          },
+          'columns'     : [
+              
+                            {data: 'POS', targets: 0 },
+                            {data: 'DESCRIPESTABLE', targets: 1 },
+                            {data: 'DIRECCION', targets: 2 },
+                            {data: 'RESPONCALIDAD', targets: 3 },
+                            {data: 'TELEFONOCALIDAD', targets: 4 },
+                            {data: 'ESTADO', targets: 5},
+                            {"orderable": false, 
+                              render:function(data, type, row){
+                                return  '<div>'+  
+                                          '<a data-original-title="Editar" onClick="javascript:EditarEstablecimiento(\''+row.COD_ESTABLE+'\',\''+row.DESCRIPESTABLE+'\',\''+row.DIRECCION+'\',\''+row.DZIP+'\',\''+row.FCE+'\','+
+                                          '\''+row.ECP+'\',\''+row.FFRN+'\',\''+row.RESPONCALIDAD+'\',\''+row.CARGOCALIDAD+'\',\''+row.EMAILCALIDAD+'\',\''+row.ESTADO+'\',\''+row.TELEFONOCALIDAD+'\',\''+row.PAIS+'\',\''+row.CIUDAD+'\',\''+row.ESTESTABLE+'\',\''+row.UBIGEO+'\');"><i class="fa fa-edit fa-2x" data-original-title="Editar" data-toggle="tooltip"></i></a>'+
+                                          '&nbsp; &nbsp;'+
+                                          '<a data-original-title="Eliminar" data-toggle="modal" data-target="#modaldelestablecimiento" onClick="javascript:SelDeleteEstable(\''+row.COD_ESTABLE+'\');"><i class="fa fa-trash-o fa-2x" data-original-title="Eliminar" data-toggle="tooltip"></i></a>'+
+                                          '&nbsp; &nbsp;'+
+                                            '<a data-original-title="Agregar Contacto" data-toggle="modal" data-target="#modalestablecontacto" onClick="javascript:Selcontactoestable(\''+row.COD_ESTABLE+'\',\''+row.COD_CLIENTE+'\');"><i class="fa fa-users fa-2x" data-original-title="Agregar Contacto" data-toggle="tooltip"></i></a>'+
+                                        '</div>'   
+                              }
+                            }
+                          ], 
+          "columnDefs": [
+              {
+                "targets": [5], 
+                "data": "ESTADO", 
+                "render": function(data, type, row) {            
+                  if (data ==  "A") {
+                    return "<span class='label label-success'>Activo</span>";
+                  }else if (data == "I") {
+                    return "<span class='label label-danger'>Inactivo</span>";
+                  }              
+                }
+              }
+          ],
+        });
+/*
+        $('#hdnIdaudi').val(cauditoriainspeccion);
+        $('#hdnFaudi').val(fservicio);
+        $('#hdnChecklist').val(cchecklist);
+        
+        //listarChecklist();
+        var params = { "cestablecimiento":cestablecimiento};
+        $.ajax({
+            type: 'ajax',
+            method: 'post',
+            url: baseurl+"at/auditoria/cregauditoria/getcboregAreazona",
+            dataType: "JSON",
+            async: true,
+            data: params,
+            success:function(result){
+                $('#cboregAreazona').html(result);
+            },
+            error: function(){
+                alert('Error, No se puede autenticar por error');
+            }
+        });
+*/
+        $('#contenedorRegestable').show();
+        $('#contenedorBusqueda').hide();
+    };
+});
 
 $(document).ready(function() {
     $('#tabptcliente a[href="#tabptcliente-list-tab"]').attr('class', 'disabled');
@@ -119,16 +250,14 @@ listarcliente = function(){
           {"orderable": false, 
             render:function(data, type, row){
               return '<div>' +
-              '<a onclick="editarCliente(\''+row.CCLIENTE+'\',\''+row.NRUC+'\',\''+row.DRAZONSOCIAL+'\',\''+row.cpais+'\',\''+row.dciudad+'\',\''+row.destado+'\',\''+row.dzip+'\',\''+row.CUBIGEO+'\',\''+row.DDIRECCIONCLIENTE+
-              '\',\''+row.DTELEFONO+'\',\''+row.DFAX+'\',\''+row.dweb+'\',\''+row.ZCTIPOTAMANOEMPRESA+'\',\''+row.NTRABAJADOR+'\',\''+row.DREPRESENTANTE+'\',\''+row.DCARGOREPRESENTANTE+'\',\''+row.DEMAILREPRESENTANTE+
-              '\',\''+row.DRUTA+'\',\''+row.TIPODOC+'\',\''+row.DUBIGEO+'\');"><i style="color:#088A08;" class="fa fa-edit fa-2x" data-original-title="EDITAR" data-toggle="tooltip"></i></a>' +
+              '<a title="Editar" onclick="editarCliente(\''+row.CCLIENTE+'\',\''+row.NRUC+'\',\''+row.DRAZONSOCIAL+'\',\''+row.cpais+'\',\''+row.dciudad+'\',\''+row.destado+'\',\''+row.dzip+'\',\''+row.CUBIGEO+'\',\''+row.DDIRECCIONCLIENTE+'\',\''+row.DTELEFONO+'\',\''+row.DFAX+'\',\''+row.dweb+'\',\''+row.ZCTIPOTAMANOEMPRESA+'\',\''+row.NTRABAJADOR+'\',\''+row.DREPRESENTANTE+'\',\''+row.DCARGOREPRESENTANTE+'\',\''+row.DEMAILREPRESENTANTE+'\',\''+row.DRUTA+'\',\''+row.TIPODOC+'\',\''+row.DUBIGEO+'\');"><i style="color:#088A08;" class="fa fa-edit fa-2x" data-original-title="EDITAR" data-toggle="tooltip"></i></a>' +
               '</div>' ; 
             }
           },
           {"orderable": false, 
             render:function(data, type, row){
               return  '<div>'+  
-              '<a data-toggle="modal" data-target="#modalestablecimiento"  onClick="javascript:Agregarestable(\''+row.CCLIENTE+'\',\''+row.DRAZONSOCIAL+'\',\''+row.DDIRECCIONCLIENTE+'\',\''+row.dzip+'\',\''+row.cpais+'\',\''+row.dciudad+'\',\''+row.destado+'\',\''+row.CUBIGEO+'\',\''+row.DUBIGEO+'\');"><i style="color:#E8831F;" class="fa fa-plus-square fa-2x" data-original-title="Agregar Establecimiento" data-toggle="tooltip"></i></a>'+
+              '<a title="Establecimientos" style="cursor:pointer; color:blue;" onClick="objFormulario.mostrarRegistro(\''+row.CCLIENTE+'\',\''+row.DRAZONSOCIAL+'\',\''+row.DDIRECCIONCLIENTE+'\',\''+row.dzip+'\',\''+row.cpais+'\',\''+row.dciudad+'\',\''+row.destado+'\',\''+row.CUBIGEO+'\',\''+row.DUBIGEO+'\');"><span class="fa fa-plus-square fa-2x" aria-hidden="true"> </span> </a>'+
               '</div>'   
             }
           }
@@ -319,85 +448,12 @@ $('#frmMantptClie').submit(function(event){
     });
 });
 
+$('#btnRetornarLista').click(function(){
+    objFormulario.mostrarBusqueda();
+});
+
 Agregarestable = function(ccliente,razonsocial,direccioncliente,dzip, cpais,dciudad,destado,cubigeo,dubigeo){
   
-  $('#mhdnIdClie').val(ccliente);
-  $('#txtestableCI').val(razonsocial);
-  $('#txtestabledireccion').val(direccioncliente);
-  $('#txtestablezip').val(dzip);
-
-  $('#cboPaisEstable').val(cpais).trigger("change");
-  $('#txtCiudadEstable').val(dciudad);
-  $('#txtEstadoEstable').val(destado);
-
-  $('#hdnidubigeoEstable').val(cubigeo);
-  $('#mtxtUbigeoEstable').val(dubigeo); 
-  $('#mhdnAccionEstable').val('N');   
-  
-
-  
-  tblEstablecimiento = $('#tblEstablecimiento').DataTable({
-    "bJQueryUI": true,
-    'bStateSave': true,
-    'scrollY':        400,
-    'scrollX':        true,
-    'scrollCollapse': true,
-    "ordering": false,
-    'fixedColumns':{
-      'leftColumns': false,// Fijo primera columna
-      'rightColumns':1
-    },
-
-    'bDestroy'    : true,
-    'lengthMenu'  : [[10, 20, 30, -1], [10, 20, 30, "Todo"]],
-    'paging'      : true,
-    'info'        : true,
-    'filter'      : true,   
-    'stateSave'   : true,
-    'ajax'        : {
-                      "url"   : baseurl+"pt/cptcliente/getbuscarestablecimiento",
-                      "type"  : "POST", 
-                      "data": function ( d ) {
-                          d.IDCLIENTE = ccliente
-
-                      },     
-                      dataSrc : ''        
-                    },
-    'columns'     : [
-        
-                      {data: 'POS', targets: 0 },
-                      {data: 'DESCRIPESTABLE', targets: 1 },
-                      {data: 'DIRECCION', targets: 2 },
-                      {data: 'RESPONCALIDAD', targets: 3 },
-                      {data: 'TELEFONOCALIDAD', targets: 4 },
-                      {data: 'ESTADO', targets: 5},
-                      {"orderable": false, 
-                        render:function(data, type, row){
-                          return  '<div>'+  
-                                    '<a data-original-title="Editar" onClick="javascript:EditarEstablecimiento(\''+row.COD_ESTABLE+'\',\''+row.DESCRIPESTABLE+'\',\''+row.DIRECCION+'\',\''+row.DZIP+'\',\''+row.FCE+'\','+
-                                    '\''+row.ECP+'\',\''+row.FFRN+'\',\''+row.RESPONCALIDAD+'\',\''+row.CARGOCALIDAD+'\',\''+row.EMAILCALIDAD+'\',\''+row.ESTADO+'\',\''+row.TELEFONOCALIDAD+'\',\''+row.PAIS+'\',\''+row.CIUDAD+'\',\''+row.ESTESTABLE+'\',\''+row.UBIGEO+'\');"><i class="fa fa-edit fa-2x" data-original-title="Editar" data-toggle="tooltip"></i></a>'+
-                                    '&nbsp; &nbsp;'+
-                                    '<a data-original-title="Eliminar" data-toggle="modal" data-target="#modaldelestablecimiento" onClick="javascript:SelDeleteEstable(\''+row.COD_ESTABLE+'\');"><i class="fa fa-trash-o fa-2x" data-original-title="Eliminar" data-toggle="tooltip"></i></a>'+
-                                    '&nbsp; &nbsp;'+
-                                      '<a data-original-title="Agregar Contacto" data-toggle="modal" data-target="#modalestablecontacto" onClick="javascript:Selcontactoestable(\''+row.COD_ESTABLE+'\',\''+row.COD_CLIENTE+'\');"><i class="fa fa-users fa-2x" data-original-title="Agregar Contacto" data-toggle="tooltip"></i></a>'+
-                                  '</div>'   
-                        }
-                      }
-                    ], 
-    "columnDefs": [
-        {
-          "targets": [5], 
-          "data": "ESTADO", 
-          "render": function(data, type, row) {            
-            if (data ==  "A") {
-              return "<span class='label label-success'>Activo</span>";
-            }else if (data == "I") {
-              return "<span class='label label-danger'>Inactivo</span>";
-            }              
-          }
-        }
-    ],
-  });
 }
 
 $('#cboPaisEstable').change(function(){

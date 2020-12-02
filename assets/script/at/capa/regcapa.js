@@ -1,4 +1,5 @@
 
+
 var otblListCapacita, otblListRegcapadet, otblListRegprogr, otblListParticipantes;
 var varfdesde = '%', varfhasta = '%';
 

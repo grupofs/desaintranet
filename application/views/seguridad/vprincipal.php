@@ -6,7 +6,8 @@
     $infousuario = $this->session->userdata('s_infodato');
     $imgperfil = $this->session->userdata('s_druta'); 
     $nombperfil = $this->session->userdata('s_usu'); 
-    $usuario = $this->session->userdata('s_usuario');  
+    $usuario = $this->session->userdata('s_usuario');
+    $sessionAct = $this->session->userdata('sessionAct');  
 
     if($imgperfil == ''):
         $imgperfil = 'avatar5.png';
@@ -117,6 +118,7 @@
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
     <div class="wrapper">        
         <input type="hidden" id="hdidempleado" value= <?php echo $idempleado; ?> >
+        <input type="hidden" id="hdsessionAct" value= <?php echo $sessionAct; ?> >
 
         <!-- MAIN CABECERA  -->
         <nav class="main-header navbar navbar-expand navbar-dark <?php echo $claseCabecera ?>">
@@ -333,6 +335,8 @@
         <script src="<?php echo public_url(); ?>template/GUI/plugins/jquery-validation/additional-methods.min.js"></script>
         <!-- moment-->
         <script src="<?php echo public_url(); ?>template/GUI/plugins/moment/moment.min.js"></script> 
+        <!-- InputMask -->
+        <script src="<?php echo public_url(); ?>template/GUI/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
         <script src="<?php echo public_url(); ?>template/GUI/plugins/moment/locale/es.js"></script>
         <!-- bs-custom-file-input -->
         <script src="<?php echo public_url(); ?>template/GUI/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>

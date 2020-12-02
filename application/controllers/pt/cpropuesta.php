@@ -1,6 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Style\Conditional;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
 class Cpropuesta extends CI_Controller {
 	function __construct() {
 		parent:: __construct();	
@@ -69,6 +79,474 @@ class Cpropuesta extends CI_Controller {
 		$resultado = $this->mpropuesta->getbuscarpropuesta($parametros);
 		echo json_encode($resultado);
 	}
+
+	public function excelpropu() {
+	 /*Estilos */
+		$titulo = [
+			'font'	=> [
+				'name' => 'Arial',
+				'size' =>12,
+				'color' => array('rgb' => 'FFFFFF'),
+				'bold' => true,
+			], 
+			'fill'	=>[
+				'fillType' => Fill::FILL_SOLID,
+				'startColor' => [
+					'rgb' => '29B037'
+				]
+			],
+			'borders'	=>[
+				'allBorders' => [
+					'borderStyle' => Border::BORDER_THIN,
+					'color' => [ 
+						'rgb' => '000000'
+					]
+				]
+			],
+			'alignment' => [
+				'horizontal' => Alignment::HORIZONTAL_CENTER,
+				'vertical' => Alignment::VERTICAL_CENTER,
+				'wrapText' => true,
+			],
+		];
+        $cabecera = [
+            'font'	=> [
+                'name' => 'Arial',
+                'size' =>10,
+                'color' => array('rgb' => 'FFFFFF'),
+                'bold' => true,
+            ], 
+            'fill'	=>[
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => [
+                    'rgb' => '29B037'
+                ]
+            ],
+            'borders'	=>[
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                    'color' => [ 
+                        'rgb' => '000000'
+                    ]
+                ]
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical' => Alignment::VERTICAL_CENTER,
+                'wrapText' => true,
+            ],
+        ];
+        $celdastexto = [
+            'borders'	=>[
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                    'color' => [ 
+                        'rgb' => '000000'
+                    ]
+                ]
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_LEFT,
+                'vertical' => Alignment::VERTICAL_CENTER,
+                'wrapText' => true,
+            ],
+        ];
+        $celdasnumero = [
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_RIGHT,
+                'vertical' => Alignment::VERTICAL_CENTER,
+                'wrapText' => true,
+            ],
+        ];
+        $celdascentro = [
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical' => Alignment::VERTICAL_CENTER,
+                'wrapText' => true,
+            ],
+        ];
+	 /*Estilos */	
+		$spreadsheet = new Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+		$sheet->setTitle('Listado - Propuestas');
+
+        $spreadsheet->getDefaultStyle()
+            ->getFont()
+            ->setName('Arial')
+            ->setSize(9);
+		
+		$sheet->setCellValue('A1', 'Listado de Propuestas')
+			->mergeCells('A1:I1')
+			->setCellValue('A3', '#')
+			->setCellValue('B3', 'Nro Propuesta')
+			->setCellValue('C3', 'Fecha Propuesta')
+			->setCellValue('D3', 'Cliente')
+			->setCellValue('E3', 'Estado')
+			->setCellValue('F3', 'Servicio')
+			->setCellValue('G3', 'Detalle')
+			->setCellValue('H3', 'Costo')
+			->setCellValue('I3', 'Establecimiento');
+
+		$sheet->getStyle('A1:I1')->applyFromArray($titulo);
+        $sheet->getStyle('A3:I3')->applyFromArray($cabecera);
+
+		$sheet->getColumnDimension('A')->setAutoSize(false)->setWidth(4.10);
+		$sheet->getColumnDimension('B')->setAutoSize(false)->setWidth(20.10);
+		$sheet->getColumnDimension('C')->setAutoSize(false)->setWidth(14.10);
+		$sheet->getColumnDimension('D')->setAutoSize(false)->setWidth(41.10);
+		$sheet->getColumnDimension('E')->setAutoSize(false)->setWidth(14.10);
+		$sheet->getColumnDimension('F')->setAutoSize(false)->setWidth(45.10);
+		$sheet->getColumnDimension('G')->setAutoSize(false)->setWidth(60.10);
+		$sheet->getColumnDimension('H')->setAutoSize(false)->setWidth(12.10);
+		$sheet->getColumnDimension('I')->setAutoSize(false)->setWidth(60.10);
+		
+
+		$varnull 			= 	'';
+		$celservicio 		= 	'';
+		$celestado			= 	'';
+
+		$ccliente   = $this->input->post('cboClie');
+		$fini       = $this->input->post('txtFIni');
+		$ffin       = $this->input->post('txtFFin');
+		$cservicio  = $this->input->post('cboServ');
+		$cestado    = $this->input->post('cboEst');
+		$dnrodet    = $this->input->post('txtnrodet');
+		$vigente    = $this->input->post('swVigencia');
+
+        if(isset($cservicio)){
+            foreach($cservicio as $dtiposerv){
+                $celservicio = $dtiposerv.','.$celservicio;
+            }
+            $count =strlen($celservicio) ;
+            $celservicio = substr($celservicio,0,$count-1);
+        }
+	
+        if(isset($cestado)){
+            foreach($cestado as $dest){
+                $celestado = $dest.','.$celestado;
+            }
+            $countest =strlen($celestado) ;
+            $celestado = substr($celestado,0,$countest-1);
+		}
+		
+		if($vigente == 'on'){
+			$cvigente = 'A';
+		}else{
+			$cvigente = 'I';
+		}
+            
+        $parametros = array(
+			'@ccliente'     => ($this->input->post('cboClie') == '') ? '0' : $ccliente,
+			'@fini'         => ($this->input->post('txtFIni') == '') ? NULL : substr($fini, 6, 4).'-'.substr($fini,3 , 2).'-'.substr($fini, 0, 2),
+			'@ffin'         => ($this->input->post('txtFFin') == '') ? NULL : substr($ffin, 6, 4).'-'.substr($ffin,3 , 2).'-'.substr($ffin, 0, 2),
+			'@cservicio'    => ($celservicio == $varnull) ? '%' :$celservicio,
+			'@cestado'      => ($celestado == $varnull) ? '%' :$celestado,
+			'@dnrodet'      => ($this->input->post('txtnrodet') == $varnull) ? '%' : "%".$dnrodet."%",
+			'@vigente'      => $cvigente,
+		);		
+		$rpt = $this->mpropuesta->getbuscarpropuesta($parametros);
+		$i = 1;
+		$irow = 4;
+        if ($rpt){
+        	foreach($rpt as $row){
+            
+				$NROPROPU = $row->NROPROPU;
+				$FECHPROPU = $row->FECHPROPU;
+				$RAZONSOCIAL = $row->RAZONSOCIAL;
+				$ESTPROPU = $row->ESTPROPU;
+				$DESCRIPSERV = $row->DESCRIPSERV;
+				$DETAPROPU = $row->DETAPROPU;
+				$COSTOPROPU = $row->COSTOPROPU;
+				$DESCRIPESTABLE = $row->DESCRIPESTABLE;							
+				
+                if($ESTPROPU == '1'){
+                    $DESCESTADO = 'Aceptado';
+				}  
+                if($ESTPROPU == '2'){
+                    $DESCESTADO = 'Pendiente';
+				}  
+                if($ESTPROPU == '3'){
+                    $DESCESTADO = 'Rechazado';
+				}  
+                if($ESTPROPU == '4'){
+                    $DESCESTADO = 'Reemplazada';
+				}  
+                if($ESTPROPU == '5'){
+                    $DESCESTADO = 'Referencial';
+				}  
+				
+				$sheet->setCellValue('A'.$irow,$i);
+				$sheet->setCellValue('B'.$irow,$NROPROPU);
+				$sheet->setCellValue('C'.$irow,$FECHPROPU);
+				$sheet->setCellValue('D'.$irow,$RAZONSOCIAL);
+				$sheet->setCellValue('E'.$irow,$DESCESTADO);
+				$sheet->setCellValue('F'.$irow,$DESCRIPSERV);
+				$sheet->setCellValue('G'.$irow,$DETAPROPU);
+				$sheet->setCellValue('H'.$irow,$COSTOPROPU);
+				$sheet->setCellValue('I'.$irow,$DESCRIPESTABLE);
+
+				$i++;
+				$irow++;
+			}
+		}
+		$pos = $irow - 1;
+		$sheet->getStyle('A4:I'.$pos)->applyFromArray($celdastexto);
+		$sheet->getStyle('A4:A'.$pos)->applyFromArray($celdasnumero);
+		$sheet->getStyle('H4:H'.$pos)->applyFromArray($celdasnumero);
+		$sheet->getStyle('C4:C'.$pos)->applyFromArray($celdascentro);
+		$sheet->getStyle('E4:E'.$pos)->applyFromArray($celdascentro);
+
+		$sheet->setAutoFilter('B3:I'.$pos);
+		
+
+		$filename = 'listadoPropuestas-'.time().'.xlsx';
+
+		// Redirect output to a client's web browser (Xlsx)
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="'.$filename.'"');
+		header('Cache-Control: max-age=0');
+		// If you're serving to IE 9, then the following may be needed
+		header('Cache-Control: max-age=1');		
+		// If you're serving to IE over SSL, then the following may be needed
+		header('Expires: Mon, 26 Jul 2017 05:00:00 GMT'); // Date in the past
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+		header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+		header('Pragma: public'); // HTTP/1.
+
+		$writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+		$writer->save('php://output');
+	}
+	public function excelpropujs() {
+	 /*Estilos */
+		$titulo = [
+			'font'	=> [
+				'name' => 'Arial',
+				'size' =>12,
+				'color' => array('rgb' => 'FFFFFF'),
+				'bold' => true,
+			], 
+			'fill'	=>[
+				'fillType' => Fill::FILL_SOLID,
+				'startColor' => [
+					'rgb' => '29B037'
+				]
+			],
+			'borders'	=>[
+				'allBorders' => [
+					'borderStyle' => Border::BORDER_THIN,
+					'color' => [ 
+						'rgb' => '000000'
+					]
+				]
+			],
+			'alignment' => [
+				'horizontal' => Alignment::HORIZONTAL_CENTER,
+				'vertical' => Alignment::VERTICAL_CENTER,
+				'wrapText' => true,
+			],
+		];
+        $cabecera = [
+            'font'	=> [
+                'name' => 'Arial',
+                'size' =>10,
+                'color' => array('rgb' => 'FFFFFF'),
+                'bold' => true,
+            ], 
+            'fill'	=>[
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => [
+                    'rgb' => '29B037'
+                ]
+            ],
+            'borders'	=>[
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                    'color' => [ 
+                        'rgb' => '000000'
+                    ]
+                ]
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical' => Alignment::VERTICAL_CENTER,
+                'wrapText' => true,
+            ],
+        ];
+        $celdastexto = [
+            'borders'	=>[
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                    'color' => [ 
+                        'rgb' => '000000'
+                    ]
+                ]
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_LEFT,
+                'vertical' => Alignment::VERTICAL_CENTER,
+                'wrapText' => true,
+            ],
+        ];
+        $celdasnumero = [
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_RIGHT,
+                'vertical' => Alignment::VERTICAL_CENTER,
+                'wrapText' => true,
+            ],
+        ];
+        $celdascentro = [
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical' => Alignment::VERTICAL_CENTER,
+                'wrapText' => true,
+            ],
+        ];
+	 /*Estilos */	
+		$spreadsheet = new Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+		$sheet->setTitle('Listado - Propuestas');
+
+        $spreadsheet->getDefaultStyle()
+            ->getFont()
+            ->setName('Arial')
+            ->setSize(9);
+		
+		$sheet->setCellValue('A1', 'Listado de Propuestas')
+			->mergeCells('A1:I1')
+			->setCellValue('A3', '#')
+			->setCellValue('B3', 'Nro Propuesta')
+			->setCellValue('C3', 'Fecha Propuesta')
+			->setCellValue('D3', 'Cliente')
+			->setCellValue('E3', 'Estado')
+			->setCellValue('F3', 'Servicio')
+			->setCellValue('G3', 'Detalle')
+			->setCellValue('H3', 'Costo')
+			->setCellValue('I3', 'Establecimiento');
+
+		$sheet->getStyle('A1:I1')->applyFromArray($titulo);
+        $sheet->getStyle('A3:I3')->applyFromArray($cabecera);
+
+		$sheet->getColumnDimension('A')->setAutoSize(false)->setWidth(4.10);
+		$sheet->getColumnDimension('B')->setAutoSize(false)->setWidth(20.10);
+		$sheet->getColumnDimension('C')->setAutoSize(false)->setWidth(14.10);
+		$sheet->getColumnDimension('D')->setAutoSize(false)->setWidth(41.10);
+		$sheet->getColumnDimension('E')->setAutoSize(false)->setWidth(14.10);
+		$sheet->getColumnDimension('F')->setAutoSize(false)->setWidth(45.10);
+		$sheet->getColumnDimension('G')->setAutoSize(false)->setWidth(60.10);
+		$sheet->getColumnDimension('H')->setAutoSize(false)->setWidth(12.10);
+		$sheet->getColumnDimension('I')->setAutoSize(false)->setWidth(60.10);
+		
+
+		$varnull 			= 	'';
+		$celservicio 		= 	'';
+		$celestado			= 	'';
+
+		$ccliente   = $this->input->post('ccliente');
+		$fini       = $this->input->post('fdesde');
+		$ffin       = $this->input->post('fhasta');
+		$cservicio  = $this->input->post('cservicio');
+		$cestado    = $this->input->post('cestado');
+		$dnrodet    = $this->input->post('dnrodet');
+		$vigente    = $this->input->post('vigente');
+
+        if(isset($cservicio)){
+            foreach($cservicio as $dtiposerv){
+                $celservicio = $dtiposerv.','.$celservicio;
+            }
+            $count =strlen($celservicio) ;
+            $celservicio = substr($celservicio,0,$count-1);
+        }
+	
+        if(isset($cestado)){
+            foreach($cestado as $dest){
+                $celestado = $dest.','.$celestado;
+            }
+            $countest =strlen($celestado) ;
+            $celestado = substr($celestado,0,$countest-1);
+		}
+		
+		if($vigente == 'on'){
+			$cvigente = 'A';
+		}else{
+			$cvigente = 'I';
+		}
+            
+        $parametros = array(
+			'@ccliente'     => ($this->input->post('ccliente') == '') ? '0' : $ccliente,
+			'@fini'         => ($this->input->post('fdesde') == '%') ? NULL : substr($fini, 6, 4).'-'.substr($fini,3 , 2).'-'.substr($fini, 0, 2),
+			'@ffin'         => ($this->input->post('fhasta') == '%') ? NULL : substr($ffin, 6, 4).'-'.substr($ffin,3 , 2).'-'.substr($ffin, 0, 2),
+			'@cservicio'    => ($celservicio == $varnull) ? '%' :$celservicio,
+			'@cestado'      => ($celestado == $varnull) ? '%' :$celestado,
+			'@dnrodet'      => ($this->input->post('dnrodet') == $varnull) ? '%' : "%".$dnrodet."%",
+			'@vigente'      => $vigente,
+		);		
+		$rpt = $this->mpropuesta->getbuscarpropuesta($parametros);
+		$i = 1;
+		$irow = 4;
+        if ($rpt){
+        	foreach($rpt as $row){
+            
+				$NROPROPU = $row->NROPROPU;
+				$FECHPROPU = $row->FECHPROPU;
+				$RAZONSOCIAL = $row->RAZONSOCIAL;
+				$ESTPROPU = $row->ESTPROPU;
+				$DESCRIPSERV = $row->DESCRIPSERV;
+				$DETAPROPU = $row->DETAPROPU;
+				$COSTOPROPU = $row->COSTOPROPU;
+				$DESCRIPESTABLE = $row->DESCRIPESTABLE;							
+				
+                if($ESTPROPU == '1'){
+                    $DESCESTADO = 'Aceptado';
+				}  
+                if($ESTPROPU == '2'){
+                    $DESCESTADO = 'Pendiente';
+				}  
+                if($ESTPROPU == '3'){
+                    $DESCESTADO = 'Rechazado';
+				}  
+                if($ESTPROPU == '4'){
+                    $DESCESTADO = 'Reemplazada';
+				}  
+                if($ESTPROPU == '5'){
+                    $DESCESTADO = 'Referencial';
+				}  
+				
+				$sheet->setCellValue('A'.$irow,$i);
+				$sheet->setCellValue('B'.$irow,$NROPROPU);
+				$sheet->setCellValue('C'.$irow,$FECHPROPU);
+				$sheet->setCellValue('D'.$irow,$RAZONSOCIAL);
+				$sheet->setCellValue('E'.$irow,$DESCESTADO);
+				$sheet->setCellValue('F'.$irow,$DESCRIPSERV);
+				$sheet->setCellValue('G'.$irow,$DETAPROPU);
+				$sheet->setCellValue('H'.$irow,$COSTOPROPU);
+				$sheet->setCellValue('I'.$irow,$DESCRIPESTABLE);
+
+				$i++;
+				$irow++;
+			}
+		}
+		$pos = $irow - 1;
+		$sheet->getStyle('A4:I'.$pos)->applyFromArray($celdastexto);
+		$sheet->getStyle('A4:A'.$pos)->applyFromArray($celdasnumero);
+		$sheet->getStyle('H4:H'.$pos)->applyFromArray($celdasnumero);
+		$sheet->getStyle('C4:C'.$pos)->applyFromArray($celdascentro);
+		$sheet->getStyle('E4:E'.$pos)->applyFromArray($celdascentro);
+
+		$sheet->setAutoFilter('B3:I'.$pos);
+		
+
+		$writer = new Xlsx($spreadsheet);		
+		$filename = 'listadoPropuestas-'.time().'.xlsx';
+		$ruta = "tmp_html/";
+		try{
+			$writer->save($ruta.'eder.xlsx');
+			echo "    Archivo Creado";
+		}
+		catch(Exception $e){
+			echo $e->getMessage();
+		}
+	}
+
     public function getnropropuesta() {	// Obtener numero de propuesta	
 		
 		$parametros = array(

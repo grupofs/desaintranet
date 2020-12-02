@@ -86,12 +86,21 @@ $("#chkFreg").on("change", function () {
         
         varfdesde = '';
         varfhasta = '';
+
+        var fecha = new Date();		
+        var fechatring1 = "01/01/" +fecha.getFullYear() ;
+        var fechatring2 = ("0" + fecha.getDate()).slice(-2) + "/" + ("0"+(fecha.getMonth()+1)).slice(-2) + "/" +fecha.getFullYear() ;
+        $('#txtFDesde').datetimepicker('date', fechatring1);
+        $('#txtFHasta').datetimepicker('date', fechatring2);
+
     }else if($("#chkFreg").is(":checked") == false){ 
         $("#txtFIni").prop("disabled",true);
         $("#txtFFin").prop("disabled",true);
         
         varfdesde = '%';
         varfhasta = '%';
+
+        fechaActual();
     }; 
 });
 
@@ -109,6 +118,8 @@ $("#btnBuscar").click(function (){
     
     if(varfdesde != '%'){ varfdesde = $('#txtFIni').val(); }
     if(varfhasta != '%'){ varfhasta = $('#txtFFin').val(); }  
+
+    $("#btnexcel").removeAttr("disabled");
 
     otblListPropuesta = $('#tblListPropuesta').DataTable({  
         'responsive'    : true,
@@ -223,6 +234,56 @@ $("#btnBuscar").click(function (){
           cell.innerHTML = i+1;
           } );
     }).draw();  
+});
+
+$("#btnexcel1").click(function (){    
+    event.preventDefault();
+
+    var vlvigencia, vlccliente, vlcservicio, vlcestado, vldnrodet;
+    
+    vlccliente     = $('#cboClie').val();   
+    vlcservicio     = $('#cboServ').val();
+    vlcestado       = $('#cboEst').val(); 
+    vldnrodet       = $('#txtnrodet').val(); 
+
+    if($('#swVigencia').prop('checked')){
+        vlvigencia = 'A';
+    }else{
+        vlvigencia = 'I';
+    }
+    
+    if(varfdesde != '%'){ varfdesde = $('#txtFIni').val(); }
+    if(varfhasta != '%'){ varfhasta = $('#txtFFin').val(); } 
+    
+    var params = { 
+        "ccliente"   : vlccliente,
+        "fdesde"   : varfdesde,
+        "fhasta"   : varfhasta,
+        "cservicio"   : vlcservicio,
+        "cestado"   : vlcestado,
+        "dnrodet"   : vldnrodet,
+        "vigente"   : vlvigencia,
+    }; 
+    $.ajax({
+        type: 'ajax',
+        method: 'post',
+        url: baseurl+"pt/cpropuesta/excelpropujs",
+        dataType: "JSON",
+        async: true,
+        data: params,
+        success:function(result)
+        {
+        },
+        error: function(){
+          alert('Error, No se puede autenticar por error');
+        }
+    });
+    /*
+    $.post(baseurl+"pt/cpropuesta/excelpropujs", 
+    {
+    });
+    */
+    //<?= base_url('')?>
 });
 
 $('#modalCreaPropu').on('shown.bs.modal', function (e) { 

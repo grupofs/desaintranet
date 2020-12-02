@@ -302,13 +302,21 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-6">                        
-                        <div class="text-info">Formula</div>
+                        <div class="text-info">Formula Evaluacion</div>
                         <div>
                             <select class="form-control select2bs4" id="cboregFormula" name="cboregFormula" style="width: 100%;">
                                 <option value="" selected="selected">Cargando...</option>
                             </select>
                         </div>
-                    </div>                    
+                    </div>  
+                    <div class="col-md-6">                        
+                        <div class="text-info">Criterio Resultado</div>
+                        <div>
+                            <select class="form-control select2bs4" id="cboregCriterio" name="cboregCriterio" style="width: 100%;">
+                                <option value="" selected="selected">Cargando...</option>
+                            </select>
+                        </div>
+                    </div>                   
                 </div> 
             </div>
         </div>

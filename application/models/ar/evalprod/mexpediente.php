@@ -92,6 +92,28 @@ class Mexpediente extends CI_Model
         return $this->db->update("evalprod_expediente", $datos, ['id_expediente' => $id]);
     }
 
+    /**
+     * Generar Cargo PDF
+     * @param $id_expediente
+     */
+    public function pdfCargoRecepcion_cab($parametros)
+    {        
+        $procedure = "call fsp_ar_evalprod_pdfCargoRecepcion_cab(?);";
+        $query = $this->db->query($procedure, $parametros);
+        return $query->result();
+    }
+
+    /**
+     * Generar Cargo PDF Detalle Productos
+     * @param $id_expediente
+     */
+    public function pdfCargoRecepcion_det($parametros)
+    {        
+        $procedure = "call fsp_ar_evalprod_pdfCargoRecepcion_det(?);";
+        $query = $this->db->query($procedure, $parametros);
+        return $query->result();
+    }
+
 }
 
 

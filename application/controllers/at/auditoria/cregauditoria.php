@@ -37,12 +37,12 @@ class Cregauditoria extends CI_Controller {
 		$resultado = $this->mregauditoria->getcboauditor();
 		echo json_encode($resultado);
 	}
-    public function getsistemaaudi() {	// Visualizar Auditores en CBO	
+    public function getsistemaaudi() {	// Visualizar Sistema en CBO	
         
 		$resultado = $this->mregauditoria->getsistemaaudi();
 		echo json_encode($resultado);
 	}
-    public function getcborubro() {	// Visualizar Auditores en CBO	
+    public function getcborubro() {	// Visualizar Rubro en CBO	
         
         $parametros = array(
             '@idnorma'   => $this->input->post('idnorma')
@@ -50,7 +50,7 @@ class Cregauditoria extends CI_Controller {
 		$resultado = $this->mregauditoria->getcborubro($parametros);
 		echo json_encode($resultado);
 	}
-    public function getcbochecklist() {	// Visualizar Auditores en CBO	
+    public function getcbochecklist() {	// Visualizar Checklist en CBO	
         
         $parametros = array(
             '@idnorma'   => $this->input->post('idnorma'),
@@ -60,12 +60,20 @@ class Cregauditoria extends CI_Controller {
 		$resultado = $this->mregauditoria->getcbochecklist($parametros);
 		echo json_encode($resultado);
 	}
-    public function getcboformula() {	// Visualizar Auditores en CBO	
+    public function getcboformula() {	// Visualizar Formula en CBO	
         
         $parametros = array(
             '@idchceklist'   => $this->input->post('idchceklist')
         );
 		$resultado = $this->mregauditoria->getcboformula($parametros);
+		echo json_encode($resultado);
+	}
+    public function getcbocriterio() {	// Visualizar Criterio en CBO	
+        
+        $parametros = array(
+            '@idchceklist'   => $this->input->post('idchceklist')
+        );
+		$resultado = $this->mregauditoria->getcbocriterio($parametros);
 		echo json_encode($resultado);
 	}
     public function setauditoria() { // Registrar informe PT
@@ -80,6 +88,7 @@ class Cregauditoria extends CI_Controller {
 		$idsubnorma 		= $this->input->post('cboregRubro');
 		$idchecklist 		= $this->input->post('cboregChecklist');
 		$idformula 			= $this->input->post('cboregFormula');
+		$idcriterio 		= $this->input->post('cboregCriterio');
 		$cinternopte 		= $this->input->post('cboregSubserv');
 		$accion 			= $this->input->post('mhdnAccionAudi');
         
@@ -93,6 +102,7 @@ class Cregauditoria extends CI_Controller {
             '@idsubnorma'      		=>  $idsubnorma,
             '@idchecklist'      	=>  $idchecklist,
             '@idformula'      		=>  $idformula,
+            '@idcriterio'      		=>  $idcriterio,
             '@cinternopte'      	=>  $cinternopte,
             '@accion'           	=>  $accion
         );
@@ -119,6 +129,14 @@ class Cregauditoria extends CI_Controller {
 		$resultado = $this->mregauditoria->getbuscarauditoria($parametros);
 		echo json_encode($resultado);
 	}
+    public function getcboregAreazona() {	// Visualizar Criterio en CBO	
+        
+        $parametros = array(
+            '@cestablecimiento'   => $this->input->post('cestablecimiento')
+        );
+		$resultado = $this->mregauditoria->getcboregAreazona($parametros);
+		echo json_encode($resultado);
+	}
     public function getlistarchecklist() {	// Recupera Listado de Propuestas	
         
 		$varnull 			= 	'';
@@ -126,11 +144,13 @@ class Cregauditoria extends CI_Controller {
 		$idaudi   = $this->input->post('idaudi');
 		$fechaaudi   = $this->input->post('fechaaudi');
 		$cchecklist   = $this->input->post('cchecklist');
+		$cestablearea   = $this->input->post('cestablearea');
             
         $parametros = array(
 			'@idaudi'     	=> $idaudi,
 			'@fechaaudi'   	=> $fechaaudi,
-			'@cchecklist'  	=> $cchecklist
+			'@cchecklist'  	=> $cchecklist,
+			'@cestablearea' => $cestablearea
 		);		
 		$resultado = $this->mregauditoria->getlistarchecklist($parametros);
 		echo json_encode($resultado);
@@ -145,6 +165,7 @@ class Cregauditoria extends CI_Controller {
 		$crequisitochecklist   = $this->input->post('mhdncrequisitochecklist');
 		$cdetvalrequisito   = $this->input->post('mhdncdetallevalor');
 		$dhallazgo   = $this->input->post('mtxthallazgo');
+		$cestablearea = $this->input->post('mhdncestablearea');
             
         $parametros = array(
 			'@idaudi'     	=> $idaudi,
@@ -152,7 +173,8 @@ class Cregauditoria extends CI_Controller {
 			'@cchecklist'  	=> $cchecklist,
 			'@crequisitochecklist' => $crequisitochecklist,
 			'@cdetvalrequisito' => $cdetvalrequisito,
-			'@dhallazgo'  	=> $dhallazgo
+			'@dhallazgo'  	=> $dhallazgo,
+			'@cestablearea'  	=> $cestablearea
 		);		
 		$resultado = $this->mregauditoria->setregchecklist($parametros);
 		echo json_encode($resultado);

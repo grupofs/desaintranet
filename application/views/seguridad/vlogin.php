@@ -78,12 +78,12 @@
               </div>
               <input name="cia" type="hidden" id="cia" value="<?php echo $cia ;?>">
             </div>
+            <br>
+            <div class="custom-control custom-checkbox">
+              <input class="custom-control-input" type="checkbox" id="chboxsession" name="chboxsession" value="N">
+              <label for="chboxsession" class="custom-control-label">Mantener Sesion</label>
+            </div>
           </form>
-          <br>
-          <div class="custom-control custom-checkbox">
-            <input class="custom-control-input" type="checkbox" id="chboxsession" name="chboxsession" value="sessionSi">
-            <label for="chboxsession" class="custom-control-label">Mantener Sesion</label>
-          </div>
           <div align="right">
             <a href="<?php echo base_url('clogin/recover_pass/'.$ccia) ?>">Olvidé mi contraseña</a>    
           </div>

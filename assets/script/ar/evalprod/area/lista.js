@@ -56,8 +56,8 @@ $(function () {
                             data: null,
                             targets: 0
                         },
-                        {data: 'nombre', orderable: false, targets: 2},
-                        {data: 'estado', orderable: false, targets: 3},
+                        {data: 'nombre', orderable: false, targets: 1},
+                        {data: 'estado', orderable: false, targets: 2},
                         {
                             "orderable": false,
                             render: function (data, type, row) {
@@ -72,7 +72,7 @@ $(function () {
                             "orderable": false,
                             render: function (data, type, row) {
                                 return '<div class="text-left" >' +
-                                    '<button class="btn btn-transparent text-dark btn-sm" onClick="objLista.eliminar(\'' + row.id_area + '\',this);">' +
+                                    '<button class="btn btn-transparent text-danger btn-sm" onClick="objLista.eliminar(\'' + row.id_area + '\',this);">' +
                                     '<i class="fa fa-trash fa-2x" ></i>' +
                                     '</button>' +
                                     '</div>';
@@ -83,6 +83,18 @@ $(function () {
                         {
                             "defaultContent": " ",
                             "targets": "_all"
+                        },
+                        {
+                            "targets": [2], 
+                            "data": null, 
+                            "render": function(data, type, row) { 
+                                if (row.estado ==  1) {
+                                    $estado = "<span class='badge badge-success'>Activo</span>";
+                                }else if (row.estado == 2) {
+                                    $estado = "<span class='badge badge-danger'>Inactivo</span>";
+                                }   
+                                return $estado;                  
+                            }
                         }
                     ]
                 });

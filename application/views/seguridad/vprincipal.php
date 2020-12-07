@@ -370,7 +370,7 @@
         <!-- AdminLTE for demo purposes -->
         <script src="<?php echo public_url(); ?>template/GUI/dist/js/demo.js"></script>
         <!-- Principal Main -->
-        <script src="<?php echo public_url(); ?>script/principal.js?v1000000001"></script>
+        <script src="<?php echo public_url(); ?>script/principal.js?v1000000002"></script>
     <!-- /.SCRIPTS  -->
 
     <!-- Script Generales -->
@@ -380,39 +380,7 @@
         var ccia = "<?php echo $ccia ?>";
         $(document).ready(function() {
 
-            //Date picker
-            $('.datepicker').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true,
-                autoclose: true,
-                theme: 'bootstrap4',
-                locale: {
-                    format: 'DD/MM/YYYY',
-                    daysOfWeek: [
-                        'Do',
-                        'Lu',
-                        'Ma',
-                        'Mi',
-                        'Ju',
-                        'Vi',
-                        'Sa'
-                    ],
-                    monthNames: [
-                        'Enero',
-                        'Febrero',
-                        'Marzo',
-                        'Abril',
-                        'Mayo',
-                        'Junio',
-                        'Julio',
-                        'Agosto',
-                        'Setiembre',
-                        'Octubre',
-                        'Noviembre',
-                        'Diciembre'
-                    ]
-                }
-            })
+			objPrincipal.addPluginCalendar($('.datepicker'));
 
         });
     </script>

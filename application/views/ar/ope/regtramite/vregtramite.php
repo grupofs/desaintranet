@@ -29,12 +29,12 @@
 					<div class="card-header p-0 pt-1 border-bottom-0">
 						<ul class="nav nav-tabs" id="tabptcliente" style="background-color: #28a745;" role="tablist">
 							<li class="nav-item">
-								<a class="nav-link active" style="color: #000000;" id="tabReg1-tab"
+								<a class="nav-link active" style="color: #000000;" id="tab-list-ar"
 								   data-toggle="pill" href="#tabReg1" role="tab"
 								   aria-controls="tabReg1" aria-selected="true">LISTADO</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" style="color: #000000;" id="tabReg2-tab" data-toggle="pill"
+								<a class="nav-link" style="color: #000000;" id="tab-registro-ar" data-toggle="pill"
 								   href="#tabReg2" role="tab" aria-controls="tabReg2"
 								   aria-selected="false">REGISTRO</a>
 							</li>
@@ -159,6 +159,15 @@
 																</select>
 															</div>
 															<div class="form-group col-xl-2 col-lg-2 col-md-4 col-sm-4 col-12">
+																<label for="filter_tipo_producto">
+																	Tipo Producto
+																</label>
+																<select class="custom-select"
+																		name="filter_tipo_producto"
+																		id="filter_tipo_producto">
+																</select>
+															</div>
+															<div class="form-group col-xl-2 col-lg-2 col-md-4 col-sm-4 col-12">
 																<label for="filter_tramite">
 																	Tramite
 																</label>
@@ -173,27 +182,17 @@
 																</label>
 																<select class="custom-select"
 																		name="filter_categoria"
-																		id="filter_categoria">
-																	<option value="004">Bebidas</option>
-																	<option value="002">Cafes</option>
-																	<option value="006">Confiteria</option>
-																	<option value="009">CPW</option>
-																	<option value="003">Culinarios</option>
-																	<option value="005">Helados</option>
-																	<option value="001">Lacteos</option>
-																	<option value="007">N. Infantil</option>
-																	<option value="008">N. Profesional</option>
-																</select>
+																		id="filter_categoria"></select>
 															</div>
 														</div>
 														<div class="row">
 															<div class="form-group col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-																<label for="filter_roducto">
+																<label for="filter_producto">
 																	Código / Nombre del producto /Descripción SAP
 																</label>
 																<input type="text" class="form-control"
-																	   id="filter_roducto"
-																	   name="filter_roducto"
+																	   id="filter_producto"
+																	   name="filter_producto"
 																	   value="">
 															</div>
 															<div class="form-group col-xl-2 col-lg-2 col-md-4 col-sm-4 col-12">
@@ -203,15 +202,6 @@
 																<select class="custom-select"
 																		name="filter_marca"
 																		id="filter_marca">
-																</select>
-															</div>
-															<div class="form-group col-xl-2 col-lg-2 col-md-4 col-sm-4 col-12">
-																<label for="filter_tipo_producto">
-																	Tipo Producto
-																</label>
-																<select class="custom-select"
-																		name="filter_tipo_producto"
-																		id="filter_tipo_producto">
 																</select>
 															</div>
 															<div class="form-group col-xl-2 col-lg-2 col-md-4 col-sm-4 col-12">

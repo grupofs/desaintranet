@@ -2,11 +2,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Class ccliente
+ * Class centidadregulatoria
  *
- * @property mcliente mcliente
+ * @property mentidadregulatoria mentidadregulatoria
  */
-class ccliente extends FS_Controller
+class centidadregulatoria extends FS_Controller
 {
 	/**
 	 * ccliente constructor.
@@ -14,7 +14,7 @@ class ccliente extends FS_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('ar/ope/mcliente', 'mcliente');
+		$this->load->model('ar/ope/mentidadregulatoria', 'mentidadregulatoria');
 	}
 
 	/**
@@ -27,9 +27,7 @@ class ccliente extends FS_Controller
 		}
 		$search = $this->input->post('busqueda');
 		$search = (is_null($search)) ? '' : $search;
-		$params = $this->input->post('params');
-		$grupo_empresarial = (isset($params['grupo_empresarial']) && !empty($params['grupo_empresarial'])) ? $params['grupo_empresarial'] : '';
-		$result = $this->mcliente->autoCompletado($search, $grupo_empresarial);
+		$result = $this->mentidadregulatoria->autoCompletado($search);
 		echo json_encode(['items' => $result]);
 	}
 }

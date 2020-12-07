@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class mcliente
+ * Class mentidadregulatoria
  */
-class mcliente extends CI_Model
+class mentidadregulatoria extends CI_Model
 {
 
 	/**
@@ -15,14 +15,13 @@ class mcliente extends CI_Model
 	}
 
 	/**
-	 * Busca un cliente
 	 * @param $id
 	 * @return array|mixed|object|null
 	 */
 	public function buscar($id)
 	{
-		$this->db->from('mcliente');
-		$this->db->where('ccliente', $id);
+		$this->db->from('mentidadregulatoria');
+		$this->db->where('centidadregula', $id);
 		$query = $this->db->get();
 		if (!$query) {
 			return null;
@@ -32,22 +31,18 @@ class mcliente extends CI_Model
 
 	/**
 	 * @param string $search
-	 * @param string $grupoEmpresarial
 	 * @return array|array[]|object|object[]
 	 */
-	public function autoCompletado(string $search, string $grupoEmpresarial = ''): array
+	public function autoCompletado(string $search): array
 	{
 		$this->db->select('
-			ccliente as id,
-			drazonsocial as text
+			centidadregula as id,
+			dentidadregula as text
 		');
-		$this->db->from('mcliente');
-		$this->db->like('drazonsocial', $search);
+		$this->db->from('mentidadregulatoria');
+		$this->db->like('dentidadregula', $search);
 		$this->db->where('sregistro', 'A');
-		if (!empty($grupoEmpresarial)) {
-			$this->db->where('cgrupoempresarial', $grupoEmpresarial);
-		}
-		$this->db->order_by('drazonsocial', 'ASC');
+		$this->db->order_by('dentidadregula', 'ASC');
 		$this->db->limitAnyWhere(LIMITE_AUTOCOMPLETADO);
 		$query = $this->db->get();
 		if (!$query) {

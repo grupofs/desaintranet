@@ -145,7 +145,7 @@ class Mcotizacion extends CI_Model {
     public function getlistarproducto($idcoti,$nversion) { // Listar Productos	
         $sql = "select a.cinternocotizacion as 'IDCOTI', a.nversioncotizacion as 'NVERSION', a.nordenproducto as 'IDPROD', 
                         if isnull(b.dcortaestablecimiento,'0') = '0' or b.dcortaestablecimiento = '' then '' else b.dcortaestablecimiento+ ' - ' end if +  b.destablecimiento + ' - ' +  b.ddireccion   as 'LOCALCLIE', 
-                        a.dproducto as 'PRODUCTO', c.dregistro as 'CONDI', a.nmuestra as 'NMUESTRA', 
+                        a.dproducto as 'PRODUCTO', c.dregistro as 'CONDI', a.nmuestra as 'NMUESTRA', b.ccliente as 'CCLIENTE' ,
                         a.clocalcliente as 'CLOCALCLIE', a.zctipocondicionpdto as 'CCONDI', a.zctipoprocedencia as 'CPROCEDE', a.dcantidadminima as 'CANTMIN', a.setiquetanutri as 'ETIQUETA', a.ctipoproducto as 'CTIPOPROD', a.ntamanoporcion as 'PORCION', a.umporcion as 'CUM'  
                 from pproductoxcotizacion a
                     join mestablecimientocliente b on b.cestablecimiento = a.clocalcliente
@@ -244,9 +244,10 @@ class Mcotizacion extends CI_Model {
     public function getlistarensayo($idcoti,$nversion,$idproduc) { // Listar Ensayos	
         $sql = "select a.cinternocotizacion, a.nversioncotizacion, a.nordenproducto, a.censayo as 'CENSAYO', b.censayofs as 'CODIGO', b.densayo as 'DENSAYO', b.naniopublicacion as 'ANIO', b.dnorma as 'NORMA',
                     a.icostoclienteparcial as 'CONSTOENSAYO', a.nvias as 'NVIAS', a.ncantidad as 'CANTIDAD', a.icostorealparcial as 'COSTO', a.ctipoproducto as 'TIPOPROD',
-                    if sacnoac = 'N' then 'NO AC' ELSE 'AC' end if as 'ACRE'
+                    if sacnoac = 'N' then 'NO AC' ELSE 'AC' end if as 'ACRE', c.dproducto, a.claboratorio
                 from pensayoproducto a   
-                    join mensayo b on b.censayo = a.censayo   
+                    join mensayo b on b.censayo = a.censayo
+                    join pproductoxcotizacion c on c.cinternocotizacion = a.cinternocotizacion and c.nversioncotizacion = a.nversioncotizacion and c.nordenproducto = a.nordenproducto   
                 where ( a.cinternocotizacion = '".$idcoti."' ) and  
                     ( a.nversioncotizacion = ".$nversion." ) and  
                     ( a.nordenproducto = '".$idproduc."' )  and  
@@ -303,6 +304,120 @@ class Mcotizacion extends CI_Model {
 		}{
 			return False;
 		}		
+    }
+
+    public function setduplicarprodxcoti($parametros) { // Buscar Cotizacion
+        $this->db->trans_begin();
+
+        $procedure = "call usp_lab_coti_setduplicarprodxcoti(?,?,?);";
+        $query = $this->db->query($procedure,$parametros);
+
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+        }
+        else
+        {
+            $this->db->trans_commit();
+            return $query->result(); 
+        }   
+    }
+
+    public function deleteprodxcoti($parametros) { // Buscar Cotizacion
+        $this->db->trans_begin();
+
+        $procedure = "call usp_lab_coti_deleteprodxcoti(?,?,?);";
+        $query = $this->db->query($procedure,$parametros);
+
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+        }
+        else
+        {
+            $this->db->trans_commit();
+            return $query->result(); 
+        }   
+    }
+
+    public function getbuscarensayos($parametros) { // Visualizar Clientes con propuestas en CBO	
+        
+        $procedure = "call usp_lab_coti_getbuscarensayos(?,?)";
+		$query = $this->db-> query($procedure,$parametros);
+
+		if ($query->num_rows() > 0) { 
+			return $query->result();
+		}{
+			return False;
+		}
+    }
+
+    public function setregensayoxprod($parametros) { // Buscar Cotizacion
+        $this->db->trans_begin();
+
+        $procedure = "call usp_lab_coti_setregensayoxprod(?,?,?,?,?,?,?,?);";
+        $query = $this->db->query($procedure,$parametros);
+
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+        }
+        else
+        {
+            $this->db->trans_commit();
+            return $query->result(); 
+        }   
+    }
+
+    public function deleteensayoxprod($parametros) { // Buscar Cotizacion
+        $this->db->trans_begin();
+
+        $procedure = "call usp_lab_coti_deleteensayoxprod(?,?,?,?);";
+        $query = $this->db->query($procedure,$parametros);
+
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+        }
+        else
+        {
+            $this->db->trans_commit();
+            return $query->result(); 
+        }   
+    }
+
+    public function cerrarcotizacion($parametros) { // Buscar Cotizacion
+        $this->db->trans_begin();
+
+        $procedure = "call usp_lab_coti_cerrarcotizacion(?,?);";
+        $query = $this->db->query($procedure,$parametros);
+
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+        }
+        else
+        {
+            $this->db->trans_commit();
+            return $query->result(); 
+        }   
+    }
+
+    public function abrircotizacion($parametros) { // Buscar Cotizacion
+        $this->db->trans_begin();
+
+        $procedure = "call usp_lab_coti_abrircotizacion(?,?);";
+        $query = $this->db->query($procedure,$parametros);
+
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+        }
+        else
+        {
+            $this->db->trans_commit();
+            return $query->result(); 
+        }   
     }
 }
 ?>

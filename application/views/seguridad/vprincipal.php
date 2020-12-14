@@ -16,19 +16,15 @@
     if($cia == '1'):
         $ccia = 'fs';
         $title = 'FS';
-        $icono = 'ico-gfs.ico';
+        $nomCia = 'Grupo FS';
         $claseCabecera = 'navbar-success';
         $hreflogo = 'http://www.grupofs.com/';
-        $logocia = 'logo-gfs.png';
-        $nomCia = 'Grupo FS';
     elseif($cia == '2'):
         $ccia = 'fsc';
         $title = 'FSC';
-        $icono = 'ico-fsc.ico';
-        $claseCabecera = 'navbar-lightblue';
-        $hreflogo = 'http://www.fscertificaciones.com/';
-        $logocia = 'logo-fsc.png';
         $nomCia = 'FS Certificaciones';
+        $claseCabecera = 'navbar-navy';
+        $hreflogo = 'http://www.fscertificaciones.com/';
     endif;
 
     $añoActual=date("Y");
@@ -67,58 +63,39 @@
   <link rel="stylesheet" href="<?php echo public_url(); ?>template/GUI/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
   <!-- Bootstrap4 Duallistbox -->
   <link rel="stylesheet" href="<?php echo public_url(); ?>template/GUI/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
-
+  <!-- Ekko Lightbox -->
+  <link rel="stylesheet" href="<?php echo public_url(); ?>template/GUI/plugins/ekko-lightbox/ekko-lightbox.css">
   <!--  summernote -->
   <link rel="stylesheet" href="<?php echo public_url(); ?>template/GUI/plugins/summernote/summernote-bs4.css">
-
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="<?php echo public_url(); ?>cssweb/fontsgoogleapis.css">
-  <!-- CSS general proyecto -->
-  <link rel="stylesheet" href="<?php echo public_url(); ?>cssweb/estiloGeneral.css">
-
-  <!-- DataTable.net -->
-  <link rel="stylesheet" href="<?php echo public_url(); ?>template/DataTable/DataTables/css/dataTables.bootstrap4.min.css">
+  <!-- DataTable.net 
+  <link rel="stylesheet" href="<?php echo public_url(); ?>template/DataTable/DataTables/css/dataTables.bootstrap4.min.css"> -->
+  <link rel="stylesheet" href="<?php echo public_url(); ?>template/DataTable/DataTables/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="<?php echo public_url(); ?>template/DataTable/Responsive/css/responsive.dataTables.min.css">
   <link rel="stylesheet" href="<?php echo public_url(); ?>template/DataTable/Select/css/select.dataTables.min.css">
-    
   <!-- file input -->
   <link rel="stylesheet" href="<?php echo public_url(); ?>template/plugins/fileinput/fileinput.min.css">
+  
+    <?php if ($cia == 1): ?>
+            <link rel="stylesheet" href="<?php echo public_url(); ?>cssweb/mainfs.css">
+    <?php elseif ($cia == 2): ?>
+            <link rel="stylesheet" href="<?php echo public_url(); ?>cssweb/mainfsc.css">
+    <?php endif; ?>
 
-  <link rel="shortcut icon" href="<?php echo public_url(); ?>images/<?php echo $icono ?>" class="img-circle" type="image/x-icon" />
+  <!-- CSS general proyecto -->
+  <link rel="stylesheet" href="<?php echo public_url(); ?>cssweb/estiloGeneral.css">
+    
+  <link rel="shortcut icon" href="<?php echo public_url(); ?>images/ico-<?php echo $ccia; ?>.ico" type="image/x-icon" />
 
-  <style>
-    .inline {
-        display: inline;
-    }
-
-    button.nav-link{
-        background: none !important;
-        border: none !important; 
-        overflow: visible !important;
-        width: 100% !important;
-        text-align: -webkit-match-parent !important;
-    }
-
-    button.nav-link:focus {
-        outline: none !important;
-    }
-
-    button.nav-link:hover {
-        background-color: rgba(255,255,255,.1) !important;
-    }
-
-    table.dataTable thead .sorting:before, table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:before, table.dataTable thead .sorting_desc_disabled:after {
-        bottom: 0;
-        font-size: 1.2rem;
-    }
-
-  </style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
     <div class="wrapper">        
-        <input type="hidden" id="hdidempleado" value= <?php echo $idempleado; ?> >
-        <input type="hidden" id="hdsessionAct" value= <?php echo $sessionAct; ?> >
+        <input type="hidden" id="hdidempleado" name="hdidempleado" value= <?php echo $idempleado; ?> >
+        <input type="hidden" id="hdsessionAct" name="hdsessionAct" value= <?php echo $sessionAct; ?> >
+        <input type="hidden" id="hdnccia" name="hdnccia" value= <?php echo $ccia;?> >
+        <input type="hidden" id="hdncia" name="hdncia" value= <?php echo $cia;?> >
 
         <!-- MAIN CABECERA  -->
         <nav class="main-header navbar navbar-expand navbar-dark <?php echo $claseCabecera ?>">
@@ -127,12 +104,11 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars fa-2x"></i></a>
                 </li>
-                <li class="nav-item d-none d-sm-inline-block">
+                <li class="nav-item d-none d-sm-inline-block nomcab">
                     <h3>BIENVENIDO,</h3>
                 </li>
-                <li class="nav-item d-none d-sm-inline-block">
+                <li class="nav-item d-none d-sm-inline-block nomcab">
                     <h3 style="margin-left:5px;"><?php echo $nombres ?></h3>
-                    <input type="hidden" id="hdnccia" name="hdnccia" value= <?php echo $ccia;?> >
                 </li>
             </ul>
 
@@ -140,7 +116,7 @@
             <ul class="navbar-nav ml-auto">
                 <!-- PERFIL USUARIO -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link" href="<?php echo base_url()?>cprincipal/perfilusuario" >
+                    <a class="nav-link" href="<?php echo base_url()?>perfil" >
                         <i class="fas fa-address-card fa-2x"></i>
                     </a>
                 </li>
@@ -163,7 +139,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- CIA Logo -->
             <a href="<?php echo $hreflogo ?>" class="brand-link <?php echo $claseCabecera ?>" target="_blank">
-                <img src="<?php echo public_url(); ?>images/<?php echo $logocia ?>"  alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <img src="<?php echo public_url(); ?>images/logo-<?php echo $ccia; ?>.png"  alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light"><?php echo $nomCia ?></span>
             </a>
 
@@ -192,7 +168,7 @@
                             </a>
                             <ul class="nav nav-treeview" style="display: none;">
                                 <li class="nav-item">
-                                    <a href="<?php echo base_url()?>cprincipal/principal" class="nav-link">
+                                    <a href="<?php echo base_url()?>frontdesk" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>INTERNO</p>
                                     </a>
@@ -228,7 +204,7 @@
                                     $script = $mopcionrol->script_opcion;
                             ?>
                                 <li class="nav-item">
-                                    <form method="post" action="<?php echo base_url()?>cprincipal/ventanas" class="inline">
+                                    <form method="post" action="<?php echo base_url()?>frontdesk" class="inline">
                                         <input type="hidden" name="vista" value="<?php echo $vista; ?>">
                                         <input type="hidden" name="script" value="<?php echo $script; ?>">
                                         <button type="submit" name="submit_param" value="submit_value" class="nav-link" >
@@ -277,7 +253,7 @@
             <strong>Copyright &copy; sistemas :: 2018-2020 <a href="http://grupofs.com">GrupoFS</a>.</strong>
             Todos los Derechos Reservados. - All rights reserved.
             <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> 2.6.0 
+                <b>Version</b> 3.1.0 
             </div>
         </footer>
         <!-- /.FOOTER  -->
@@ -357,7 +333,8 @@
         <script src="<?php echo public_url(); ?>template/GUI/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
         <!-- SweetAlert2-->
         <script src="<?php echo public_url(); ?>/template/GUI/plugins/sweetalert2/sweetalert2.min.js"></script> 
-        
+        <!-- Ekko Lightbox -->
+        <script src="<?php echo public_url(); ?>/template/GUI/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>        
         <!-- DataTable.net -->
         <script src="<?php echo public_url(); ?>template/DataTable/DataTables/js/jquery.dataTables.min.js"></script>
         <script src="<?php echo public_url(); ?>template/DataTable/DataTables/js/dataTables.bootstrap4.min.js"></script>
@@ -365,11 +342,8 @@
         <script src="<?php echo public_url(); ?>template/DataTable/Responsive/js/dataTables.responsive.min.js"></script> 
         <script src="<?php echo public_url(); ?>template/DataTable/DataTables/js/datetime.js"></script> 
         <script src="<?php echo public_url(); ?>template/DataTable/Select/js/dataTables.select.min.js"></script> 
-
         <!-- file input -->
         <script src="<?php echo public_url(); ?>template/plugins/fileinput/fileinput.min.js"></script>
-
-
         <!-- AdminLTE App -->
         <script src="<?php echo public_url(); ?>template/GUI/dist/js/adminlte.js"></script>
         <!-- AdminLTE for demo purposes -->
@@ -417,7 +391,14 @@
                         'Diciembre'
                     ]
                 }
-            })
+            });
+
+            $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+                event.preventDefault();
+                $(this).ekkoLightbox({
+                    alwaysShowClose: true
+                });
+            });
 
         });
     </script>

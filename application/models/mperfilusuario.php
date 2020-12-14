@@ -49,20 +49,21 @@ class Mperfilusuario extends CI_Model{
       }
     }
 
-    public function setperfil($parametros) { // Registrar Datos del Perfil
-      
-      $procedure = "call usp_segu_perfil_updateperfil(?,?,?,?,?,?,?,?,?,?)";
-      $query = $this->db-> query($procedure,$parametros);
-  
-      if ($query->num_rows() > 0) { 
-              $data = $query->result();
-        $query->free_result(); 
-              return $data;
-      }{
-        return False;
-      }	
-        
+    public function setperfil($parametros) { // Registrar Datos del Perfil   
+      $this->db->trans_begin();
+
+      $procedure = "call usp_segu_perfil_updateperfil(?,?,?,?,?,?,?,?,?,?);";
+      $query = $this->db->query($procedure,$parametros);
+
+      if ($this->db->trans_status() === FALSE)
+      {
+          $this->db->trans_rollback();
+      }
+      else
+      {
+          $this->db->trans_commit();
+          return $query->result(); 
+      }  
     }
-    
 }
 ?>

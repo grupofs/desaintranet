@@ -466,7 +466,7 @@
                                                                 <th>Norma</th>
                                                                 <th>Costo Ensayo</th>
                                                                 <th>Vias</th>
-                                                                <th>Cantidad</th>
+                                                                <th>Cant.</th>
                                                                 <th>Costo</th>
                                                                 <th></th>
                                                                 <th></th>
@@ -526,6 +526,7 @@
             <input type="hidden" name="mhdnidcotizacion" id="mhdnidcotizacion" class="form-control">
             <input type="hidden" name="mhdnnroversion" id="mhdnnroversion" class="form-control">
             <input type="hidden" id="mhdnAccionProduc" name="mhdnAccionProduc" value="">
+            <input type="hidden" name="mhdncusuario" class="form-control" id="mhdncusuario" value="<?php echo $cusuario ?>">
                         
             <div class="form-group">
                 <div class="row">
@@ -636,58 +637,67 @@
 <!-- /.modal-->
 
 <!-- /.modal-EnsayosLab --> 
-<div class="modal fade" id="modalEnsayosLab" data-backdrop="static" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+<div class="modal fade" id="modaleditensayo" data-backdrop="static" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
     <div class="modal-content">
-      <form class="form-horizontal" id="frmEnsayosLab" name="frmEnsayosLab" action="<?= base_url('at/auditoria/cconsultauditor/setregchecklist')?>" method="POST" enctype="multipart/form-data" role="form"> 
+      <form class="form-horizontal" id="frmEditensayosLab" name="frmEditensayosLab" action="<?= base_url('lab/coti/ccotizacion/seteditensayoxprod')?>" method="POST" enctype="multipart/form-data" role="form"> 
 
         <div class="modal-header text-center bg-success">
-            <h4 class="modal-title w-100 font-weight-bold">Buscar Ensayos por Laboratorio</h4>
+            <h4 class="modal-title w-100 font-weight-bold">Ingresar Ensayos x Laboratorio</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
 
         <div class="modal-body">
-            <input type="hidden" id="mhdnccliente" name="mhdnccliente"> 
-            <input type="hidden" id="mhdncauditoriainspeccion" name="mhdncauditoriainspeccion"> 
-            <input type="hidden" id="mhdnfservicio" name="mhdnfservicio"> 
-            <input type="hidden" id="mhdncchecklist" name="mhdncchecklist"> 
-            <input type="hidden" id="mhdncrequisitochecklist" name="mhdncrequisitochecklist"> 
-            <input type="hidden" id="mhdncdetallevalor" name="mhdncdetallevalor"> 
-            <input type="hidden" id="mhdncestablearea" name="mhdncestablearea" >                         
+            <input type="hidden" id="ehdnmcensayo" name="ehdnmcensayo"> 
+            <input type="hidden" id="ehdnmIdcoti" name="ehdnmIdcoti" >
+            <input type="hidden" id="ehdnmNvers" name="ehdnmNvers" >
+            <input type="hidden" id="ehdnmIdprod" name="ehdnmIdprod" >
+            
+            <input type="hidden" id="etxtmCLab" name="etxtmCLab" >
+            <input type="hidden" id="ehdnmAccion" name="ehdnmAccion" >
+            <div class="form-group">
+                <div class="row"> 
+                    <div class="col-12">
+                        <h4>
+                            <i class="fas fa-archive"></i> <label id="elblmProducto"></label>
+                        </h4>
+                    </div>
+                </div>                
+            </div> 
+            <div class="form-group">
+                <div class="row"> 
+                    <div class="col-2">
+                        <label>Codigo :</label>
+                    </div>
+                    <div class="col-3">
+                        <h5>                            
+                            <small id="elblmCodigo"></small>
+                        </h5>
+                    </div>
+                    <div class="col-2">
+                        <label>Ensayo :</label>
+                    </div>
+                    <div class="col-5">
+                        <h5>                            
+                            <small id="elblmEnsayo"></small>
+                        </h5>
+                    </div>
+                </div>                
+            </div>                        
             <div class="form-group"> 
-                <div class="row">                
-                    <div class="col-sm-12">
-                        <div class="text-info">PRODUCTO </div>  
-                        <input class="form-control" type="text" name="mtxtDescripcion" id="mtxtDescripcion">   
-                    </div> 
-                </div> 
-                <div class="row">
-                    <div class="col-md-6"> 
-                        <div class="text-info">CODIGO</div>
-                        <div>    
-                            <text type="text" name="mtxtrequisito"id="mtxtrequisito" class="form-control"></text>
-                        </div>
-                    </div>
-                    <div class="col-md-6"> 
-                        <div class="text-info">ENSAYO</div>                        
-                        <div>    
-                            <text type="text" name="mtxthallazgo"id="mtxthallazgo" class="form-control"></text>
-                        </div>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-md-6"> 
                         <div class="text-info">Costo</div>
                         <div>    
-                            <text type="text" name="mtxtrequisito"id="mtxtrequisito" class="form-control"></text>
+                            <input type="text" name="etxtmCosto" class="form-control" id="etxtmCosto"/> 
                         </div>
                     </div>
                     <div class="col-md-6"> 
                         <div class="text-info">Vias</div>                        
                         <div>    
-                            <text type="text" name="mtxthallazgo"id="mtxthallazgo" class="form-control"></text>
+                            <input type="number" name="etxtmvias" class="form-control" id="etxtmvias"/>
                         </div>
                     </div>
                 </div>
@@ -695,8 +705,8 @@
         </div>
 
         <div class="modal-footer justify-content-between" style="background-color: #dff0d8;">
-            <button type="reset" class="btn btn-default" id="mbtnCHallazgo" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-info" id="mbtnGHallazgo">Grabar</button>
+            <button type="reset" class="btn btn-default" id="ebtnCerrarEnsayo" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-info" id="ebtnGabarEnsayo">Grabar</button>
         </div>
       </form>
     </div>

@@ -232,13 +232,7 @@
                                                             <tr>
                                                                 <th>N°</th>
                                                                 <th>F. Recepcion</th>
-                                                                <th>Tottus</th>
                                                                 <th>Codigo</th>
-                                                                <th>Monitoreo</th>
-                                                                <th>Motivo</th>
-                                                                <th>Area</th>
-                                                                <th>Ubicacion</th>
-                                                                <th>Item</th>
                                                                 <th>Producto Real</th>
                                                                 <th>Presentacion</th>
                                                                 <th>Temp. Recep.</th>
@@ -246,13 +240,14 @@
                                                                 <th>Proveedor</th>
                                                                 <th>N° Lote</th>
                                                                 <th>F. Envase</th>
-                                                                <th>F. Produccion</th>
-                                                                <th>F. Vencimiento</th>
-                                                                <th>F. Ingreso</th>
-                                                                <th>Temp. Prod.</th>
-                                                                <th>Temp. Alma.</th>
                                                                 <th>F. Muestreo</th>
                                                                 <th>Hora Muestreo</th>
+                                                                <th>Monitoreo</th>
+                                                                <th>Motivo</th>
+                                                                <th>Area</th>
+                                                                <th>Ubicacion</th>
+                                                                <th>Item</th>
+                                                                <th>Tottus</th>
                                                                 <th>Estado</th>
                                                                 <th>Observacion</th>
                                                                 <th>Observacion Otros</th>
@@ -278,28 +273,11 @@
 </section>
 <!-- /.Main content -->
 
-<!-- Reg. Ensayos -->
-<section class="content" id="contenedorRegensayo" style="display: none" >
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card card-success">
-                    <div class="card-body">
-                        <?php $this->load->view('lab/coti/registro/vregensayo'); ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- /.Reg. Ensayos -->
-
-
-<!-- /.modal-crear-propuesta --> 
+<!-- /.modal-crear-recepcion --> 
 <div class="modal fade" id="modalRecepcion" data-backdrop="static" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <form class="form-horizontal" id="frmRecepcion" name="frmRecepcion" action="<?= base_url('lab/cpti/ccotizacion/setproducto')?>" method="POST" enctype="multipart/form-data" role="form"> 
+      <form class="form-horizontal" id="frmRecepcion" name="frmRecepcion" action="<?= base_url('lab/coti/ccotizacion/setrecepcionmuestra')?>" method="POST" enctype="multipart/form-data" role="form"> 
 
         <div class="modal-header text-center bg-success">
             <h4 class="modal-title w-100 font-weight-bold">Registro de Recepcion</h4>
@@ -309,211 +287,183 @@
         </div>
 
         <div class="modal-body">          
-            <input type="hidden" id="mhdnIdProduc" name="mhdnIdProduc"> <!-- ID -->
             <input type="hidden" name="mhdnidcotizacion" id="mhdnidcotizacion" class="form-control">
             <input type="hidden" name="mhdnnroversion" id="mhdnnroversion" class="form-control">
-            <input type="hidden" id="mhdnAccionProduc" name="mhdnAccionProduc" value="">
+            <input type="hidden" name="mhdnnordenproducto" id="mhdnnordenproducto" class="form-control">
+            <input type="hidden" id="mhdnAccionRecepcion" name="mhdnAccionRecepcion" value="">
                         
             <div class="form-group">
                 <div class="row">  
                     <div class="col-sm-2">
-                        <div class="text-info">Codigo <span class="text-requerido">*</span></div>
+                        <div class="text-info">Codigo</div>
                         <div>  
-                            <input type="text" name="mtxtregProducto" class="form-control" id="mtxtregProducto" disabled/>  
+                            <input type="text" name="mtxtmcodigo" class="form-control" id="mtxtmcodigo" disabled/>  
                         </div>
                     </div>                 
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                         <div class="form-group">
-                            <div class="text-info">F. Recepcion</div>
-                            <div class="input-group date" id="mtxtFCoti" data-target-input="nearest">
-                                <input type="text" id="mtxtFcotizacion" name="mtxtFcotizacion" class="form-control datetimepicker-input" data-target="#mtxtFCoti"/>
-                                <div class="input-group-append" data-target="#mtxtFCoti" data-toggle="datetimepicker">
+                            <div class="text-info">F. Recepcion <span class="text-requerido">*</span></div>
+                            <div class="input-group date" id="mtxtFRecep" data-target-input="nearest">
+                                <input type="text" id="mtxtFrecepcion" name="mtxtFrecepcion" class="form-control datetimepicker-input" data-target="#mtxtFRecep"/>
+                                <div class="input-group-append" data-target="#mtxtFRecep" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
                             </div>                        
                         </div> 
-                    </div>                
-                    <div class="col-sm-2">
-                        <div class="text-info">Tottus</div>
-                        <div>
-                            <select class="form-control select2bs4" id="mcboregcondicion" name="mcboregcondicion">
-                            <option value="">Cargando...</option>
-                            </select>
-                        </div>
                     </div>               
-                    <div class="col-sm-2">
-                        <div class="text-info">Monitoreo</div>
-                        <div>
-                            <select class="form-control select2bs4" id="mcboregcondicion" name="mcboregcondicion">
-                            <option value="">Cargando...</option>
-                            </select>
-                        </div>
-                    </div>               
-                    <div class="col-sm-2">
-                        <div class="text-info">Motivo</div>
-                        <div>
-                            <select class="form-control select2bs4" id="mcboregcondicion" name="mcboregcondicion">
-                            <option value="">Cargando...</option>
-                            </select>
-                        </div>
-                    </div>               
-                    <div class="col-sm-2">
-                        <div class="text-info">Area</div>
-                        <div>
-                            <select class="form-control select2bs4" id="mcboregcondicion" name="mcboregcondicion">
-                            <option value="">Cargando...</option>
-                            </select>
-                        </div>
-                    </div> 
-                </div>                
-            </div>          
-            <div class="form-group">
-                <div class="row">             
-                    <div class="col-sm-2">
-                        <div class="text-info">Area</div>
-                        <div>
-                            <select class="form-control select2bs4" id="mcboregcondicion" name="mcboregcondicion">
-                            <option value="">Cargando...</option>
-                            </select>
-                        </div>
-                    </div> 
-                    <div class="col-sm-10">
-                        <div class="text-info">Ubicacion <span class="text-requerido">*</span></div>
-                        <div>  
-                            <input type="text" name="mtxtregProducto" class="form-control" id="mtxtregProducto"/>  
-                        </div>
-                    </div>  
-                </div>                
-            </div> 
-            <div class="form-group">
-                <div class="row">                
-                    <div class="col-sm-6">
+                    <div class="col-sm-7">
                         <div class="text-info">Producto Real</div>
                         <div>
-                            <select class="form-control select2bs4" id="mcboregcondicion" name="mcboregcondicion">
-                            <option value="">Cargando...</option>
-                            </select>
+                            <input type="text" name="mtxtmproductoreal" class="form-control" id="mtxtmproductoreal"/>
                         </div>
-                    </div>                
-                    <div class="col-sm-6">
-                        <div class="text-info">Presentacion</div>
+                    </div>   
+                </div>                
+            </div>  
+            <div class="form-group">
+                <div class="row">                   
+                    <div class="col-sm-12">
+                        <div class="text-info">Presentacion<span class="text-requerido">*</span></div>
                         <div>  
-                            <input type="text" name="mtxtregmuestra" class="form-control" id="mtxtregmuestra"/>  
+                            <input type="text" name="mtxtmpresentacion" class="form-control" id="mtxtmpresentacion"/>  
                         </div>
                     </div> 
                 </div>                
-            </div> 
+            </div>         
             <div class="form-group">
                 <div class="row">    
                     <div class="col-sm-3">
                         <div class="text-info">Temp. Recepcion</div>
                         <div>  
-                            <input type="text" name="mtxtregmuestra" class="form-control" id="mtxtregmuestra"/>  
+                            <input type="text" name="mtxttemprecep" class="form-control" id="mtxttemprecep"/>  
                         </div>
-                    </div>    
+                    </div>  
                     <div class="col-sm-3">
                         <div class="text-info">Cantidad Muestra</div>
                         <div>  
-                            <input type="text" name="mtxtregmuestra" class="form-control" id="mtxtregmuestra"/>  
+                            <input type="text" name="mtxtcantmuestra" class="form-control" id="mtxtcantmuestra"/>  
                         </div>
-                    </div>    
-                    <div class="col-sm-3">
+                    </div>      
+                    <div class="col-sm-6">
                         <div class="text-info">Proveedor</div>
                         <div>  
-                            <input type="text" name="mtxtregmuestra" class="form-control" id="mtxtregmuestra"/>  
-                        </div>
-                    </div>   
-                    <div class="col-sm-3">
-                        <div class="text-info">N° Lote</div>
-                        <div>  
-                            <input type="text" name="mtxtregmuestra" class="form-control" id="mtxtregmuestra"/>  
+                            <input type="text" name="mtxtproveedor" class="form-control" id="mtxtproveedor"/>  
                         </div>
                     </div>  
                 </div>                
             </div> 
             <div class="form-group">
-                <div class="row">  
+                <div class="row">     
+                    <div class="col-sm-4">
+                        <div class="text-info">N° Lote</div>
+                        <div>  
+                            <input type="text" name="mtxtnrolote" class="form-control" id="mtxtnrolote"/>  
+                        </div>
+                    </div>  
                     <div class="col-sm-3">
                         <div class="form-group">
                             <div class="text-info">F. Envase</div>
-                            <div class="input-group date" id="mtxtFCoti" data-target-input="nearest">
-                                <input type="text" id="mtxtFcotizacion" name="mtxtFcotizacion" class="form-control datetimepicker-input" data-target="#mtxtFCoti"/>
-                                <div class="input-group-append" data-target="#mtxtFCoti" data-toggle="datetimepicker">
+                            <div class="input-group date" id="mtxtFEnv" data-target-input="nearest">
+                                <input type="text" id="mtxtFenvase" name="mtxtFenvase" class="form-control datetimepicker-input" data-target="#mtxtFEnv"/>
+                                <div class="input-group-append" data-target="#mtxtFEnv" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
                             </div>                        
                         </div>                       
-                    </div>   
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <div class="text-info">F. Produccion</div>
-                            <div class="input-group date" id="mtxtFCoti" data-target-input="nearest">
-                                <input type="text" id="mtxtFcotizacion" name="mtxtFcotizacion" class="form-control datetimepicker-input" data-target="#mtxtFCoti"/>
-                                <div class="input-group-append" data-target="#mtxtFCoti" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                </div>
-                            </div>                        
-                        </div>                       
-                    </div>     
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <div class="text-info">F. Vencimiento</div>
-                            <div class="input-group date" id="mtxtFCoti" data-target-input="nearest">
-                                <input type="text" id="mtxtFcotizacion" name="mtxtFcotizacion" class="form-control datetimepicker-input" data-target="#mtxtFCoti"/>
-                                <div class="input-group-append" data-target="#mtxtFCoti" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                </div>
-                            </div>                        
-                        </div>                       
-                    </div>   
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <div class="text-info">F. Ingreso</div>
-                            <div class="input-group date" id="mtxtFCoti" data-target-input="nearest">
-                                <input type="text" id="mtxtFcotizacion" name="mtxtFcotizacion" class="form-control datetimepicker-input" data-target="#mtxtFCoti"/>
-                                <div class="input-group-append" data-target="#mtxtFCoti" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                </div>
-                            </div>                        
-                        </div>                       
-                    </div> 
-                </div>                
-            </div>   
-            <div class="form-group">
-                <div class="row">    
-                    <div class="col-sm-3">
-                        <div class="text-info">Temp. Prod</div>
-                        <div>  
-                            <input type="text" name="mtxtregmuestra" class="form-control" id="mtxtregmuestra"/>  
-                        </div>
-                    </div>    
-                    <div class="col-sm-3">
-                        <div class="text-info">Temp. Alma</div>
-                        <div>  
-                            <input type="text" name="mtxtregmuestra" class="form-control" id="mtxtregmuestra"/>  
-                        </div>
                     </div>  
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                         <div class="form-group">
                             <div class="text-info">F. Muestra</div>
-                            <div class="input-group date" id="mtxtFCoti" data-target-input="nearest">
-                                <input type="text" id="mtxtFcotizacion" name="mtxtFcotizacion" class="form-control datetimepicker-input" data-target="#mtxtFCoti"/>
-                                <div class="input-group-append" data-target="#mtxtFCoti" data-toggle="datetimepicker">
+                            <div class="input-group date" id="mtxtFMues" data-target-input="nearest">
+                                <input type="text" id="mtxtFmuestra" name="mtxtFmuestra" class="form-control datetimepicker-input" data-target="#mtxtFMues"/>
+                                <div class="input-group-append" data-target="#mtxtFMues" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
                             </div>                        
                         </div>                       
-                    </div>    
+                    </div>   
                     <div class="col-sm-2">
                         <div class="text-info">Hora Muestra</div>
                         <div>  
-                            <input type="text" name="mtxtregmuestra" class="form-control" id="mtxtregmuestra"/>  
+                            <input type="text" name="mtxthmuestra" class="form-control" id="mtxthmuestra"/>  
+                        </div>
+                    </div>  
+                </div>                
+            </div> 
+            <div class="form-group">
+                <div class="row">    
+                    <div class="col-sm-2">
+                        <div class="text-info">Tottus</div>
+                        <div>
+                            <select class="form-control select2bs4" id="mcbotottus" name="mcbotottus">
+                            <option value="" selected="selected">Elegir...</option>
+                            <option value="M">Marca Propia</option>
+                            <option value="T">Tienda</option>
+                            <option value="N">No aplica</option>
+                            </select>
+                        </div>
+                    </div>        
+                    <div class="col-sm-2">
+                        <div class="text-info">Monitoreo</div>
+                        <div>
+                            <select class="form-control select2bs4" id="mcbomonitoreo" name="mcbomonitoreo">
+                            <option value="" selected="selected">Elegir...</option>
+                            <option value="1">PRIMERO</option>
+                            <option value="2">SEGUNDO</option>
+                            <option value="3">TERCERO</option>
+                            <option value="4">CUARTO</option>
+                            </select>
+                        </div>
+                    </div>               
+                    <div class="col-sm-3">
+                        <div class="text-info">Motivo</div>
+                        <div>
+                            <select class="form-control select2bs4" id="mcbomotivo" name="mcbomotivo">
+                            <option value="" selected="selected">Elegir...</option>
+                            <option value="524">Monitoreo</option>
+                            <option value="525">Remuestreo</option>
+                            <option value="526">Validación CP</option>
+                            <option value="527">Validación tienda</option>
+                            <option value="528">Validación otros</option>
+                            </select>
+                        </div>
+                    </div>               
+                    <div class="col-sm-3">
+                        <div class="text-info">Area</div>
+                        <div>
+                            <select class="form-control select2bs4" id="mcboarea" name="mcboarea">
+                            <option value="">Cargando...</option>
+                            </select>
+                        </div>
+                    </div>                
+                    <div class="col-sm-2">
+                        <div class="text-info">Item</div>
+                        <div>
+                            <select class="form-control select2bs4" id="mcboitem" name="mcboitem">
+                            <option value="" selected="selected">Elegir...</option>
+                            <option value="530">Ambiente</option>
+                            <option value="531">Alimento</option>
+                            <option value="532">Superficie</option>
+                            <option value="533">Manipulador</option>
+                            <option value="534">Agua</option>
+                            <option value="535">Hielo</option>
+                            <option value="917">Validación</option>
+                            </select>
+                        </div>
+                    </div>                    
+                </div>                
+            </div>   
+            <div class="form-group">
+                <div class="row"> 
+                    <div class="col-sm-6">
+                        <div class="text-info">Ubicacion</div>
+                        <div>  
+                            <input type="text" name="mtxtubicacion" class="form-control" id="mtxtubicacion"/>  
                         </div>
                     </div>      
-                    <div class="col-sm-2">
+                    <div class="col-sm-6">
                         <div class="text-info">Estado</div>
                         <div>  
-                            <input type="text" name="mtxtregmuestra" class="form-control" id="mtxtregmuestra"/>  
+                            <input type="text" name="mtxtestado" class="form-control" id="mtxtestado"/>  
                         </div>
                     </div>  
                 </div>                
@@ -523,18 +473,18 @@
                     <div class="col-sm-12">
                         <div class="text-info">Observación</div>
                         <div>   
-                            <textarea class="form-control" cols="20" data-val="true" data-val-length="No debe superar los 500 caracteres." data-val-length-max="500" id="mtxtObspropu" name="mtxtObspropu" rows="2" data-val-maxlength-max="500" data-validation="required"></textarea>
+                            <textarea class="form-control" cols="20" data-val="true" data-val-length="No debe superar los 500 caracteres." data-val-length-max="500" id="mtxtObserva" name="mtxtObserva" rows="2" data-val-maxlength-max="500" data-validation="required"></textarea>
                             <span class="help-inline" style="padding-left:0px; color:#999; font-size:0.9em;">Caracteres: 0 / 500</span>     
                         </div> 
                     </div> 
                 </div>                
             </div> 
             <div class="form-group">
-                <div class="row">                
+                <div class="row">                            
                     <div class="col-sm-12">
                         <div class="text-info">Observación Otros</div>
                         <div>   
-                            <textarea class="form-control" cols="20" data-val="true" data-val-length="No debe superar los 500 caracteres." data-val-length-max="500" id="mtxtObspropu" name="mtxtObspropu" rows="2" data-val-maxlength-max="500" data-validation="required"></textarea>
+                            <textarea class="form-control" cols="20" data-val="true" data-val-length="No debe superar los 500 caracteres." data-val-length-max="500" id="mtxtObsotros" name="mtxtObsotros" rows="2" data-val-maxlength-max="500" data-validation="required"></textarea>
                             <span class="help-inline" style="padding-left:0px; color:#999; font-size:0.9em;">Caracteres: 0 / 500</span>     
                         </div> 
                     </div> 

@@ -1109,5 +1109,202 @@ class Cexcelauditoria extends CI_Controller {
 		//echo $html;
 		$this->pdfgenerator->generate($html, $filename);
 	}
+    
+
+	public function pdffoto($cauditoriainspeccion,$fservicio,$cchecklist,$cestablearea) { // recupera los cartas a proveedores
+		$this->load->library('pdfgenerator');
+		$filename = "Document_name";
+        
+        $html = '<html>
+        <head>
+            <style>
+                @page {
+                    margin-top: 30px;
+                    margin-right: 40px;
+                    margin-left: 40px;
+                }
+    
+                body {
+                    margin-top: 3cm;
+                    margin-left: 2cm;
+                    margin-right: 2cm;
+                    margin-bottom: 2cm;
+                    font-family: Arial, Helvetica, sans-serif;
+                    font-size: 9pt;
+                }
+    
+                header {
+                    position: fixed;
+                    top: 0cm;
+                    left: 0cm;
+                    right: 0cm;
+                }
+
+                main {
+                    top: 0cm;
+                    left: 0cm;
+                    right: 0cm;
+                }
+    
+                #cover { 
+                    margin-top: 200px;
+                    left: 0px; 
+                    right: 0px;  
+                    text-align: center; 
+                    font-size: 12pt;
+                    line-height:200%;
+                    page-break-after:always;
+                }
+                #cover table{ 
+                    text-align: center;
+                }
+                
+                #contained { 
+                }
+                
+                table {
+                    border-collapse: collapse;
+                }         
+                .marco-sup{
+                    border-collapse: collapse;
+                    border: 1px solid black;
+                    border-bottom-style: hidden;
+                    background: #eee;
+                }
+                .marco-medio{
+                    border-collapse: collapse;
+                    border: 1px solid black;
+                    border-bottom-style: hidden;
+                    border-top-style: hidden;
+                    background: #eee;
+                }
+                .marco-inf{
+                    border-collapse: collapse;
+                    border: 1px solid black;
+                    border-top-style: hidden;
+                    background: #eee;
+                }                
+
+                th{
+                    border-collapse: collapse;
+                    border: 1px solid black;
+                    background: #eee;
+                }
+            </style>
+            <title>Informe</title>
+        </head>
+        <body>
+            <header>
+                
+                <table width="700px" align="center" >
+                    <tr>
+                        <td width="80px" rowspan="5">
+                            <img class="izquierda" src="./FTPfileserver/Imagenes/formatos/1/logoFS.png" width="180" height="80" />
+                        </td>
+                        <td align="right">Av. Del Pinar 110 of. 405 - 407</td>
+                    </tr>
+                    <tr>
+                        <td align="right">Urb. Chacarilla del Estanque</td>
+                    </tr>
+                    <tr>
+                        <td align="right">Santiago de Surco, Lima - Perú</td>
+                    </tr>
+                    <tr>
+                        <td align="right">(51-1)372-1734 / 372-8182</td>
+                    </tr>
+                    <tr>
+                        <td align="right">www.grupofs.com</td>
+                    </tr>   
+                </table>
+
+            </header>';
+
+            $resultado = $this->mexcelauditoria->getpdfdatosaudi($cauditoriainspeccion,$fservicio);
+            if ($resultado){
+                foreach($resultado as $row){
+                    $NROINFORME     = $row->NROINFORME;	
+                    $SERVICIO       = $row->SERVICIO;	
+                    $SUBSERVICIO    = $row->SUBSERVICIO;	
+                    $CLIENTE        = $row->CLIENTE;	
+                    $FSERVICIO      = $row->FSERVICIO;
+                    $ESTABLECIMIENTO = $row->ESTABLECIMIENTO;
+                    $TEXTFECHA = $row->TEXTFECHA;
+                }
+            }
+            $html .= '
+            <main>    
+
+            <div id="contained">
+                <br>&nbsp;<br>
+                <br>&nbsp;<br>
+                <b>DETALLE</b> 
+                <br>&nbsp;<br>';
+                $html .= '
+                <b>HALLAZGOS</b> 
+                <br>&nbsp;<br>';
+                $reszona = $this->mexcelauditoria->getpdfcalifarea($cauditoriainspeccion,$fservicio,$cestablearea);
+                if ($reszona){
+                foreach($reszona as $rowhallazgozona){
+                    $destableareazona     = $rowhallazgozona->destablearea;
+                    $cestableareazona    =  $rowhallazgozona->cestablearea;
+                    $cchecklist    =  $rowhallazgozona->cchecklist;
+                        
+                $html .= '                        
+                <table width="600px" align="center" style="border: 1px solid black;">
+                <thead>
+                    <tr>
+                        <td align="center" colspan="3"><b>'.$destableareazona.'</b></td>
+                    </tr>';   
+                $reshallazgocab  = $this->mexcelauditoria->getpdfhallazgocab($cauditoriainspeccion,$fservicio,$cchecklist,$cestablearea);
+                if ($reshallazgocab){
+                foreach($reshallazgocab as $rowhallazgocab){
+                    $crequisitohcab     = $rowhallazgocab->crequisito;	
+                    $drequisitohcab     = $rowhallazgocab->drequisito;
+                $html .= '
+                    <tr>
+                        <th align="center">ID</th>
+                        <th>'.$drequisitohcab.'</th>
+                        <th>HALLAZGOS</th>
+                    </tr>
+                </thead>';
+                    $reshallazgodet  = $this->mexcelauditoria->getpdfhallazgodet($cauditoriainspeccion,$fservicio,$cchecklist,$cestableareazona,$crequisitohcab);
+                    if ($reshallazgodet){                         
+                        $idet = 0;
+                    foreach($reshallazgodet as $rowhallazgodet){
+                        $drequisito     = $rowhallazgodet->drequisito;	
+                        $dhallazgo     = $rowhallazgodet->dhallazgo;
+                        $foto	= $rowhallazgodet->foto;
+                        $idet++;
+                        
+                    $html .= '
+                    <tbody>
+                    <tr>
+                        <td>'.$idet.'</td>
+                        <td>'.$drequisito.'</td>
+                        <td>'.$dhallazgo.'</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black;" colspan="3"><img class="izquierda" src="./'.$foto.'" width="360" height="160" /></td>
+                    </tr>
+                    ';
+                    }}
+                    $html .= '
+                    <tr>
+                        <td style="height:30px" colspan="3">&nbsp;</td>
+                    </tr>';
+                }}
+                $html .= '               
+                </tbody>
+                </table>';
+                }
+                }
+            $html .= '
+            </div>
+            </main>
+        </body>
+        </html>';
+		//echo $html;
+		$this->pdfgenerator->generate($html, $filename);
+	}
 }
 ?>

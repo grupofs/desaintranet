@@ -60,8 +60,8 @@ class Cexpediente extends CI_Controller
 
         $parametros = array(
             '@ccliente' => $ccliente,
-            '@cproveedor' => $cproveedor,
-            '@expediente' => (empty($expedientes)) ? '' : "%{$expedientes}%",
+            '@cproveedor' => (empty($cproveedor)) ? 0 : $cproveedor,
+            '@expediente' => (empty($expedientes)) ? '%' : "%{$expedientes}%",
             '@fdesde' => $fdesde,
             '@fhasta' => $fhasta,
         );

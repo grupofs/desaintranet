@@ -3,6 +3,14 @@
 ?>
 
 <style>
+    td.details-control {
+        background: url('<?php echo base_url() ?>assets/images/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+    tr.details td.details-control {
+        background: url('<?php echo base_url() ?>assets/images/details_close.png') no-repeat center center;
+    }
+
     .fileUpload {
         position: relative;
         overflow: hidden;
@@ -53,6 +61,24 @@
           
             <div class="card-body">
                 <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Compañia</label>
+                            <select class="form-control" id="cbocia" name="cbocia" style="width: 100%;">
+                                <option value="0" selected="selected"></option>
+                                <option value="1">FS</option>
+                                <option value="2">FSC</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Area</label>
+                            <select class="form-control select2bs4" id="cboarea" name="cboarea" style="width: 100%;">
+                                <option value="" selected="selected">Cargando...</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="col-md-3">    
                         <div class="checkbox"><label>
                             <input type="checkbox" id="chkFreg" /> <b>Fecha Emision :: Del</b>
@@ -71,24 +97,6 @@
                             <div class="input-group-append" data-target="#txtFHasta" data-toggle="datetimepicker">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Compañia</label>
-                            <select class="form-control" id="cbocia" name="cbocia" style="width: 100%;">
-                                <option value="0" selected="selected"></option>
-                                <option value="1">FS</option>
-                                <option value="2">FSC</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label>Area</label>
-                            <select class="form-control select2bs4" id="cboarea" name="cboarea" style="width: 100%;">
-                                <option value="" selected="selected">Cargando...</option>
-                            </select>
                         </div>
                     </div>
                 </div>
@@ -122,7 +130,7 @@
                     <div class="col-md-12">
                         <div class="text-right">
                             <button type="submit" class="btn btn-primary" id="btnBuscar"><i class="fas fa-search"></i>&nbsp;&nbsp;Buscar</button>    
-                            <button type="button" class="btn btn-outline-info" id="btnNuevo" data-toggle="modal" data-target="#modalCreaIngreso"><i class="fas fa-plus"></i>&nbsp;&nbsp;Crear Nuevo</button>
+                            <!--<button type="button" class="btn btn-outline-info" id="btnNuevo" data-toggle="modal" data-target="#modalCreaIngreso"><i class="fas fa-plus"></i>&nbsp;&nbsp;Crear Nuevo</button>-->
                             <button type="button" class="btn btn-outline-success" id="btnImportar" data-toggle="modal" data-target="#modalImportdoc"><i class="fas fa-upload"></i>&nbsp;&nbsp;Importar Nubefact</button> 
                         </div>
                     </div>
@@ -133,21 +141,22 @@
             <div class="col-12">
                 <div class="card card-outline card-success">
                     <div class="card-header">
-                        <h3 class="card-title">Listado de Ingresos</h3>
+                        <h3 class="card-title">Listado de Ingresos - <label id="lblCia"></label></h3>
                     </div>                
                     <div class="card-body">
                         <table id="tblListIngreso" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                             <tr>
                                 <th></th>
+                                <th></th>
                                 <th>Documento</th>
-                                <th>NRO Documento</th>
-                                <th>Fecha Emision</th>
+                                <th>F. Emision</th>
                                 <th>Empresa</th>
                                 <th>Area</th>
                                 <th>Monto Base</th>
-                                <th>Monto IGV</th>
-                                <th>Monto TOTAL</th>
+                                <th>IGV</th>
+                                <th>Monto Fact.</th>
+                                <th>Saldo Pagar</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -164,11 +173,11 @@
 </section>
 <!-- /.Main content -->
 
-<!-- /.modal-crear-Ingreso --> 
+<!-- /.modal-DocIngreso --> 
 <div class="modal fade" id="modalCreaIngreso" data-backdrop="static" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <form class="form-horizontal" id="frmCreaIngreso" name="frmCreaIngreso" action="<?= base_url('adm/conta/cingresos/setingreso')?>" method="POST" enctype="multipart/form-data" role="form"> 
+      <form class="form-horizontal" id="frmDocIngreso" name="frmDocIngreso" action="<?= base_url('adm/conta/cingresos/setdocingreso')?>" method="POST" enctype="multipart/form-data" role="form"> 
 
         <div class="modal-header text-center bg-success">
             <h4 class="modal-title w-100 font-weight-bold">Registro de Ingreso</h4>
@@ -177,169 +186,204 @@
             </button>
         </div>
 
-        <div class="modal-body">          
-            <input type="hidden" id="mhdnIdingreso" name="mhdnIdingreso"> <!-- ID -->
-            <input type="hidden" id="mhdnIddocingreso" name="mhdnIddocingreso">
+        <div class="modal-body">        
+            <input type="hidden" id="mhdnIddocingreso" name="mhdnIddocingreso"> <!-- ID -->            
             <input type="hidden" id="mhdnAccionIngreso" name="mhdnAccionIngreso" value="">
                         
             <fieldset class="scheduler-border">
-                <legend class="scheduler-border text-primary">DOCUMENTO</legend> 
+                <legend class="scheduler-border text-primary">DOCUMENTO de <label id="lblmCia"></label></legend> 
                 <div class="form-group">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="text-info">Empresa</div>
-                            <div>                            
-                                <select class="form-control select2bs4" id="mcboempresa" name="mcboempresa" style="width: 100%;">
-                                    <option value="" selected="selected">Cargando...</option>
-                                </select>
-                            </div>
-                        </div> 
+                    <div class="row">                        
+                        <div class="col-12">
+                        <h4>
+                            <small id="lblmFactura"> </small>
+                            <small id="lblmFecha" class="float-right"></small>
+                        </h4>
+                        </div>
                     </div>                
                 </div> 
                 <div class="form-group">
-                    <div class="row">          
-                        <div class="col-sm-3">
-                            <div class="text-info">Tipo Doc.</div>
+                    <div class="row"> 
+                        <div class="col-12">
+                            <h4>
+                                <i class="fas fa-globe"></i> <label id="lblmEmpresa"></label>
+                            </h4>
+                        </div>
+                    </div>                
+                </div>
+                <div class="form-group">
+                    <div class="row"> 
+                        <div class="col-2">
+                            <label>Pertenece a :</label>
+                        </div>
+                        <div class="col-4">
                             <div>                            
-                                <select class="form-control" id="mcbotipodoc" name="mcbotipodoc">
-                                    <option value="01" selected="selected">Factura</option>
-                                    <option value="02">RECIBO HONORARIO</option>
-                                    <option value="03">BOLETA DE VENTA</option>
-                                    <option value="07">NOTA DE CREDITO</option>
+                                <select class="form-control" id="cbomcarea" name="cbomcarea">
+                                    <option value="" selected="selected">Cargando...</option>
                                 </select>
                             </div>
-                        </div>         
-                        <div class="col-sm-3">
-                            <div class="text-info">Correlativo Doc.</div>
-                            <div>                            
-                                <input type="text" class="form-control" id="mtxtcorredoc" name="mtxtcorredoc">
-                            </div>
-                        </div>         
-                        <div class="col-sm-3">
-                            <div class="text-info">Nro. Documento</div>
-                            <div>                            
-                                <input type="text" class="form-control" id="mtxtnrodoc" name="mtxtnrodoc">
-                            </div>
-                        </div>                    
-                        <div class="col-sm-3">
-                            <div class="text-info">Fecha Emision</div>
-                            <div class="input-group date" id="mtxtFemidocumento" data-target-input="nearest">
-                                <input type="text" id="mtxtFemidoc" name="mtxtFemidoc" class="form-control datetimepicker-input" data-target="#mtxtFemidocumento"/>
-                                <div class="input-group-append" data-target="#mtxtFemidocumento" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                </div>
-                            </div>                        
                         </div>
                     </div>                
                 </div>
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-sm-3">
-                            <div class="text-info">Base</div>
-                            <div>                            
-                                <input type="text" class="form-control" id="mtxtmontobase" name="mtxtmontobase">
-                            </div>
-                        </div> 
-                        <div class="col-sm-3">
-                            <div class="text-info">IGV</div>
-                            <div>                            
-                                <input type="text" class="form-control" id="mtxtmontoigv" name="mtxtmontoigv">
-                            </div>
-                        </div> 
-                        <div class="col-sm-3">
-                            <div class="text-info">Total</div>
-                            <div>                            
-                                <input type="text" class="form-control" id="mtxtmontototal" name="mtxtmontototal">
-                            </div>
-                        </div>       
-                        <div class="col-sm-3">
-                            <div class="text-info">Tipo de Moneda</div>
-                            <div>                            
-                                <select class="form-control" id="mcbotipomoneda" name="mcbotipomoneda">
-                                    <option value="" selected="selected">:: Elija</option>
-                                    <option value="S">SOLES</option>
-                                    <option value="D">DOLARES</option>
-                                </select>
-                            </div>
-                        </div> 
+                        <div class="col-12 table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                <th>Concepto</th>
+                                <th>Base</th>
+                                <th>IGV</th>
+                                <th>Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                <td id="lblmConcepto"></td>
+                                <td id="lblmBase"></td>
+                                <td id="lblmIGV"></td>
+                                <td id="lblmTotal"></td>
+                                </tr> 
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>                
+                </div> 
+            </fieldset>    
+        </div>
+        <div class="modal-footer justify-content-between" style="background-color: #dff0d8;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-right">
+                        <button type="reset" class="btn btn-default" id="btnmCerDocingre" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger" id="btnmAnulDocingre">Anular</button>
+                        <button type="submit" class="btn btn-info" id="btnmActDocingre">Grabar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> 
+<!-- /.modal-->
+
+<!-- /.modal-pago --> 
+<div class="modal fade" id="modalPago" data-backdrop="static" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form class="form-horizontal" id="frmPago" name="frmPago" action="<?= base_url('adm/conta/cingresos/setpago')?>" method="POST" enctype="multipart/form-data" role="form"> 
+
+        <div class="modal-header text-center bg-success">
+            <h4 class="modal-title w-100 font-weight-bold">Pago de Documentos</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">          
+            <input type="hidden" id="mhdnpIdingreso" name="mhdnpIdingreso"> <!-- ID -->
+            <input type="hidden" id="mhdnpIddocingreso" name="mhdnpIddocingreso">
+            <input type="hidden" id="mhdnpAccionIngreso" name="mhdnpAccionIngreso" value="">
+                        
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border text-primary">DOCUMENTO de <label id="lblpCia"></label></legend> 
+                <div class="form-group">
+                    <div class="row">                        
+                        <div class="col-12">
+                        <h4>                            
+                            <small id="lblFecha" class="float-right"></small>
+                        </h4>
+                        </div>
+                    </div>                
+                </div> 
+                <div class="form-group">
+                    <div class="row"> 
+                        <div class="col-12">
+                            <h4>
+                                <i class="fas fa-globe"></i> <label id="lblEmpresa"></label>
+                            </h4>
+                        </div>
+                    </div>                
+                </div>
+                <div class="form-group">
+                    <div class="row"> 
+                        <div class="col-2">
+                            <label>Concepto :</label>
+                        </div>
+                        <div class="col-10">
+                            <h5>                            
+                                <small id="lblConcepto"></small>
+                            </h5>
+                        </div>
+                    </div>                
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                <th>Documento</th>
+                                <th>Base</th>
+                                <th>IGV</th>
+                                <th>Total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                <td id="lblFactura"></td>
+                                <td id="lblBase"></td>
+                                <td id="lblIGV"></td>
+                                <td id="lblTotal"></td>
+                                </tr> 
+                                </tbody>
+                            </table>
+                        </div>
                     </div>                
                 </div> 
             </fieldset>
             <div id="panelPagar"> 
             <fieldset class="scheduler-border" >
-                <legend class="scheduler-border text-primary">PAGAR</legend>                   
+                <legend class="scheduler-border text-primary">PAGO</legend>                   
                 <div class="form-group">
                     <div class="row">          
                         <div class="col-sm-2">
                             <div class="text-info">Año</div>
                             <div>                            
                                 <select class="form-control" id="mcboanio" name="mcboanio">
-                                    <option value="" selected="selected">:: Elija</option>
-                                </select>
-                            </div>
-                        </div>         
-                        <div class="col-sm-3">
-                            <div class="text-info">Mes</div>
-                            <div>                            
-                                <select class="form-control" id="mcbomes" name="mcbomes">
-                                    <option value="" selected="selected">:: Elija</option>
-                                </select>
-                            </div>
-                        </div>         
-                        <div class="col-sm-3">
-                            <div class="text-info">Compañia</div>
-                            <div>                            
-                                <select class="form-control" id="mcbocia" name="mcbocia">
-                                    <option value="" selected="selected">:: Elija</option>
-                                    <option value="1">FS</option>
-                                    <option value="2">FSC</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="text-info">Area</div>
-                            <div>                            
-                                <select class="form-control select2bs4" id="mcboarea" name="mcboarea" style="width: 100%;">
                                     <option value="" selected="selected">Cargando...</option>
                                 </select>
                             </div>
-                        </div> 
-                    </div>                
-                </div>  
-                <div class="form-group">
-                    <div class="row">         
+                        </div>         
+                        <div class="col-sm-2">
+                            <div class="text-info">Mes</div>
+                            <div>                            
+                                <select class="form-control" id="mcbomes" name="mcbomes">
+                                    <option value="" selected="selected">Cargando...</option>
+                                </select>
+                            </div>
+                        </div>   
+                        <div class="col-sm-4">
+                            <div class="text-info">Area</div>
+                            <div>                            
+                                <select class="form-control select2bs4" id="mcboparea" name="mcboparea" style="width: 100%;">
+                                    <option value="" selected="selected">Cargando...</option>
+                                </select>
+                            </div>
+                        </div>      
                         <div class="col-sm-4">
                             <div class="text-info">Codigo</div>
                             <div>                            
                                 <select class="form-control" id="mcbocodigo" name="mcbocodigo">
-                                    <option value="" selected="selected">:: Elija</option>
+                                    <option value="" selected="selected">Cargando...</option>
                                 </select>
                             </div>
-                        </div>      
-                        <div class="col-sm-3">
-                            <div class="text-info">Tipo Pago</div>
-                            <div>                            
-                                <select class="form-control" id="mcbotipopago" name="mcbotipopago">
-                                    <option value="" selected="selected">:: Elija</option>
-                                    <option value="1">FS</option>
-                                    <option value="2">FSC</option>
-                                </select>
-                            </div>
-                        </div>    
-                        <div class="col-sm-5">
-                            <div class="text-info">CTA - Bancos</div>
-                            <div>                            
-                                <select class="form-control" id="mcbobanco" name="mcbobanco">
-                                    <option value="" selected="selected">:: Elija</option>
-                                    <option value="1">FS</option>
-                                    <option value="2">FSC</option>
-                                </select>
-                            </div>
-                        </div>                  
+                        </div>   
                     </div>                
-                </div>          
+                </div>  
                 <div class="form-group">
-                    <div class="row"> 
+                    <div class="row">
                         <div class="col-sm-3">
                             <div class="text-info">Fecha Pago</div>
                             <div class="input-group date" id="mtxtFechapago" data-target-input="nearest">
@@ -348,18 +392,46 @@
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
                             </div>                        
-                        </div> 
+                        </div>  
                         <div class="col-sm-3">
-                            <div class="text-info">Monto</div>
+                            <div class="text-info">Por Pagar</div>
+                            <div>                            
+                                <input type="text" class="form-control" id="mtxtsaldopagar" name="mtxtsaldopagar">
+                            </div>
+                        </div>         
+                        <div class="col-sm-3">
+                            <div class="text-info">Tipo Pago</div>
+                            <div>                            
+                                <select class="form-control" id="mcbotipopago" name="mcbotipopago">
+                                    <option value="" selected="selected">:: Elija</option>
+                                    <option value="T">TOTAL</option>
+                                    <option value="P">PARCIAL</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="text-info">Monto a pagar</div>
                             <div>                            
                                 <input type="text" class="form-control" id="mtxtmontopagar" name="mtxtmontopagar">
                             </div>
-                        </div>               
-                        <div class="col-sm-6">
+                        </div>                  
+                    </div>                
+                </div>          
+                <div class="form-group">
+                    <div class="row">      
+                        <div class="col-sm-5">
+                            <div class="text-info">CTA - Bancos</div>
+                            <div>                            
+                                <select class="form-control" id="mcbobanco" name="mcbobanco">
+                                    <option value="" selected="selected">Cargando...</option>
+                                </select>
+                            </div>
+                        </div>             
+                        <div class="col-sm-7">
                             <div class="text-info">Observación</div>
                             <div>   
-                                <textarea class="form-control" cols="20" data-val="true" data-val-length="No debe superar los 500 caracteres." data-val-length-max="500" id="mtxtObserva" name="mtxtObserva" rows="2" data-val-maxlength-max="500" data-validation="required"></textarea>
-                                <span class="help-inline" style="padding-left:0px; color:#999; font-size:0.9em;">Caracteres: 0 / 500</span>     
+                                <textarea class="form-control" cols="20" data-val="true" data-val-length="No debe superar los 200 caracteres." data-val-length-max="200" id="mtxtObserva" name="mtxtObserva" rows="1" data-val-maxlength-max="200"></textarea>
+                                <span class="help-inline" style="padding-left:0px; color:#999; font-size:0.9em;">Caracteres permitido 200</span>     
                             </div> 
                         </div> 
                     </div>                
@@ -369,8 +441,8 @@
         </div>
 
         <div class="modal-footer justify-content-between" style="background-color: #dff0d8;">
-            <button type="reset" class="btn btn-default" id="mbtnCCreaingre" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-info" id="mbtnGCreaingre">Grabar</button>
+            <button type="reset" class="btn btn-default" id="mbtnCPago" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-info" id="mbtnGPago">Grabar</button>
         </div>
       </form>
     </div>
@@ -407,6 +479,8 @@
                             <span style="color: red; font-size: 13px;">+ Los archivos deben estar en formato xls y no deben pesar mas de 60 MB</span>                        
                             <input type="hidden" name="txtFileRuta" id="txtFileRuta">
                             <input type="hidden" name="mtxtFilearchivo" id="mtxtFilearchivo"> 
+
+                            <input type="hidden" name="hdmccia" id="hdmccia">
 
                             <div class="modal-footer" style="background-color: #dff0d8;">
                                 <button type="button" class="btn btn-info" id="mbtnGUpload">Migrar</button>

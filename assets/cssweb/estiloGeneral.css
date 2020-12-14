@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*DISEÑO SUBIR ARCHIVO*/ 
     .fileUpload {
         position: relative;
@@ -44,6 +45,9 @@
     }
 
     
+=======
+
+>>>>>>> 88dfd18c1cffa5908ae015cb10a3e02ab5a69830
 /*DISEÑO PLANTILLA*/  
     .content-header{
         padding: 10px .5rem 0.5px !important; 
@@ -59,7 +63,15 @@
     }  
     .card-footer{
         background-color: #E0F4ED !important; 
+<<<<<<< HEAD
     } 
+=======
+    }  
+    .btn-outline-info{
+        color: #09044e !important; 
+        border-color: #09044e !important;
+    }
+>>>>>>> 88dfd18c1cffa5908ae015cb10a3e02ab5a69830
 
 /*DISEÑO CONTROLES*/
     /*Radio*/ 
@@ -283,4 +295,8 @@ body.swal2-toast-shown .swal2-container.swal2-shown {
 }
 .evaluar-estado-pendiente-color, .select2-results__options[id*="cbostatus"] .select2-results__option:nth-child(5) {
     color: #ff6900;
+}
+
+table.table table.tbl-tramites tr.ar-content-buttons:hover > td div.ar-content-options {
+	display: block !important;
 }

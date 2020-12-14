@@ -132,6 +132,7 @@ switch(myCoolJavascriptVariable[4]) {
 			return '<option value="' + item.id + '" >' + item.text + '</option>';
 		});
 		$(this[0]).html(options.join('')).change();
+		return $(this);
 	};
 
 })(jQuery);
@@ -162,5 +163,81 @@ $(function() {
 		if (icon.length) icon.show();
 		boton.prop('disabled', false);
 	}
+
+	/**
+	 * Messages alert
+	 * Type: error, info, success, warning
+	 * @param {string} type
+	 * @param {string} message
+	 * @param {string|default=null} text
+	 */
+	objPrincipal.alert = function(type, message, text) {
+		text = (typeof text === 'undefined') ? '' : text;
+		Swal.fire({
+			type: type,
+			title: message,
+			text: text,
+			showCloseButton: true,
+			showConfirmButton: false
+		})
+	};
+
+	/**
+	 * Messages Notification
+	 * Type: error, info, success, warning
+	 * @param {string} type
+	 * @param {string} message
+	 */
+	objPrincipal.notify = function(type, message) {
+		let notify = Swal.mixin({
+			toast: true,
+			position: 'top-end',
+			showConfirmButton: false,
+			timer: 4000
+		});
+		notify.fire({
+			type: type,
+			title: message,
+		})
+	};
+
+	/**
+	 * Agrega el plugin de calendario para fechas
+	 * @param el
+	 */
+	objPrincipal.addPluginCalendar = function(el) {
+		el.daterangepicker({
+			singleDatePicker: true,
+			showDropdowns: true,
+			autoclose: true,
+			theme: 'bootstrap4',
+			locale: {
+				format: 'DD/MM/YYYY',
+				daysOfWeek: [
+					'Do',
+					'Lu',
+					'Ma',
+					'Mi',
+					'Ju',
+					'Vi',
+					'Sa'
+				],
+				monthNames: [
+					'Enero',
+					'Febrero',
+					'Marzo',
+					'Abril',
+					'Mayo',
+					'Junio',
+					'Julio',
+					'Agosto',
+					'Setiembre',
+					'Octubre',
+					'Noviembre',
+					'Diciembre'
+				]
+			}
+		})
+	};
 
 });

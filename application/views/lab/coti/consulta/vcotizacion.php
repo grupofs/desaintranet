@@ -4,89 +4,6 @@
 ?>
 
 <style>
-    tab {
-        display: inline-block; 
-        margin-left: 30px; 
-    }
-    tr.subgroup,
-    tr.subgroup:hover {
-        background-color: #F2F2F2 !important;
-        /* color: blue; */
-        font-weight: bold;
-    }
-    .group{
-            background-color:#D5D8DC !important;
-            font-size:15px;
-            color:#000000!important;
-            opacity:0.7;
-    }
-    .subgroup{
-        cursor: pointer;
-    }
-
-    .btn-circle {
-        width: 45px;
-        height: 45px;
-        line-height: 45px;
-        text-align: center;
-        padding: 0;
-        border-radius: 50%;
-    }
-    
-    .btn-circle i {
-        position: relative;
-        top: -1px;
-    }
-
-    .btn-circle-sm {
-        width: 35px;
-        height: 35px;
-        line-height: 35px;
-        font-size: 0.9rem;
-    }
-
-    .btn-circle-lg {
-        width: 55px;
-        height: 55px;
-        line-height: 55px;
-        font-size: 1.1rem;
-    }
-
-    .btn-circle-xl {
-        width: 70px;
-        height: 70px;
-        line-height: 70px;
-        font-size: 1.3rem;
-    }
-
-    .fileUpload {
-        position: relative;
-        overflow: hidden;
-        margin: 0px;
-    }
-    .fileUpload input.upload {
-        position: absolute;
-        top: 0;
-        right: 0;
-        margin: 0;
-        padding: 0;
-        cursor: pointer;
-        opacity: 0;
-        filter: alpha(opacity=0);
-    }
-    
-    .dropdown-item:hover{
-        border-color: #0067ab;
-        background-color: #e83e8c !important;
-    }
-
-    td.details-control {
-        background: url('<?php echo public_base_url(); ?>assets/images/details_open.png') no-repeat center center;
-        cursor: pointer;
-    }
-    tr.details td.details-control {
-        background: url('<?php echo public_base_url(); ?>assets/images/details_close.png') no-repeat center center;
-    }
 </style>
 
 <!-- content-header -->
@@ -98,7 +15,7 @@
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="<?php echo public_base_url(); ?>cprincipal/principal">Home</a></li>
+          <li class="breadcrumb-item"><a href="<?php echo public_base_url(); ?>main">Home</a></li>
           <li class="breadcrumb-item active">Laboratorio</li>
         </ol>
       </div>
@@ -108,25 +25,25 @@
 <!-- /.content-header -->
 
 <!-- Main content -->
-<section class="content" id="contenedorCotizacion" style="background-color: #E0F4ED;">
+<section class="content" id="contenedorCotizacion">
     <div class="container-fluid">  
         <div class="row">
             <div class="col-12">
-                <div class="card card-primary card-outline card-tabs">
+                <div class="card card-lightblue card-outline card-tabs">
                     <div class="card-header p-0 pt-1 border-bottom-0">            
-                        <ul class="nav nav-tabs" id="tablab" style="background-color: #2875A7;" role="tablist">                    
+                        <ul class="nav nav-tabs" id="tablab" role="tablist">                    
                             <li class="nav-item">
-                                <a class="nav-link active" style="color: #000000;" id="tablab-list-tab" data-toggle="pill" href="#tablab-list" role="tab" aria-controls="tablab-list" aria-selected="true">LISTADO</a>
+                                <a class="nav-link active" id="tablab-list-tab" data-toggle="pill" href="#tablab-list" role="tab" aria-controls="tablab-list" aria-selected="true">LISTADO</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" style="color: #000000;" id="tablab-reg-tab" data-toggle="pill" href="#tablab-reg" role="tab" aria-controls="tablab-reg" aria-selected="false">REGISTRO</a>
+                                <a class="nav-link" id="tablab-reg-tab" data-toggle="pill" href="#tablab-reg" role="tab" aria-controls="tablab-reg" aria-selected="false">REGISTRO</a>
                             </li>
                         </ul>
                     </div>
                     <div class="card-body">
                         <div class="tab-content" id="tablab-tabContent">
                             <div class="tab-pane fade show active" id="tablab-list" role="tabpanel" aria-labelledby="tablab-list-tab">                                
-                                <div class="card card-primary">
+                                <div class="card card-lightblue">
                                     <div class="card-header">
                                         <h3 class="card-title">BUSQUEDA</h3>
                                         <div class="card-tools">

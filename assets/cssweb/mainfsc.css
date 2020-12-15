@@ -1,3 +1,21 @@
+/********************************************************************/
+/*               CSS MAIN FSC                                       */
+/********************************************************************/  
+
+/*** Cabezera de Bienvenida ***/
 .nomcab{
     color:rgba(255,255,255,.75);
+}
+
+/*** Tab - Pestañas ***/
+#tablab{
+    background-color: #3c8dbc;
+}
+
+.nav-link :active{
+    color: #000000;
+}
+
+.nav-link{
+    color: #ffffff;
 }

@@ -161,7 +161,7 @@ class Ccotizacion extends CI_Controller {
 		$setiquetanutri 	    = $this->input->post('mcboregetiquetado');
 		$ntamanoporcion 	    = $this->input->post('mtxtregtamporci');
 		$umporcion 	            = $this->input->post('mcboregumeti');
-		$cusuario 			    = $this->input->post('mtxtcusuario');
+		$cusuario 			    = $this->input->post('mhdncusuario');
 		$accion 			    = $this->input->post('mhdnAccionProduc');
         
         $parametros = array(
@@ -589,6 +589,150 @@ class Ccotizacion extends CI_Controller {
 		$filename = 'coti';
 		$this->pdfgenerator->generate($html, $filename);
         //echo $html;
+	}
+
+    public function setduplicarprodxcoti() { // Registrar informe PT
+		$varnull = '';
+		
+		$cinternocotizacion 	= $this->input->post('idcotizacion');
+		$nversioncotizacion 	= $this->input->post('nversion');
+		$nordenproducto 		= $this->input->post('idcotiproducto');
+        
+        $parametros = array(
+            '@cinternocotizacion'   =>  $cinternocotizacion,
+            '@nversioncotizacion'   =>  $nversioncotizacion,
+            '@nordenproducto'   	=>  $nordenproducto
+        );
+        $retorna = $this->mcotizacion->setduplicarprodxcoti($parametros);
+        echo json_encode($retorna);		
+	}
+
+    public function deleteprodxcoti() { // Registrar informe PT
+		$varnull = '';
+		
+		$cinternocotizacion 	= $this->input->post('idcotizacion');
+		$nversioncotizacion 	= $this->input->post('nversion');
+		$nordenproducto 		= $this->input->post('idcotiproducto');
+        
+        $parametros = array(
+            '@cinternocotizacion'   =>  $cinternocotizacion,
+            '@nversioncotizacion'   =>  $nversioncotizacion,
+            '@nordenproducto'   	=>  $nordenproducto
+        );
+        $retorna = $this->mcotizacion->deleteprodxcoti($parametros);
+        echo json_encode($retorna);		
+	}
+
+    public function getbuscarensayos() { // Buscar Cotizacion
+		$varnull = '';
+
+		$descripcion   = $this->input->post('descripcion');
+		$sacnoac       = $this->input->post('sacnoac');
+        
+        $parametros = array(
+			'@descripcion'		=> ($this->input->post('descripcion') == '') ? '%' : '%'.$descripcion.'%',
+			'@sacnoac'          => ($this->input->post('sacnoac') == '') ? '%' : $sacnoac,
+        );
+        $retorna = $this->mcotizacion->getbuscarensayos($parametros);
+        echo json_encode($retorna);		
+    }
+
+    public function setregensayoxprod() { // Registrar informe PT
+		$varnull = '';
+		
+		$cinternocotizacion 	= $this->input->post('hdnmIdcoti');
+		$nversioncotizacion 	= $this->input->post('hdnmNvers');
+		$nordenproducto 		= $this->input->post('hdnmIdprod');
+		$censayo 		        = $this->input->post('mhdnmcensayo');
+		$claboratorio 		    = $this->input->post('mtxtmCLab');
+		$nvias 		            = $this->input->post('mtxtmvias');
+		$icostoclienteparcial 	= $this->input->post('mtxtmCosto');
+		$accion 		        = $this->input->post('hdnmAccion');
+        
+        $parametros = array(
+            '@cinternocotizacion'   =>  $cinternocotizacion,
+            '@nversioncotizacion'   =>  $nversioncotizacion,
+            '@nordenproducto'   	=>  $nordenproducto,
+            '@censayo'   	        =>  $censayo,
+            '@claboratorio'   	    =>  $claboratorio,
+            '@nvias'   	            =>  $nvias,
+            '@icostoclienteparcial' =>  $icostoclienteparcial,
+            '@accion'   	        =>  $accion
+        );
+        $retorna = $this->mcotizacion->setregensayoxprod($parametros);
+        echo json_encode($retorna);		
+	}
+
+    public function seteditensayoxprod() { // Registrar informe PT
+		$varnull = '';
+		
+		$cinternocotizacion 	= $this->input->post('ehdnmIdcoti');
+		$nversioncotizacion 	= $this->input->post('ehdnmNvers');
+		$nordenproducto 		= $this->input->post('ehdnmIdprod');
+		$censayo 		        = $this->input->post('ehdnmcensayo');
+		$claboratorio 		    = $this->input->post('etxtmCLab');
+		$nvias 		            = $this->input->post('etxtmvias');
+		$icostoclienteparcial 	= $this->input->post('etxtmCosto');
+		$accion 		        = $this->input->post('ehdnmAccion');
+        
+        $parametros = array(
+            '@cinternocotizacion'   =>  $cinternocotizacion,
+            '@nversioncotizacion'   =>  $nversioncotizacion,
+            '@nordenproducto'   	=>  $nordenproducto,
+            '@censayo'   	        =>  $censayo,
+            '@claboratorio'   	    =>  $claboratorio,
+            '@nvias'   	            =>  $nvias,
+            '@icostoclienteparcial' =>  $icostoclienteparcial,
+            '@accion'   	        =>  $accion
+        );
+        $retorna = $this->mcotizacion->setregensayoxprod($parametros);
+        echo json_encode($retorna);		
+	}
+
+    public function deleteensayoxprod() { // Registrar informe PT
+		$varnull = '';
+		
+		$cinternocotizacion 	= $this->input->post('idcotizacion');
+		$nversioncotizacion 	= $this->input->post('nversion');
+		$nordenproducto 		= $this->input->post('idcotiproducto');
+		$censayo 		        = $this->input->post('censayo');
+        
+        $parametros = array(
+            '@cinternocotizacion'   =>  $cinternocotizacion,
+            '@nversioncotizacion'   =>  $nversioncotizacion,
+            '@nordenproducto'   	=>  $nordenproducto,
+            '@censayo'   	        =>  $censayo
+        );
+        $retorna = $this->mcotizacion->deleteensayoxprod($parametros);
+        echo json_encode($retorna);		
+	}
+
+    public function cerrarcotizacion() { // Registrar informe PT
+		$varnull = '';
+		
+		$cinternocotizacion 	= $this->input->post('idcotizacion');
+		$nversioncotizacion 	= $this->input->post('nversion');
+        
+        $parametros = array(
+            '@cinternocotizacion'   =>  $cinternocotizacion,
+            '@nversioncotizacion'   =>  $nversioncotizacion
+        );
+        $retorna = $this->mcotizacion->cerrarcotizacion($parametros);
+        echo json_encode($retorna);		
+	}
+
+    public function abrircotizacion() { // Registrar informe PT
+		$varnull = '';
+		
+		$cinternocotizacion 	= $this->input->post('idcotizacion');
+		$nversioncotizacion 	= $this->input->post('nversion');
+        
+        $parametros = array(
+            '@cinternocotizacion'   =>  $cinternocotizacion,
+            '@nversioncotizacion'   =>  $nversioncotizacion
+        );
+        $retorna = $this->mcotizacion->abrircotizacion($parametros);
+        echo json_encode($retorna);		
 	}
 }
 ?>

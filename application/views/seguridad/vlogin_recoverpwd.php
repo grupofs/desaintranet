@@ -7,16 +7,12 @@
         <?php
             if ($ccia == 'fs'):
                 $grupo = 'GRUPO FS';
-                $idgrupo = 'rcornersfs';
-                $colorgrupo = '#73AD21';
-                $idbuttongrupo = 'button-fs';
                 $cia = 1;
+                $colorWind = 'card-success';
             elseif ($ccia == 'fsc'):
                 $grupo = 'FS Certificaciones';
-                $idgrupo = 'rcornersfsc';
-                $colorgrupo = '#122F99';
-                $idbuttongrupo = 'button-fsc';
                 $cia = 2;
+                $colorWind = 'card-navy';
             endif;
 
             $set_tipo = $tipo;
@@ -53,56 +49,57 @@
     <body class="hold-transition login-page">
         <div class="login-box">
             <div class="login-logo"> 
-                <?PHP echo "<p id=$idgrupo> <a><b>PASSWORD </b>$grupo</a> </p>"; ?>
+                <p id="rcornersLogin"><a><b>PASSWORD </b><?php echo $grupo; ?></a> </p>
             </div>
-            <div class="card">
-                <?php 
-                echo 
-                "<div class='card-body login-card-body' style='border:2px solid $colorgrupo;' >
-                    <p style='background: $colorgrupo; font-size:20px; color:white; text-align:center;'>Recuperar Contraseña</p>";
-                ?>
-                <p> </p>  
-                <form id="frmrecoverpwd" action="<?= base_url('clogin/request_password')?>" method="POST">           
-                    <?php
-                    if($set_tipo == '2'):
-                    ?>      
-                        <h3><small><b>USUARIO BLOQUEADO¡¡</b> <br> Se le enviara un Email para validar.</small></h3>       
-                    <?php
-                    else:
-                    ?>
-                        <h3><small><b>¿Olvidó su contraseña?</b> <br> Escriba su dirección de correo electrónico para comenzar el proceso de recuperación.</small></h3>
-                    <?php 
-                    endif;
-                    ?> 
-                        
-                    <div class="form-group has-feedback">
-                        <label>Email :: </label><br>           
-                        <?php
-                        if($set_tipo == '2'):
-                        ?> 
-                            <input type="text" id="email" name="email" class="form-control" value =<?php echo $set_email ?> required>
-                        <?php
-                        else:
-                        ?>
-                            <input type="text" id="email" name="email" class="form-control" value="<?php echo set_value('email')?>" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="Ingrese Correo Electronico" title="mail@example.com" required>
-                        <?php 
-                        endif;
-                        ?>
-                    </div>
-                    <br>
-                    <input type="hidden" name="cia" value= <?php echo $cia ?> >      
-                    <div class="form-group">
-                        <div class="text-right">  
-                            <button id="idbuttongrupo" type="submit" class="btn btn-success" >Verificar Email</button>
-                            <a id="btnreturn" href="<?php echo base_url('clogin/'.$ccia) ?>" class="btn btn-warning">Regresar</a>
-                        </div>
-                    </div>
+            <form id="frmrecoverpwd" action="<?= base_url('clogin/request_password')?>" method="POST"> 
+                <div class="card <?php echo $colorWind;?>">
+                
+                
                     <input type="hidden" name="tipo" value= <?php echo $set_tipo ?> > 
                     <input type="hidden" name="ccia" value= <?php echo $ccia ?> > 
                     <input type="hidden" name="cia" value= <?php echo $cia ?> > 
-                </form>
 
-            </div>
+                    <div class="card-header text-center">
+                        <h4> RECUPERAR CONTRASEÑA </h4>
+                    </div> 
+
+                    <div class='card-body login-card-body'>              
+                        <?php
+                        if($set_tipo == '2'):
+                        ?>      
+                            <h3><small><b>USUARIO BLOQUEADO¡¡</b> <br> Se le enviara un Email para validar.</small></h3>       
+                        <?php
+                        else:
+                        ?>
+                            <h3><small><b>¿Olvidó su contraseña?</b> <br> Escriba su dirección de correo electrónico para comenzar el proceso de recuperación.</small></h3>
+                        <?php 
+                        endif;
+                        ?> 
+                            
+                        <div class="form-group has-feedback">
+                        <br><label>Email :: </label><br>           
+                            <?php
+                            if($set_tipo == '2'):
+                            ?> 
+                                <input type="text" id="email" name="email" class="form-control" value =<?php echo $set_email ?> required>
+                            <?php
+                            else:
+                            ?>
+                                <input type="text" id="email" name="email" class="form-control" value="<?php echo set_value('email')?>" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="Ingrese Correo Electronico" title="mail@example.com" required>
+                            <?php 
+                            endif;
+                            ?>
+                        </div>
+                        <input type="hidden" name="cia" value= <?php echo $cia ?> > 
+                    </div>     
+                    <div class="card-footer" align="right">
+                        <div class="text-right">  
+                            <button id="idbuttongrupo" type="submit" class="btn btn-success" >Verificar Email</button>
+                            <a id="btnreturn" href="<?php echo base_url($ccia) ?>" class="btn btn-warning">Regresar</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
 
     </body>

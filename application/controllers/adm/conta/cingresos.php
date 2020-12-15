@@ -30,87 +30,43 @@ class Cingresos extends CI_Controller {
 		$nrodoc    = $this->input->post('dnrodoc');
             
         $parametros = array(
-			'@ccliente'     => $ccliente,
+			'@ccliente'     => ($this->input->post('ccliente') == '') ? '0' : $ccliente,
 			'@fini'         => ($this->input->post('fdesde') == '%') ? NULL : substr($fini, 6, 4).'-'.substr($fini,3 , 2).'-'.substr($fini, 0, 2),
 			'@ffin'         => ($this->input->post('fhasta') == '%') ? NULL : substr($ffin, 6, 4).'-'.substr($ffin,3 , 2).'-'.substr($ffin, 0, 2),
 			'@ccia' 		=> $ccia,
-			'@carea'		=> $carea,
-			'@nrodoc'		=> '%'.$nrodoc.'%',
+			'@carea'		=> ($this->input->post('carea') == '') ? '0' : $carea,
+			'@nrodoc'		=> ($this->input->post('dnrodoc') == '') ? '%' : '%'.$nrodoc.'%',
 		);		
 		$resultado = $this->mingresos->getbuscaringresos($parametros);
 		echo json_encode($resultado);
 	}
 
-	public function setingreso() {	//
+	public function getlistaringresos() {
+		$docingresos   = $this->input->post('id_docingresos');
+		$resultado = $this->mingresos->getlistaringresos($docingresos);
+		echo json_encode($resultado);
+	}
+
+	public function setdocingreso() {	//
 		$varnull = '';
 
-		$accion 			= $this->input->post('mhdnAccionIngreso');
-		
+		$accion 			= $this->input->post('mhdnAccionIngreso');		
 		$id_docingresos 	= $this->input->post('mhdnIddocingreso');
-		$id_ingresos 			= $this->input->post('mhdnIdingreso');
-		if($accion == 'P'){
-			if($id_ingresos == ''){
-				$vaccion = 'N';
-			} else {
-				$vaccion = 'A';
-			}
-			$id_anio 			= $this->input->post('mcboanio');
-			$id_mes 			= $this->input->post('mcbomes');
-			$ccompania 			= $this->input->post('mcbocia');
-			$carea 			= $this->input->post('mcboarea');
-			$id_codigo 		= $this->input->post('mcbocodigo');
-			$fecha_pago 		= $this->input->post('mtxtFpago');
-			$monto_pago 			= $this->input->post('mtxtmontopagar');
-			$tipo_pago 		= $this->input->post('mcbotipopago');
-			$observacion 		= $this->input->post('mtxtObserva');
+		$carea 				= $this->input->post('cbomcarea');
         
-			$parametros = array(
-				'@id_docingresos'   	=>  $id_docingresos,
-				'@id_ingresos'   		=>  $id_ingresos,
-				'@id_anio'   			=>  $id_anio,
-				'@tipo_doc'   			=>  $id_mes,
-				'@serie_doc'      		=>  $ccompania,
-				'@nro_doc'      		=>  $carea,
-				'@monto_base'      		=>  $id_codigo,
-				'@fecha_emision'		=>  substr($fecha_pago, 6, 4).'-'.substr($fecha_pago,3 , 2).'-'.substr($fecha_pago, 0, 2),
-				'@monto_igv'      		=>  $monto_pago,
-				'@monto_total'      	=>  $tipo_pago,
-				'@tipo_moneda'      	=>  $observacion,
-				'@accion'           	=>  $vaccion
-			);
-			$resultado = $this->mingresos->setingreso($parametros);
-			echo json_encode($resultado);
-
-		}else{
-			$ccliente 			= $this->input->post('mcboempresa');
-			$tipo_doc 			= $this->input->post('mcbotipodoc');
-			$serie_doc 			= $this->input->post('mtxtcorredoc');
-			$nro_doc 			= $this->input->post('mtxtnrodoc');
-			$fecha_emision 		= $this->input->post('mtxtFemidoc');
-			$monto_base 		= $this->input->post('mtxtmontobase');
-			$monto_igv 			= $this->input->post('mtxtmontoigv');
-			$monto_total 		= $this->input->post('mtxtmontototal');
-			$tipo_moneda 		= $this->input->post('mcbotipomoneda');
-        
-			$parametros = array(
-				'@id_docingresos'   	=>  $id_docingresos,
-				'@ccliente'   			=>  $ccliente,
-				'@tipo_doc'   			=>  $tipo_doc,
-				'@serie_doc'      		=>  $serie_doc,
-				'@nro_doc'      		=>  $nro_doc,
-				'@fecha_emision'		=>  substr($fecha_emision, 6, 4).'-'.substr($fecha_emision,3 , 2).'-'.substr($fecha_emision, 0, 2),
-				'@monto_base'      		=>  $monto_base,
-				'@monto_igv'      		=>  $monto_igv,
-				'@monto_total'      	=>  $monto_total,
-				'@tipo_moneda'      	=>  $tipo_moneda,
-				'@accion'           	=>  $accion
-			);
-			$resultado = $this->mingresos->setingreso($parametros);
-			echo json_encode($resultado);
-		}
+		$parametros = array(
+			'@id_docingresos'   =>  $id_docingresos,
+			'@carea'   			=>  $carea,
+			'@accion'           =>  $accion
+		);
+		$resultado = $this->mingresos->setdocingreso($parametros);
+		echo json_encode($resultado);
+		
 	}
 
 	public function import_nubefact() {
+		
+		$ccia    = $this->input->post('hdmccia');
 
 		$RUTAARCH   = 'FTPfileserver/Archivos/Temp/';
 
@@ -135,23 +91,24 @@ class Cingresos extends CI_Controller {
 			@chmod($data['full_path'], 0777);
 
 			$this->load->library('Spreadsheet_Excel_Reader');
-			$this->spreadsheet_excel_reader->setOutputEncoding('UTF-8');
+			$this->spreadsheet_excel_reader->setOutputEncoding('utf-8');
 
 			$this->spreadsheet_excel_reader->read($data['full_path']);
 			$sheets = $this->spreadsheet_excel_reader->sheets[0];
 			error_reporting(0);
 			
 			$data_excel = array();
-			for ($i = 3; $i <= $sheets['numRows']; $i++) {
+			for ($i = 2; $i <= $sheets['numRows']; $i++) {
 				if ($sheets['cells'][$i][1] == '') break;
+
                 $fechaemi = $sheets['cells'][$i][1];
 				$data_excel[$i - 1]['@fechaemi']        = substr($fechaemi, 6, 4).'-'.substr($fechaemi,3 , 2).'-'.substr($fechaemi, 0, 2);
-				$data_excel[$i - 1]['@tipo']            = $sheets['cells'][$i][3];
-				$data_excel[$i - 1]['@serie']           = $sheets['cells'][$i][4];
-				$data_excel[$i - 1]['@numero']  	    = $sheets['cells'][$i][5];
+				$data_excel[$i - 1]['@tipodoc']         = $sheets['cells'][$i][3];
+				$data_excel[$i - 1]['@seriedoc']        = $sheets['cells'][$i][4];
+				$data_excel[$i - 1]['@numerodoc']  	    = $sheets['cells'][$i][5];
 				$data_excel[$i - 1]['@doc_entidad']     = $sheets['cells'][$i][7];
 				$data_excel[$i - 1]['@ruc']   	        = $sheets['cells'][$i][8];
-				$data_excel[$i - 1]['@empresa']   		= $sheets['cells'][$i][9];
+				$data_excel[$i - 1]['@empresa']   		= utf8_encode($sheets['cells'][$i][9]);
 				$data_excel[$i - 1]['@moneda']   		= $sheets['cells'][$i][10];
 				$data_excel[$i - 1]['@gravada']   		= $sheets['cells'][$i][12];
 				$data_excel[$i - 1]['@inafecta']   		= $sheets['cells'][$i][14];
@@ -159,10 +116,15 @@ class Cingresos extends CI_Controller {
 				$data_excel[$i - 1]['@total']   		= $sheets['cells'][$i][19];
 				$data_excel[$i - 1]['@sdetraccion'] 	= $sheets['cells'][$i][24];
 				$data_excel[$i - 1]['@anulado']   		= $sheets['cells'][$i][26];
-				$data_excel[$i - 1]['@concepto']   		= $sheets['cells'][$i][27];
+				$data_excel[$i - 1]['@concepto']   		= utf8_encode($sheets['cells'][$i][27]);
+				$data_excel[$i - 1]['@observacion']   	= utf8_encode($sheets['cells'][$i][28]);
+				$data_excel[$i - 1]['@tipodocmodif']   	= $sheets['cells'][$i][29];
+				$data_excel[$i - 1]['@seriedocmodif']   = $sheets['cells'][$i][30];
+				$data_excel[$i - 1]['@numerodocmodif']  = $sheets['cells'][$i][31];
+				$data_excel[$i - 1]['@ccia']  = $ccia;
 
 				$this->db->trans_begin();				
-				$procedure = "call usp_adm_conta_migralist_nubefact(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				$procedure = "call usp_adm_conta_migralist_nubefact(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				$query = $this->db-> query($procedure,$data_excel[$i - 1]);
 				if ($this->db->trans_status() === FALSE){
 					$this->db->trans_rollback();
@@ -173,8 +135,60 @@ class Cingresos extends CI_Controller {
 			
 			$respuesta = 'Importo Correctamente!'; 
 			echo json_encode($respuesta);
-			//redirect('cinsptiendamicro/insptiendamicro');
 		}
+	}
+
+    public function getcodigocontain() {	// Visualizar Clientes del servicio en CBO	
+        
+		$resultado = $this->mingresos->getcodigocontain();
+		echo json_encode($resultado);
+	} 
+
+    public function getctabancos() {	// Visualizar Clientes del servicio en CBO	
+        
+		$resultado = $this->mingresos->getctabancos();
+		echo json_encode($resultado);
+	} 
+	
+	public function setpago() {	//
+		$varnull = '';
+
+		$accion 			= $this->input->post('mhdnpAccionIngreso');
+		
+		$id_docingresos 	= $this->input->post('mhdnpIddocingreso');
+		$id_ingresos 		= $this->input->post('mhdnpIdingreso');
+		
+			$id_anio 		= $this->input->post('mcboanio');
+			$id_mes 		= $this->input->post('mcbomes');
+			$ccompania 		= $this->input->post('mcbocia');
+			$carea 			= $this->input->post('mcboarea');
+			$id_codigo 		= $this->input->post('mcbocodigo');
+			$fecha_pago 	= $this->input->post('mtxtFpago');
+			$monto_pago 	= $this->input->post('mtxtmontopagar');
+			$tipo_pago 		= $this->input->post('mcbotipopago');
+			$observacion 	= $this->input->post('mtxtObserva');
+			$id_ctabanco 	= $this->input->post('mcbobanco');
+			$carea 			= $this->input->post('mcboparea');
+			$monto_saldo 	= $this->input->post('mtxtsaldopagar');
+        
+			$parametros = array(
+				'@id_docingresos'   =>  $id_docingresos,
+				'@id_ingresos'   	=>  $id_ingresos,
+				'@id_anio'   		=>  $id_anio,
+				'@id_mes'   		=>  $id_mes,
+				'@id_codigo'  		=>  $id_codigo,
+				'@fecha_pago'		=>  substr($fecha_pago, 6, 4).'-'.substr($fecha_pago,3 , 2).'-'.substr($fecha_pago, 0, 2),
+				'@monto_pago'      	=>  str_replace(',', '', $monto_pago), //$monto_pago,
+				'@tipo_pago'      	=>  $tipo_pago,
+				'@observacion'      =>  $observacion,
+				'@id_ctabanco'      =>  $id_ctabanco,
+				'@carea'      		=>  $carea,
+				'@monto_saldo'      =>  str_replace(',', '', $monto_saldo), //$monto_saldo,
+				'@accion'           =>  $accion
+			);
+			$resultado = $this->mingresos->setpago($parametros);
+			echo json_encode($resultado);
+
 	}
 
 }

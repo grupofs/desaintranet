@@ -189,7 +189,7 @@ changeFiles = function(){
             }
         });
         request.done(function( respuesta ) {            
-          window.location="perfilusuario";
+          window.location="perfil";
           Vtitle = 'Imagen se actualizo!!';
           Vtype = 'success';
           sweetalert(Vtitle,Vtype);
@@ -210,14 +210,11 @@ $('#frmDatosPersonales').submit(function(event){
             sweetalert(Vtitle,Vtype);
         }
     });
-    request.done(function( respuesta ) {
-        var posts = JSON.parse(respuesta);
-        
-        $.each(posts, function() {  
+    request.done(function( respuesta ) { 
             CerrarSesion(); 
-            Vtitle = this.respuesta;
+            Vtitle = "Se Actualizo Correctamente";
             Vtype = 'success';
             sweetalert(Vtitle,Vtype);
-        });
     });
 });
+

@@ -74,7 +74,7 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'	=> 'operaciones_desa',
+	'dsn'	=> 'operaciones_demo',
 	'username' => 'dba',
 	'password' => 'sql',
 	'dbdriver' => 'odbc',

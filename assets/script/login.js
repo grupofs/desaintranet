@@ -44,7 +44,7 @@ login = function() {
 			}else if(posts.valor == 0){
 				window.location="change_pass/"+myCoolJavascriptVariable[5];
 			}else if(posts.valor == 1){
-				window.location="principal";
+				window.location="main";
 			}else if(posts.valor == 99){
 				window.location="principalClie";
 			}else{

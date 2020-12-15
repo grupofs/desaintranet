@@ -70,7 +70,7 @@ cerrarModal = function() {
 					type:"POST", 
 					data:{},
 					success:function(){
-						window.location=baseurl+"clogin/"+ccia;
+						window.location=baseurl+ccia;
 					}
 				});				
 			}

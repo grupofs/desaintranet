@@ -33,65 +33,63 @@ class Crecepcion extends CI_Controller {
 
 
     
-    public function setcotizacion() { // Registrar informe PT
+    public function setrecepcionmuestra() { // Registrar informe PT
 		$varnull = '';
 		
-		$cinternocotizacion 	= $this->input->post('mtxtidcotizacion');
-		$nversioncotizacion 	= $this->input->post('mtxtnroversion');
-		$fcotizacion 			= $this->input->post('mtxtFcotizacion');
-		$dcotizacion 			= $this->input->post('mtxtregnumcoti');
-		$scotizacion 		    = $this->input->post('mtxtregestado');
-		$nvigencia 		        = $this->input->post('mtxtregvigen');
-		$csubservicio 		    = $this->input->post('cboregserv');
-		$ccliente 		        = $this->input->post('cboregclie');
-		$cproveedorcliente 	    = $this->input->post('cboregprov');
-		$ccontacto 	            = $this->input->post('cboregcontacto');
-		$npermanenciamuestra 	= $this->input->post('mtxtregpermane');
-		$ntiempoentregainforme 	= $this->input->post('mtxtregentregainf');
-		$stiempoentregainforme 	= $this->input->post('txtregtipodias');
-		$dobservacion 		    = $this->input->post('mtxtobserv');
-		$zctipoformapago 		= $this->input->post('txtregformapagos');
-		$dotraformapago 	    = $this->input->post('mtxtregpagotro');
-		$ctipocambio 	        = $this->input->post('mtxtregtipopagos');
-		$dtipocambio 	        = $this->input->post('mtxtregtipocambio');
-		$smuestreo 	            = ($this->input->post('chksmuestreo') == '') ? 'N' : 'S';
-		$imuestreo 	            = $this->input->post('txtmontmuestreo');
-		$isubtotal 	            = $this->input->post('txtmontsubtotal');
-		$pdescuento 	        = $this->input->post('txtporcdescuento');
-		$pigv 	                = $this->input->post('txtporctigv');
-		$itotal 	            = $this->input->post('txtmonttotal');
-        $smostrarprecios 	    = ($this->input->post('chkregverpago') == '') ? 'N' : 'S';
-		$accion 			    = $this->input->post('hdnAccionregcoti');
+		$cinternocotizacion 	= $this->input->post('mhdnidcotizacion');
+		$nversioncotizacion 	= $this->input->post('mhdnnroversion');
+		$nordenproducto 	    = $this->input->post('mhdnnordenproducto');
+        
+		$cmuestra 			    = $this->input->post('mtxtmcodigo');
+		$frecepcionmuestra 		= $this->input->post('mtxtFrecepcion');
+		$drealproducto 		    = $this->input->post('mtxtmproductoreal');
+		$dpresentacion 		    = $this->input->post('mtxtmpresentacion');
+		$dtemperatura 		    = $this->input->post('mtxttemprecep');
+		$dcantidad 		        = $this->input->post('mtxtcantmuestra');
+		$dproveedorproducto 	= $this->input->post('mtxtproveedor');
+		$dlote 	                = $this->input->post('mtxtnrolote');
+		$fenvase 	            = $this->input->post('mtxtFenvase');
+		$fmuestra 	            = $this->input->post('mtxtFmuestra');
+		$hmuestra 	            = $this->input->post('mtxthmuestra');
+		$stottus 		        = $this->input->post('mcbotottus');
+		$ntrimestre 		    = $this->input->post('mcbomonitoreo');
+		$zctipomotivo 	        = $this->input->post('mcbomotivo');
+		$careacliente 	        = $this->input->post('mcboarea');
+		$zctipoitem 	        = $this->input->post('mcboitem');
+		$dubicacion 	        = $this->input->post('mtxtubicacion');
+		$dcondicion 	        = $this->input->post('mtxtestado');
+		$dobservacion 	        = $this->input->post('mtxtObserva');
+		$dotraobservacion 	    = $this->input->post('mtxtObsotros');
+
+		$accion 			    = $this->input->post('mhdnAccionRecepcion');
         
         $parametros = array(
             '@cinternocotizacion'   	=>  $cinternocotizacion,
             '@nversioncotizacion'   	=>  $nversioncotizacion,
-            '@fcotizacion'      		=>  substr($fcotizacion, 6, 4).'-'.substr($fcotizacion,3 , 2).'-'.substr($fcotizacion, 0, 2),
-            '@dcotizacion'    		    =>  $dcotizacion,
-			'@scotizacion'    		    =>  $scotizacion,
-			'@nvigencia'    	        =>  $nvigencia,
-			'@csubservicio'    		    =>  $csubservicio,
-			'@ccliente'    		        =>  $ccliente,
-			'@cproveedorcliente'   	    =>  $cproveedorcliente,
-			'@ccontacto'                =>  $ccontacto,
-			'@npermanenciamuestra'    	=>  $npermanenciamuestra,
-			'@ntiempoentregainforme'    =>  $ntiempoentregainforme,
-			'@stiempoentregainforme'    =>  $stiempoentregainforme,
-			'@dobservacion'    		    =>  $dobservacion,
-            '@zctipoformapago'      	=>  $zctipoformapago,
-            '@dotraformapago'           =>  $dotraformapago,
-            '@ctipocambio'              =>  $ctipocambio,
-            '@dtipocambio'              =>  $dtipocambio,
-            '@smuestreo'                =>  $smuestreo,
-            '@imuestreo'                =>  $imuestreo,
-            '@isubtotal'                =>  $isubtotal,
-            '@pdescuento'               =>  $pdescuento,
-            '@pigv'                     =>  $pigv,
-            '@itotal'                   =>  $itotal,
-            '@smostrarprecios'          =>  $smostrarprecios,
+            '@nordenproducto'      		=>  $nordenproducto,
+            '@cmuestra'    		        =>  $cmuestra,
+			'@frecepcionmuestra'        =>  substr($frecepcionmuestra, 6, 4).'-'.substr($frecepcionmuestra,3 , 2).'-'.substr($frecepcionmuestra, 0, 2),
+			'@drealproducto'    	    =>  $drealproducto,
+			'@dpresentacion'    		=>  $dpresentacion,
+			'@dtemperatura'    		        =>  $dtemperatura,
+			'@dcantidad'   	    =>  $dcantidad,
+			'@dproveedorproducto'                =>  $dproveedorproducto,
+			'@dlote'    	=>  $dlote,
+			'@fenvase'    =>  substr($fenvase, 6, 4).'-'.substr($fenvase,3 , 2).'-'.substr($fenvase, 0, 2),
+			'@fmuestra'    =>  substr($fmuestra, 6, 4).'-'.substr($fmuestra,3 , 2).'-'.substr($fmuestra, 0, 2),
+			'@hmuestra'    		    =>  $hmuestra,
+            '@stottus'      	=>  $stottus,
+            '@ntrimestre'           =>  $ntrimestre,
+            '@zctipomotivo'              =>  $zctipomotivo,
+            '@careacliente'                =>  $careacliente,
+            '@zctipoitem'                =>  $zctipoitem,
+            '@dubicacion'                =>  $dubicacion,
+            '@dcondicion'               =>  $dcondicion,
+            '@dobservacion'                     =>  $dobservacion,
+            '@dotraobservacion'                   =>  $dotraobservacion,
             '@accion'           	    =>  $accion
         );
-        $retorna = $this->mrecepcion->setcotizacion($parametros);
+        $retorna = $this->mrecepcion->setrecepcionmuestra($parametros);
         echo json_encode($retorna);		
 	}
     
@@ -109,7 +107,7 @@ class Crecepcion extends CI_Controller {
     } 
     
 
-	public function pdfCoti($idcoti,$nversion) { // recupera los cPTIZACION
+	public function pdfOrderServ($idcoti,$nversion) { // recupera los cPTIZACION
         $this->load->library('pdfgenerator');
 
         $date = getdate();

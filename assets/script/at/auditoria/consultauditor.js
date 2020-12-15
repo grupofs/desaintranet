@@ -324,6 +324,10 @@ pdfInforme = function(cauditoriainspeccion,fservicio,cchecklist){
     window.open(baseurl+"at/auditoria/cexcelauditoria/pdfinformes/"+cauditoriainspeccion+"/"+fservicio+"/"+cchecklist);
 };
 
+pdfFoto = function(cauditoriainspeccion,fservicio,cchecklist,cestablearea){
+    window.open(baseurl+"at/auditoria/cexcelauditoria/pdffoto/"+cauditoriainspeccion+"/"+fservicio+"/"+cchecklist+"/"+cestablearea);
+};
+
 excelInforme = function(cauditoriainspeccion,fservicio,cchecklist,cestablearea){
     window.open(baseurl+"at/auditoria/cexcelauditoria/excelinformes/"+cauditoriainspeccion+"/"+fservicio+"/"+cchecklist+"/"+cestablearea);
 };
@@ -368,6 +372,17 @@ listarChecklist = function(){
             {"orderable": false, data: 'REQUISITO', targets: 2},
             {"orderable": false, data: 'CDETALLEVALOR', targets: 3},
             {"orderable": false, data: 'HALLAZGO', targets: 4},
+            {"orderable": false, "class": "col-xc", 
+                render:function(data, type, row){
+                    if(row.VERFOTO == 0 ){
+                        return ''
+                    }else{
+                        return '<div>'+
+                        '<a data-toggle="modal" title="Fotos" style="cursor:pointer; color:#428DC4" data-target="#modalFotos" onClick="javascript:verFotos(\''+row.cauditoriainspeccion+'\',\''+row.fservicio+'\',\''+row.cchecklist+'\',\''+row.crequisitochecklist+'\',\''+row.cestablearea+'\');"><span class="fas fa-camera fa-2x" aria-hidden="true"> </span> </a>'+
+                        '</div>'
+                    }
+                }
+            },
             {"orderable": false, 
                 render:function(data, type, row){
                     if(row.NUMDET == '' || row.HALLAZGO == '' ){

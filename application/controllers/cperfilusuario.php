@@ -5,6 +5,7 @@ class Cperfilusuario extends CI_Controller {
 	{
 		parent:: __construct();	
 		$this->load->model('mperfilusuario');
+		$this->load->model('mlogin');
 	}
 
 	public function getdatospersonales() { // Recuperar datos personales
@@ -14,7 +15,8 @@ class Cperfilusuario extends CI_Controller {
         );
 		$resultado = $this->mperfilusuario->getdatospersonales($parametros);
 		echo json_encode($resultado);
-    }
+	}
+	
 	public function imagen_perfil() {	// Subir Imagen Perfil
 
 		$newfilename = $this->input->post('hdnCusuario');
@@ -72,6 +74,7 @@ class Cperfilusuario extends CI_Controller {
 			echo json_encode($path);
 		}	
 	}
+
 	public function setperfil() { // Registrar Datos del Perfil
 		
         $parametros = array(
@@ -87,7 +90,40 @@ class Cperfilusuario extends CI_Controller {
 			'@tipoDoc'   			=>  $this->input->post('txtTipodoc'),
 		);
         $retorna = $this->mperfilusuario->setperfil($parametros);
-        echo json_encode($retorna);		
+		echo json_encode($retorna);		
     }
+	
+	public function setclave() { //procesa el formulario para cambiar el password del usuario	
+		date_default_timezone_set('America/Lima');
+		$parametros = array(
+			"clave_web"			=>	password_hash($this->input->post("conf_password"),PASSWORD_DEFAULT),
+			"user_id"			=>	$this->input->post("hdnIdusu"),
+			"fcambiopwd"		=>	date('Y-m-d H:i:sa'),
+			"change_clave"		=>	'1',
+			"tipo_acceso"		=>	'N',
+			"fecha_bloqueo"		=>	null,
+			"motivo_bloqueo"	=>	'',
+			"token"				=>	$this->token(), //ponemos otro token nuevo,
+		);
+
+		//si el password se ha cambiado correctamente y actualizado los datos
+		if($this->mlogin->changepasw_login($parametros) === TRUE){						
+			$retorno = array(
+				'respuesta' =>  "Su password ha sido modificado correctamente.",
+				'valor' 	=>  2
+			);
+			echo json_encode($retorno);	
+		}else{ //en otro caso error					
+			$retorno = array(
+				'respuesta' =>  "Ha ocurrido un error modificando su password.",
+				'valor' 	=>  -5
+			);
+			echo json_encode($retorno);	
+		}			
+	}
+	
+	private function token() { // Genera un Token para cada usuario
+        return sha1(uniqid(rand(),true));
+	}
 }
 ?>

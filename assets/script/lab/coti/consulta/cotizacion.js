@@ -1,5 +1,5 @@
 
-var otblListCotizacion, otblListProducto, otblListEnsayos;
+var otblListCotizacion, otblListProducto, otblListEnsayos, otblbuscarEnsayos;
 var varfdesde = '%', varfhasta = '%';
 
 
@@ -92,10 +92,11 @@ $(document).ready(function() {
                     $('#regProductos').show(); 
                     $('#hdnAccionregcoti').val('A'); 
                     $('#mtxtidcotizacion').val(this.cinternocotizacion);
+                    $('#mtxtnroversion').val(0);
                     $('#mtxtregnumcoti').val(this.dcotizacion);
                     Vtitle = 'Cotizacion Guardada!!!';
                     Vtype = 'success';
-                    sweetalert(Vtitle,Vtype);     
+                    sweetalert(Vtitle,Vtype);      
                 });
             });
             return false;
@@ -160,6 +161,106 @@ $(document).ready(function() {
             return false;
         }
     });
+
+    $('#frmEnsayosLab').validate({
+        rules: {
+            mtxtmCosto: {
+                required: true,
+            },
+        },
+        messages: {
+            mtxtmCosto: {
+                required: "Tiene que ingresar un monto"
+            },
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+          error.addClass('invalid-feedback');
+          element.closest('.form-group').append(error);
+        },
+        highlight: function (element, errorClass, validClass) {
+          $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+          $(element).removeClass('is-invalid');
+        },        
+        submitHandler: function (form) {
+            var request = $.ajax({
+                url:$('#frmEnsayosLab').attr("action"),
+                type:$('#frmEnsayosLab').attr("method"),
+                data:$('#frmEnsayosLab').serialize(),
+                error: function(){
+                    Vtitle = 'Error en Guardar!!!';
+                    Vtype = 'error';
+                    sweetalert(Vtitle,Vtype); 
+                }
+            });
+            request.done(function( respuesta ) {
+                var posts = JSON.parse(respuesta);
+                
+                $.each(posts, function() {
+                    varIDCOTIZACION = this.cinternocotizacion;
+                    varNVERSION = this.nversioncotizacion;
+                    varIDPROD = this.nordenproducto;
+                    recuperaListensayo(varIDCOTIZACION,varNVERSION,varIDPROD);
+                    Vtitle = 'Ensayo registrado Guardada!!!';
+                    Vtype = 'success';
+                    sweetalert(Vtitle,Vtype); 
+                    $('#mbtnCerrarEnsayo').click();   
+                    objFormulario.mostrarCotizacion();    
+                });
+            });
+            return false;
+        }
+    });
+
+    $('#frmEditensayosLab').validate({
+        rules: {
+            mtxtmCosto: {
+                required: true,
+            },
+        },
+        messages: {
+            mtxtmCosto: {
+                required: "Tiene que ingresar un monto"
+            },
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+          error.addClass('invalid-feedback');
+          element.closest('.form-group').append(error);
+        },
+        highlight: function (element, errorClass, validClass) {
+          $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+          $(element).removeClass('is-invalid');
+        },        
+        submitHandler: function (form) {
+            var request = $.ajax({
+                url:$('#frmEditensayosLab').attr("action"),
+                type:$('#frmEditensayosLab').attr("method"),
+                data:$('#frmEditensayosLab').serialize(),
+                error: function(){
+                    Vtitle = 'Error en Guardar!!!';
+                    Vtype = 'error';
+                    sweetalert(Vtitle,Vtype); 
+                }
+            });
+            request.done(function( respuesta ) {
+                var posts = JSON.parse(respuesta);
+                
+                $.each(posts, function() {
+                    otblListEnsayos.ajax.reload(null,false);
+                    Vtitle = 'Ensayo registrado Guardada!!!';
+                    Vtype = 'success';
+                    sweetalert(Vtitle,Vtype); 
+                    $('#ebtnCerrarEnsayo').click();      
+                });
+            });
+            return false;
+        }
+    });
  
 });
 
@@ -177,41 +278,24 @@ $(function() {
         boton.click();
         $('#contenedorRegensayo').hide();
         $('#contenedorCotizacion').show();
-        //objFiltro.buscar()
     };
 
     /**
      * Muestra el formulario ocultando la lista
      */
-    objFormulario.addRegistroEnsayo = function (ccliente,cauditoriainspeccion,fservicio,cchecklist,cestablecimiento,ddataobject) {
+    objFormulario.addRegistroEnsayo = function (IDCOTIZACION,NVERSION,IDPRODUCTO,PRODUCTO) {
         const boton = $('#btnAccionContenedorLista');
         const icon = boton.find('i');
         if (icon.hasClass('fa-plus')) icon.removeClass('fa-plus');
         icon.addClass('fa-minus');
         boton.click();
 
-        $('#hdnCcliente').val(ccliente);
-        $('#hdnIdaudi').val(cauditoriainspeccion);
-        $('#hdnFaudi').val(fservicio);
-        $('#hdnChecklist').val(cchecklist);
-        $('#hdnDataobject').val(ddataobject);
+        buscarEnsayos();
         
-        //listarChecklist();
-        var params = { "cestablecimiento":cestablecimiento};
-        $.ajax({
-            type: 'ajax',
-            method: 'post',
-            url: baseurl+"at/auditoria/cconsultauditor/getcboregAreazona",
-            dataType: "JSON",
-            async: true,
-            data: params,
-            success:function(result){
-                $('#cboregAreazona').html(result);
-            },
-            error: function(){
-                alert('Error, No se puede autenticar por error');
-            }
-        });
+        $('#hdnIdcoti').val(IDCOTIZACION);
+        $('#hdnNvers').val(NVERSION);
+        $('#hdnIdprod').val(IDPRODUCTO);
+        $('#hdnprod').val(PRODUCTO);
 
         $('#contenedorRegensayo').show();
         $('#contenedorCotizacion').hide();
@@ -291,6 +375,7 @@ listarBusqueda = function(){
         'filter'      	: true, 
         'ordering'		: false,  
         'stateSave'     : true,
+        'select'        : true,
         'ajax'	: {
             "url"   : baseurl+"lab/coti/ccotizacion/getbuscarcotizacion/",
             "type"  : "POST", 
@@ -315,9 +400,17 @@ listarBusqueda = function(){
             {"orderable": false, data: 'PRECIO', targets: 4},
             {"orderable": false, data: 'ELABORADO', targets: 5},
             {"orderable": false, 
-                render:function(data, type, row){
-                    return '<div class="text-left" >' +
-                        '<a title="Editar" style="cursor:pointer; color:green;" onClick="selCoti(\'' + row.IDCOTIZACION + '\',\'' + row.NVERSION + '\',\'' + row.DFECHA + '\',\'' + row.NROCOTI + '\',\'' + row.SCOTIZACION + '\',\'' + row.VIGENCIACOTI + '\',\'' + row.SREGISTRO + '\',\'' + row.CCLIENTE + '\',\'' + row.CPROVEEDOR + '\',\'' + row.TIPOCAMBIO + '\',\'' + row.SUBSERVICIO + '\',\'' + row.MONEDA + '\',\'' + row.SMUESTREO + '\',\'' + row.CONTACTO + '\',\'' + row.PERMANMUESTRA + '\',\'' + row.TIPOPAGO + '\',\'' + row.OTROPAGO + '\',\'' + row.NTIEMPOENTREGAINFO + '\',\'' + row.STIEMPOENTREGAINFO + '\',\'' + row.OBSERVA + '\',\'' + row.VERPRECIO + '\',\'' + row.IMUESTREO + '\',\'' + row.PIGV + '\',\'' + row.PDESCUENTO + '\',\'' + row.ISUBTOTAL + '\',\'' + row.ITOTAL + '\');"><span class="fas fa-edit fa-2x" aria-hidden="true"> </span> </a>'+
+                render:function(data, type, row){                    
+                    if(row.SCOTIZACION == "S"){
+                        varCerrar = '<a id="aAbrirCoti" href="'+row.IDCOTIZACION+'" nver="'+row.NVERSION+'" title="Abrir" style="cursor:pointer; color:blue;"><span class="far fa-folder-open" aria-hidden="true"> </span></a>'
+                    }else{
+                        varCerrar = '<a id="aCerrarCoti" href="'+row.IDCOTIZACION+'" nver="'+row.NVERSION+'" title="Cerrar" style="cursor:pointer; color:red;"><span class="far fa-folder" aria-hidden="true"> </span></a>'
+                    };
+
+                    return '<div style="text-align: center;">' +
+                        '<a title="Editar" style="cursor:pointer; color:green;" onClick="selCoti(\'' + row.IDCOTIZACION + '\',\'' + row.NVERSION + '\',\'' + row.DFECHA + '\',\'' + row.NROCOTI + '\',\'' + row.SCOTIZACION + '\',\'' + row.VIGENCIACOTI + '\',\'' + row.SREGISTRO + '\',\'' + row.CCLIENTE + '\',\'' + row.CPROVEEDOR + '\',\'' + row.TIPOCAMBIO + '\',\'' + row.SUBSERVICIO + '\',\'' + row.MONEDA + '\',\'' + row.SMUESTREO + '\',\'' + row.CONTACTO + '\',\'' + row.PERMANMUESTRA + '\',\'' + row.TIPOPAGO + '\',\'' + row.OTROPAGO + '\',\'' + row.NTIEMPOENTREGAINFO + '\',\'' + row.STIEMPOENTREGAINFO + '\',\'' + row.OBSERVA + '\',\'' + row.VERPRECIO + '\',\'' + row.IMUESTREO + '\',\'' + row.PIGV + '\',\'' + row.PDESCUENTO + '\',\'' + row.ISUBTOTAL + '\',\'' + row.ITOTAL + '\');"><span class="fas fa-edit" aria-hidden="true"> </span> </a>'+
+                        '&nbsp;&nbsp;'+
+                        varCerrar
                     '</div>';
                 }
             }
@@ -361,6 +454,68 @@ listarBusqueda = function(){
 pdfCoti = function(idcoti,nversion){
     window.open(baseurl+"lab/coti/ccotizacion/pdfCoti/"+idcoti+"/"+nversion);
 };
+   
+$("body").on("click","#aCerrarCoti",function(event){
+    event.preventDefault();
+    
+    IDCOTI = $(this).attr("href");
+    NVERSION = $(this).attr("nver");
+    
+    Swal.fire({
+        title: 'Confirmar Cerrar',
+        text: "¿Está seguro de Cerrar la Cotizacion?",
+        type: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, cerrarlo!'
+    }).then((result) => {
+        if (result.value) {
+            $.post(baseurl+"lab/coti/ccotizacion/cerrarcotizacion/", 
+            {
+                idcotizacion    : IDCOTI,
+                nversion        : NVERSION,
+            },      
+            function(data){     
+                otblListCotizacion.ajax.reload(null,false); 
+                Vtitle = 'Se Cerro Correctamente';
+                Vtype = 'success';
+                sweetalert(Vtitle,Vtype);      
+            });
+        }
+    }) 
+});
+   
+$("body").on("click","#aAbrirCoti",function(event){
+    event.preventDefault();
+    
+    IDCOTI = $(this).attr("href");
+    NVERSION = $(this).attr("nver");
+    
+    Swal.fire({
+        title: 'Confirmar Abrir',
+        text: "¿Está seguro de Abrir la Cotizacion?",
+        type: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, abrirlo!'
+    }).then((result) => {
+        if (result.value) {
+            $.post(baseurl+"lab/coti/ccotizacion/abrircotizacion/", 
+            {
+                idcotizacion    : IDCOTI,
+                nversion        : NVERSION,
+            },      
+            function(data){     
+                otblListCotizacion.ajax.reload(null,false); 
+                Vtitle = 'Se Abrio Correctamente';
+                Vtype = 'success';
+                sweetalert(Vtitle,Vtype);      
+            });
+        }
+    }) 
+});
 
 $('#btnNuevo').click(function(){
     
@@ -643,6 +798,7 @@ recuperaListproducto = function(){
         'filter'      	: true, 
         'ordering'		: false,  
         'stateSave'     : true,
+        //'select'        : true,
         'ajax'	: {
             "url"   : baseurl+"lab/coti/ccotizacion/getlistarproducto/",
             "type"  : "POST", 
@@ -654,43 +810,59 @@ recuperaListproducto = function(){
         },
         'columns'	: [
             {
-              "class"     :   "index col-xs",
+              "class"     :   "columna index col-xs",
               orderable   :   false,
               data        :   null,
               targets     :   0,
             },
-            {"orderable": false, data: 'LOCALCLIE', targets: 1},
-            {"orderable": false, data: 'PRODUCTO', targets: 2},
-            {"orderable": false, data: 'CONDI', targets: 3},
-            {"orderable": false, data: 'NMUESTRA', targets: 4},
+            {"orderable": false, "class":"columna", data: 'LOCALCLIE', targets: 1},
+            {"orderable": false, "class":"columna", data: 'PRODUCTO', targets: 2},
+            {"orderable": false, "class":"columna", data: 'CONDI', targets: 3},
+            {"orderable": false, "class":"columna", data: 'NMUESTRA', targets: 4},
             {"orderable": false, 
                 render:function(data, type, row){
-                    return '<div class="text-left" >' +
-                        '<a data-toggle="modal" title="Editar" style="cursor:pointer; color:green;" data-target="#modalCreaProduc" onClick="selCotiprodu(\'' + row.IDCOTI + '\',\'' + row.NVERSION + '\',\'' + row.IDPROD + '\',\'' + row.CLOCALCLIE + '\',\'' + row.PRODUCTO + '\',\'' + row.CCONDI + '\',\'' + row.NMUESTRA + '\',\'' + row.CPROCEDE + '\',\'' + row.CANTMIN + '\',\'' + row.ETIQUETA + '\',\'' + row.CTIPOPROD + '\',\'' + row.PORCION + '\',\'' + row.CUM + '\');"><span class="fas fa-edit fa-2x" aria-hidden="true"> </span> </a>'+
-                    '</div>';
+                    return '';
                 }
             },
             {"orderable": false, 
                 render:function(data, type, row){
-                    return '<div>'+
-                        '<a id="aDelProduc" href="'+row.IDCOTI+'" title="Eliminar" style="cursor:pointer; color:#FF0000;"><span class="fas fa-trash-alt fa-2x" aria-hidden="true"> </span></a>'+      
-                    '</div>';
+                    return '';
                 }
             },
             {"orderable": false, 
                 render:function(data, type, row){
-                    return '<div class="text-left" >' +
-                        '<a title="Ver Ensayos" style="cursor:pointer; color:blue;" onClick="verEnsayo(\'' + row.IDCOTI + '\',\'' + row.NVERSION + '\',\'' + row.IDPROD + '\');"><span class="fas fa-eye fa-2x" aria-hidden="true"> </span> </a>'+
-                    '</div>';
+                    return '<div style="text-align: center;">'+
+                    '<a id="aDelProduc" href="'+row.IDPROD+'" idcoti="'+row.IDCOTI+'" nver="'+row.NVERSION+'" title="Eliminar" style="cursor:pointer; color:#FF0000;"><span class="fas fa-trash-alt" aria-hidden="true"> </span></a>'+      
+                '</div>';
                 }
             },
-            {"orderable": false, 
-                render:function(data, type, row){
-                    return '<div class="text-left" >' +
-                        '<a title="Agregar Ensayos" style="cursor:pointer; color:grey;" onClick="objFormulario.addRegistroEnsayo(\'' + row.IDCOTI + '\',\'' + row.NVERSION + '\',\'' + row.IDPROD + '\');"><span class="far fa-plus-square fa-2x" aria-hidden="true"> </span> </a>'+
-                    '</div>';
-                }
+            {"orderable": false, data: null, targets: 8},
+        ],
+        "columnDefs": [
+          {
+            "targets": [8], 
+            "data": null, 
+            "render": function(data, type, row) {     
+                    return ' <ul class="icons-list" style="align-items: center; margin-bottom: 0;">'+
+                        '<li class="dropdown">'+
+                            '<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">'+
+                                '<i class="fas fa-bars"></i>'+
+                            '</a>'+
+                            '<ul class="dropdown-menu dropdown-menu-right">'+
+                                '<li><a href="javascript:;" data-toggle="modal" data-target="#modalCreaProduc" onclick="selCotiprodu(\'' + row.IDCOTI + '\',\'' + row.NVERSION + '\',\'' + row.IDPROD + '\',\'' + row.CLOCALCLIE + '\',\'' + row.PRODUCTO + '\',\'' + row.CCONDI + '\',\'' + row.NMUESTRA + '\',\'' + row.CPROCEDE + '\',\'' + row.CANTMIN + '\',\'' + row.ETIQUETA + '\',\'' + row.CTIPOPROD + '\',\'' + row.PORCION + '\',\'' + row.CUM + '\',\'' + row.CCLIENTE + '\');">'+
+                                    '<i class="fas fa-pencil-alt"></i>&nbsp; &nbsp;Editar'+
+                                '</a></li>'+
+                                '<li><a href="javascript:;" onclick="copiCotiprodu(\'' + row.IDCOTI + '\',\'' + row.NVERSION + '\',\'' + row.IDPROD + '\');">'+
+                                    '<i class="fas fa-copy"></i>&nbsp; &nbsp;Duplicar'+
+                                '</a></li>'+
+                                '<li><a href="javascript:;" onClick="objFormulario.addRegistroEnsayo(\'' + row.IDCOTI + '\',\'' + row.NVERSION + '\',\'' + row.IDPROD + '\',\'' + row.PRODUCTO + '\');">'+
+                                    '<i class="fas fa-vials"></i>&nbsp; &nbsp;(+) Ensayo'+
+                                '</a></li>'+
+                            '</ul>'+
+                        '</li>'+
+                    '</ul>';                    
             }
+          },
         ],
         "drawCallback": function ( settings ) {
             var api = this.api();
@@ -718,10 +890,38 @@ recuperaListproducto = function(){
     }).draw();
 };
 
+$('#tblListProductos tbody').on( 'click', 'tr', function () {    
+    var table = $('#tblListProductos').DataTable();
+    
+    if ( !($(this).hasClass('selected'))) {
+        table.$('tr.selected').removeClass('selected');
+        $(this).addClass('selected');
+        
+        var VARName = $(this).find('td:eq(1)').text();
+
+        var rowData = table.rows().data().toArray();
+        if(rowData.length > 0){
+            $.each(rowData, function(i, item){
+                if(VARName == this.PRODUCTO){
+                    recuperaListensayo(this.IDCOTI,this.NVERSION,this.IDPROD);
+                }
+                
+            });
+        }
+    }
+} ); 
+
 $('#addProducto').click(function(){
+    $('#frmCreaProduc').trigger("reset");
+
     $('#mhdnAccionProduc').val('N');
+    $('#mhdnidcotizacion').val($('#mtxtidcotizacion').val());
+    $('#mhdnnroversion').val($('#mtxtnroversion').val());
+    $('#mhdncusuario').val($('#mtxtcusuario').val());    
+
     var v_idcliente = $('#cboregclie').val();
     iniRegCotiprodu(v_idcliente,0,0,0);
+    
 });
 
 $('#modalCreaProduc').on('shown.bs.modal', function (e) {
@@ -783,7 +983,7 @@ iniRegCotiprodu = function(ccliente,clocalclie,ccondi,cprocede){
     }); 
 };
 
-selCotiprodu= function(IDCOTIZACION,NVERSION,IDPROD,CLOCALCLIE,PRODUCTO,CCONDI,NMUESTRA,CPROCEDE,CANTMIN,ETIQUETA,CTIPOPROD,PORCION,CUM){
+selCotiprodu= function(IDCOTIZACION,NVERSION,IDPROD,CLOCALCLIE,PRODUCTO,CCONDI,NMUESTRA,CPROCEDE,CANTMIN,ETIQUETA,CTIPOPROD,PORCION,CUM,CCLIENTE){
     $('#frmCreaProduc').trigger("reset");
     $('#mhdnAccionProduc').val('A'); 
     $('#mtxtidcotizacion').val(IDCOTIZACION); 
@@ -800,28 +1000,36 @@ selCotiprodu= function(IDCOTIZACION,NVERSION,IDPROD,CLOCALCLIE,PRODUCTO,CCONDI,N
     $('#mcboregoctogono').val(CTIPOPROD);
     $('#mtxtregtamporci').val(PORCION);
     $('#mcboregumeti').val(CUM);
+
+    iniRegCotiprodu(CCLIENTE,CLOCALCLIE,CCONDI,CPROCEDE);
 };
    
 $("body").on("click","#aDelProduc",function(event){
     event.preventDefault();
-    idcotiproducto = $(this).attr("href");
-
+    
+    IDPROD = $(this).attr("href");
+    IDCOTIZACION = $(this).attr("idcoti");
+    NVERSION = $(this).attr("nver");
+    
     Swal.fire({
         title: 'Confirmar Eliminación',
-        text: "¿Está seguro de eliminar la Propuesta?",
-        icon: 'error',
+        text: "¿Está seguro de eliminar el Producto?",
+        type: 'error',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Si, bórralo!'
     }).then((result) => {
         if (result.value) {
-            $.post(baseurl+"lab/coti/ccotizacion/delproducto/", 
+            $.post(baseurl+"lab/coti/ccotizacion/deleteprodxcoti/", 
             {
-                idcotiproducto   : idcotiproducto,
+                idcotizacion    : IDCOTIZACION,
+                nversion        : NVERSION,
+                idcotiproducto  : IDPROD,
             },      
             function(data){     
                 otblListProducto.ajax.reload(null,false); 
+                otblListEnsayos.ajax.reload(null,false); 
                 Vtitle = 'Se Elimino Correctamente';
                 Vtype = 'success';
                 sweetalert(Vtitle,Vtype);      
@@ -830,9 +1038,34 @@ $("body").on("click","#aDelProduc",function(event){
     }) 
 });
 
-verEnsayo= function(IDCOTIZACION,NVERSION,vIDPROD){
-    recuperaListensayo(IDCOTIZACION,NVERSION,vIDPROD);
-};
+copiCotiprodu = function(IDCOTIZACION,NVERSION,IDPROD){
+    event.preventDefault();
+
+    Swal.fire({
+        title: 'Confirmar Duplicar Producto',
+        text: "¿Está seguro de duplicar Producto?",
+        type: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, duplicar!'
+    }).then((result) => {
+        if (result.value) {
+            $.post(baseurl+"lab/coti/ccotizacion/setduplicarprodxcoti/", 
+            {
+                idcotizacion    : IDCOTIZACION,
+                nversion        : NVERSION,
+                idcotiproducto  : IDPROD,
+            },      
+            function(data){     
+                otblListProducto.ajax.reload(null,false); 
+                Vtitle = 'Se Duplico Correctamente';
+                Vtype = 'success';
+                sweetalert(Vtitle,Vtype);      
+            });
+        }
+    })
+}
 
 recuperaListensayo = function(vIDCOTIZACION,vNVERSION,vIDPROD){
     otblListEnsayos = $('#tblListEnsayos').DataTable({  
@@ -868,22 +1101,22 @@ recuperaListensayo = function(vIDCOTIZACION,vNVERSION,vIDPROD){
             {"orderable": false, data: 'CODIGO', targets: 1},
             {"orderable": false, data: 'DENSAYO', targets: 2},
             {"orderable": false, data: 'ANIO', targets: 3},
-            {"orderable": false, data: 'NORMA', targets: 4},
-            {"orderable": false, data: 'CONSTOENSAYO', targets: 4},
-            {"orderable": false, data: 'NVIAS', targets: 4},
-            {"orderable": false, data: 'CANTIDAD', targets: 4},
-            {"orderable": false, data: 'COSTO', targets: 4},
+            {"orderable": false, data: 'NORMA', targets: 4, "class": "col-l"},
+            {"orderable": false, data: 'CONSTOENSAYO', targets: 5},
+            {"orderable": false, data: 'NVIAS', targets: 6},
+            {"orderable": false, data: 'CANTIDAD', targets: 7},
+            {"orderable": false, data: 'COSTO', targets: 8},
             {"orderable": false, 
                 render:function(data, type, row){
                     return '<div class="text-left" >' +
-                        '<a data-toggle="modal" title="Editar" style="cursor:pointer; color:green;" data-target="#modalEnsayosLab" onClick="selCotiensayo(\'' + row.IDCOTIZACION + '\',\'' + row.NVERSION + '\',\'' + row.IDPROD + '\');"><span class="fas fa-edit fa-2x" aria-hidden="true"> </span> </a>'+
+                        '<a data-toggle="modal" title="Editar" style="cursor:pointer; color:green;" data-target="#modaleditensayo" onClick="selCotiensayo(\'' + row.cinternocotizacion + '\',\'' + row.nversioncotizacion + '\',\'' + row.nordenproducto + '\',\'' + row.dproducto + '\',\'' + row.CENSAYO + '\',\'' + row.CODIGO + '\',\'' + row.DENSAYO + '\',\'' + row.CONSTOENSAYO + '\',\'' + row.claboratorio + '\',\'' + row.NVIAS + '\');"><span class="fas fa-edit fa-2x" aria-hidden="true"> </span> </a>'+
                     '</div>';
                 }
             },
             {"orderable": false, 
                 render:function(data, type, row){
                     return '<div>'+
-                        '<a id="aDelProduc" href="'+row.CENSAYO+'" title="Eliminar" style="cursor:pointer; color:#FF0000;"><span class="fas fa-trash-alt fa-2x" aria-hidden="true"> </span></a>'+      
+                        '<a id="aDelEnsayoprod" href="'+row.CENSAYO+'" idcoti="'+row.cinternocotizacion+'" nver="'+row.nversioncotizacion+'" idprod="'+row.nordenproducto+'" title="Eliminar" style="cursor:pointer; color:#FF0000;"><span class="fas fa-trash-alt fa-2x" aria-hidden="true"> </span></a>'+      
                     '</div>';
                 }
             }
@@ -901,6 +1134,150 @@ $('#btnRetornarCoti').click(function(){
     objFormulario.mostrarCotizacion();
 });
 
-selCotiensayo = function(vIDCOTIZACION,vNVERSION,vIDPROD){
-
+buscarEnsayos = function(){
+    otblbuscarEnsayos = $('#tblbuscarEnsayos').DataTable({  
+        'responsive'    : false,
+        'bJQueryUI'     : true,
+        'scrollY'     	: '300px',
+        'scrollX'     	: true, 
+        'paging'      	: true,
+        'processing'  	: true,     
+        'bDestroy'    	: true,
+        'AutoWidth'     : false,
+        'info'        	: true,
+        'filter'      	: true, 
+        'ordering'		: false,  
+        'stateSave'     : true,
+        'ajax'	: {
+            "url"   : baseurl+"lab/coti/ccotizacion/getbuscarensayos/",
+            "type"  : "POST", 
+            "data": function ( d ) {
+                d.descripcion   = $('#mtxtdescrensayo').val(); 
+                d.sacnoac       = $('#mcboacredensayo').val(); 
+            },     
+            dataSrc : ''        
+        },
+        'columns'	: [
+            {
+              "class"     :   "index col-xs",
+              orderable   :   false,
+              data        :   null,
+              targets     :   0,
+            },
+            {"orderable": false, data: 'densayo', targets: 1, "class": "col-m"},
+            {"orderable": false, data: 'censayofs', targets: 2},
+            {"orderable": false, data: 'naniopublicacion', targets: 3},
+            {"orderable": false, data: 'sacnoac', targets: 4},
+            {"orderable": false, data: 'dnorma', targets: 5, "class": "col-l"},
+            {"orderable": false, data: 'dlaboratorio', targets: 6},
+            {"orderable": false, data: 'icosto', targets: 7},
+            {"orderable": false, data: 'dregistro', targets: 8},
+            {"orderable": false, data: 'MATRIZ', targets: 9, "class": "col-l"},
+            {"orderable": false, 
+                render:function(data, type, row){
+                    return '';
+                }
+            }
+        ],  
+        "columnDefs": [{
+            "targets": [2], 
+            "data": null, 
+            "render": function(data, type, row) {
+                return '<div>'+
+                '    <p><a title="Seleccionar"  href="javascript:;" data-toggle="modal" data-target="#modalselensayo" style="cursor:pointer;" onclick="selEnsayo(\'' + row.censayo + '\',\'' + row.censayofs + '\',\'' + row.densayo + '\',\'' + row.icosto + '\',\'' + row.claboratorio + '\');"  class="pull-left">'+row.censayofs+'</a><p>' +
+                '</div>';
+            }
+        }],
+    });  
+    // Enumeracion 
+    otblbuscarEnsayos.on( 'order.dt search.dt', function () { 
+        otblbuscarEnsayos.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+          cell.innerHTML = i+1;
+          } );
+    }).draw();
 };
+
+$('#tblbuscarEnsayos tbody').on( 'click', 'tr', function () {    
+    var table = $('#tblbuscarEnsayos').DataTable();
+    
+    if ( !($(this).hasClass('selected'))) {
+        table.$('tr.selected').removeClass('selected');
+        $(this).addClass('selected');
+    }
+} );
+
+selEnsayo = function(CENSAYO,CENSAYOFS,DENSAYO,ICOSTO,CLAB){
+    var idcoti = $('#hdnIdcoti').val();
+    var nvers = $('#hdnNvers').val();
+    var idprod = $('#hdnIdprod').val();
+    var dprod = $('#hdnprod').val();
+    
+    $('#hdnmAccion').val('N');
+
+    $('#hdnmIdcoti').val(idcoti);
+    $('#hdnmNvers').val(nvers);
+    $('#hdnmIdprod').val(idprod);
+    $('#mhdnmcensayo').val(CENSAYO);
+    $('#mtxtmCosto').val(ICOSTO);
+    $('#mtxtmCLab').val(CLAB);
+    $('#mtxtmvias').val(1);
+    
+    document.querySelector('#lblmProducto').innerText = dprod;
+    document.querySelector('#lblmCodigo').innerText = CENSAYOFS;
+    document.querySelector('#lblmEnsayo').innerText = DENSAYO;
+}
+
+$("#btnBuscarEnsayo").click(function (){
+    buscarEnsayos();
+});
+
+selCotiensayo = function(idcoti,nvers,idprod,dprod,CENSAYO,CENSAYOFS,DENSAYO,ICOSTO,CLAB,NVIAS){    
+    $('#ehdnmAccion').val('A');
+
+    $('#ehdnmIdcoti').val(idcoti);
+    $('#ehdnmNvers').val(nvers);
+    $('#ehdnmIdprod').val(idprod);
+    $('#ehdnmcensayo').val(CENSAYO);
+    $('#etxtmCosto').val(ICOSTO);
+    $('#etxtmCLab').val(CLAB);
+    $('#etxtmvias').val(NVIAS);
+    
+    document.querySelector('#elblmProducto').innerText = dprod;
+    document.querySelector('#elblmCodigo').innerText = CENSAYOFS;
+    document.querySelector('#elblmEnsayo').innerText = DENSAYO;
+};
+   
+$("body").on("click","#aDelEnsayoprod",function(event){
+    event.preventDefault();
+    
+    CENSAYO = $(this).attr("href");
+    IDCOTIZACION = $(this).attr("idcoti");
+    NVERSION = $(this).attr("nver");
+    IDPROD = $(this).attr("idprod");
+    
+    Swal.fire({
+        title: 'Confirmar Eliminación',
+        text: "¿Está seguro de eliminar el Ensayo?",
+        type: 'error',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, bórralo!'
+    }).then((result) => {
+        if (result.value) {
+            $.post(baseurl+"lab/coti/ccotizacion/deleteensayoxprod/", 
+            {
+                idcotizacion    : IDCOTIZACION,
+                nversion        : NVERSION,
+                idcotiproducto  : IDPROD,
+                censayo         : CENSAYO,
+            },      
+            function(data){     
+                otblListEnsayos.ajax.reload(null,false); 
+                Vtitle = 'Se Elimino Correctamente';
+                Vtype = 'success';
+                sweetalert(Vtitle,Vtype);      
+            });
+        }
+    }) 
+});

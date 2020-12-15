@@ -1,4 +1,49 @@
+/*DISEÑO SUBIR ARCHIVO*/ 
+    .fileUpload {
+        position: relative;
+        overflow: hidden;
+        margin: 0px;
+    }
+    .fileUpload input.upload {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+/*DISEÑO PLANTILLA*/ 
 
+
+
+    .inline {
+        display: inline;
+    }
+
+    button.nav-link{
+        background: none !important;
+        border: none !important; 
+        overflow: visible !important;
+        width: 100% !important;
+        text-align: -webkit-match-parent !important;
+    }
+
+    button.nav-link:focus {
+        outline: none !important;
+    }
+
+    button.nav-link:hover {
+        background-color: rgba(255,255,255,.1) !important;
+    }
+
+    table.dataTable thead .sorting:before, table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:before, table.dataTable thead .sorting_desc_disabled:after {
+        bottom: 0;
+        font-size: 1.2rem;
+    }
+
+    
 /*DISEÑO PLANTILLA*/  
     .content-header{
         padding: 10px .5rem 0.5px !important; 
@@ -14,11 +59,7 @@
     }  
     .card-footer{
         background-color: #E0F4ED !important; 
-    }  
-    .btn-outline-info{
-        color: #09044e !important; 
-        border-color: #09044e !important;
-    }
+    } 
 
 /*DISEÑO CONTROLES*/
     /*Radio*/ 
@@ -118,6 +159,76 @@
 
     table.dataTable thead {background-color:#CED3E3}
 
+/* PAGINACION DATATABLE*/
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    box-sizing: border-box;
+    display: inline-block;
+    min-width: 1.5em;
+    padding: 0.05em 0.05em !important;
+    margin: 0;
+    text-align: center;
+    text-decoration: none !important;
+    cursor: pointer;
+    *cursor: hand;
+    color: #333 !important;
+    border: 1px solid transparent;
+    border-radius: 2px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    Color: white !important;
+    border: 1px solid #111 !important;
+    background-color: #585858 !important;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #585858), color-stop(100%, #111));
+    background: -webkit-linear-gradient(top, #585858 0%, rgb(36, 36, 36) 100%) !important;
+    background: -moz-linear-gradient(top, #585858 0%, rgb(36, 36, 36) 100%) !important;
+    background: -ms-linear-gradient(top, #585858 0%, rgb(36, 36, 36) 100%) !important;
+    background: -o-linear-gradient(top, #585858 0%, rgb(36, 36, 36) 100%) !important;
+    background: linear-gradient(to bottom, #585858 0%, rgb(36, 36, 36) 100%) !important;
+}
+div.dataTables_wrapper div.dataTables_length label {
+    font-weight: normal !important;
+    text-align: left !important;
+    white-space: nowrap !important;
+}
+.dataTables_wrapper .dataTables_filter {
+    float: right !important;
+    text-align: right !important;
+}
+div.dataTables_wrapper div.dataTables_filter input {
+    margin-left: 0.5em !important;
+    display: inline-block !important;
+    width: auto !important;
+}
+div.dataTables_wrapper div.dataTables_filter label {
+    font-weight: normal !important;
+    white-space: nowrap !important;
+    text-align: left !important;
+}
+
+/**/
+.dropdown-menu > li {
+    position: relative !important;
+    margin-bottom: 1px !important;
+}
+.dropdown-menu {    
+    padding: 10px 10px !important;
+}
+.dropdown-menu > li > a {
+    padding: 8px 15px !important;
+    outline: 0 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {    
+    display: block !important;
+    text-decoration: none !important;
+    color: black !important;
+    background-color: #CCD1D8 !important;
+}
+ul {
+    list-style-type: none !important;
+}
+/**/
 
 body.swal2-toast-shown .swal2-container.swal2-shown {
     background: #28a745;

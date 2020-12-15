@@ -284,3 +284,7 @@ body.swal2-toast-shown .swal2-container.swal2-shown {
 .evaluar-estado-pendiente-color, .select2-results__options[id*="cbostatus"] .select2-results__option:nth-child(5) {
     color: #ff6900;
 }
+
+table.table table.tbl-tramites tr.ar-content-buttons:hover > td div.ar-content-options {
+	display: block !important;
+}

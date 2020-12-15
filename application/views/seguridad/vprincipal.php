@@ -349,7 +349,7 @@
         <!-- AdminLTE for demo purposes -->
         <script src="<?php echo public_url(); ?>template/GUI/dist/js/demo.js"></script>
         <!-- Principal Main -->
-        <script src="<?php echo public_url(); ?>script/principal.js?v1000000001"></script>
+        <script src="<?php echo public_url(); ?>script/principal.js?v1000000002"></script>
     <!-- /.SCRIPTS  -->
 
     <!-- Script Generales -->

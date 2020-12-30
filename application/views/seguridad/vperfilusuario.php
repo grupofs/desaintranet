@@ -51,7 +51,7 @@
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="<?php echo public_base_url(); ?>main">Home</a></li>
+          <li class="breadcrumb-item"><a href="<?php echo public_base_url(); ?>cpanel">Home</a></li>
           <li class="breadcrumb-item active">Mantenimiento de perfil</li>
         </ol>
       </div>

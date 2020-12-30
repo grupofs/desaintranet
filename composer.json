@@ -14,8 +14,7 @@
 		"php": ">=5.3.7",
 		"phpoffice/phpspreadsheet": "^1.11",
 		"dompdf/dompdf" : "^0.8.0",
-		"nesbot/carbon": "^2.39",
-		"phpoffice/phpexcel": "^1.8"
+		"nesbot/carbon": "^2.39"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"

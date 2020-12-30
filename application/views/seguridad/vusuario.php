@@ -15,7 +15,7 @@
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="<?php echo public_base_url(); ?>main">Home</a></li>
+          <li class="breadcrumb-item"><a href="<?php echo public_base_url(); ?>cpanel">Home</a></li>
           <li class="breadcrumb-item active">Seguridad del Sistema</li>
         </ol>
       </div>
@@ -116,7 +116,7 @@
             <div class="col-12">
                 <div class="card card-success">
                     <div class="card-body">
-                        <?php $this->load->view('seguridad/frm_regcusuario'); ?>
+                        <?php $this->load->view('seguridad/frm_regusuario'); ?>
                     </div>
                 </div>
             </div>

@@ -41,12 +41,12 @@
   <body class="hold-transition login-page">
     <div class="login-box">
       <div class="login-logo"> 
-        <p id="rcornersLogin"><a><b>ACCESO </b><?php echo $grupo; ?></a> </p>
+        <p id="rcornersLogin"><a><b>ACCESO - </b><?php echo $grupo; ?></a> </p>
       </div>  
 
       <div class="card <?php echo $colorWind;?>">
         <div class="card-header text-right">
-          <h4> INICIAR SESIÓN </h4>
+          <h4> INICIAR SESIÓN</h4>
         </div> 
 
         <div class="card-body login-card-body">      

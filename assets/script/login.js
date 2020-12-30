@@ -46,7 +46,7 @@ login = function() {
 			}else if(posts.valor == 1){
 				window.location="main";
 			}else if(posts.valor == 99){
-				window.location="principalClie";
+				window.location="cpanel";
 			}else{
 				Swal.fire({
 					title:'Error de Acceso!',

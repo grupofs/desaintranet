@@ -6,28 +6,17 @@
     $infousuario = $this->session->userdata('s_infodato');
     $imgperfil = $this->session->userdata('s_druta'); 
     $nombperfil = $this->session->userdata('s_usu'); 
+    $dircliente = $this->session->userdata('s_dircliente'); 
 
     if($imgperfil == ''):
         $imgperfil = 'avatar5.png';
     endif;
     
-    if($cia == '1'):
-        $ccia = 'fs';
-        $title = 'FS';
-        $icono = 'ico-gfs.ico';
-        $claseCabecera = 'navbar-success';
-        $hreflogo = 'http://www.grupofs.com/';
-        $logocia = 'logo-gfs.png';
-        $nomCia = 'Grupo FS';
-    elseif($cia == '2'):
-        $ccia = 'fsc';
-        $title = 'FSC';
-        $icono = 'ico-fsc.ico';
-        $claseCabecera = 'navbar-lightblue';
-        $hreflogo = 'http://www.fscertificaciones.com/';
-        $logocia = 'logo-fsc.png';
-        $nomCia = 'FS Certificaciones';
-    endif;
+    $grupo = 'GRUPO FS | FSC';
+    $cia = 0;
+    $ccia = 'ext';
+    $logocia = 'logo-servicios.png';
+    $nomCia = $nombperfil;
 
     $añoActual=date("Y");
 ?>  
@@ -37,7 +26,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title><?php echo $title .'-'. $añoActual ?> | INTRANET</title>
+  <title><?php echo $grupo ?></title>
 
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -81,7 +70,7 @@
   <!-- file input -->
   <link rel="stylesheet" href="<?php echo public_url(); ?>template/plugins/fileinput/fileinput.min.css">
 
-  <link rel="shortcut icon" href="<?php echo public_url(); ?>images/<?php echo $icono ?>" class="img-circle" type="image/x-icon" />
+  <link rel="shortcut icon" href="<?php echo public_url(); ?>images/favicon.png" class="img-circle" type="image/x-icon" />
 
   <style>
     .inline {
@@ -107,52 +96,50 @@
   </style>
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse accent-olive">
     <div class="wrapper">        
-        <input type="hidden" id="hdidempleado" value= <?php echo $idempleado; ?> >
-
         <!-- MAIN CABECERA  -->
-        <nav class="main-header navbar navbar-expand navbar-dark <?php echo $claseCabecera ?>">
+        <nav class="main-header navbar navbar-expand navbar-dark navbar-gray">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars fa-2x"></i></a>
                 </li>
+                &nbsp;
                 <li class="nav-item d-none d-sm-inline-block">
                     <div class="row">
-                        <img class="img-fluid" src="<?php echo public_url_ftp(); ?>Imagenes/user/<?php echo $imgperfil ?>" alt="Photo" style="max-height:60px; margin-right:10px; float:left;">
+                        <img class="img-fluid img-circle" src="<?php echo public_url_ftp(); ?>Imagenes/user/<?php echo $imgperfil ?>" alt="Photo" style="max-height:80px; margin-right:15px; float:left;">
                     </div>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <div class="row">
-                    <div class="col-sm-6">
-                        <h4 style="margin-top:6px; margin-left:5px;"><?php echo $nombres ?></h4>
-                        <div style="font-weight:bold; font-size:14px;">
-                            &nbsp;FCE: 23456&nbsp;&nbsp;&nbsp;FFR#
+                        <div class="col-sm-12">
+                            <h4 style="margin-top:6px; margin-left:5px;">
+                                &nbsp;<?php echo $nombres ?>
+                            </h4>
+                            <div style="font-weight:bold; font-size:14px; margin-left:5px;">
+                                &nbsp;&nbsp;<?php echo $dircliente ?>
+                            </div>
+                            <div style="font-size:14px; margin-left:5px;">
+                                <!-- &nbsp;&nbsp;FCE: 23456&nbsp;&nbsp;&nbsp;FFR#-->
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="pull-right text-right" style="width:550px;">
-                        Carretera a Siquinalá, Km. 58.5    
-                        </div>
-                        <input type="hidden" id="hdnccia" name="hdnccia" value= <?php echo $ccia;?> >
-                    </div>
                     </div>
                 </li>
             </ul>
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-                <!-- PERFIL USUARIO -->
+                <!-- PERFIL USUARIO 
                 <li class="nav-item dropdown">
-                    <a class="nav-link" href="<?php echo base_url()?>cprincipal/perfilusuario" >
+                    <a class="nav-link" href="<?php echo base_url()?>perfil" >
                         <i class="fas fa-address-card fa-2x"></i>
                     </a>
-                </li>
-                <!-- Notifications Dropdown Menu -->
+                </li>-->
+                <!-- Salir -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="" onclick="CerrarSesion();" >
-                        <i class="fas fa-sign-out-alt fa-2x"></i>
+                        <i class="fas fa-sign-out-alt fa-3x"></i>
                     </a>
                 </li>
                 <!-- <li class="nav-item">
@@ -166,16 +153,16 @@
 
         <!-- MAIN MENU -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <!-- CIA Logo -->
-            <a href="<?php echo $hreflogo ?>" class="brand-link <?php echo $claseCabecera ?>" target="_blank">
-                <img src="<?php echo public_url(); ?>images/<?php echo $logocia ?>"  alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light"><?php echo $nomCia ?></span>
+            <!--  Logo -->
+            <a class="brand-link" target="_blank">
+                <img src="<?php echo public_url(); ?>images/logo-servicios.png"  alt="Logo" class="brand-image elevation-3" style="opacity: .8; max-height:35px;">
+                <span class="brand-text font-weight-light">PANEL | DASHBOARD</span>
             </a>
 
             <!-- Panel Lateral I -->
             <div class="sidebar">
                 <!-- Usuario -->
-                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex" >
                     <div class="image">
                         <img src="<?php echo public_url_ftp(); ?>Imagenes/user/<?php echo $imgperfil ?>"  class="img-circle elevation-2" alt="User Image">
                     </div>
@@ -186,24 +173,7 @@
 
                 <!-- Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Dashboard
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview" style="display: none;">
-                                <li class="nav-item">
-                                    <a href="<?php echo base_url()?>cprincipal/principal" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>PRINCIPAL</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">                        
                         <?php
                             $ci = &get_instance();
                             $ci->load->model("mprincipal");
@@ -213,7 +183,8 @@
                         <li class="nav-header"><?php echo $marearol->darea; ?></li>                  
                         <?php
                             $carea = $marearol->carea;
-                            $modulorol= $ci->mprincipal->getmenumodulo($cia,$idrol,$carea);
+                            $ccia = $marearol->ccia;
+                            $modulorol= $ci->mprincipal->getmenumodulo($ccia,$idrol,$carea);
                             foreach($modulorol  as $mmodulorol){
                         ?>
                         <li class="nav-item has-treeview">
@@ -233,7 +204,7 @@
                                     $script = $mopcionrol->script_opcion;
                             ?>
                                 <li class="nav-item">
-                                    <form method="post" action="<?php echo base_url()?>cprincipal/ventanas" class="inline">
+                                    <form method="post" action="<?php echo base_url()?>frontdesk" class="inline">
                                         <input type="hidden" name="vista" value="<?php echo $vista; ?>">
                                         <input type="hidden" name="script" value="<?php echo $script; ?>">
                                         <button type="submit" name="submit_param" value="submit_value" class="nav-link" >
@@ -250,19 +221,28 @@
                         <?php
                             } 
                             } 
-                        ?>   
-                                         
+                        ?>
+
+                        <li class="nav-item has-treeview" >
+                            <div style="border-top: 3px solid #4b545c; padding-top: 20px; text-align: center;">
+                                <img src="<?php echo public_url(); ?>images/logos_animado.gif"  alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8; max-height:40px; text-align: center;">
+                                <span class="brand-text font-weight-light" style="color: #007bff;"><a href="http://www.grupofs.com/" style="color: #007bff;" target="_blank">GRUPO FS</a> | <a href="http://www.fscertificaciones.com/" style="color: #007bff;" target="_blank">FSC</a> </span>
+                            </div>
+                        </li>                 
                     </ul>
                 </nav>
                 <!-- /.menu -->
+                
             </div>
             <!-- /.sidebar -->
+
 
         </aside>
         <!-- /.MENU  -->
 
         <!-- MAIN CONTENIDO -->
         <div class="content-wrapper" id="admin">
+            <input type="hidden" id="hdidempleado" value= <?php echo $idempleado; ?> >
             <?php 
                 if($vista == 'DInterno'):
                     $this->load->view($content_for_layout,$datos_ventana);
@@ -340,6 +320,8 @@
         <script src="<?php echo public_url(); ?>template/GUI/plugins/jquery-validation/additional-methods.min.js"></script>
         <!-- moment-->
         <script src="<?php echo public_url(); ?>template/GUI/plugins/moment/moment.min.js"></script> 
+        <!-- InputMask -->
+        <script src="<?php echo public_url(); ?>template/GUI/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
         <script src="<?php echo public_url(); ?>template/GUI/plugins/moment/locale/es.js"></script>
         <!-- bs-custom-file-input -->
         <script src="<?php echo public_url(); ?>template/GUI/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
@@ -353,12 +335,15 @@
         <script src="<?php echo public_url(); ?>template/GUI/plugins/select2/js/select2.full.min.js"></script>
         <!-- Bootstrap4 Duallistbox -->
         <script src="<?php echo public_url(); ?>template/GUI/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
-        <!-- Summernote
-        <script src="<?php echo public_url(); ?>template/GUI/plugins/summernote/summernote-bs4.min.js"></script> -->
+        <!-- Summernote  -->
+        <script src="<?php echo public_url(); ?>template/GUI/plugins/summernote/summernote-bs4.min.js"></script>
+        <script src="<?php echo public_url(); ?>template/GUI/plugins/summernote/lang/summernote-es-ES.min.js"></script>
         <!-- overlayScrollbars -->
         <script src="<?php echo public_url(); ?>template/GUI/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
         <!-- SweetAlert2-->
         <script src="<?php echo public_url(); ?>/template/GUI/plugins/sweetalert2/sweetalert2.min.js"></script> 
+        <!-- Ekko Lightbox -->
+        <script src="<?php echo public_url(); ?>/template/GUI/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>   
         
         <!-- DataTable.net -->
         <script src="<?php echo public_url(); ?>template/DataTable/DataTables/js/jquery.dataTables.min.js"></script>
@@ -366,6 +351,8 @@
         <script src="<?php echo public_url(); ?>template/DataTable/DataTables/js/datatables.settingsDefault.js"></script>
         <script src="<?php echo public_url(); ?>template/DataTable/Responsive/js/dataTables.responsive.min.js"></script> 
         <script src="<?php echo public_url(); ?>template/DataTable/DataTables/js/datetime.js"></script> 
+        <script src="<?php echo public_url(); ?>template/DataTable/Select/js/dataTables.select.min.js"></script> 
+        <script src="<?php echo public_url(); ?>template/DataTable/Checkboxes/js/dataTables.checkboxes.min.js"></script> 
 
         <!-- file input -->
         <script src="<?php echo public_url(); ?>template/plugins/fileinput/fileinput.min.js"></script>
@@ -376,7 +363,7 @@
         <!-- AdminLTE for demo purposes -->
         <script src="<?php echo public_url(); ?>template/GUI/dist/js/demo.js"></script>
         <!-- Principal Main -->
-        <script src="<?php echo public_url(); ?>script/principal.js"></script>
+        <script src="<?php echo public_url(); ?>script/principalClie.js"></script>
     <!-- /.SCRIPTS  -->
 
     <?php echo $this->layout->getJs(); ?>

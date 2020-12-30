@@ -82,6 +82,7 @@ class Mlogin extends CI_Model{
 			 	's_passw' 			=> $row -> DCLAVE,
 				's_druta'			=> $row -> RUTA,
 				's_ccliente'		=> $row -> CCLIENTE,
+				's_dircliente'		=> $row -> DIRECLIE,
 				'sessionAct'		=> '',		 				
 				'login' 			=> TRUE
 		 	);

@@ -15,7 +15,7 @@
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="<?php echo public_base_url(); ?>main">Home</a></li>
+          <li class="breadcrumb-item"><a href="<?php echo public_base_url(); ?>cpanel">Home</a></li>
           <li class="breadcrumb-item active">Laboratorio</li>
         </ol>
       </div>
@@ -93,12 +93,10 @@
                                                 
                                     <div class="card-footer justify-content-between"> 
                                         <div class="row">
-                                            <div class="col-md-2"> 
-                                                <button type="button" class="btn btn-outline-success" id="btnNuevo" ><i class="fas fa-plus"></i> Crear Nuevo</button>                        
-                                            </div>
-                                            <div class="col-md-10">
+                                            <div class="col-md-12">
                                                 <div class="text-right">
-                                                    <button type="submit" class="btn btn-primary" id="btnBuscar"><i class="fas fa-search"></i> Buscar</button>    
+                                                    <button type="submit" class="btn btn-primary" id="btnBuscar"><i class="fas fa-search"></i> Buscar</button> 
+                                                    <button type="button" class="btn btn-outline-info" id="btnNuevo" ><i class="fas fa-plus"></i> Nuevo</button>   
                                                 </div>
                                             </div>
                                         </div>
@@ -271,8 +269,8 @@
                                                                 <a class="dropdown-item" onClick="javascript:soles()">S/.</a>
                                                                 <a class="dropdown-item" onClick="javascript:dolares()">$</a>
                                                             </div>
-                                                        </div>
-                                                        <input type="text" name="mtxtregtipocambio"id="mtxtregtipocambio" class="form-control" placeholder="Tipo Cambio">
+                                                        </div>                                                        
+                                                        <input type="number" name="mtxtregtipocambio"id="mtxtregtipocambio" class="form-control" placeholder="0.00" min="0.00">
                                                     </div>
                                                     <input type="hidden" name="mtxtregtipopagos" id="mtxtregtipopagos">
                                                 </div>
@@ -280,32 +278,32 @@
                                             <div class="col-md-2">
                                                 <div class="form-group">                                                    
                                                     <div class="checkbox"><div class="text-info">
-                                                        <input type="checkbox" id="chksmuestreo" name="chksmuestreo" />&nbsp;Muestreo </div> </div>   
-                                                    <input type="number" name="txtmontmuestreo"id="txtmontmuestreo" class="form-control" placeholder="0,00" min="0" pattern="^[0-9]+">
+                                                    <input type="checkbox" id="chksmuestreo" name="chksmuestreo" />&nbsp;Muestreo </div> </div>   
+                                                    <input type="number" name="txtmontmuestreo"id="txtmontmuestreo" class="form-control" placeholder="0.00" min="0.00">
                                                 </div>
                                             </div> 
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <div class="text-info">Sub Total </div>
-                                                    <input type="number" name="txtmontsubtotal"id="txtmontsubtotal" class="form-control" placeholder="0,00" min="0" pattern="^[0-9]+">
+                                                    <input type="number" name="txtmontsubtotal"id="txtmontsubtotal" class="form-control" placeholder="0.00" min="0.00">
                                                 </div>
                                             </div>   
                                             <div class="col-md-1">
                                                 <div class="form-group">
                                                     <div class="text-info">Dscto. (%) </div>
-                                                    <input type="number" name="txtporcdescuento"id="txtporcdescuento" class="form-control" placeholder="0" min="0" pattern="^[0-9]+">
+                                                    <input type="number" name="txtporcdescuento"id="txtporcdescuento" class="form-control" placeholder="0" min="0">
                                                 </div>
                                             </div>  
                                             <div class="col-md-1">
                                                 <div class="form-group">
                                                     <div class="text-info">IGV. (%) </div>
-                                                    <input type="number" name="txtporctigv"id="txtporctigv" class="form-control" placeholder="0" min="0" pattern="^[0-9]+">
+                                                    <input type="number" name="txtporctigv"id="txtporctigv" class="form-control" placeholder="0" min="0">
                                                 </div>
                                             </div>   
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <div class="text-info">Total </div>
-                                                    <input type="number" name="txtmonttotal"id="txtmonttotal" class="form-control" placeholder="0.00" min="0" pattern="^[0-9]+">
+                                                    <input type="number" name="txtmonttotal"id="txtmonttotal" class="form-control" placeholder="0.00" min="0.00">
                                                 </div>
                                             </div>  
                                         </div>
@@ -336,17 +334,16 @@
                                                     <small> - Ensayos :: </small>
                                                 </h4>
                                             </div> 
-                                            <div class="col-6">                          
-                                                <div class="form-group text-right">                                                                          
-                                                    <a data-toggle="modal" data-target="#modalCreaProduc" id="addProducto" name="addProducto" class="btn btn-default btn-sm" style="visibility:visible"><img src='<?php echo base_url() ?>assets/images/details_open.png' border="0" align="absmiddle"> Agregar Producto</a> 
-                                                </div>                        
-                                            </div>
                                         </div> 
                                         <div class="row"> 
                                             <div class="col-12">
                                                 <div class="card card-outline card-primary">
                                                     <div class="card-header">
                                                         <h3 class="card-title">Listado de Productos</h3>
+                                                        <div class="card-tools">
+                                                            <a data-toggle="modal" data-target="#modalCreaProduc" id="addProducto" name="addProducto" class="btn btn-default btn-sm" style="visibility:visible; background: #DBEBD6; cursor:pointer;"><img src='<?php echo base_url() ?>assets/images/details_open.png' border="0" align="absmiddle"> Agregar Producto</a> 
+                                                            <a id="delProducto" name="delProducto" class="btn btn-default btn-sm" style="visibility:visible; background: #FE6255; cursor:pointer;"><img src='<?php echo base_url() ?>assets/images/details_close.png' border="0" align="absmiddle"> Eliminar Producto</a> 
+                                                        </div>
                                                     </div>                                        
                                                     <div class="card-body">
                                                         <table id="tblListProductos" class="table table-striped table-bordered" style="width:100%">
@@ -424,14 +421,13 @@
 </section>
 <!-- /.Reg. Ensayos -->
 
-
 <!-- /.modal-crear-producto --> 
 <div class="modal fade" id="modalCreaProduc" data-backdrop="static" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <form class="form-horizontal" id="frmCreaProduc" name="frmCreaProduc" action="<?= base_url('lab/coti/ccotizacion/setproductoxcotizacion')?>" method="POST" enctype="multipart/form-data" role="form"> 
 
-        <div class="modal-header text-center bg-success">
+        <div class="modal-header text-center bg-lightblue">
             <h4 class="modal-title w-100 font-weight-bold">Registro de Producto</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -543,10 +539,20 @@
             </div>            
         </div>
 
-        <div class="modal-footer justify-content-between" style="background-color: #dff0d8;">
-            <button type="reset" class="btn btn-default" id="mbtnCCreaProduc" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-info" id="mbtnGCreaProduc">Grabar</button>
+        <div class="modal-footer">
+            <div class="form-group">                
+                <div class="row">
+                    <div class="col-md-6 text-left">  
+                            <button type="reset" class="btn btn-secondary" id="mbtnCCreaProduc" data-dismiss="modal"><i class="fas fa-undo-alt"></i>Cancelar</button> 
+                    </div>
+                    <div class="col-md-6 text-right">
+                            <button type="submit" class="btn btn-success" id="mbtnGCreaProduc"><i class="fas fa-save"></i>Grabar</button> 
+                            <button type="button" class="btn btn-outline-info" id="mbtnNuevoProduc" ><i class="fas fa-plus"></i> Nuevo</button>                 
+                    </div> 
+                </div>  
+            </div>            
         </div>
+                
       </form>
     </div>
   </div>

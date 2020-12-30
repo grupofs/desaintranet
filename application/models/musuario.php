@@ -7,8 +7,8 @@ class Musuario extends CI_Model {
 		$this->load->library('session');
     }
     
-   /** PROPUESTA **/    	
-   public function getbuscarusuarios($parametros) { // Recupera Listado de Propuestas        
+   /** USUARIO **/    	
+   public function getbuscarusuarios($parametros) { // Buscar Usuario        
         $procedure = "call usp_segu_usuarios_getbuscarusuarios(?,?,?)";
         $query = $this->db-> query($procedure,$parametros);
 

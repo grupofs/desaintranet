@@ -117,6 +117,45 @@ class Cprincipal extends CI_Controller
 
     }
 
+    public function ventanasClie()
+    { // Abrir ventanas de opcion menu
+        if (!$this->session->userdata("login")) {
+            redirect('clogin');
+        }
+        $this->session->time = time();
+
+        $vista = $this->input->post('vista');
+        $script = $this->input->post('script');
+
+        $imprimitScripts = [];
+        if (!empty($script)) {
+            $scripts = explode(';', $script);
+            if (is_array($scripts)) {
+                foreach ($scripts as $script) {
+                    $rutaScript = versionar_archivo('script/' . $script, '.js');
+                    if (!empty($rutaScript)) {
+                        $imprimitScripts[] = $rutaScript;
+                    } else {
+                        log_message('error', "Acceso a javascript no encontrada. {$script}");
+                    }
+                }
+            }
+        }
+        $this->layout->js($imprimitScripts);
+
+        $data['vista'] = 'Ventana';
+
+        if (!empty($vista) && file_exists(VIEWPATH . $vista . '.php')) {
+            $data['content_for_layout'] = $vista;
+        } else {
+            log_message('error', "Acceso a la vista no encontrada. {$vista}");
+            $data['content_for_layout'] = 'errors/html/error_view';
+        }
+
+        $this->parser->parse('seguridad/vprincipalClie', $data);
+
+    }
+
     public function cerrar()
     { // Cerrar Sesion
         $vars = array('s_idusuario', 's_cusuario', 's_usuario', 's_idrol', 's_cia', 's_dmail', 's_passw', 's_changepassw', 's_druta', 's_tipopwd', 's_tipousu', 'login');

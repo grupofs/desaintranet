@@ -316,7 +316,7 @@ class Cpropuesta extends CI_Controller {
 		$writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
 		$writer->save('php://output');
 	}
-	public function excelpropujs() {
+	public function excelpropujs1111() {
 	 /*Estilos */
 		$titulo = [
 			'font'	=> [

@@ -11,7 +11,7 @@ class Cusuario extends CI_Controller {
     }
     
    /** USUARIO **/ 	
-    public function getbuscarusuarios() {	// Visualizar Clientes con propuestas en CBO	
+    public function getbuscarusuarios() {	// Buscar Usuario	
         $varnull 			= 	'';
 
         $usuario    = $this->input->post('usuario');

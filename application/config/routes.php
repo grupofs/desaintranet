@@ -52,9 +52,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['fs'] = 'clogin/fs';
 $route['fsc'] = 'clogin/fsc';
-
 $route['main'] = 'cprincipal/principal';
-$route['frontdesk'] = 'cprincipal/ventanas';
+$route['jobdesk'] = 'cprincipal/ventanas';
+
+$route['services'] = 'clogin/ext';
+$route['cpanel'] = 'cprincipal/principalClie';
+$route['frontdesk'] = 'cprincipal/ventanasClie';
+
 $route['perfil'] = 'cprincipal/perfilusuario';
 
 $route['404_override'] = '';

@@ -798,7 +798,6 @@ recuperaListproducto = function(){
         'filter'      	: true, 
         'ordering'		: false,  
         'stateSave'     : true,
-        //'select'        : true,
         'ajax'	: {
             "url"   : baseurl+"lab/coti/ccotizacion/getlistarproducto/",
             "type"  : "POST", 
@@ -810,20 +809,15 @@ recuperaListproducto = function(){
         },
         'columns'	: [
             {
-              "class"     :   "columna index col-xs",
+              "class"     :   "index col-xs",
               orderable   :   false,
-              data        :   null,
+              data        :   'SPACE',
               targets     :   0,
             },
-            {"orderable": false, "class":"columna", data: 'LOCALCLIE', targets: 1},
-            {"orderable": false, "class":"columna", data: 'PRODUCTO', targets: 2},
-            {"orderable": false, "class":"columna", data: 'CONDI', targets: 3},
-            {"orderable": false, "class":"columna", data: 'NMUESTRA', targets: 4},
-            {"orderable": false, 
-                render:function(data, type, row){
-                    return '';
-                }
-            },
+            {"orderable": false, "class":'columna', data: 'LOCALCLIE', targets: 1},
+            {"orderable": false, "class":'columna', data: 'PRODUCTO', targets: 2},
+            {"orderable": false, "class":'columna', data: 'CONDI', targets: 3},
+            {"orderable": false, "class":'columna', data: 'NMUESTRA', targets: 4},
             {"orderable": false, 
                 render:function(data, type, row){
                     return '';
@@ -836,7 +830,8 @@ recuperaListproducto = function(){
                 '</div>';
                 }
             },
-            {"orderable": false, data: null, targets: 8},
+            {"orderable": false, data: 'SPACE', targets: 7},
+            {"orderable": false, data: 'SPACE', targets: 8},
         ],
         "columnDefs": [
           {
@@ -861,9 +856,17 @@ recuperaListproducto = function(){
                             '</ul>'+
                         '</li>'+
                     '</ul>';                    
-            }
-          },
+            },
+          },{
+            "targets": [7],            
+            "checkboxes": {
+                'selectRow': false
+             }
+          } 
         ],
+        "select": {
+           'style': 'multi'
+        },
         "drawCallback": function ( settings ) {
             var api = this.api();
             var rows = api.rows( {page:'all'} ).nodes();
@@ -890,28 +893,19 @@ recuperaListproducto = function(){
     }).draw();
 };
 
-$('#tblListProductos tbody').on( 'click', 'tr', function () {    
+
+$('#tblListProductos tbody').on( 'click', '.columna', function () {     
     var table = $('#tblListProductos').DataTable();
+    var aPos = $('#tblListProductos').dataTable().fnGetPosition(this);
+    var aData = $('#tblListProductos').dataTable().fnGetData(aPos[0]);
+    var rowData = table.rows().data().toArray();
     
-    if ( !($(this).hasClass('selected'))) {
-        table.$('tr.selected').removeClass('selected');
-        $(this).addClass('selected');
-        
-        var VARName = $(this).find('td:eq(1)').text();
-
-        var rowData = table.rows().data().toArray();
-        if(rowData.length > 0){
-            $.each(rowData, function(i, item){
-                if(VARName == this.PRODUCTO){
-                    recuperaListensayo(this.IDCOTI,this.NVERSION,this.IDPROD);
-                }
-                
-            });
-        }
+    if(rowData.length > 0){
+        recuperaListensayo(aData.IDCOTI,aData.NVERSION,aData.IDPROD);
     }
-} ); 
+} );
 
-$('#addProducto').click(function(){
+nuevoprod = function(){    
     $('#frmCreaProduc').trigger("reset");
 
     $('#mhdnAccionProduc').val('N');
@@ -921,7 +915,42 @@ $('#addProducto').click(function(){
 
     var v_idcliente = $('#cboregclie').val();
     iniRegCotiprodu(v_idcliente,0,0,0);
+}
+
+$('#addProducto').click(function(){
+    nuevoprod()
+});
+
+$('#mbtnNuevoProduc').click(function(){
+    nuevoprod()
+});
+
+$('#delProducto').click(function(){
+    var table = $('#tblListProductos').DataTable();
+    var rows_selected = table.column(7).checkboxes.selected();
+    var selected_items = [];
+
+    console.log(rows_selected);
+
+    $.each(rows_selected, function(index,rowId) {
+        selected_items.push({rowId});
+    })
+/*
+    console.log(posts);
+    $.each(rows_selected, function(index, rowId){
+        console.log(index);
+        console.log(rowId);
+    })
+
     
+    var posts = JSON.parse(respuesta);
+                
+    $.each(posts, function() {
+        otblListProducto.ajax.reload(null,false);
+        Vtitle = 'Producto registrado Guardada!!!';
+        Vtype = 'success';
+        sweetalert(Vtitle,Vtype);     
+    });*/
 });
 
 $('#modalCreaProduc').on('shown.bs.modal', function (e) {

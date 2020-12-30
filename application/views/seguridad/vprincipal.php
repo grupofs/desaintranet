@@ -74,6 +74,7 @@
   <link rel="stylesheet" href="<?php echo public_url(); ?>template/DataTable/DataTables/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="<?php echo public_url(); ?>template/DataTable/Responsive/css/responsive.dataTables.min.css">
   <link rel="stylesheet" href="<?php echo public_url(); ?>template/DataTable/Select/css/select.dataTables.min.css">
+  <link rel="stylesheet" href="<?php echo public_url(); ?>template/DataTable/Checkboxes/css/dataTables.checkboxes.css">
   <!-- file input -->
   <link rel="stylesheet" href="<?php echo public_url(); ?>template/plugins/fileinput/fileinput.min.css">
   
@@ -168,7 +169,7 @@
                             </a>
                             <ul class="nav nav-treeview" style="display: none;">
                                 <li class="nav-item">
-                                    <a href="<?php echo base_url()?>frontdesk" class="nav-link">
+                                    <a href="<?php echo base_url()?>jobdesk" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>INTERNO</p>
                                     </a>
@@ -204,7 +205,7 @@
                                     $script = $mopcionrol->script_opcion;
                             ?>
                                 <li class="nav-item">
-                                    <form method="post" action="<?php echo base_url()?>frontdesk" class="inline">
+                                    <form method="post" action="<?php echo base_url()?>jobdesk" class="inline">
                                         <input type="hidden" name="vista" value="<?php echo $vista; ?>">
                                         <input type="hidden" name="script" value="<?php echo $script; ?>">
                                         <button type="submit" name="submit_param" value="submit_value" class="nav-link" >
@@ -342,6 +343,7 @@
         <script src="<?php echo public_url(); ?>template/DataTable/Responsive/js/dataTables.responsive.min.js"></script> 
         <script src="<?php echo public_url(); ?>template/DataTable/DataTables/js/datetime.js"></script> 
         <script src="<?php echo public_url(); ?>template/DataTable/Select/js/dataTables.select.min.js"></script> 
+        <script src="<?php echo public_url(); ?>template/DataTable/Checkboxes/js/dataTables.checkboxes.min.js"></script> 
         <!-- file input -->
         <script src="<?php echo public_url(); ?>template/plugins/fileinput/fileinput.min.js"></script>
         <!-- AdminLTE App -->

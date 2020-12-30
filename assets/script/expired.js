@@ -21,7 +21,7 @@
 					type: 'error'
 				})
 			} else {
-				window.location=baseurl+"cprincipal/principal";
+				window.location=baseurl+"cpanel";
 			}
 		});
     });

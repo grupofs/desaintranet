@@ -52,7 +52,7 @@ $("#btnBuscar").click(function (){
             {responsivePriority: 1, "orderable": false, "class": "col-xc", 
                 render:function(data, type, row){
                     return '<div>'+
-                    '<a data-toggle="modal" title="Editar" style="cursor:pointer; color:#3c763d;" data-target="#modalCreaPropu" onClick="javascript:selPropuesta(\''+row.IDPROPU+'\',\''+row.CODCLIENTE+'\',\''+row.NROPROPU+'\',\''+row.FECHPROPU+'\',\''+row.IDSERV+'\',\''+row.DETAPROPU+'\',\''+row.COSTOTOTAL+'\',\''+row.ESTPROPU+'\',\''+row.CONTACTO+'\',\''+row.OBSPROPU+'\',\''+row.SERVNEW+'\',\''+row.CLIPOTEN+'\',\''+row.IDUSUARIO+'\',\''+row.TIPOCOSTO+'\',\''+row.ARCHIVO+'\',\''+row.CODESTABLE+'\',\''+row.RUTA+'\',\''+row.NOMBARCH+'\');"><span class="fas fa-edit" aria-hidden="true"> </span> </a>'+
+                    '<a data-toggle="modal" title="Editar" style="cursor:pointer; color:#3c763d;" data-target="#modalCreaPropu" onClick="objFormulario.mostrarModificacion(\''+row.IDUSUARIO+'\',\''+row.DDATOS+'\');"><span class="fas fa-edit" aria-hidden="true"> </span> </a>'+
                     '</div>'
                 }
             }
@@ -64,4 +64,91 @@ $("#btnBuscar").click(function (){
           cell.innerHTML = i+1;
           } );
     }).draw();  
+});
+
+
+const objFormulario = {
+};
+$(function() {    
+    /**
+     * Muestra la lista ocultando el formulario
+     */
+    objFormulario.mostrarBusqueda = function () {
+        const boton = $('#btnAccionContenedorLista');
+        const icon = boton.find('i');
+        if (icon.hasClass('fa-minus')) icon.removeClass('fa-minus');
+        icon.addClass('fa-plus');
+        boton.click();
+        $('#contenedorCreausuario').hide();
+        $('#contenedorEditausuario').hide();
+        $('#contenedorBususuario').show();
+    };
+
+    /**
+     * Muestra el formulario ocultando la lista
+     */
+    objFormulario.mostrarCreacion = function () {
+        const boton = $('#btnAccionContenedorLista');
+        const icon = boton.find('i');
+        if (icon.hasClass('fa-plus')) icon.removeClass('fa-plus');
+        icon.addClass('fa-minus');
+        boton.click();
+/*
+        $('#fhdnidusuario').val(IDUSUARIO);
+        document.querySelector('#lblusuario').innerText = DDATOS;
+        
+        var params = { "cestablecimiento":cestablecimiento};
+        $.ajax({
+            type: 'ajax',
+            method: 'post',
+            url: baseurl+"at/auditoria/cconsultauditor/getcboregAreazona",
+            dataType: "JSON",
+            async: true,
+            data: params,
+            success:function(result){
+                $('#cboregAreazona').html(result);
+            },
+            error: function(){
+                alert('Error, No se puede autenticar por error');
+            }
+        });*/
+
+        $('#contenedorCreausuario').show();
+        $('#contenedorEditausuario').hide();
+        $('#contenedorBususuario').hide();
+    };
+    objFormulario.mostrarModificacion = function (IDUSUARIO,DDATOS) {
+        const boton = $('#btnAccionContenedorLista');
+        const icon = boton.find('i');
+        if (icon.hasClass('fa-plus')) icon.removeClass('fa-plus');
+        icon.addClass('fa-minus');
+        boton.click();
+
+        $('#fhdnidusuario').val(IDUSUARIO);
+        document.querySelector('#lblusuario').innerText = DDATOS;
+        /*
+        var params = { "cestablecimiento":cestablecimiento};
+        $.ajax({
+            type: 'ajax',
+            method: 'post',
+            url: baseurl+"at/auditoria/cconsultauditor/getcboregAreazona",
+            dataType: "JSON",
+            async: true,
+            data: params,
+            success:function(result){
+                $('#cboregAreazona').html(result);
+            },
+            error: function(){
+                alert('Error, No se puede autenticar por error');
+            }
+        });*/
+
+        $('#contenedorEditausuario').show();
+        $('#contenedorCreausuario').hide();
+        $('#contenedorBususuario').hide();
+    };
+});
+
+$('#btnRetornarLista').click(function(){
+    objFormulario.mostrarBusqueda();
 });

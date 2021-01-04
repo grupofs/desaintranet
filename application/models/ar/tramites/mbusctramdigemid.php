@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Mbusctramdigesa extends CI_Model {
+class Mbusctramdigemid extends CI_Model {
     function __construct() {
         parent::__construct();	
         $this->load->library('session');
@@ -17,7 +17,7 @@ class Mbusctramdigesa extends CI_Model {
                     and a.ccliente in (select distinct ccliente 
                                 from PASUNTOREGULATORIO a 
                                 join PTRAMITEREGULATORIOPTE b on b.casuntoregulatorio = a.casuntoregulatorio
-                                where b.centidadregula = '001')
+                                where b.centidadregula = '002')
 				order by b.drazonsocial asc;";
 		$query = $this->db-> query($sql);
         
@@ -83,7 +83,7 @@ class Mbusctramdigesa extends CI_Model {
     }
 
 	public function getcbotipoprodxentidad(){
-        $entidad = '001';
+        $entidad = '002';
 		$this->db->select('
 			mtramitereguladora.zctipocategoriaproducto as id,
 			ttabla.dregistro as text
@@ -111,7 +111,7 @@ class Mbusctramdigesa extends CI_Model {
     }
 
 	public function getcbotramitextipoproducto($ctipoProducto){
-        $centidad = '001';
+        $centidad = '002';
 		$this->db->select('
 			ctramite as id,
 			dtramite as text,

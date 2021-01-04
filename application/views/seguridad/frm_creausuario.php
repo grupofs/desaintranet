@@ -1,24 +1,49 @@
-<input type="hidden" id="fhdncusuario" name="fhdncusuario" >
+
 
 <div class="row justify-content-center">
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <fieldset class="scheduler-border">
-            <legend class="scheduler-border text-primary">Registro de Checklist</legend>
+            <legend class="scheduler-border text-primary">Creación de Usuario</legend>
             <div class="box-body">   
-                <input type="hidden" id="fhdnidusuario" name="fhdnidusuario" > 
-                <div class="row">
-                    <div class="col-sm-4 text-left">                                                 
-                        <label>Area o Zona</label>
-                        <select class="form-control select2bs4" id="cboregAreazona" name="cboregAreazona" style="width: 100%;">
-                            <option value="" selected="selected">Cargando...</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-8 text-right"> 
-                        <button type="button" class="btn btn-secondary" id="btnRetornarLista"><i class="fas fa-undo-alt"></i> Retornar</button>
-                        <button type="submit" class="btn btn-success" id="btnCalificar"><i class="fas fa-save"></i> Calificar</button>    
-                    </div>
+                <input type="hidden" id="fhdnidusuario" name="fhdnidusuario" >                                                                  
+                <div class="form-group">
+                    <div class="row">          
+                        <div class="col-sm-3">
+                            <div class="text-info">Tipo Usuario</div>
+                            <div>                            
+                                <select class="form-control" id="mcbotipousu" name="mcbotipousu">
+                                    <option value="" selected="selected">::Elija</option>
+                                    <option value="I" >INTERNO</option>
+                                    <option value="C" >CLIENTE</option>
+                                    <option value="F" >FREELANCE</option>
+                                    <option value="P" >PROVEEDOR</option>
+                                </select>
+                            </div>
+                        </div>         
+                        <div class="col-sm-5">
+                            <div class="text-info">Nro. Documento ó Apellido</div>                            
+                            <div class="input-group mb-3">
+                                <input type="text" id="mtxtnrodoc" name="mtxtnrodoc" class="form-control rounded-0" disabled>
+                                <span class="input-group-append">
+                                    <button type="button" id="mbtnbuscnrodoc" name="mbtnbuscnrodoc" class="btn btn-primary btn-flat"><i class="fas fa-search"></i> </button>
+                                    <button type="button" id="mbtnnuevoadm" name="mbtnnuevoadm" class="btn btn-info btn-flat"><i class="fas fa-user-plus"></i> </button>
+                                </span>
+                            </div>
+                        </div> 
+                        <div class="col-sm-4">
+                            <div class="text-info">Usuario</div>
+                            <div>                            
+                                <input type="text" class="form-control" id="mtxtusuario" name="mtxtusuario">
+                            </div>
+                        </div>     
+                    </div>                
                 </div>  
             </div>
+            <div class="box-footer" style="background-color: #dff0d8;">
+                <button type="reset" class="btn btn-default" id="mbtnCPago" data-dismiss="modal"><i class="fas fa-window-close"></i> Cancelar</button>
+                <button type="submit" class="btn btn-success" id="mbtnGPago"><i class="fas fa-save"></i> Grabar</button> 
+            </div>
+
         </fieldset>
     </div>
 </div>

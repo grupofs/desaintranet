@@ -24,7 +24,7 @@ $(document).ready(function() {
     $.ajax({
         type: 'ajax',
         method: 'post',
-        url: baseurl+"ar/tramites/cbusctramdigesa/getclientexusu",
+        url: baseurl+"ar/tramites/cbusctramdigemid/getclientexusu",
         dataType: "JSON",
         async: true,
         data: params,
@@ -40,7 +40,7 @@ $(document).ready(function() {
     $.ajax({
         type: 'ajax',
         method: 'post',
-        url: baseurl+"ar/tramites/cbusctramdigesa/getcbotipoprodxentidad",
+        url: baseurl+"ar/tramites/cbusctramdigemid/getcbotipoprodxentidad",
         dataType: "JSON",
         async: true,
         success:function(result)
@@ -153,7 +153,7 @@ $("#cbocliente").change(function(){
     $.ajax({
         type: 'ajax',
         method: 'post',
-        url: baseurl+"ar/tramites/cbusctramdigesa/getcbomarcaxclie",
+        url: baseurl+"ar/tramites/cbusctramdigemid/getcbomarcaxclie",
         dataType: "JSON",
         async: true,
         data: params,
@@ -176,7 +176,7 @@ $("#cbotipoprod").change(function(){
     $.ajax({
         type: 'ajax',
         method: 'post',
-        url: baseurl+"ar/tramites/cbusctramdigesa/getcbotramitextipoproducto",
+        url: baseurl+"ar/tramites/cbusctramdigemid/getcbotramitextipoproducto",
         dataType: "JSON",
         async: true,
         data: params,
@@ -203,7 +203,7 @@ $("#btnBuscar").click(function (){
         "tono"        : $('#txtcaractprodu').val(),
         "estado"      : $('#cboesttramite').val(),
         "marca"       : $('#cbomarca').val(),
-        "tramite"     : '001',
+        "tramite"     : '002',
         "allf"        : tipofind,
         "fi"          : varfdesde,
         "ff"          : varfhasta,
@@ -240,7 +240,7 @@ getListTramGrid = function(param){
         'stateSave'     : true,
         'select'        : true,
         'ajax'	: {
-            "url"   : baseurl+"ar/tramites/cbusctramdigesa/getconsulta_grid_tr/",
+            "url"   : baseurl+"ar/tramites/cbusctramdigemid/getconsulta_grid_tr/",
             "type"  : "POST", 
             "data"  : param,     
             dataSrc : ''       
@@ -320,7 +320,7 @@ $('#tblListTramGrid tbody').on( 'click', 'td.details-control', function () {
                 'filter'      : false,   
                 'stateSave'   : true,
                 'ajax'        : {
-                    "url"   : baseurl+"ar/tramites/cbusctramdigesa/getbuscartramite",
+                    "url"   : baseurl+"ar/tramites/cbusctramdigemid/getbuscartramite",
                     "type"  : "POST", 
                     "data": function ( d ) {
                         d.codprod = rowData.codigo;
@@ -378,7 +378,7 @@ getListTramExcel = function(param){
         'ordering'		: false,  
         'stateSave'     : true,
         'ajax'	: {
-            "url"   : baseurl+"ar/tramites/cbusctramdigesa/getconsulta_excel_tr/",
+            "url"   : baseurl+"ar/tramites/cbusctramdigemid/getconsulta_excel_tr/",
             "type"  : "POST", 
             "data"  : param,     
             dataSrc : ''       
@@ -443,7 +443,7 @@ selTramdocumento = function(codar, codent, ctram, csum){
         'ordering'		: false,  
         'stateSave'     : true,
         'ajax'	: {
-            "url"   : baseurl+"ar/tramites/cbusctramdigesa/getdocum_aarr/",
+            "url"   : baseurl+"ar/tramites/cbusctramdigemid/getdocum_aarr/",
             "type"  : "POST", 
             "data": function ( d ) {
               d.casuntoregula = codar;

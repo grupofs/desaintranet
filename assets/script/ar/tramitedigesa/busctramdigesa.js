@@ -1,6 +1,7 @@
 var otblListTramGrid, otblListTramExcel, otblListTramGriddet, otblListTramDocum;
 var tiporeporte = 'G', tipotramite = 'V', tipofind = 'S';
 var varfdesde, varfhasta;
+var collapsedGroups = {};
 
 $(document).ready(function() {
     $('#busAvanzada').hide();
@@ -225,62 +226,49 @@ $("#btnBuscar").click(function (){
 });
 
 getListTramGrid = function(param){
-    otblListTramGrid = $('#tblListTramGrid').DataTable({  
-        'responsive'    : false,
-        'bJQueryUI'     : true,
-        'scrollY'     	: '400px',
-        'scrollX'     	: true, 
-        'paging'      	: true,
-        'processing'  	: true,     
-        'bDestroy'    	: true,
-        'AutoWidth'     : false,
-        'info'        	: true,
-        'filter'      	: true, 
-        'ordering'		: false,  
-        'stateSave'     : true,
-        'select'        : true,
-        'ajax'	: {
+    otblListTramGrid = $('#tblListTramGrid').DataTable({ 
+        "processing"  	: true,
+        "bDestroy"    	: true,
+        "stateSave"     : true,
+        "bJQueryUI"     : true,
+        "scrollY"     	: "400px",
+        "scrollX"     	: true, 
+        "paging"      	: false,
+        "info"        	: true,
+        "filter"      	: true, 
+        "ordering"		: false,
+        "responsive"    : false,
+        "select"        : false,
+        "ajax"	: {
             "url"   : baseurl+"ar/tramites/cbusctramdigesa/getconsulta_grid_tr/",
             "type"  : "POST", 
             "data"  : param,     
-            dataSrc : ''       
+            dataSrc : ''      
         },
-        'columns'	: [
-            {
-              "class"     :   "index",
-              orderable   :   false,
-              data        :   null,
-              targets     :   0
-            },
-            {
-              "class"     :   "details-control",
-              orderable   :   false,
-              data        :   'SPACE',
-              targets     :   1
-            },
-            {"orderable": false, data: 'CODIGOPROD', targets: 2},
-            {"orderable": false, data: 'DES_SAP', targets: 3},
-            {"orderable": false, data: 'NOMBREPROD', targets: 4},
-            {"orderable": false, data: 'MARCAPROD', targets: 5},
-            {"orderable": false, data: 'DCATEGORIACLIENTE', targets: 6},
-            {"orderable": false, data: 'DPRESENTACION', targets: 7},
-            {"orderable": false, data: 'TONOPROD', targets: 8},
-            {"orderable": false, data: 'FABRIPROD', targets: 9},    
-            {"orderable": false, data: 'PAISPROD', targets: 10},  
-            {"orderable": false, data: 'REGSANIPROD', targets: 11},  
-            {"orderable": false, data: 'DNUMERODR', targets: 12},  
-            {"orderable": false, data: 'FECHAVENCE', targets: 13}
+        "columns"	: [
+            {"data": "grupo"},
+            {"class":"index details-control col-xs", "data": "SPACE", orderable:false},
+            {"data": "CODIGOPROD"},
+            {"data": "DES_SAP"},
+            {"data": "NOMBREPROD"},
+            {"data": "MARCAPROD"},
+            {"data": "DCATEGORIACLIENTE"},
+            {"data": "DPRESENTACION"},
+            {"data": "TONOPROD"},
+            {"data": "FABRIPROD"},    
+            {"data": "PAISPROD"},  
+            {"data": "REGSANIPROD"},  
+            {"data": "DNUMERODR"},  
+            {"data": "FECHAVENCE"}
         ],
-        "columnDefs": [
-        ],
-        'order' : [[3, "asc"],[4, "asc"]] 
+        "orderFixed": [ 0, 'desc' ]
     });   
     // Enumeracion 
-    otblListTramGrid.on( 'order.dt search.dt', function () { 
-        otblListTramGrid.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+    /*otblListTramGrid.on( 'order.dt search.dt', function () { 
+        otblListTramGrid.column(1, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
           cell.innerHTML = i+1;
           } );
-    }).draw(); 
+    }).draw(); */
 }
 /* DETALLE TRAMITES */
 $('#tblListTramGrid tbody').on( 'click', 'td.details-control', function () {
@@ -362,6 +350,12 @@ $('#tblListTramGrid tbody').on( 'click', 'td.details-control', function () {
         tr.addClass('details');
     }
 });
+/* COMPRIMIR GRUPO */
+$('#tblListTramGrid tbody').on('click', 'tr.group-start', function () {
+    var name = $(this).data('name');
+    collapsedGroups[name] = !collapsedGroups[name];
+    otblListTramGrid.draw(false);
+}); 
 
 getListTramExcel = function(param){
     otblListTramExcel = $('#tblListTramExcel').DataTable({  

@@ -134,11 +134,11 @@
     }
 
     td.details-control {
-        background: url('<?php echo public_base_url(); ?>assets/images/details_open.png') no-repeat center center;
+        background: url(../images/details_open.png) no-repeat center center;
         cursor: pointer;
     }
     tr.details td.details-control {
-        background: url('<?php echo public_base_url(); ?>assets/images/details_close.png') no-repeat center center;
+        background: url(../images/details_close.png) no-repeat center center;
     }
 
 
@@ -277,7 +277,14 @@
         min-width: 80px !important;
     }
     .col-xs{
-        min-width: 10px !important;
+        min-width: 40px !important;
+        max-width: 50px !important;
+    }
+
+    
+    .index {
+        vertical-align: inherit !important;
+        padding-right: 45px !important;
     }
 
 /*SOMBREAR FILA DE UNA DATATABLE*/

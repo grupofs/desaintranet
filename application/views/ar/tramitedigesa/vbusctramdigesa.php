@@ -7,16 +7,6 @@
         background: #28a745 !important;
         color: #1f2d3d !important;
     }
-    td.details-control {
-        background: url('<?php echo base_url() ?>assets/images/details_open.png') no-repeat center center;
-        cursor: pointer;
-    }
-    tr.details td.details-control {
-        background: url('<?php echo base_url() ?>assets/images/details_close.png') no-repeat center center;
-    }
-    .index {
-        vertical-align: inherit !important;
-    }
 </style>
 
 <!-- content-header -->
@@ -258,8 +248,8 @@
                         <table id="tblListTramGrid" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                             <tr>
+                                <th>grupo</th>
                                 <th>Nro.</th>
-                                <th></th>
                                 <th>Código</th>
                                 <th>Descripción SAP</th>
                                 <th>Nombre del Producto</th>

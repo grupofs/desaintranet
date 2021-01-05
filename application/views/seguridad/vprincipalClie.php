@@ -7,6 +7,8 @@
     $imgperfil = $this->session->userdata('s_druta'); 
     $nombperfil = $this->session->userdata('s_usu'); 
     $dircliente = $this->session->userdata('s_dircliente'); 
+    $colortext = $this->session->userdata('s_colortext'); 
+    $colorfondo = $this->session->userdata('s_colorfondo'); 
 
     if($imgperfil == ''):
         $imgperfil = 'avatar5.png';
@@ -99,7 +101,7 @@
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse accent-olive">
     <div class="wrapper">        
         <!-- MAIN CABECERA  -->
-        <nav class="main-header navbar navbar-expand navbar-dark navbar-gray">
+        <nav class="main-header navbar navbar-expand navbar-dark navbar-gray" style="background-color: <?php echo $colorfondo ?> !important; color: <?php echo $colortext ?> !important; ">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">

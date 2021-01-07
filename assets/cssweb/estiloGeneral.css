@@ -257,24 +257,35 @@
 /*TAMAÑO DE LAS COLUMNAS EN DATATABLE*/
     .col-xxl{
         min-width: 400px !important;
+        max-width: 410px !important;
     }
     .col-xl{
-        min-width: 320px !important;
+        min-width: 340px !important;
+        max-width: 350px !important;
     }
     .col-l{
-        min-width: 280px !important;
+        min-width: 290px !important;
+        max-width: 300px !important;
     }
     .col-lm{
-        min-width: 220px !important;
+        min-width: 240px !important;
+        max-width: 250px !important;
     }
     .col-m{
-        min-width: 180px !important;
+        min-width: 200px !important;
+        max-width: 210px !important;
+    }
+    .col-xm{
+        min-width: 160px !important;
+        max-width: 170px !important;
     }
     .col-sm{
         min-width: 120px !important;
+        max-width: 130px !important;
     }
     .col-s{
         min-width: 80px !important;
+        max-width: 90px !important;
     }
     .col-xs{
         min-width: 40px !important;

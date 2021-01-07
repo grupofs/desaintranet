@@ -1,7 +1,6 @@
 var otblListTramGrid, otblListTramExcel, otblListTramGriddet, otblListTramDocum;
 var tiporeporte = 'G', tipotramite = 'V', tipofind = 'S';
 var varfdesde, varfhasta;
-var collapsedGroups = {};
 
 $(document).ready(function() {
     $('#busAvanzada').hide();
@@ -16,42 +15,6 @@ $(document).ready(function() {
 
     $('#divtblGrid').show(); 
     $('#divtblExcel').hide();
-
-    /*LLENADO DE COMBOS*/  
-    
-    var params = { 
-        "idusuario"   : $('#hdnidusu').val(),
-    };        
-    $.ajax({
-        type: 'ajax',
-        method: 'post',
-        url: baseurl+"ar/tramites/cbusctramdigesa/getclientexusu",
-        dataType: "JSON",
-        async: true,
-        data: params,
-        success:function(result)
-        {
-            $('#cbocliente').html(result);
-        },
-        error: function(){
-            alert('Error, No se puede autenticar por error');
-        }
-    });
-          
-    $.ajax({
-        type: 'ajax',
-        method: 'post',
-        url: baseurl+"ar/tramites/cbusctramdigesa/getcbotipoprodxentidad",
-        dataType: "JSON",
-        async: true,
-        success:function(result)
-        {
-            $('#cbotipoprod').html(result);
-        },
-        error: function(){
-            alert('Error, No se puede autenticar por error');
-        }
-    });
 });
 
 fechaActual = function(){
@@ -146,52 +109,6 @@ $('#swTipoLista').on('switchChange.bootstrapSwitch',function (event, state) {
     $('#btnBuscar').click();
 });
 
-$("#cbocliente").change(function(){
-    var v_cboClie = $('#cbocliente').val();
-
-    var params = { "ccliente":v_cboClie };
-
-    $.ajax({
-        type: 'ajax',
-        method: 'post',
-        url: baseurl+"ar/tramites/cbusctramdigesa/getcbomarcaxclie",
-        dataType: "JSON",
-        async: true,
-        data: params,
-        success:function(result)
-        {
-            $("#cbomarca").html(result);           
-        },
-        error: function(){
-            alert('Error, no se puede cargar la lista desplegable de establecimiento');
-        }
-    });
-    
-});
-
-$("#cbotipoprod").change(function(){
-    var v_cbotipoprod = $('#cbotipoprod').val();
-
-    var params = { "ctipoProducto":v_cbotipoprod };
-
-    $.ajax({
-        type: 'ajax',
-        method: 'post',
-        url: baseurl+"ar/tramites/cbusctramdigesa/getcbotramitextipoproducto",
-        dataType: "JSON",
-        async: true,
-        data: params,
-        success:function(result)
-        {
-            $("#cbotramite").html(result);           
-        },
-        error: function(){
-            alert('Error, no se puede cargar la lista desplegable de establecimiento');
-        }
-    });
-    
-});
-
 $("#btnBuscar").click(function (){    
     
     varfdesde = $('#txtFIni').val();
@@ -212,7 +129,7 @@ $("#btnBuscar").click(function (){
         "ccategoria"  : null,
         "est"         : $('#cboestproducto').val(),
         "tipoest"     : tipotramite, 
-        "ccliente"    : $('#cbocliente').val(),
+        "ccliente"    : $('#hdnccliente').val(),
         "tiporeporte" : tiporeporte,    
         "iln"        : null
     };  
@@ -226,63 +143,62 @@ $("#btnBuscar").click(function (){
 });
 
 getListTramGrid = function(param){
-    otblListTramGrid = $('#tblListTramGrid').DataTable({ 
-        "processing"  	: true,
-        "bDestroy"    	: true,
-        "stateSave"     : true,
-        "bJQueryUI"     : true,
-        "scrollY"     	: "580px",
-        "scrollX"     	: true, 
-        'AutoWidth'     : true,
-        "paging"      	: false,
-        "info"        	: true,
-        "filter"      	: true, 
-        "ordering"		: false,
-        "responsive"    : false,
-        "select"        : true,
-        "ajax"	: {
-            "url"   : baseurl+"ar/tramites/cbusctramdigesa/getconsulta_grid_tr/",
+    otblListTramGrid = $('#tblListTramGrid').DataTable({  
+        'responsive'    : false,
+        'bJQueryUI'     : true,
+        'scrollY'     	: '400px',
+        'scrollX'     	: true, 
+        'paging'      	: true,
+        'processing'  	: true,     
+        'bDestroy'    	: true,
+        'AutoWidth'     : false,
+        'info'        	: true,
+        'filter'      	: true, 
+        'ordering'		: false,  
+        'stateSave'     : true,
+        'select'        : true,
+        'ajax'	: {
+            "url"   : baseurl+"ar/tramites/cconstramdigesa/getconsulta_grid_tr/",
             "type"  : "POST", 
             "data"  : param,     
-            dataSrc : ''      
+            dataSrc : ''       
         },
-        "columns"	: [
-            {"data": "grupo"},
-            {"class":"index details-control col-xs", "data": "SPACE", orderable:false},
-            {"class":"col-xs", "data": "CODIGOPROD"},
-            {"class":"col-m", "data": "DES_SAP"},
-            {"class":"col-m", "data": "NOMBREPROD"},
-            {"class":"col-sm", "data": "MARCAPROD"},
-            {"class":"col-s", "data": "DCATEGORIACLIENTE"},
-            {"class":"col-xl", "data": "DPRESENTACION"},
-            {"class":"col-sm", "data": "TONOPROD"},
-            {"class":"col-sm", "data": "FABRIPROD"},    
-            {"class":"col-sm", "data": "PAISPROD"},  
-            {"class":"col-sm", "data": "REGSANIPROD"},  
-            {"class":"col-s", "data": "FECHAVENCE"}
-        ],
-        rowGroup: {
-            startRender : function ( rows, group ) {
-                var collapsed = !!collapsedGroups[group];
-    
-                rows.nodes().each(function (r) {
-                    r.style.display = collapsed ? 'none' : '';
-                }); 
-                return $('<tr/>')
-                .append('<td colspan="14" style="cursor: pointer;">' + group + ' (' + rows.count() + ')</td>')
-                .attr('data-name', group)
-                .toggleClass('collapsed', collapsed);
+        'columns'	: [
+            {
+              "class"     :   "index",
+              orderable   :   false,
+              data        :   null,
+              targets     :   0
             },
-            dataSrc: "grupo"
-        }
+            {
+              "class"     :   "details-control",
+              orderable   :   false,
+              data        :   'SPACE',
+              targets     :   1
+            },
+            {"orderable": false, data: 'CODIGOPROD', targets: 2},
+            {"orderable": false, data: 'DES_SAP', targets: 3},
+            {"orderable": false, data: 'NOMBREPROD', targets: 4},
+            {"orderable": false, data: 'MARCAPROD', targets: 5},
+            {"orderable": false, data: 'DCATEGORIACLIENTE', targets: 6},
+            {"orderable": false, data: 'DPRESENTACION', targets: 7},
+            {"orderable": false, data: 'TONOPROD', targets: 8},
+            {"orderable": false, data: 'FABRIPROD', targets: 9},    
+            {"orderable": false, data: 'PAISPROD', targets: 10},  
+            {"orderable": false, data: 'REGSANIPROD', targets: 11},  
+            {"orderable": false, data: 'DNUMERODR', targets: 12},  
+            {"orderable": false, data: 'FECHAVENCE', targets: 13}
+        ],
+        "columnDefs": [
+        ],
+        'order' : [[3, "asc"],[4, "asc"]] 
     });   
     // Enumeracion 
     otblListTramGrid.on( 'order.dt search.dt', function () { 
-        otblListTramGrid.column(1, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+        otblListTramGrid.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
           cell.innerHTML = i+1;
           } );
     }).draw(); 
-    otblListTramGrid.column(0).visible( false );  
 }
 /* DETALLE TRAMITES */
 $('#tblListTramGrid tbody').on( 'click', 'td.details-control', function () {
@@ -322,7 +238,7 @@ $('#tblListTramGrid tbody').on( 'click', 'td.details-control', function () {
                 'filter'      : false,   
                 'stateSave'   : true,
                 'ajax'        : {
-                    "url"   : baseurl+"ar/tramites/cbusctramdigesa/getbuscartramite",
+                    "url"   : baseurl+"ar/tramites/cconstramdigesa/getbuscartramite",
                     "type"  : "POST", 
                     "data": function ( d ) {
                         d.codprod = rowData.codigo;
@@ -364,12 +280,6 @@ $('#tblListTramGrid tbody').on( 'click', 'td.details-control', function () {
         tr.addClass('details');
     }
 });
-/* COMPRIMIR GRUPO */
-$('#tblListTramGrid tbody').on('click', 'tr.dtrg-group', function () {
-    var name = $(this).data('name');
-    collapsedGroups[name] = !collapsedGroups[name];
-    otblListTramGrid.draw(true);
-}); 
 
 getListTramExcel = function(param){
     otblListTramExcel = $('#tblListTramExcel').DataTable({  
@@ -386,7 +296,7 @@ getListTramExcel = function(param){
         'ordering'		: false,  
         'stateSave'     : true,
         'ajax'	: {
-            "url"   : baseurl+"ar/tramites/cbusctramdigesa/getconsulta_excel_tr/",
+            "url"   : baseurl+"ar/tramites/cconstramdigesa/getconsulta_excel_tr/",
             "type"  : "POST", 
             "data"  : param,     
             dataSrc : ''       
@@ -451,7 +361,7 @@ selTramdocumento = function(codar, codent, ctram, csum){
         'ordering'		: false,  
         'stateSave'     : true,
         'ajax'	: {
-            "url"   : baseurl+"ar/tramites/cbusctramdigesa/getdocum_aarr/",
+            "url"   : baseurl+"ar/tramites/cconstramdigesa/getdocum_aarr/",
             "type"  : "POST", 
             "data": function ( d ) {
               d.casuntoregula = codar;

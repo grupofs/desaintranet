@@ -1,11 +1,21 @@
 <?php
-    $idusu = $this -> session -> userdata('s_idusuario');
+    $ccliente = $this -> session -> userdata('s_ccliente');
 ?>
 
 <style>
     .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-default, .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-default {
         background: #28a745 !important;
         color: #1f2d3d !important;
+    }
+    td.details-control {
+        background: url('<?php echo base_url() ?>assets/images/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+    tr.details td.details-control {
+        background: url('<?php echo base_url() ?>assets/images/details_close.png') no-repeat center center;
+    }
+    .index {
+        vertical-align: inherit !important;
     }
 </style>
 
@@ -32,7 +42,7 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">  
-        <div class="card card-success">        
+        <div class="card card-info">        
             <div class="card-header">
                 <h3 class="card-title">BUSQUEDA</h3>
                 <div class="card-tools">
@@ -41,18 +51,11 @@
             </div>
             <form class="form-horizontal" id="frmexceltramar" name="frmexceltramar" action="<?= base_url('ar/tramites/cexcelExport/exceltramardigesa')?>" method="POST" enctype="multipart/form-data" role="form">  
             <div class="card-body">
-                <input type="hidden" name="hdnidusu" class="form-control" id="hdnidusu" value="<?php echo $idusu ?>">
-                <div class="row">    
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <label>Cliente</label>
-                            <select class="form-control select2bs4" id="cbocliente" name="cbocliente" style="width: 100%;">
-                                <option value="" selected="selected">Cargando...</option>
-                            </select>
+                <input type="hidden" name="hdnccliente" class="form-control" id="hdnccliente" value="<?php echo $ccliente ?>">
+                <div class="row">                    
+                    <div class="col-sm-6">
+                        <div>
                         </div>
-                    </div>                
-                    <div class="col-sm-3">
-                        <label>&nbsp;&nbsp;</label> 
                         <!-- radio 
                         <div class="form-group clearfix">
                         <div class="icheck-primary d-inline">
@@ -69,8 +72,7 @@
                         </div>
                         </div>-->
                     </div>           
-                    <div class="col-sm-4">
-                        <label>&nbsp;&nbsp;</label> 
+                    <div class="col-sm-6">
                         <!-- radio -->
                         <div class="form-group clearfix">
                         <div class="icheck-primary d-inline">
@@ -177,13 +179,7 @@
                             <div class="form-group">
                                 <label>Estado de Trámite</label>
                                 <select class="form-control select2bs4" id="cboesttramite" name="cboesttramite" style="width: 100%;">
-                                    <option value="" selected="selected">Todos</option>
-									<option value="P">En proceso</option>
-									<option value="V">En trámite en la entidad</option>
-									<option value="O">Observado DG</option>
-									<option value="R">Aprobado</option>
-									<option value="T">Trunco</option>
-									<option value="C">Rechazado DG</option>
+                                    <option value="" selected="selected">Cargando...</option>
                                 </select>
                             </div>
                         </div>
@@ -240,7 +236,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="card card-outline card-success">
+                <div class="card card-outline card-info">
                     <div class="card-header">
                         <h3 class="card-title">Listado  - Tipo <label id="lblCia"></label></h3>
                     </div>                
@@ -248,8 +244,8 @@
                         <table id="tblListTramGrid" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                             <tr>
-                                <th>grupo</th>
-                                <th>Nro</th>
+                                <th>Nro.</th>
+                                <th></th>
                                 <th>Código</th>
                                 <th>Descripción SAP</th>
                                 <th>Nombre del Producto</th>
@@ -260,7 +256,8 @@
                                 <th>Fabricante</th>
                                 <th>Pais</th>
                                 <th>RS</th>
-                                <th>Fec. Vence</th>
+                                <th>Nro. DR</th>
+                                <th>F. Vencimiento</th>
                             </tr>
                             </thead>
                             <tbody>

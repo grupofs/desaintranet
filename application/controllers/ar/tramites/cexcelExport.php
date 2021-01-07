@@ -157,7 +157,7 @@ class CexcelExport extends CI_Controller {
 			$allf = 		$this->input->post('chkFreg');
 			$fini = 		$this->input->post('txtFIni');
 			$ffin = 		$this->input->post('txtFFin');
-			$ccliente = 	$this->input->post('hdnccliente'); 
+			$ccliente = 	($this->input->post('hdnccliente') == $varnull) ? $this->input->post('cbocliente') : $this->input->post('hdnccliente');
 			$numexpdiente = ($this->input->post('txtnroexpe') == $varnull) ? '%' : '%'.$this->input->post('txtnroexpe').'%';
 			$ccategoria = 	'%';
 			$est = 			($this->input->post('cboestproducto') == $varnull) ? '%' : '%'.$this->input->post('cboestproducto').'%';	
@@ -395,7 +395,7 @@ class CexcelExport extends CI_Controller {
 			$allf = 		$this->input->post('chkFreg');
 			$fini = 		$this->input->post('txtFIni');
 			$ffin = 		$this->input->post('txtFFin');
-			$ccliente = 	$this->input->post('hdnccliente'); 
+			$ccliente = 	($this->input->post('hdnccliente') == $varnull) ? $this->input->post('cbocliente') : $this->input->post('hdnccliente');
 			$numexpdiente = ($this->input->post('txtnroexpe') == $varnull) ? '%' : '%'.$this->input->post('txtnroexpe').'%';
 			$ccategoria = 	'%';
 			$est = 			($this->input->post('cboestproducto') == $varnull) ? '%' : '%'.$this->input->post('cboestproducto').'%';	

@@ -11,7 +11,7 @@ class Cbusctramdigemid extends CI_Controller {
 		$this->load->library('form_validation');
     }
     
-   /** TRAMITES DIGESA  **/  
+   /** TRAMITES DIGEMID  **/  
     public function getclientexusu() {	// Visualizar Clientes con propuestas en CBO	
         $idusu= $this->input->post('idusuario');
 		$resultado = $this->mbusctramdigemid->getclientexusu($idusu);

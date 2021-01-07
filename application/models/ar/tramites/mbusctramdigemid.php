@@ -6,7 +6,7 @@ class Mbusctramdigemid extends CI_Model {
         $this->load->library('session');
     }
     
-   /** TRAMITES DIGESA **/ 
+   /** TRAMITES DIGEMID **/ 
 
     public function getclientexusu($idusu) { // Visualizar Clientes del servicio en CBO	
         
@@ -142,7 +142,7 @@ class Mbusctramdigemid extends CI_Model {
         
 
     public function getconsulta_grid_tr($parametros) { // Recupera Listado de Propuestas      
-		$procedure = "call sp_appweb_aarr_consulta_grid_tr(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		$procedure = "call usp_ar_tramite_getconsulta_grid_tr(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		$query = $this->db-> query($procedure,$parametros);
 
 		if ($query->num_rows() > 0) { 

@@ -222,6 +222,10 @@ $("#btnBuscar").click(function (){
     }else{
         getListTramExcel(parametros);
     }
+    if($('#chkBusavanzada').prop('checked') == true){
+        $('#chkBusavanzada').prop("checked", false);
+        $('#busAvanzada').hide();
+    }
     
 });
 
@@ -231,7 +235,7 @@ getListTramGrid = function(param){
         "bDestroy"    	: true,
         "stateSave"     : true,
         "bJQueryUI"     : true,
-        "scrollY"     	: "580px",
+        "scrollY"     	: "560px",
         "scrollX"     	: true, 
         'AutoWidth'     : true,
         "paging"      	: false,
@@ -250,11 +254,11 @@ getListTramGrid = function(param){
             {"data": "grupo"},
             {"class":"index details-control col-xs", "data": "SPACE", orderable:false},
             {"class":"col-xs", "data": "CODIGOPROD"},
-            {"class":"col-m", "data": "DES_SAP"},
-            {"class":"col-m", "data": "NOMBREPROD"},
+            {"class":"col-xm", "data": "DES_SAP"},
+            {"class":"col-lm", "data": "NOMBREPROD"},
             {"class":"col-sm", "data": "MARCAPROD"},
             {"class":"col-s", "data": "DCATEGORIACLIENTE"},
-            {"class":"col-xl", "data": "DPRESENTACION"},
+            {"class":"col-xxl", "data": "DPRESENTACION"},
             {"class":"col-sm", "data": "TONOPROD"},
             {"class":"col-sm", "data": "FABRIPROD"},    
             {"class":"col-sm", "data": "PAISPROD"},  
@@ -373,48 +377,49 @@ $('#tblListTramGrid tbody').on('click', 'tr.dtrg-group', function () {
 
 getListTramExcel = function(param){
     otblListTramExcel = $('#tblListTramExcel').DataTable({  
-        'responsive'    : false,
-        'bJQueryUI'     : true,
-        'scrollY'     	: '400px',
-        'scrollX'     	: true, 
-        'paging'      	: true,
-        'processing'  	: true,     
-        'bDestroy'    	: true,
-        'AutoWidth'     : false,
-        'info'        	: true,
-        'filter'      	: true, 
-        'ordering'		: false,  
-        'stateSave'     : true,
-        'ajax'	: {
+        "processing"  	: true,
+        "bDestroy"    	: true,
+        "stateSave"     : true,
+        "bJQueryUI"     : true,
+        "scrollY"     	: "560px",
+        "scrollX"     	: true, 
+        'AutoWidth'     : true,
+        "paging"      	: false,
+        "info"        	: true,
+        "filter"      	: true, 
+        "ordering"		: false,
+        "responsive"    : false,
+        "select"        : true,
+        "ajax"	: {
             "url"   : baseurl+"ar/tramites/cbusctramdigesa/getconsulta_excel_tr/",
             "type"  : "POST", 
             "data"  : param,     
             dataSrc : ''       
         },
-        'columns'	: [
+        "columns"	: [
             {
-              "class"     :   "index",
+              "class"     :   "index col-xs",
               orderable   :   false,
               data        :   null,
               targets     :   0
             },
-            {"orderable": false, data: 'CODIGOPROD', targets: 1},
-            {"orderable": false, data: 'DES_SAP', targets: 2},
-            {"orderable": false, data: 'NOMBREPROD', targets: 3},
-            {"orderable": false, data: 'MARCAPROD', targets: 4},
-            {"orderable": false, data: 'DCATEGORIACLIENTE', targets: 5},
-            {"orderable": false, data: 'DPRESENTACION', targets: 6},
-            {"orderable": false, data: 'TONOPROD', targets: 7},
-            {"orderable": false, data: 'FABRIPROD', targets: 8},    
-            {"orderable": false, data: 'PAISPROD', targets: 9},  
-            {"orderable": false, data: 'tcreacion', targets: 10},  
-            {"orderable": false, data: 'TRAMITEPROD', targets: 11},  
-            {"orderable": false, data: 'ESTADO', targets: 12},
-            {"orderable": false, data: 'NUMEXP', targets: 13},      
-            {"orderable": false, data: 'REGSANIPROD', targets: 14},      
-            {"orderable": false, data: 'DNUMERODR', targets: 15},      
-            {"orderable": false, data: 'FEMI', targets: 16},      
-            {"orderable": false, data: 'FECHAVENCE', targets: 17},         
+            {"class":"col-xs", "orderable": false, data: 'CODIGOPROD', targets: 1},
+            {"class":"col-xm", "orderable": false, data: 'DES_SAP', targets: 2},
+            {"class":"col-lm", "orderable": false, data: 'NOMBREPROD', targets: 3},
+            {"class":"col-sm", "orderable": false, data: 'MARCAPROD', targets: 4},
+            {"class":"col-s", "orderable": false, data: 'DCATEGORIACLIENTE', targets: 5},
+            {"class":"col-xxl", "orderable": false, data: 'DPRESENTACION', targets: 6},
+            {"class":"col-sm", "orderable": false, data: 'TONOPROD', targets: 7},
+            {"class":"col-sm", "orderable": false, data: 'FABRIPROD', targets: 8},    
+            {"class":"col-sm", "orderable": false, data: 'PAISPROD', targets: 9},  
+            {"class":"col-s", "orderable": false, data: 'tcreacion', targets: 10},  
+            {"class":"col-sm", "orderable": false, data: 'TRAMITEPROD', targets: 11},  
+            {"class":"col-sm", "orderable": false, data: 'ESTADO', targets: 12},
+            {"class":"col-sm", "orderable": false, data: 'NUMEXP', targets: 13},      
+            {"class":"col-sm", "orderable": false, data: 'REGSANIPROD', targets: 14},      
+            {"class":"col-s", "orderable": false, data: 'DNUMERODR', targets: 15},      
+            {"class":"col-s", "orderable": false, data: 'FEMI', targets: 16},      
+            {"class":"col-s", "orderable": false, data: 'FECHAVENCE', targets: 17},         
             {"orderable": false, 
                 render:function(data, type, row){
                     return '<div>'+  

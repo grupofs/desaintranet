@@ -32,6 +32,7 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">  
+        <form class="form-horizontal" id="frmexceltramar" name="frmexceltramar" action="<?= base_url('ar/tramites/cexcelExport/exceltramardigesa')?>" method="POST" enctype="multipart/form-data" role="form">  
         <div class="card card-success">        
             <div class="card-header">
                 <h3 class="card-title">BUSQUEDA</h3>
@@ -39,7 +40,7 @@
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                 </div>
             </div>
-            <form class="form-horizontal" id="frmexceltramar" name="frmexceltramar" action="<?= base_url('ar/tramites/cexcelExport/exceltramardigesa')?>" method="POST" enctype="multipart/form-data" role="form">  
+            
             <div class="card-body">
                 <input type="hidden" name="hdnidusu" class="form-control" id="hdnidusu" value="<?php echo $idusu ?>">
                 <div class="row">    
@@ -236,8 +237,8 @@
                     </div>
                 </div>
             </div>
-            </form>
         </div>
+        </form>
         <div class="row">
             <div class="col-12">
                 <div class="card card-outline card-success">

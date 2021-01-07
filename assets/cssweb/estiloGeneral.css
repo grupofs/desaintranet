@@ -256,32 +256,32 @@
 
 /*TAMAÑO DE LAS COLUMNAS EN DATATABLE*/
     .col-xxl{
+        min-width: 550px !important;
+        max-width: 560px !important;
+    }
+    .col-xl{
+        min-width: 480px !important;
+        max-width: 490px !important;
+    }
+    .col-l{
         min-width: 400px !important;
         max-width: 410px !important;
     }
-    .col-xl{
+    .col-lm{
         min-width: 340px !important;
         max-width: 350px !important;
     }
-    .col-l{
-        min-width: 290px !important;
-        max-width: 300px !important;
-    }
-    .col-lm{
-        min-width: 240px !important;
-        max-width: 250px !important;
-    }
     .col-m{
-        min-width: 200px !important;
-        max-width: 210px !important;
+        min-width: 280px !important;
+        max-width: 290px !important;
     }
     .col-xm{
-        min-width: 160px !important;
-        max-width: 170px !important;
+        min-width: 220px !important;
+        max-width: 230px !important;
     }
     .col-sm{
-        min-width: 120px !important;
-        max-width: 130px !important;
+        min-width: 160px !important;
+        max-width: 170px !important;
     }
     .col-s{
         min-width: 80px !important;

@@ -146,7 +146,7 @@ class Mbusctramdigesa extends CI_Model {
 		$query = $this->db-> query($procedure,$parametros);
 
 		if ($query->num_rows() > 0) { 
-			return $query->result();
+            return $query->result();
 		}{
 			return False;
 		}	

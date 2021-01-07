@@ -16,7 +16,7 @@ class CexcelExport extends CI_Controller {
 	function __construct() {
 		parent:: __construct();
 		$this->load->model('ar/tramites/mconstramdigesa');	
-		$this->load->model('ar/tramites/mconstramdigemid');
+		$this->load->model('ar/tramites/mbusctramdigemid', 'mconstramdigemid');
     }
 
 	public function exceltramardigesa() {

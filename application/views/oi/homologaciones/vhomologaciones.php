@@ -350,10 +350,10 @@
                                     <div class="card-footer">
                                         <div class="form-group">
                                             <div class="col-md-12 text-right">
-                                                    <button id="btnGuardarNorma" type="button" class="btn btn-primary">
+                                                    <button id="btnGuardarNorma" type="button" class="btn btn-primary d-none">
                                                         <i class="fa fa-save"></i> Crear Nuevo
                                                     </button>
-                                                    <button type="button" class="btn btn-default" id="btnCancelar">
+                                                    <button type="button" class="btn btn-default d-none" id="btnCancelar">
                                                         <i class="fa fa-edit"></i> Modificar
                                                     </button>
                                             </div>

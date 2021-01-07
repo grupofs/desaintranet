@@ -685,7 +685,38 @@ class Minforme extends CI_Model {
             return false;
         }	
     }
-    
+    public function cloneregistro04($parametros) {  // Clonar estudio 04 PT
+        $this->db->trans_begin();
+
+        $procedure = "call sp_appweb_pt_cloneregistro04(?,?,?);";
+        $query = $this->db->query($procedure,$parametros);
+
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+        }
+        else
+        {
+            $this->db->trans_commit();
+            return $query->result(); 
+        }   
+    } 
+    public function cloneregistro05($parametros) {  // Clonar estudio 05 PT
+        $this->db->trans_begin();
+
+        $procedure = "call sp_appweb_pt_cloneregistro05(?,?,?);";
+        $query = $this->db->query($procedure,$parametros);
+
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+        }
+        else
+        {
+            $this->db->trans_commit();
+            return $query->result(); 
+        }   
+    }     
 
 }
 ?>

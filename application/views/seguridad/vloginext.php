@@ -20,7 +20,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="<?php echo public_url(); ?>template/GUI/dist/css/adminlte.min.css">
     <!--    <link href="--><?php //echo public_url(); ?><!--cssweb/bootst.css" rel="stylesheet"/>-->
-    <link href="<?php echo public_url(); ?>cssweb/login.css" rel="stylesheet"/>
+    <link href="<?php echo public_url(); ?>cssweb/loginext.css" rel="stylesheet"/>
     <link rel="shortcut icon" href="<?php echo public_url(); ?>images/favicon.png" type="image/x-icon"/>
 
     <?php
@@ -34,7 +34,7 @@
 
     <style>
         .fondo-login {
-            background-image: url(../assets/images/bg_desktop.jpg);
+            background-image: url(./assets/images/bg_desktop.jpg);
             background-color: #cccccc;
             height: 100%;
             background-position: center;
@@ -112,7 +112,7 @@
                                 <ul class="list-group list-group-horizontal list-unstyled justify-content-center">
                                     <li class="mx-4">
                                         <a href="#" data-toggle="modal" data-target="#modal1" >
-                                            <img src="<?php echo public_url(); ?>images/logo-fsc.png"
+                                            <img src="<?php echo public_url(); ?>images/logo-fs.png"
                                                  class="rounded-circle titulo-imagen"
                                                  alt="User Image">
                                         </a>
@@ -121,7 +121,7 @@
                                     </li>
                                     <li class="mx-4">
                                         <a href="#" data-toggle="modal" data-target="#modal2">
-                                            <img src="<?php echo public_url(); ?>images/logo-fsc.png"
+                                            <img src="<?php echo public_url(); ?>images/logo-fs.png"
                                                  class="rounded-circle titulo-imagen"
                                                  alt="User Image">
                                         </a>
@@ -130,7 +130,7 @@
                                     </li>
                                     <li class="mx-4">
                                         <a href="#" data-toggle="modal" data-target="#modal3">
-                                            <img src="<?php echo public_url(); ?>images/logo-fsc.png"
+                                            <img src="<?php echo public_url(); ?>images/logo-fs.png"
                                                  class="rounded-circle titulo-imagen"
                                                  alt="User Image">
                                         </a>
@@ -195,24 +195,25 @@
                                     <span class="mensaje_error_sesion"> </span>
                                 </div>
                                 <div class="input-group auth-input-group">
-                    <span class="input-group-addon">
-                      <img src="<?php echo base_url() ?>assets/images/icon_user.png"/>
-                    </span>
+                                    <span class="input-group-addon">
+                                        <img src="<?php echo base_url() ?>assets/images/icon_user.png"/>
+                                    </span>
                                     <input autofocus="autofocus" class="form-control text-box single-line" id="txtemail"
                                            name="txtemail" placeholder="Usuario" required="required" type="text"
                                            value=""/>
                                 </div>
                                 <div class="input-group auth-input-group">
-                    <span class="input-group-addon">
-                      <img src="<?php echo base_url() ?>assets/images/icon_lock.png"/>
-                    </span>
+                                    <span class="input-group-addon">
+                                        <img src="<?php echo base_url() ?>assets/images/icon_lock.png"/>
+                                    </span>
                                     <input class="form-control text-box single-line" id="txtpassword" maxlength="20"
                                            name="txtpassword" placeholder="Contraseña" required="required"
                                            type="password"
                                            value=""/>
                                 </div>
-                                <a href="<?php echo base_url('clogin/recover_pass/0') ?>" class="link-login">Olvidé mi
-                                    contraseña</a>
+                                <a href="<?php echo base_url('clogin/recover_pass/0') ?>" class="link-login">
+                                    Olvidé mi contraseña
+                                </a>
                                 <input type="submit" value="Iniciar Sesión" class="auth-button"/>
                             </form>
                         </div>

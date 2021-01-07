@@ -447,6 +447,7 @@ selEval= function(idptevaluacion,idptpropuesta,ccliente,idptservicio,DESCRIPSERV
     
     $('#hdnIdpteval').val(idptevaluacion);
     $('#txtRegClie').val(RAZONSOCIAL);
+    $('#cboRegClie').val(ccliente);
     $('#hdnidserv').val(idptservicio);
     $('#txtservicio').val(DESCRIPSERV);
     $('#cboRegPropu').val(idptpropuesta);
@@ -516,15 +517,24 @@ fechaActualinfor= function(){
 };
 
 $("#chkNroAntiguo").on("change", function () {
-    if($("#chkNroAntiguo").is(":checked") == true){ 
-        $("#mtxtNroinfor").prop({readonly:false}); 
-    }else if($("#chkNroAntiguo").is(":checked") == false){ 
-        $("#mtxtNroinfor").prop({readonly:true}); 
-    }; 
-    
-    if ($('#mhdnAccionInfor').val()=='N'){
-        nro_informe();
+    var v_fecha = $('#mtxtFinfor').val().substr(6);
+    var v_fechaactual = new Date().getFullYear();
+    if (v_fechaactual == v_fecha){
+        alert("Debe de Seleccionar una fecha anterior");
+        $(document.getElementById('chkNroAntiguo')).prop('checked', false);
+    }else{
+        if($("#chkNroAntiguo").is(":checked") == true){ 
+            $("#mtxtNroinfor").prop({readonly:false}); 
+        }else if($("#chkNroAntiguo").is(":checked") == false){ 
+            $("#mtxtNroinfor").prop({readonly:true}); 
+        }; 
+        
+        if ($('#mhdnAccionInfor').val()=='N'){
+            nro_informe();
+        }
     }
+
+    
 }); 
 
 function nro_informe(){
@@ -689,10 +699,16 @@ recuperaListinforme = function(){
               }
             },
             {"orderable": false, "class": "col-xl", 
-              render:function(data, type, row){                
+              render:function(data, type, row){ 
+                if(row.idptservicio == 2 || row.idptservicio == 4 || row.idptservicio == 3){
+                    v_sid = ' <a data-toggle="modal" title="Editar" style="cursor:pointer;" data-target="#modalCreaTram" onClick="javascript:tramiteSid(\''+row.idptinforme+'\',\''+row.ccliente+'\');"class="btn btn-outline-success btn-sm hidden-xs hidden-sm"> #SID </a>'
+                }else{
+                    v_sid = ''
+                }               
                   return  '<div>'+    
                     ' <a onClick="javascript:insertRegistro(\''+row.idptinforme+'\',\''+row.idptevaluacion+'\',\''+row.idptservicio+'\',\''+row.descripcion_serv+'\',\''+row.nro_informe+'\');"class="btn btn-outline-success btn-sm hidden-xs hidden-sm"><i class="fas fa-plus-circle" style="cursor:pointer;"> Agregar Registro </i>  </a>'+
                     ' <a onClick="javascript:recuperaListregistro(\''+row.idptinforme+'\',\''+row.nro_informe+'\');"class="btn btn-outline-success btn-sm hidden-xs hidden-sm"><i class="fas fa-eye" style="cursor:pointer;"> Ver Registro </i>  </a>'+
+                    v_sid
                   '</div>'
               }
             }
@@ -710,6 +726,83 @@ recuperaListinforme = function(){
         }]
     });
 };
+
+tramiteSid = function(idptinforme,ccliente){
+
+    $.ajax({
+        type: 'ajax',
+        method: 'post',
+        url: baseurl+"pt/cpropuesta/getclientepropu",
+        dataType: "JSON",
+        async: true,
+        success:function(result)
+        {
+            $('#mcboClienprop').html(result);
+            $('#mcboClienprop').val(ccliente).trigger("change");
+        },
+        error: function(){
+            alert('Error, No se puede autenticar por error');
+        }
+    }); 
+    $.ajax({
+        type: 'ajax',
+        method: 'post',
+        url: baseurl+"pt/ctramites/gettipotramite",
+        dataType: "JSON",
+        async: true,
+        success:function(result)
+        {
+            $('#mcboTipotram').html(result);
+            $('#mcboTipotram').val(3).trigger("change");
+        },
+        error: function(){
+            alert('Error, No se puede autenticar por error == Tipo de Tramite');
+        }
+    });
+    $("#mcboClienprop").prop({disabled:true});  
+    $("#mcboTipotram").prop({disabled:true});  
+
+    $('#mtxtFregtramite').datetimepicker({
+        format: 'DD/MM/YYYY',
+        daysOfWeekDisabled: [0],
+        locale:'es'
+    });	
+    fechaActualReg();
+}
+
+fechaActualReg = function(){
+    var fecha = new Date();		
+    var fechatring = ("0" + fecha.getDate()).slice(-2) + "/" + ("0"+(fecha.getMonth()+1)).slice(-2) + "/" +fecha.getFullYear() ;
+
+    $('#mtxtFregtramite').datetimepicker('date', moment(fechatring, 'DD/MM/YYYY') );
+
+};
+
+$("#mcboTipotram").change(function(){
+    var v_Tipotram = $('#mcboTipotram').val();
+
+    if (v_Tipotram == 1){
+        $('#divProd').hide();
+        $('#divDesc').hide();
+        $('#divCarta').hide();
+    }else if (v_Tipotram == 2){
+        $('#divProd').hide();
+        $('#divDesc').hide();
+        $('#divCarta').hide();
+    }else if (v_Tipotram == 3){
+        $('#divProd').show();
+        $('#divDesc').show();
+        $('#divCarta').hide();
+    }else if (v_Tipotram == 4){
+        $('#divProd').hide();
+        $('#divDesc').hide();
+        $('#divCarta').show();
+    }else{
+        $('#divProd').hide();
+        $('#divDesc').hide();
+        $('#divCarta').hide();
+    }
+});
 
 selInforme= function(idptinforme,idptevaluacion,nro_informe,fecha_informe,idresponsable,archivo_informe,ruta_informe,descripcion,descripcion_archivo){
     $('#mhdnAccionInfor').val('A');
@@ -1772,6 +1865,7 @@ mostrarRegistro = function(v_RegEstu){
                 render:function(data, type, row){                
                     return  '<div>'+    
                         ' <a onClick="javascript:selEquipoadj06(\''+row.idptregequipo+'\',\''+row.idptregistro+'\',\''+row.idptregproducto+'\',\''+row.tipo_estudio+'\',\''+row.descripcion_equipo+'\',\''+row.id_tipoequipo+'\',\''+row.id_equipofabricante+'\',\''+row.dimension+'\',\''+row.diametro+'\',\''+row.altura+'\',\''+row.grosor+'\',\''+row.volumen_llenado+'\',\''+row.modelo_equipo+'\',\''+row.identificacion+'\',\''+row.nro_equipos+'\');"><i class="fas fa-edit" style="color:#088A08; cursor:pointer;"> </i> </a>'+
+                        ' <a onClick="javascript:dupliEquipoadj06(\''+row.idptregequipo+'\',\''+row.idptregistro+'\',\''+row.idptregproducto+'\',\''+row.tipo_estudio+'\');"><i class="fas fa-clone" style="color:#088A08; cursor:pointer;"> </i> </a>'+
                     '</div>'
                 }
                 }
@@ -1896,6 +1990,58 @@ mostrarRegistro = function(v_RegEstu){
 
         }
     };
+
+    dupliEquipoadj06= function(idptregequipo,idptregistro,idptregproducto,tipo_estudio){
+        alert(tipo_estudio);
+        var params = { 
+            "idptregequipo"     : idptregequipo,
+            "idptregistro"      : idptregistro, 
+            "idptregproducto"   : idptregproducto, 
+        };
+
+        if(tipo_estudio == 'T'){
+    
+            $.ajax({
+                type: 'ajax',
+                method: 'post',
+                url: baseurl+"pt/cinforme/cloneregistro04",
+                dataType: "JSON",
+                async: true,
+                data: params,
+                success:function(result)
+                {
+                    otblListReg06equipo.ajax.reload(null,false);
+                    Vtitle = 'Se guardo Correctamente';
+                    Vtype = 'success';
+                    sweetalert(Vtitle,Vtype);
+                },
+                error: function(){
+                    alert('Error, no se puede cargar la lista desplegable de establecimiento');
+                }
+            });
+        }else if(tipo_estudio == 'L'){
+    
+            $.ajax({
+                type: 'ajax',
+                method: 'post',
+                url: baseurl+"pt/cinforme/cloneregistro05",
+                dataType: "JSON",
+                async: true,
+                data: params,
+                success:function(result)
+                {
+                    otblListReg06equipo.ajax.reload(null,false);
+                    Vtitle = 'Se guardo Correctamente';
+                    Vtype = 'success';
+                    sweetalert(Vtitle,Vtype);
+                },
+                error: function(){
+                    alert('Error, no se puede cargar la lista desplegable de establecimiento');
+                }
+            });
+
+        }
+    }
 
     $('#Buscaequipo06').click(function(){
         $('#modalBuscaequipoReg06').modal('show');
@@ -3634,8 +3780,4 @@ $('#btnRetornarEval').click(function(){
     var $nro_informe = $('#hdnnroinforme').val();
     recuperaListregistro($idptinforme,$nro_informe);
 });
-
-
-
-
 

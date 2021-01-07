@@ -1,8 +1,8 @@
 <?php
-$codcliente = $this->session->userdata('s_ccliente');
-$idusuario = $this->session->userdata('s_idusuario');
-$idrol = $this->session->userdata('s_idrol');
-$cia = $this->session->userdata('s_cia');
+    $codcliente = $this->session->userdata('s_ccliente');
+    $idusuario = $this->session->userdata('s_idusuario');
+    $idrol = $this->session->userdata('s_idrol');
+    $cia = $this->session->userdata('s_cia');
 ?>
 
     <div class="content-header">

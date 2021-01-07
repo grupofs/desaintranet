@@ -1,7 +1,7 @@
 <div class="card-footer contenedorItems" style="display: none">
     <div class="row">
         <div class="col-md-6 text-left">
-            <button type="button" class="btn btn-default" id="guardarCantidadProductos">
+            <button type="button" class="btn btn-outline-secondary" id="guardarCantidadProductos">
                 <i class="fa fa-plus"></i> Agregar producto
             </button>
         </div>

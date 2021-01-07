@@ -11,15 +11,13 @@ $cia = $this-> session-> userdata('s_cia');
             <div class="col-sm-6">
                 <h1 class="m-0 text-dark">
                     INGRESO DE EXPEDIENTES
-                    <small>Módulo de Evaluación de Productos</small>
                 </h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="<?php echo public_base_url(); ?>cprincipal/principal">Home</a>
                     </li>
-                    <li class="breadcrumb-item">Eval. Prod.</li>
-                    <li class="breadcrumb-item active">Ingreso de Expedientes</li>
+                    <li class="breadcrumb-item active">Evaluacion Productos</li>
                 </ol>
             </div>
         </div>
@@ -140,7 +138,7 @@ $cia = $this-> session-> userdata('s_cia');
                                     </div>
                                     <div class="card-body">
                                         <div>
-                                            <table id="tbllistaexpedientes" class="display nowrap" style="width:100%">
+                                            <table id="tbllistaexpedientes"  class="table table-striped table-bordered" style="width:100%">
                                                 <thead>
                                                 <tr>
                                                     <th>#</th>

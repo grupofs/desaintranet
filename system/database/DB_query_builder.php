@@ -1268,7 +1268,7 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	{
 		$limit = " TOP {$value}";
 		if ($offset > 0) {
-			$limit .= ", {$offset}";
+			$limit .= " START AT {$offset}";
 		}
 		if (!empty($this->qb_select)) {
             $this->qb_select[0] = $limit . " " . $this->qb_select[0];

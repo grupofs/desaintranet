@@ -43,583 +43,584 @@
                     </li>
                 </ul>
             </div>
-        </div>
         
-        <div class="card-body">
-          <input type="hidden" name="mtxtidusunormas" class="form-control" id="mtxtidusunormas" value="<?php echo $idusuario; ?>">
-          
-            <div class="tab-content" id="tabnorma-tabContent">
-
-                <div class="tab-pane fade show active" id="tabnorma-list" role="tabpanel" aria-labelledby="tabnorma-list-tab"> 
-                    <div class="card card-success">
-                        <div class="card-header">
-                            <h3 class="card-title">BUSQUEDA</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                            </div>
-                        </div>
+        
+            <div class="card-body">
+                <input type="hidden" name="mtxtidusunormas" class="form-control" id="mtxtidusunormas" value="<?php echo $idusuario; ?>">
             
-                        <div class="card-body">
-                            <!-- INICIO -->
-                            <div class="row">
+                <div class="tab-content" id="tabnorma-tabContent">
 
-                                <div class="col-md-3 col-12">
-                                    <!-- text input -->
-                                    <div class="form-group">
-                                        <label>TIPO DOCUMENTO / PUBLICACIÓN</label>
-                                        <select id="cboDoc" class="form-control select2" name="TIPODOC" multiple="multiple"
-                                            data-placeholder="Seleccione tipo documento">
-                                            <option value="">TODOS</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-md-3 col-12">
-                                    <div class="form-group">
-
-                                        <label>ÁREA RESPONSABLE</label>
-                                        <select id="cboResp" name="RESP" class="form-control select2" style="width: 100%; height: 30px;"
-                                            multiple="multiple" data-placeholder="Seleccione area responsable">
-                                            <option value="%">TODOS</option>
-                                            <option value="AT">AREA TÉCNICA</option>
-                                            <option value="AARR">AA. RR.</option>
-                                            <option value="LAB">LABORATORIO</option>
-                                            <option value="OI">O. I.</option>
-                                            <option value="PT">PROCESOS TÉRMICOS</option>
-                                        </select>
-
-                                    </div>
-                                </div>
-
-
-                                <div class="col-md-3 col-12">
-                                    <div class="form-group">
-                                        <label>Titulo de Norma</label>
-                                        <input type="text" class="form-control" name="DESCRI" id="txtDescri"
-                                            placeholder="Ingresa Titulo de Norma">
-                                    </div>
-                                </div>
-
-
-                                <div class="col-md-3 col-12">
-                                    <label>Estado de Norma</label>
-
-                                    <div class="form-group">
-                                        <input type="radio" name="rbtEst" value="1" />
-                                        Vigentes
-                                        <input type="radio" name="rbtEst" value="3" />
-                                        Obsoletos
-                                        <input type="radio" name="rbtEst" value="%" checked />
-                                        Todos
-                                    </div>
-                                </div>
-
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <div class="checkbox col-6">
-                                            <label>
-                                                <input type="checkbox" id="chkAvanzado" /> Búsqueda Avanzada
-                                            </label>
-                                        </div>
-                                    </div>
+                    <div class="tab-pane fade show active" id="tabnorma-list" role="tabpanel" aria-labelledby="tabnorma-list-tab"> 
+                        <div class="card card-success">
+                            <div class="card-header">
+                                <h3 class="card-title">BUSQUEDA</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                                 </div>
                             </div>
-
-
-                            <!-- formulario busqueda avanazada -->
-
-                            <div id="avanzado" style="display: none;" class="col-md-11 mx-auto">
-
+                
+                            <div class="card-body">
+                                <!-- INICIO -->
                                 <div class="row">
-                                    <label class="col-md-2 col-12">Fec. Publicación</label>
-                                    <div class="col-md-3 col-12">
-                                        <div class="input-group date" id="txtFDesde" data-target-input="nearest">
-                                            <input type="text" id="FechaInicial" name="fi" class="form-control datetimepicker-input"
-                                                data-target="#txtFDesde" disabled />
-                                            <div class="input-group-append" data-target="#txtFDesde" data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                            </div>
+
+                                    <div class="col-md-3 col-6">
+                                        <!-- text input -->
+                                        <div class="form-group">
+                                            <label>TIPO DOCUMENTO / PUBLICACIÓN</label>
+                                            <select id="cboDoc" class="form-control select2" name="TIPODOC" multiple="multiple"
+                                                data-placeholder="Seleccione tipo documento">
+                                                <option value="">TODOS</option>
+                                            </select>
                                         </div>
                                     </div>
+
+
+                                    <div class="col-md-3 col-6">
+                                        <div class="form-group">
+
+                                            <label>ÁREA RESPONSABLE</label>
+                                            <select id="cboResp" name="RESP" class="form-control select2" style="width: 100%; height: 30px;"
+                                                multiple="multiple" data-placeholder="Seleccione area responsable">
+                                                <option value="%">TODOS</option>
+                                                <option value="AT">AREA TÉCNICA</option>
+                                                <option value="AARR">AA. RR.</option>
+                                                <option value="LAB">LABORATORIO</option>
+                                                <option value="OI">O. I.</option>
+                                                <option value="PT">PROCESOS TÉRMICOS</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+
 
                                     <div class="col-md-3 col-12">
-                                        <div class="input-group date" id="txtFFinal" data-target-input="nearest">
-                                            <input type="text" id="FechaTermino" name="ff" class="form-control datetimepicker-input" data-target="#txtFFinal" disabled />
-                                            <div class="input-group-append" data-target="#txtFFinal" data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                            </div>
+                                        <div class="form-group">
+                                            <label>Titulo de Norma</label>
+                                            <input type="text" class="form-control" name="DESCRI" id="txtDescri"
+                                                placeholder="Ingresa Titulo de Norma">
                                         </div>
                                     </div>
 
 
-                                    <div class="form-group">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input data-val="true" data-val-required="El campo Todos es obligatorio." id="Todos"
-                                                    name="Todos" type="checkbox" value="true" /><input name="Todos" type="hidden"
-                                                    value="false" /> Todos
-                                            </label>
+                                    <div class="col-md-3 col-12">
+                                        <label>Estado de Norma</label>
+
+                                        <div class="form-group">
+                                            <input type="radio" name="rbtEst" value="1" />
+                                            Vigentes
+                                            <input type="radio" name="rbtEst" value="3" />
+                                            Obsoletos
+                                            <input type="radio" name="rbtEst" value="%" checked />
+                                            Todos
                                         </div>
                                     </div>
 
                                 </div>
+
 
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="control-label col-12" for="Codigo">Idioma</label>
-                                            <div class="col-8">
-                                                <select class="form-control select2" id="idiomacboavz" name="IDIOMA" multiple="multiple"
-                                                    data-placeholder="Seleccione idioma" style="width: 100%;">
-                                                    <option value="%">TODOS</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="control-label col-12" for="Codigo">Pais</label>
-                                            <div class="col-8">
-                                                <select class="form-control select2" id="paiscboavz" name="PAIS" multiple="multiple"
-                                                    data-placeholder="Seleccione pais" style="width: 100%;">
-                                                    <option value="%">TODOS</option>
-                                                </select>
+                                            <div class="checkbox col-6">
+                                                <label>
+                                                    <input type="checkbox" id="chkAvanzado" /> Búsqueda Avanzada
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
+
+                                <!-- formulario busqueda avanazada -->
+
+                                <div id="avanzado" style="display: none;" class="col-md-11 mx-auto">
+
+                                    <div class="row">
+                                        <label class="col-md-2 col-12">Fec. Publicación</label>
+                                        <div class="col-md-3 col-12">
+                                            <div class="input-group date" id="txtFDesde" data-target-input="nearest">
+                                                <input type="text" id="FechaInicial" name="fi" class="form-control datetimepicker-input"
+                                                    data-target="#txtFDesde" disabled />
+                                                <div class="input-group-append" data-target="#txtFDesde" data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 col-12">
+                                            <div class="input-group date" id="txtFFinal" data-target-input="nearest">
+                                                <input type="text" id="FechaTermino" name="ff" class="form-control datetimepicker-input" data-target="#txtFFinal" disabled />
+                                                <div class="input-group-append" data-target="#txtFFinal" data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
                                         <div class="form-group">
-                                            <label class="control-label col-12" for="Codigo">Institución</label>
-                                            <div class="col-8">
-                                                <select class="form-control select2" id="institucioncboavz" name="INSTITUTO" multiple="multiple"
-                                                    data-placeholder="Seleccione institución" style="width: 100%;">
-                                                    <option value="%">TODOS</option>
-                                                </select>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input data-val="true" data-val-required="El campo Todos es obligatorio." id="Todos"
+                                                        name="Todos" type="checkbox" value="true" /><input name="Todos" type="hidden"
+                                                        value="false" /> Todos
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-12" for="Codigo">Idioma</label>
+                                                <div class="col-8">
+                                                    <select class="form-control select2" id="idiomacboavz" name="IDIOMA" multiple="multiple"
+                                                        data-placeholder="Seleccione idioma" style="width: 100%;">
+                                                        <option value="%">TODOS</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-12" for="Codigo">Pais</label>
+                                                <div class="col-8">
+                                                    <select class="form-control select2" id="paiscboavz" name="PAIS" multiple="multiple"
+                                                        data-placeholder="Seleccione pais" style="width: 100%;">
+                                                        <option value="%">TODOS</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="control-label col-12" for="Codigo">Palabras Claves</label>
-                                            <div class="col-8">
-                                                <input type="text" class="form-control " id="placlavecboavz" name="PALCLAVE"
-                                                    placeholder="Ingrese palabra clave">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-12" for="Codigo">Institución</label>
+                                                <div class="col-8">
+                                                    <select class="form-control select2" id="institucioncboavz" name="INSTITUTO" multiple="multiple"
+                                                        data-placeholder="Seleccione institución" style="width: 100%;">
+                                                        <option value="%">TODOS</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-12" for="Codigo">Palabras Claves</label>
+                                                <div class="col-8">
+                                                    <input type="text" class="form-control " id="placlavecboavz" name="PALCLAVE"
+                                                        placeholder="Ingrese palabra clave">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-md-12 text-right">
+                                        <button id="btnBuscar" type="button" class="btn btn-success"><i class="fa fa-search"></i>Buscar</button>
+                                        <button type="button" class="btn btn-default" id="btnNuevo" ><i
+                                                class="fa fa-fw fa-plus"></i>Crear Nuevo</button>
+                                        <button type="button" class="btn btn-info" id="btnexcelNormas" disabled="true"><i
+                                                class="fa fw fa-file-excel-o"></i> Exportar Excel</button>
                                     </div>
                                 </div>
 
+                            </div>     
+                        </div> 
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card card-outline card-success">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Listado de Normas</h3>
+                                    </div>
+                                
+                                    <div class="card-body">
+                                        <table id="tblListado" class="table table-bordered table-striped table-responsive" style="width:100%">
+                                            <thead>
+                                            <tr>
+                                                <th>#</th> 
+                                                <th>CÓDIGO NORMA</th>
+                                                <th>TITULO</th>
+                                                <th>TIPO DOCUMENTO</th>
+                                                <th>AREA RESPONSABLE</th>
+                                                <th>PAIS</th> 
+                                                <th>INSTITUCIÓN</th>
+                                                <th>IDIOMA</th>
+                                                <th>PUBLICACIÓN</th>
+                                                <th>ESTADO</th>
+                                                <th>ARCHIVO</th>
+                                                <th>ACCIONES</th>                        
+                                            </tr>
+                                            </thead>   
+                                            <tbody>
+                                            </tbody> 
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
+                        </div>  
 
-
-                            <div class="form-group">
-                                <div class="col-md-12 text-right">
-                                    <button id="btnBuscar" type="button" class="btn btn-success"><i class="fa fa-search"></i>Buscar</button>
-                                    <button type="button" class="btn btn-default" id="btnNuevo" ><i
-                                            class="fa fa-fw fa-plus"></i>Crear Nuevo</button>
-                                    <button type="button" class="btn btn-info" id="btnexcelNormas" disabled="true"><i
-                                            class="fa fw fa-file-excel-o"></i> Exportar Excel</button>
-                                </div>
-                            </div>
-
-                        </div>     
                     </div> 
 
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card card-outline card-success">
-                                <div class="card-header">
-                                    <h3 class="card-title">Listado de Normas</h3>
-                                </div>
-                            
-                                <div class="card-body">
-                                    <table id="tblListado" class="table table-bordered table-striped table-responsive" style="width:100%">
-                                        <thead>
-                                        <tr>
-                                            <th>#</th> 
-                                            <th>CÓDIGO NORMA</th>
-                                            <th>TITULO</th>
-                                            <th>TIPO DOCUMENTO</th>
-                                            <th>AREA RESPONSABLE</th>
-                                            <th>PAIS</th> 
-                                            <th>INSTITUCIÓN</th>
-                                            <th>IDIOMA</th>
-                                            <th>PUBLICACIÓN</th>
-                                            <th>ESTADO</th>
-                                            <th>ARCHIVO</th>
-                                            <th>ACCIONES</th>                        
-                                        </tr>
-                                        </thead>   
-                                        <tbody>
-                                        </tbody> 
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>  
 
-                </div> 
+                    <div class="tab-pane fade" id="tabnorma-new" role="tabpanel" aria-labelledby="tabnorma-new-tab">
+                        
+                            <div class="card card-success">
 
-
-                <div class="tab-pane fade" id="tabnorma-new" role="tabpanel" aria-labelledby="tabnorma-new-tab">
-                    
-                        <div class="card card-success">
-
-                                <div class="card-header">
-                                    <h3 class="card-title">REGISTRAR NORMA</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                                    <div class="card-header">
+                                        <h3 class="card-title">REGISTRAR NORMA</h3>
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                                        </div>
                                     </div>
-                                </div>
-                            <form method="post" id="fmrNormasNew" name="fmrNormasNew" enctype="multipart/form-data">
-                                <div class="card-body">
+                                <form method="post" id="fmrNormasNew" name="fmrNormasNew" enctype="multipart/form-data">
+                                    <div class="card-body">
 
-                                    <!-- row1 -->
-                                    <div class="row">
+                                        <!-- row1 -->
+                                        <div class="row">
 
-                                        <div class="col-md-3 col-12">
-                                            <!-- text input -->
-                                            <div class="form-group">
-                                                <label>CODIGO</label>
-                                                <input type="text" class="form-control" name="txtCodigoNew" id="txtCodigo"
-                                                    placeholder="Ingresa Codigo de Norma">
+                                            <div class="col-md-3 col-12">
+                                                <!-- text input -->
+                                                <div class="form-group">
+                                                    <label>CODIGO</label>
+                                                    <input type="text" class="form-control" name="txtCodigoNew" id="txtCodigo"
+                                                        placeholder="Ingresa Codigo de Norma">
+                                                </div>
                                             </div>
-                                        </div>
 
-
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-
-                                                <label>TIPO DE DOCUENTO</label>
-                                                <select id="cboDocNew" class="form-control select2bs4" name="cboDocumentoNew"
-                                                        data-placeholder="Seleccione tipo documento" required>>
-                                                        <option value="">::Escoger</option>
-                                                </select>
-
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-12" for="Codigo">IDIOMA</label>
-                                                
-                                                    <select class="form-control select2bs4" id="idiomacboavzNew" name="cboIdiomaNew"
-                                                        data-placeholder="Seleccione idioma" style="width: 100%;" required>
-                                                        <option value="">::Escoger</option>
-                                                    </select>
-                                                
-                                            </div>
-                                        </div>
 
                                             <div class="col-md-3 col-12">
                                                 <div class="form-group">
-                                                    <label class="control-label col-12" for="Codigo">PAIS</label>
-                                                
-                                                    <select class="form-control select2bs4" id="paiscboavzNew" name="cboPaisNew"
-                                                        data-placeholder="Seleccione pais" style="width: 100%;" required>
-                                                        <option value="">::Escoger</option>
+
+                                                    <label>TIPO DE DOCUENTO</label>
+                                                    <select id="cboDocNew" class="form-control select2bs4" name="cboDocumentoNew"
+                                                            data-placeholder="Seleccione tipo documento" required>>
+                                                            <option value="">::Escoger</option>
                                                     </select>
-                                                
+
                                                 </div>
                                             </div>
 
-                                    </div>
 
-
-                                    <!-- row 2 -->
-                                    <div class="row">
-
-                                        <div class="col-md-3 col-12">
-                                            <!-- text input -->
-                                            <div class="form-group">
-                                                <label>INSTITUCIÓN 
-                                                    <button class="btn btn-primary btn-sm" type="button" title="Agregar Institucion" data-toggle="modal" data-target="#modalAddInstitucion">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                </label>
-                                                <select id="institucioncboavzNew" class="form-control select2bs4" name="cboInstitucioNew"
-                                                        data-placeholder="Seleccione Insitucion">
-                                                        <option value="">::Escoger</option>
-                                                </select>
+                                            <div class="col-md-3 col-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-12" for="Codigo">IDIOMA</label>
+                                                    
+                                                        <select class="form-control select2bs4" id="idiomacboavzNew" name="cboIdiomaNew"
+                                                            data-placeholder="Seleccione idioma" style="width: 100%;" required>
+                                                            <option value="">::Escoger</option>
+                                                        </select>
+                                                    
+                                                </div>
                                             </div>
+
+                                                <div class="col-md-3 col-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-12" for="Codigo">PAIS</label>
+                                                    
+                                                        <select class="form-control select2bs4" id="paiscboavzNew" name="cboPaisNew"
+                                                            data-placeholder="Seleccione pais" style="width: 100%;" required>
+                                                            <option value="">::Escoger</option>
+                                                        </select>
+                                                    
+                                                    </div>
+                                                </div>
+
                                         </div>
 
 
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
+                                        <!-- row 2 -->
+                                        <div class="row">
 
-                                                <label>TIPO DE PUBLICACIÓN
-                                                    <button class="btn btn-primary btn-sm" type="button" title="Agregar Publicacion" data-toggle="modal" data-target="#modalAddPublicacion">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                </label>
-                                                <select id="mtxtPublicacion" class="form-control select2bs4" name="mtxtPublicacion"
-                                                        data-placeholder="Seleccione tipo de publicacion">
-                                                        <option value="">::Escoger</option>
-                                                </select>
-
+                                            <div class="col-md-3 col-12">
+                                                <!-- text input -->
+                                                <div class="form-group">
+                                                    <label>INSTITUCIÓN 
+                                                        <button class="btn btn-primary btn-sm" type="button" title="Agregar Institucion" data-toggle="modal" data-target="#modalAddInstitucion">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                    </label>
+                                                    <select id="institucioncboavzNew" class="form-control select2bs4" name="cboInstitucioNew"
+                                                            data-placeholder="Seleccione Insitucion">
+                                                            <option value="">::Escoger</option>
+                                                    </select>
+                                                </div>
                                             </div>
+
+
+                                            <div class="col-md-3 col-12">
+                                                <div class="form-group">
+
+                                                    <label>TIPO DE PUBLICACIÓN
+                                                        <button class="btn btn-primary btn-sm" type="button" title="Agregar Publicacion" data-toggle="modal" data-target="#modalAddPublicacion">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                    </label>
+                                                    <select id="mtxtPublicacion" class="form-control select2bs4" name="mtxtPublicacion"
+                                                            data-placeholder="Seleccione tipo de publicacion">
+                                                            <option value="">::Escoger</option>
+                                                    </select>
+
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="">TITULO</label>
+                                                    <textarea class="form-control" id="" rows="1" name="mtxtTitulo"></textarea>
+                                                </div>
+                                            </div>
+
+                                        
                                         </div>
 
 
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="">TITULO</label>
-                                                <textarea class="form-control" id="" rows="1" name="mtxtTitulo"></textarea>
-                                            </div>
-                                        </div>
+                                        <!-- row 3 -->
+                                        <div class="row">
 
-                                    
-                                    </div>
-
-
-                                    <!-- row 3 -->
-                                    <div class="row">
-
-                                        <div class="col-md-3 col-12">
-                                            <!-- text input -->
-                                            <div class="form-group">
-                                                <label>FEC. PUBLICACION</label>
-                                                <div class="input-group date" id="txtPublicacionNew" data-target-input="nearest">
-                                                    <input type="text" id="FechaPublicacion" name="txtFechaPublicacion" class="form-control datetimepicker-input" data-target="#txtPublicacionNew"  required/>
-                                                    <div class="input-group-append" data-target="#txtPublicacionNew" data-toggle="datetimepicker">
-                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            <div class="col-md-3 col-12">
+                                                <!-- text input -->
+                                                <div class="form-group">
+                                                    <label>FEC. PUBLICACION</label>
+                                                    <div class="input-group date" id="txtPublicacionNew" data-target-input="nearest">
+                                                        <input type="text" id="FechaPublicacion" name="txtFechaPublicacion" class="form-control datetimepicker-input" data-target="#txtPublicacionNew"  required/>
+                                                        <div class="input-group-append" data-target="#txtPublicacionNew" data-toggle="datetimepicker">
+                                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
 
-                                        <div class="col-md-3 col-12">
-                                            <!-- text input -->
-                                            <div class="form-group">
-                                                <label>FEC. VENCIMIENTO</label>
-                                                <div class="input-group date" id="txtVencimienteoNews" data-target-input="nearest">
-                                                    <input type="text" id="FechaVencimiento" name="txtFechaVencimiento" class="form-control datetimepicker-input" data-target="#txtVencimienteoNews"  required/>
-                                                    <div class="input-group-append" data-target="#txtVencimienteoNews" data-toggle="datetimepicker">
-                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            <div class="col-md-3 col-12">
+                                                <!-- text input -->
+                                                <div class="form-group">
+                                                    <label>FEC. VENCIMIENTO</label>
+                                                    <div class="input-group date" id="txtVencimienteoNews" data-target-input="nearest">
+                                                        <input type="text" id="FechaVencimiento" name="txtFechaVencimiento" class="form-control datetimepicker-input" data-target="#txtVencimienteoNews"  required/>
+                                                        <div class="input-group-append" data-target="#txtVencimienteoNews" data-toggle="datetimepicker">
+                                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
 
-                                        <div class="col-md-3 col-12">
-                                            <!-- text input -->
-                                            <div class="form-group">
-                                                <label>VERSION</label>
-                                                <input type="text" class="form-control" name="mtxtVersionNew" id="txtVersion"
-                                                    placeholder="Ingresa la Version" required>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-md-3 col-12">
-                                            <!-- text input -->
-                                            <div class="form-group">
-                                                <label>PALABRAS CLAVES</label>
-                                                <input type="text" class="form-control" name="mtxtClaveNew" id="txtPalabraClave"
-                                                    placeholder="Ingresa Palabra clave" >
-                                            </div>
-                                        </div>
-
-                                    
-                                    </div>
-
-                                    <!-- row 4 -->
-                                    <div class="row">
-
-                                        <div class="col-md-3 col-12">
-                                            <!-- text input -->
-                                            <div class="form-group">
-                                            <input type="hidden" name="txtruta" value="" id="txtruta">
-                                            <input type="hidden" name="txtNombreArchivo" id="txtNombreArchivo">
-                                                <label class="control-label">Archivo</label>
-                                                
-                                                    <input type="file" id="mtxtArchivoNewnorma" name="mtxtArchivoNewnorma" class="form-control" onchange="registrar_archivonewnorma()" data-validation="required">
-                                                    <span style="color: red">*Los documentos deben estar en formato pdf, docx o xlsx</span> 
-                                                    <br>
-                                                    <span style="color: red">*Los archivos no deben pesar mas de 60 MB</span> 
-                                                                
-                                                
-                                            </div> 
-                                        </div>
-
-
-                                        <div class="col-md-3 col-12">
-                                            <div class="form-group">
-
-                                                <label>ÁREA RESPONSABLE</label>
-                                                <select id="cboRespNew" name="cboResponsableNew" class="form-control select2bs4"
-                                                    data-placeholder="Seleccione area responsable" data-validation="required">>
-                                                    <option value="">::Elegir</option>
-                                                    <option value="AT">AREA TÉCNICA</option>
-                                                    <option value="AARR">AA. RR.</option>
-                                                    <option value="LAB">LABORATORIO</option>
-                                                    <option value="OI">O. I.</option>
-                                                    <option value="PT">PROCESOS TÉRMICOS</option>
-                                                </select>
-
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="">COMENTARIOS</label>
-                                                <textarea class="form-control" id="" name="mtxtComentariosNew" rows="1"></textarea>
-                                            </div>
-                                        </div>
-
-                                    
-                                    </div>
-                                    
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="card card-success">
-                                                <div class="card-header">
-                                                    <h4 class="card-title w-100">
-                                                        <a class="d-block w-100" data-toggle="collapse" href="#collapseOne">
-                                                        <i class="fa fa-plus"></i> <i class="fa fa-calendar"></i>  Ingreso de fechas en vigencia y notas
-                                                        </a>
-                                                    </h4>
+                                            <div class="col-md-3 col-12">
+                                                <!-- text input -->
+                                                <div class="form-group">
+                                                    <label>VERSION</label>
+                                                    <input type="text" class="form-control" name="mtxtVersionNew" id="txtVersion"
+                                                        placeholder="Ingresa la Version" required>
                                                 </div>
-                                            
-                                                <div class="card-body">
-                                                    <div id="accordion">
-                                                        <div id="collapseOne" class="collapse hide" data-parent="#accordion">
-                                                                        <div class="card-body">
+                                            </div>
 
-                                                                            <div class="row col-md-10 mx-auto">
-                                                                                <div class="col-md-6 col-12">
-                                                                                    <div class="form-group">
-                                                                                        <label>FEC. VIGENCIA 1</label>
-                                                                                        <div class="input-group date" id="txtFechVigencia1" data-target-input="nearest">
-                                                                                            <input type="text" id="FechaVencimiento" name="txtFechaVigencia1" class="form-control datetimepicker-input" data-target="#txtFechVigencia1" />
-                                                                                            <div class="input-group-append" data-target="#txtFechVigencia1" data-toggle="datetimepicker">
-                                                                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+
+                                            <div class="col-md-3 col-12">
+                                                <!-- text input -->
+                                                <div class="form-group">
+                                                    <label>PALABRAS CLAVES</label>
+                                                    <input type="text" class="form-control" name="mtxtClaveNew" id="txtPalabraClave"
+                                                        placeholder="Ingresa Palabra clave" >
+                                                </div>
+                                            </div>
+
+                                        
+                                        </div>
+
+                                        <!-- row 4 -->
+                                        <div class="row">
+
+                                            <div class="col-md-3 col-12">
+                                                <!-- text input -->
+                                                <div class="form-group">
+                                                <input type="hidden" name="txtruta" value="" id="txtruta">
+                                                <input type="hidden" name="txtNombreArchivo" id="txtNombreArchivo">
+                                                    <label class="control-label">Archivo</label>
+                                                    
+                                                        <input type="file" id="mtxtArchivoNewnorma" name="mtxtArchivoNewnorma" class="form-control" onchange="registrar_archivonewnorma()" data-validation="required">
+                                                        <span style="color: red">*Los documentos deben estar en formato pdf, docx o xlsx</span> 
+                                                        <br>
+                                                        <span style="color: red">*Los archivos no deben pesar mas de 60 MB</span> 
+                                                                    
+                                                    
+                                                </div> 
+                                            </div>
+
+
+                                            <div class="col-md-3 col-12">
+                                                <div class="form-group">
+
+                                                    <label>ÁREA RESPONSABLE</label>
+                                                    <select id="cboRespNew" name="cboResponsableNew" class="form-control select2bs4"
+                                                        data-placeholder="Seleccione area responsable" data-validation="required">>
+                                                        <option value="">::Elegir</option>
+                                                        <option value="AT">AREA TÉCNICA</option>
+                                                        <option value="AARR">AA. RR.</option>
+                                                        <option value="LAB">LABORATORIO</option>
+                                                        <option value="OI">O. I.</option>
+                                                        <option value="PT">PROCESOS TÉRMICOS</option>
+                                                    </select>
+
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="">COMENTARIOS</label>
+                                                    <textarea class="form-control" id="" name="mtxtComentariosNew" rows="1"></textarea>
+                                                </div>
+                                            </div>
+
+                                        
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="card card-success">
+                                                    <div class="card-header">
+                                                        <h4 class="card-title w-100">
+                                                            <a class="d-block w-100" data-toggle="collapse" href="#collapseOne">
+                                                            <i class="fa fa-plus"></i> <i class="fa fa-calendar"></i>  Ingreso de fechas en vigencia y notas
+                                                            </a>
+                                                        </h4>
+                                                    </div>
+                                                
+                                                    <div class="card-body">
+                                                        <div id="accordion">
+                                                            <div id="collapseOne" class="collapse hide" data-parent="#accordion">
+                                                                            <div class="card-body">
+
+                                                                                <div class="row col-md-10 mx-auto">
+                                                                                    <div class="col-md-6 col-12">
+                                                                                        <div class="form-group">
+                                                                                            <label>FEC. VIGENCIA 1</label>
+                                                                                            <div class="input-group date" id="txtFechVigencia1" data-target-input="nearest">
+                                                                                                <input type="text" id="FechaVencimiento" name="txtFechaVigencia1" class="form-control datetimepicker-input" data-target="#txtFechVigencia1" />
+                                                                                                <div class="input-group-append" data-target="#txtFechVigencia1" data-toggle="datetimepicker">
+                                                                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                                                                </div>
                                                                                             </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="col-md-6 col-12">
+                                                                                        <!-- text input -->
+                                                                                        <div class="form-group">
+                                                                                            <label>NOTA 1</label>
+                                                                                            <textarea class="form-control" id="" rows="1" placeholder="Ingresar Nota 1" name="mtxtNota1"></textarea>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
 
-                                                                                <div class="col-md-6 col-12">
-                                                                                    <!-- text input -->
-                                                                                    <div class="form-group">
-                                                                                        <label>NOTA 1</label>
-                                                                                        <textarea class="form-control" id="" rows="1" placeholder="Ingresar Nota 1" name="mtxtNota1"></textarea>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
 
-
-                                                                            <div class="row col-md-10 mx-auto">
-                                                                                <div class="col-md-6 col-12">
-                                                                                    <div class="form-group">
-                                                                                        <label>FEC. VIGENCIA 2</label>
-                                                                                        <div class="input-group date" id="txtFechVigencia2" data-target-input="nearest">
-                                                                                            <input type="text" id="FechaVencimiento" name="txtFechaVigencia2" class="form-control datetimepicker-input" data-target="#txtFechVigencia2"  />
-                                                                                            <div class="input-group-append" data-target="#txtFechVigencia2" data-toggle="datetimepicker">
-                                                                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                                                <div class="row col-md-10 mx-auto">
+                                                                                    <div class="col-md-6 col-12">
+                                                                                        <div class="form-group">
+                                                                                            <label>FEC. VIGENCIA 2</label>
+                                                                                            <div class="input-group date" id="txtFechVigencia2" data-target-input="nearest">
+                                                                                                <input type="text" id="FechaVencimiento" name="txtFechaVigencia2" class="form-control datetimepicker-input" data-target="#txtFechVigencia2"  />
+                                                                                                <div class="input-group-append" data-target="#txtFechVigencia2" data-toggle="datetimepicker">
+                                                                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                                                                </div>
                                                                                             </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="col-md-6 col-12">
+                                                                                        <!-- text input -->
+                                                                                        <div class="form-group">
+                                                                                            <label>NOTA 2</label>
+                                                                                            <textarea class="form-control" id="" rows="1" placeholder="Ingresar Nota 2" name="mtxtNota2"></textarea>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
 
-                                                                                <div class="col-md-6 col-12">
-                                                                                    <!-- text input -->
-                                                                                    <div class="form-group">
-                                                                                        <label>NOTA 2</label>
-                                                                                        <textarea class="form-control" id="" rows="1" placeholder="Ingresar Nota 2" name="mtxtNota2"></textarea>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
 
-
-                                                                            <div class="row col-md-10 mx-auto">
-                                                                                <div class="col-md-6 col-12">
-                                                                                    <div class="form-group">
-                                                                                        <label>FEC. VIGENCIA 3</label>
-                                                                                        <div class="input-group date" id="txtFechVigencia3" data-target-input="nearest">
-                                                                                            <input type="text" id="FechaVencimiento" name="txtFechaVigencia3" class="form-control datetimepicker-input" data-target="#txtFechVigencia3"  />
-                                                                                            <div class="input-group-append" data-target="#txtFechVigencia3" data-toggle="datetimepicker">
-                                                                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                                                <div class="row col-md-10 mx-auto">
+                                                                                    <div class="col-md-6 col-12">
+                                                                                        <div class="form-group">
+                                                                                            <label>FEC. VIGENCIA 3</label>
+                                                                                            <div class="input-group date" id="txtFechVigencia3" data-target-input="nearest">
+                                                                                                <input type="text" id="FechaVencimiento" name="txtFechaVigencia3" class="form-control datetimepicker-input" data-target="#txtFechVigencia3"  />
+                                                                                                <div class="input-group-append" data-target="#txtFechVigencia3" data-toggle="datetimepicker">
+                                                                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                                                                </div>
                                                                                             </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="col-md-6 col-12">
+                                                                                        <!-- text input -->
+                                                                                        <div class="form-group">
+                                                                                            <label>NOTA 3</label>
+                                                                                            <textarea class="form-control" id="" rows="1" placeholder="Ingresar Nota 3" name="mtxtNota3"></textarea>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
 
-                                                                                <div class="col-md-6 col-12">
-                                                                                    <!-- text input -->
-                                                                                    <div class="form-group">
-                                                                                        <label>NOTA 3</label>
-                                                                                        <textarea class="form-control" id="" rows="1" placeholder="Ingresar Nota 3" name="mtxtNota3"></textarea>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
 
-
-                                                                            <div class="row col-md-10 mx-auto">
-                                                                                <div class="col-md-6 col-12">
-                                                                                    <div class="form-group">
-                                                                                        <label>FEC. VIGENCIA 4</label>
-                                                                                        <div class="input-group date" id="txtFechVigencia4" data-target-input="nearest">
-                                                                                            <input type="text" id="FechaVencimiento" name="txtFechaVigencia4" class="form-control datetimepicker-input" data-target="#txtFechVigencia4"  />
-                                                                                            <div class="input-group-append" data-target="#txtFechVigencia4" data-toggle="datetimepicker">
-                                                                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                                                <div class="row col-md-10 mx-auto">
+                                                                                    <div class="col-md-6 col-12">
+                                                                                        <div class="form-group">
+                                                                                            <label>FEC. VIGENCIA 4</label>
+                                                                                            <div class="input-group date" id="txtFechVigencia4" data-target-input="nearest">
+                                                                                                <input type="text" id="FechaVencimiento" name="txtFechaVigencia4" class="form-control datetimepicker-input" data-target="#txtFechVigencia4"  />
+                                                                                                <div class="input-group-append" data-target="#txtFechVigencia4" data-toggle="datetimepicker">
+                                                                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                                                                </div>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                </div>
 
-                                                                                <div class="col-md-6 col-12">
-                                                                                    <!-- text input -->
-                                                                                    <div class="form-group">
-                                                                                        <label>NOTA 4</label>
-                                                                                        <textarea class="form-control" id="" rows="1" placeholder="Ingresar Nota 4" name="mtxtNota4"></textarea>
+                                                                                    <div class="col-md-6 col-12">
+                                                                                        <!-- text input -->
+                                                                                        <div class="form-group">
+                                                                                            <label>NOTA 4</label>
+                                                                                            <textarea class="form-control" id="" rows="1" placeholder="Ingresar Nota 4" name="mtxtNota4"></textarea>
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
 
-                                    <div class="form-group">
-                                        <div class="col-md-12 text-right">
-                                                <button id="btnGuardarNorma" type="submit" class="btn btn-success">
-                                                    <i class="fa fa-save"></i> Guardar
-                                                </button>
-                                            <button type="button" class="btn btn-default" id="btnCancelar"><i
-                                                    class="fa fa-times-circle"></i> Cancelar</button>
+                                        <div class="form-group">
+                                            <div class="col-md-12 text-right">
+                                                    <button id="btnGuardarNorma" type="submit" class="btn btn-success">
+                                                        <i class="fa fa-save"></i> Guardar
+                                                    </button>
+                                                <button type="button" class="btn btn-default" id="btnCancelar"><i
+                                                        class="fa fa-times-circle"></i> Cancelar</button>
+                                            </div>
                                         </div>
+
                                     </div>
+                                </form>
 
-                                </div>
-                            </form>
+                            </div>
 
-                        </div>
-
+                    </div>
+                    
                 </div>
-                
+            
             </div>
-          
+            
         </div>
-
 
     </div>
 

@@ -31,7 +31,7 @@
 
     <?php if ($cia == 1): ?>
             <link rel="stylesheet" href="<?php echo public_url(); ?>cssweb/loginfs.css">
-            <link rel="shortcut icon" href="<?php echo public_url(); ?>images/ico-gfs.ico" type="image/x-icon" />
+            <link rel="shortcut icon" href="<?php echo public_url(); ?>images/ico-fs.ico" type="image/x-icon" />
     <?php elseif ($cia == 2): ?>
             <link rel="stylesheet" href="<?php echo public_url(); ?>cssweb/loginfsc.css">
             <link rel="shortcut icon" href="<?php echo public_url(); ?>images/ico-fsc.ico" type="image/x-icon" />
@@ -82,7 +82,7 @@
             Ingrese su contraseña para recuperar su sesión
         </div>
         <div class="lockscreen-footer text-center">
-        O inicie sesión como un usuario diferente <b><a href="<?php echo base_url('clogin/'.$ccia) ?>" style='color: black'><i class="fas fa-arrow-circle-right fa-2x"></i></a>
+        O inicie sesión como un usuario diferente <b><a href="<?php echo base_url($ccia) ?>" style='color: black'><i class="fas fa-arrow-circle-right fa-2x"></i></a>
         </div>
     </div> 
  

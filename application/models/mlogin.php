@@ -81,7 +81,11 @@ class Mlogin extends CI_Model{
 			 	's_dmail' 			=> $row -> DMAIL,
 			 	's_passw' 			=> $row -> DCLAVE,
 				's_druta'			=> $row -> RUTA,
-				's_ccliente'		=> $row -> CCLIENTE,				 				
+				's_ccliente'		=> $row -> CCLIENTE,
+				's_dircliente'		=> $row -> DIRECLIE,
+				's_colortext'		=> $row -> COLORTEXTCLIE,
+				's_colorfondo'		=> $row -> COLORFONDOCLIE,
+				'sessionAct'		=> '',		 				
 				'login' 			=> TRUE
 		 	);
 			

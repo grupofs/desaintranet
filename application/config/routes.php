@@ -48,7 +48,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
+
 */
-$route['default_controller'] = 'clogin';
+$route['fs'] = 'clogin/fs';
+$route['fsc'] = 'clogin/fsc';
+$route['main'] = 'cprincipal/principal';
+$route['jobdesk'] = 'cprincipal/ventanas';
+
+$route['services'] = 'clogin/ext';
+$route['cpanel'] = 'cprincipal/principalClie';
+$route['frontdesk'] = 'cprincipal/ventanasClie';
+
+$route['perfil'] = 'cprincipal/perfilusuario';
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

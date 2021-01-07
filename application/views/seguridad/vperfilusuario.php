@@ -39,9 +39,6 @@
         border: 0px rgba(0,0,0,0) !important;
         background-color: rgba(0,0,0,.0) !important;
     }
-    .ul-perfil{
-
-    }
 
 </style>
 
@@ -54,7 +51,7 @@
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="<?php echo public_base_url(); ?>cprincipal/principal">Home</a></li>
+          <li class="breadcrumb-item"><a href="<?php echo public_base_url(); ?>cpanel">Home</a></li>
           <li class="breadcrumb-item active">Mantenimiento de perfil</li>
         </ol>
       </div>
@@ -215,7 +212,7 @@
                             </form>
                         </div>
                         <div class="card card-gray-dark card-outline">
-                            <form class="form-horizontal" id="frmCambiarpws" action="<?= base_url('cperfilusuaio/setclave')?>" method="POST" enctype="multipart/form-data" role="form">
+                            <form class="form-horizontal" id="frmCambiarpws" action="<?= base_url('cperfilusuario/setclave')?>" method="POST" enctype="multipart/form-data" role="form">
                                 <div class="card-body">
                                     <h2><i class="fa fa-key"></i>  Cambiar Contraseña</h2>
                                 

@@ -91,13 +91,13 @@ $cia = $this-> session-> userdata('s_cia');
                                 </div>
                                 <!--FIN Contenedor de consulta-->
                                 <!--Contenedor del DataTable-->
-                                <div class="card card-success">
-                                    <div class="card-header with-border">
+                                <div class="card card-outline card-success">
+                                    <div class="card-header">
                                         <h3 class="card-title">Listado</h3>
                                     </div>
                                     <div class="card-body">
                                         <div>
-                                            <table id="tblLista" class="display nowrap" style="width:100%">
+                                            <table id="tblLista" class="table table-striped table-bordered" style="width:100%">
                                                 <thead>
                                                 <tr>
                                                     <th style="width: 25px" >#</th>

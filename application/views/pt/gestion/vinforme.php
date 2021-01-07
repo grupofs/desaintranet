@@ -1733,6 +1733,167 @@
 </div>  
 <!-- /.modal-->
 
+<!-- /.modal-crear-tramite --> 
+<div class="modal fade" id="modalCreaTram" data-backdrop="static" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form class="form-horizontal" id="frmCreaTram" name="frmCreaTram" action="<?= base_url('pt/ctramites/settramite')?>" method="POST" enctype="multipart/form-data" role="form"> 
+
+        <div class="modal-header text-center bg-success">
+            <h4 class="modal-title w-100 font-weight-bold">Registro de Tramite</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">          
+            <input type="hidden" id="mhdnIdTram" name="mhdnIdTram"> <!-- ID -->
+            <input type="hidden" id="mhdnAccionTram" name="mhdnAccionTram">
+                        
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="text-info">Cliente <span class="text-requerido">*</span></div>
+                        <div>                            
+                            <select class="form-control select2bs4" id="mcboClienprop" name="mcboClienprop" style="width: 100%;">
+                                <option value="" selected="selected">Cargando...</option>
+                            </select>
+                        </div>
+                    </div>  
+                </div>                
+            </div> 
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="text-info">Nro Propuesta <span class="text-requerido">*</span></div>
+                        <div>                            
+                            <select class="form-control select2bs4" id="mcboNropropu" name="mcboNropropu" style="width: 100%;">
+                                <option value="" selected="selected">Cargando...</option>
+                            </select>
+                        </div>
+                    </div>                      
+                    <div class="col-sm-4">
+                        <div class="text-info">Fecha Tramite</div>
+                        <div class="input-group date" id="mtxtFregtramite" data-target-input="nearest">
+                            <input type="text" id="mtxtFtram" name="mtxtFtram" class="form-control datetimepicker-input" data-target="#mtxtFregtramite"/>
+                            <div class="input-group-append" data-target="#mtxtFregtramite" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>                        
+                    </div>
+                </div>                
+            </div> 
+            <div class="form-group">
+                <div class="row">                
+                    <div class="col-sm-4">
+                        <div class="text-info">Tipo de Tramite</div>
+                        <div>
+                            <select class="form-control select2bs4" id="mcboTipotram" name="mcboTipotram">
+                            <option value="">Cargando...</option>
+                            </select>
+                        </div>
+                    </div>                
+                    <div class="col-sm-4">
+                        <div class="text-info">Código <span style="color: #FD0202">*</span></div>
+                        <div>
+                            <input type="text" id="mtxtCodigo" name="mtxtCodigo" class="form-control"/>
+                        </div>
+                    </div>   
+                    <div class="col-sm-4"> 
+                        <div class="text-info">Responsable</div> 
+                        <div>                            
+                            <select class="form-control" id="mcboRespon" name="mcboRespon" >
+                                <option value=1>SU-TZE LIU</option>
+                                <option value=42>CARLOS VILLACORTA</option>
+                                <option value=64>JOSE OLIDEN</option>
+                            </select>
+                        </div> 
+                    </div> 
+                </div>                
+            </div> 
+            <div class="form-group" id="divProd">
+                <div class="row">                
+                    <div class="col-sm-12"> 
+                        <div class="text-info">Nombre del Producto</div>
+                        <div>
+                            <input type="text" id="mtxtNombprod" name="mtxtNombprod" class="form-control"/>
+                        </div>
+                    </div> 
+                </div>                
+            </div>  
+            <div class="form-group" id="divDesc">
+                <div class="row">                
+                    <div class="col-sm-12"> 
+                        <div class="text-info">Tipo de Envase y Dimensiones</div>
+                        <div>
+                            <input type="text" id="mtxtDescrip" name="mtxtDescrip" class="form-control"/>
+                        </div>
+                    </div> 
+                </div>                
+            </div>  
+            <div class="form-group">
+                <div class="row">                
+                    <div class="col-sm-12">
+                        <div class="text-info">Archivo</div>                        
+                        <div class="input-group">
+                            <input class="form-control" type="text" name="mtxtNombarch" id="mtxtNombarch">                            
+                            <span class="input-group-append">                                
+                                <div class="fileUpload btn btn-secondary">
+                                    <span>Subir Archivo</span>
+                                    <input type="file" class="upload" id="mtxtArchivotram" name="mtxtArchivotram" onchange="escogerArchivo()"/>                      
+                                </div> 
+                            </span>  
+                        </div>
+                        <span style="color: red; font-size: 13px;">+ Los archivos deben estar en formato pdf, docx o xlsx y no deben pesar mas de 60 MB</span>                        
+                        <input type="hidden" name="mtxtRutaarch" id="mtxtRutaarch">
+                        <input type="hidden" name="mtxtarchivo" id="mtxtarchivo">
+                        <input type="hidden" name="sArchivo" id="sArchivo" value="N"> 
+                    </div> 
+                </div>
+            </div>
+            <div class="form-group" id="divCarta">
+                <div class="row">                
+                    <div class="col-sm-12">
+                        <div class="text-info">Carta</div>                        
+                        <div class="input-group">
+                            <input class="form-control" type="text" name="mtxtNombcarta" id="mtxtNombcarta">                            
+                            <span class="input-group-append">                                
+                                <div class="fileUpload btn btn-secondary">
+                                    <span>Subir Carta</span>
+                                    <input type="file" class="upload" id="mtxtCartatram" name="mtxtCartatram" onchange="escogerCarta()"/>                      
+                                </div> 
+                            </span>  
+                        </div>
+                        <span style="color: red; font-size: 13px;">+ Los archivos deben estar en formato pdf, docx o xlsx y no deben pesar mas de 60 MB</span>                        
+                        <input type="hidden" name="mtxtRutacarta" id="mtxtRutacarta">
+                        <input type="hidden" name="mtxtCarta" id="mtxtCarta">
+                        <input type="hidden" name="sCarta" id="sCarta" value="N"> 
+                    </div> 
+                </div>
+            </div>   
+            <div class="form-group">
+                <div class="row">                
+                    <div class="col-sm-12">
+                        <div class="text-info">Comentarios</div>
+                        <div>   
+                            <textarea id="mtxtComentario" name="mtxtComentario" class="form-control" cols="20" data-val="true" data-val-length="No debe superar los 500 caracteres." data-val-length-max="500" rows="2" data-val-maxlength-max="500"></textarea>
+                            <span class="help-inline" style="padding-left:0px; color:#999; font-size:0.9em;">Caracteres: 0 / 500</span>     
+                        </div> 
+                    </div> 
+                </div>                
+            </div>          
+        </div>
+
+        <div class="modal-footer justify-content-between" style="background-color: #dff0d8;">
+            <button type="reset" class="btn btn-default" id="mbtnCCreaTram" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-info" id="mbtnGCreaTram">Grabar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> 
+<!-- /.modal-->
+
 <!-- Script Generales -->
 <script type="text/javascript">
     var baseurl = "<?php echo base_url();?>"; 

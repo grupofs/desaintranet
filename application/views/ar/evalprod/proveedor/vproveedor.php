@@ -11,15 +11,13 @@ $cia = $this-> session-> userdata('s_cia');
             <div class="col-sm-6">
                 <h1 class="m-0 text-dark">
                     CONSULTA DE PROVEEDORES
-                    <small>Modulo de Evaluación de Productos</small>
                 </h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="<?php echo public_base_url(); ?>cprincipal/principal">Home</a>
                     </li>
-                    <li class="breadcrumb-item">Eval. Prod.</li>
-                    <li class="breadcrumb-item active">Listar Proveedores</li>
+                    <li class="breadcrumb-item active">Evaluación Productos</li>
                 </ol>
             </div>
         </div>
@@ -28,23 +26,7 @@ $cia = $this-> session-> userdata('s_cia');
 
 <section class="content">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card card-success card-outline card-tabs">
-                    <div class="card-header p-0 pt-1 border-bottom-0">
-                        <ul class="nav nav-tabs" id="tabptcliente" style="background-color: #28a745;" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" style="color: #000000;" id="tabReg1-tab"
-                                   data-toggle="pill" href="#tabReg1" role="tab"
-                                   aria-controls="tabReg1" aria-selected="true">LISTADO</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="card-body">
-                        <div class="tab-content" >
-                            <div class="tab-pane fade show active" id="tabReg1" role="tabpanel" >
-                                <!--Contenedor de consulta-->
-                                <div class="card card-success">
+        <div class="card card-success">
                                     <div class="card-header">
                                         <h3 class="card-title">Buscar Proveedores</h3>
 
@@ -88,26 +70,28 @@ $cia = $this-> session-> userdata('s_cia');
                                             </button>
                                         </div>
                                     </div>
-                                </div>
+        </div>
                                 <!--FIN Contenedor de consulta-->
                                 <!--Contenedor del DataTable-->
-                                <div class="card card-success">
-                                    <div class="card-header with-border">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-outline card-success">
+                                    <div class="card-header">
                                         <h3 class="card-title">Listado</h3>
                                     </div>
                                     <div class="card-body">
                                         <div>
-                                            <table id="tblLista" class="display nowrap" style="width:100%">
+                                            <table id="tblLista"  class="table table-striped table-bordered" style="width:100%">
                                                 <thead>
                                                 <tr>
                                                     <th>#</th>
                                                     <th>Proveedor</th>
+                                                    <th>RUC</th>
                                                     <th>Contacto 1</th>
                                                     <th>Email 1</th>
                                                     <th>Contacto 2</th>
                                                     <th>Email 2</th>
                                                     <th>Télefono</th>
-                                                    <th>RUC</th>
                                                     <th></th>
                                                 </tr>
                                                 </thead>
@@ -120,10 +104,6 @@ $cia = $this-> session-> userdata('s_cia');
                                             </table>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

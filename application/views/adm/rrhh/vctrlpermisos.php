@@ -13,7 +13,7 @@
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="<?php echo public_base_url(); ?>cprincipal/principal">Home</a></li>
+          <li class="breadcrumb-item"><a href="<?php echo public_base_url(); ?>cpanel">Home</a></li>
           <li class="breadcrumb-item active">Gestion Recursos Humanos</li>
         </ol>
       </div>
@@ -262,7 +262,7 @@
                             <div class="box box-success">
                                 <div class="box-header with-border">
                                     <div class="input-group mb-3">
-                                        <button type="button" class="btn btn-outline-primary" id="btnNuevoVaca" ><i class="fas fa-plus"></i>Nuevo</button>
+                                        <button type="button" class="btn btn-outline-primary" id="btnNuevoPerm" ><i class="fas fa-plus"></i>Nuevo</button>
                                     </div>
                                 </div>                                                
                                 <div class="panel-body"> 

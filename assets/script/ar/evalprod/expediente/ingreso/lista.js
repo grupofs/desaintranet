@@ -33,7 +33,7 @@ $(function () {
             data: null,
             targets: 0
         });
-        columnas.push({data: 'expediente', targets: 1});
+        columnas.push({data: 'expediente', orderable: false, targets: 1});
         columnas.push({data: 'proveedor', orderable: false, targets: 2});
         columnas.push({data: 'total', orderable: false, targets: 3});
         columnas.push({data: 'fecha', orderable: false, targets: 4});
@@ -44,12 +44,12 @@ $(function () {
                 if (row.ruta_ficha != null) {
                     return '<div class="text-left position-relative" >' +
                         '<a href="' + BASE_URL + 'FTPfileserver/Archivos/' + row.ruta_ficha + '" target="_blank" title="Descargar Ficha" class="btn btn-transparent text-danger" id="descarga-ficha-' + row.id_expediente + '" ><i class="fa fa-file-pdf fa-2x" data-original-title="Descargar" data-toggle="tooltip"></i></a>' +
-                        '<button class="btn btn-transparent position-absolute" onclick="objLista.eliminarFicha(\'' + row.id_expediente + '\', this)" style="top: -10px; right: 0;" ><i class="fa fa-times" ></i></button>' +
+                        '<button class="btn btn-transparent position-absolute" onclick="objLista.eliminarFicha(\'' + row.id_expediente + '\', this)" style="top: -10px; right: 0;" ><i class="fa fa-times" title="Eliminar Ficha"></i></button>' +
                         '</div>';
                 } else {
                     return '<div class="text-left position-relative" >' +
                         '<button class="btn btn-transparent btn-sm" onClick="objLista.cargarFicha(\'' + row.id_expediente + '\',\'' + row.expediente + '\');">' +
-                        '<i class="fa fa-cloud-upload-alt fa-2x" ></i>' +
+                        '<i class="fa fa-cloud-upload-alt fa-2x" title="Cargar Ficha" ></i>' +
                         '</button>' +
                         '</div>';
                 }
@@ -61,12 +61,12 @@ $(function () {
                 if (row.ruta_expediente != null) {
                     return '<div class="text-left position-relative" >' +
                         '<a href="' + BASE_URL + 'FTPfileserver/Archivos/' + row.ruta_expediente + '" target="_blank" title="Descargar PDF" class="btn btn-transparent text-danger" id="descarga-pdf-' + row.id_expediente + '" ><i class="fa fa-file-pdf fa-2x" data-original-title="Descargar" data-toggle="tooltip"></i></a>' +
-                        '<button class="btn btn-transparent position-absolute" onclick="objLista.eliminarPDF(\'' + row.id_expediente + '\', this)" style="top: -10px; right: 0;" ><i class="fa fa-times" ></i></button>' +
+                        '<button class="btn btn-transparent position-absolute" onclick="objLista.eliminarPDF(\'' + row.id_expediente + '\', this)" style="top: -10px; right: 0;" ><i class="fa fa-times" title="Eliminar PDF"></i></button>' +
                         '</div>'
                 } else {
                     return '<div class="text-left" >' +
                         '<button class="btn btn-transparent btn-sm" onClick="objLista.cargarPDF(\'' + row.id_expediente + '\',\'' + row.expediente + '\');">' +
-                        '<i class="fa fa-cloud-upload-alt fa-2x" ></i>' +
+                        '<i class="fa fa-cloud-upload-alt fa-2x" title="Cargar PDF" ></i>' +
                         '</button>' +
                         '</div>';
                 }
@@ -101,7 +101,7 @@ $(function () {
         columnas.push({
             "orderable": false,
             render: function (data, type, row) {
-                const link = BASE_URL + "formatos/ar/evalprod/pdfCargoRecepcion.php/?id_expediente=" + row.id_expediente;
+                const link = BASE_URL + "ar/evalprod/cexpediente/genPdfcargorecepcion/" + row.id_expediente;
                 return '<div>' +
                     '  <a href="' + link + '" title="Exportar" class="btn btn-transparent btn-sm text-secondary" target="_blank" data-original-title="Exportar"> <i style="cursor:pointer;" class="fa fa-print fa-2x"></i></a>' +
                     '</div>';

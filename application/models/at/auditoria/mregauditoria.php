@@ -79,7 +79,7 @@ class Mregauditoria extends CI_Model {
             return false;
         }	
     }
-    public function getsistemaaudi() { // Visualizar Auditores en CBO	
+    public function getsistemaaudi() { // Visualizar Sistema en CBO	
         
         $procedure = "call usp_at_audi_getsistemaaudi()";
 		$query = $this->db-> query($procedure);
@@ -97,7 +97,7 @@ class Mregauditoria extends CI_Model {
             return false;
         }	
     }
-    public function getcborubro($parametros) { // Visualizar Auditores en CBO	
+    public function getcborubro($parametros) { // Visualizar Rubro en CBO	
         
         $procedure = "call usp_at_audi_getcborubro(?)";
 		$query = $this->db-> query($procedure,$parametros);
@@ -115,7 +115,7 @@ class Mregauditoria extends CI_Model {
             return false;
         }	
     }
-    public function getcbochecklist($parametros) { // Visualizar Auditores en CBO	
+    public function getcbochecklist($parametros) { // Visualizar Checklist en CBO	
         
         $procedure = "call usp_at_audi_getcbochecklist(?,?,?)";
 		$query = $this->db-> query($procedure,$parametros);
@@ -133,7 +133,7 @@ class Mregauditoria extends CI_Model {
             return false;
         }	
     }
-    public function getcboformula($parametros) { // Visualizar Auditores en CBO	
+    public function getcboformula($parametros) { // Visualizar Formula en CBO	
         
         $procedure = "call usp_at_audi_getcboformula(?)";
 		$query = $this->db-> query($procedure,$parametros);
@@ -151,10 +151,28 @@ class Mregauditoria extends CI_Model {
             return false;
         }	
     }
+    public function getcbocriterio($parametros) { // Visualizar Criterio en CBO	
+        
+        $procedure = "call usp_at_audi_getcbocriterio(?)";
+		$query = $this->db-> query($procedure,$parametros);
+        
+        if ($query->num_rows() > 0) {
+
+            $listas = '<option value="" selected="selected">::Elegir</option>';
+            
+            foreach ($query->result() as $row)
+            {
+                $listas .= '<option value="'.$row->IDCRITERIO.'">'.$row->DESCCRITERIO.'</option>';  
+            }
+               return $listas;
+        }{
+            return false;
+        }	
+    }
     public function setauditoria($parametros) {  // Registrar informe PT
         $this->db->trans_begin();
 
-        $procedure = "call usp_at_audi_setauditoria(?,?,?,?,?,?,?,?,?,?,?);";
+        $procedure = "call usp_at_audi_setauditoria(?,?,?,?,?,?,?,?,?,?,?,?);";
         $query = $this->db->query($procedure,$parametros);
 
         if ($this->db->trans_status() === FALSE){
@@ -164,7 +182,7 @@ class Mregauditoria extends CI_Model {
             return $query->result(); 
         }   
     }
-    public function getbuscarauditoria($parametros) { // Recupera Listado de Propuestas        
+    public function getbuscarauditoria($parametros) { // Recupera Listado de Propuestas      
 		$procedure = "call usp_at_audi_getbuscarauditoria(?,?,?,?,?)";
 		$query = $this->db-> query($procedure,$parametros);
 
@@ -174,8 +192,27 @@ class Mregauditoria extends CI_Model {
 			return False;
 		}	
     }
-    public function getlistarchecklist($parametros) { // Recupera Listado de Propuestas        
-		$procedure = "call usp_at_audi_getlistarchecklist(?,?,?)";
+    public function getcboregAreazona($parametros) { // Visualizar Criterio en CBO	
+        
+        $procedure = "call usp_at_audi_getcboregAreazona(?)";
+		$query = $this->db-> query($procedure,$parametros);
+        
+        if ($query->num_rows() > 0) {
+
+            $listas = '<option value="" selected="selected">::Elegir</option>';
+            
+            foreach ($query->result() as $row)
+            {
+                $listas .= '<option value="'.$row->CESTABLEAREA.'">'.$row->DESTABLEAREA.'</option>';  
+            }
+               return $listas;
+        }{
+            return false;
+        }	
+    }
+    public function getlistarchecklist($parametros) { // Recupera Listado de Propuestas  
+        $objeto = 'usp_at_audi_getlistarchecklist';        
+		$procedure = "call ".$objeto."(?,?,?,?,?)";   
 		$query = $this->db-> query($procedure,$parametros);
 
 		if ($query->num_rows() > 0) { 
@@ -187,7 +224,7 @@ class Mregauditoria extends CI_Model {
     public function setregchecklist($parametros) {  // Registrar informe PT
         $this->db->trans_begin();
 
-        $procedure = "call usp_at_audi_setregchecklist(?,?,?,?,?,?);";
+        $procedure = "call usp_at_audi_setregchecklist(?,?,?,?,?,?,?);";
         $query = $this->db->query($procedure,$parametros);
 
         if ($this->db->trans_status() === FALSE){

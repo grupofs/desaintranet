@@ -21,14 +21,14 @@ class Mglobales extends CI_Model{
            
        if ($query->num_rows() > 0) {
 
-            $listas = '<option value="0">::Todos</option>';
+            $listas = '<option value="0">::Elija</option>';
         
             foreach ($query->result() as $row)
             {
                 $listas .= '<option value="'.$row->id_mes.'">'.$row->mes.'</option>';  
             }
            return $listas;
-        }{
+        }else{
             return false;
         }		   
     }
@@ -38,16 +38,16 @@ class Mglobales extends CI_Model{
        $query  = $this->db->query($sql);
            
        if ($query->num_rows() > 0) {
-        $listas = '<option value="">.Elije</option>';                
+        $listas = '<option value="">" "</option>';                
             foreach ($query->result() as $row){
                 if($row->enejercicio == '1'){
                     $listas .= '<option value="'.$row->anio.'" selected="selected">'.$row->anio.'</option>'; 
-                }{
+                }else{
                     $listas .= '<option value="'.$row->anio.'">'.$row->anio.'</option>'; 
                 } 
             }
                return $listas;
-        }{
+        }else{
             return false;
         }		   
     }
@@ -58,13 +58,13 @@ class Mglobales extends CI_Model{
            
        if ($query->num_rows() > 0) {
 
-            $listas = '<option value="0">::Todos</option>';
+            $listas = '<option value="0">::Elija</option>';
             
             foreach ($query->result() as $row){
                 $listas .= '<option value="'.$row->carea.'">'.$row->darea.'</option>';  
             }
                return $listas;
-        }{
+        }else{
             $listas = '<option value="0">::Todos</option>';
             return $listas;
         }		   
@@ -82,7 +82,7 @@ class Mglobales extends CI_Model{
                 $listas .= '<option value="'.$row->ctipo.'">'.$row->dregistro.'</option>';  
             }
                return $listas;
-        }{
+        }else{
             return false;
         }		   
     }
@@ -99,7 +99,7 @@ class Mglobales extends CI_Model{
                 $listas .= '<option value="'.$row->cdepartamento.'">'.$row->ddepartamento.'</option>';  
             }
                return $listas;
-        }{
+        }else{
             return false;
         }		   
     }

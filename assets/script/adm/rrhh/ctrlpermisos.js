@@ -162,6 +162,7 @@ excelResumen = function(id_empleado){
     window.open(baseurl+"adm/rrhh/cctrlpermisos/excelresumenperm/"+id_empleado);
 };
 
+/*VACACIONES*/
 regVacaciones = function(id_empleado){    
 	$('#mhdnIdEmpleado').val(id_empleado);
 };
@@ -189,27 +190,29 @@ $('#modalvacaciones').on('show.bs.modal', function (e) {
     
     listarVacaciones();
 
-    $('#mtxtFsalidavaca').datetimepicker({
+    $('#mtxtFsalidavaca,mtxtFretornovaca').datetimepicker({
         format: 'DD/MM/YYYY',
         daysOfWeekDisabled: [0],
         locale:'es'
     });	
 
-    $('#mtxtFsalidavaca').on('change.datetimepicker',function(e){	
+    $('#mtxtFsalidavaca').on('change.datetimepicker',function(e){  
         
         $('#mtxtFretornovaca').datetimepicker({
             format: 'DD/MM/YYYY',
             daysOfWeekDisabled: [0],
             locale:'es'
-        });	
-    
+        });
+
         var fecha = moment(e.date).format('DD/MM/YYYY');
-    
-        var newDate = moment(e.date);
+        var newDate = moment(e.date); 
+               
         newDate.add(1, 'days');
+        nfecha = moment(newDate).format('DD/MM/YYYY');
+
+        $('#mtxtFretornovaca').datetimepicker('minDate', fecha);
+        $('#mtxtFretornovaca').datetimepicker('date', nfecha);
         
-        $('#mtxtFretornovaca').datetimepicker('minDate', newDate);
-        $('#mtxtFretornovaca').datetimepicker('date', fecha);
     });
 
 	$('#btnNuevoVaca').click(function(){		
@@ -315,11 +318,30 @@ seleVacaciones = function(id_permisosvacaciones,id_empleado,fecha_registro,fecha
 
     $('#mtxtFregistrovaca').val(fecha_registro);         
     $('#mtxtFsalvaca').val(fecha_salida);        
-    $('#mtxtFretovaca').val(fecha_retorno);        
+    $('#mtxtFretovaca').val(fecha_retorno); 
+    alert(fecha_retorno);       
     $('#mtxtFundamentovaca').val(fundamentacion);    
 };
+    
+$("body").on("click","#aDelVaca",function(event){
+    event.preventDefault();
+    idvacaciones = $(this).attr("href");
+    
+    $.post(baseurl+"adm/rrhh/cctrlpermisos/delPermisos", 
+    {
+        vidpermisosvacaciones   : idvacaciones,
+    },      
+    function(data){   	
+        oTable_listavacaciones.ajax.reload(null,false); 	
+    });
+}); 
 
-regPermisos = function(id_empleado){    
+$('#modalvacaciones').on('hidden.bs.modal', function (e) {
+    otblListCtrlpermiso.ajax.reload(null,false);
+});
+
+/*PERMISOS*/
+regPermisos = function(id_empleado){ 
 	$('#mhdnIdEmpleado').val(id_empleado);
 };
 
@@ -346,40 +368,46 @@ $('#modalpermisos').on('show.bs.modal', function (e) {
     
     listarPermisos();
 
-    $('#mtxtFsalidavaca').datetimepicker({
+    $('#mtxtFsalidaperm').datetimepicker({
         format: 'DD/MM/YYYY',
         daysOfWeekDisabled: [0],
         locale:'es'
     });	
 
-    $('#mtxtFsalidavaca').on('change.datetimepicker',function(e){	
+    $('#mtxtHsalidaperm, #mtxtHretornoperm').datetimepicker({
+        format: 'hh:mm A',
+        locale:'es',
+        stepping: 15
+    });	
         
-        $('#mtxtFretornovaca').datetimepicker({
-            format: 'DD/MM/YYYY',
-            daysOfWeekDisabled: [0],
-            locale:'es'
-        });	
+    $('#mtxtHsalidaperm').datetimepicker('minDate', moment('08:00 AM', 'hh:mm A') );
+    $('#mtxtHsalidaperm').datetimepicker('maxDate', moment('05:45 PM', 'hh:mm A') );
+    $('#mtxtHsalidaperm').datetimepicker('date', moment('08:00 AM', 'hh:mm A') );
+
+    $('#mtxtHretornoperm').datetimepicker('date', moment('08:15 AM', 'hh:mm A') );
     
-        var fecha = moment(e.date).format('DD/MM/YYYY');
-    
-        var newDate = moment(e.date);
-        newDate.add(1, 'days');
-        
-        $('#mtxtFretornovaca').datetimepicker('minDate', newDate);
-        $('#mtxtFretornovaca').datetimepicker('date', fecha);
+    $('#mtxtHsalidaperm').on('change.datetimepicker',function(e){
+        $('#mtxtHretornoperm').datetimepicker({
+            format: 'hh:mm A',
+            locale:'es',
+            stepping: 15
+        });	 
+        $('#mtxtHretornoperm').datetimepicker('minDate', e.date.add(15, "minute"));
+        $('#mtxtHretornoperm').datetimepicker('maxDate', moment('06:00 PM', 'hh:mm A') );
+        $('#mtxtHretornoperm').datetimepicker('date', moment(e.date, 'hh:mm A'));    
     });
 
-	$('#btnNuevoVaca').click(function(){		
+	$('#btnNuevoPerm').click(function(){		
 		$('#tabpermisos a[href="#tab_newpermisos"]').tab('show');
 		$('#frmMantPermisos').trigger("reset");
-		$('#mhdnIdVaca').val('');
-		$('#mhdnAccionVaca').val('N');
-		$('#mhdnIdEmpvaca').val($('#mhdnIdEmpleado').val());
-        fechaActualvaca();
+		$('#mhdnIdPerm').val('');
+		$('#mhdnAccionPerm').val('N');
+		$('#mhdnEmpPerm').val($('#mhdnIdEmpleado').val());
+        fechaActualperm();
 
 	});
 
-	$('#btnRetornarVaca').click(function(){
+	$('#btnRetornarPerm').click(function(){
 		$('#tabpermisos a[href="#tab_listapermisos"]').tab('show');  
 	});
 
@@ -407,13 +435,13 @@ $('#modalpermisos').on('show.bs.modal', function (e) {
 	
 });
 
-fechaActualvaca= function(){
+fechaActualperm= function(){
     var fecha = new Date();		
     var fechatring = ("0" + fecha.getDate()).slice(-2) + "/" + ("0"+(fecha.getMonth()+1)).slice(-2) + "/" +fecha.getFullYear() ;
     
-    $('#mtxtFregistrovaca').val(fechatring);
-    $('#mtxtFsalidavaca').datetimepicker('date', moment(fechatring, 'DD/MM/YYYY') );		
-    $("#mtxtFsalidavaca").trigger("change.datetimepicker");
+    $('#mtxtFregistroperm').val(fechatring);
+    $('#mtxtFsalidaperm').datetimepicker('date', moment(fechatring, 'DD/MM/YYYY') );		
+    $("#mtxtFsalidaperm").trigger("change.datetimepicker");
 };
 
 listarPermisos = function(){        
@@ -443,14 +471,14 @@ listarPermisos = function(){
             {"orderable": false, 
                 render:function(data, type, row){
                     return '<div>' +
-                            '<a title="Editar" style="cursor:pointer; color:#3c763d;" onclick="javascript:selePermisos(\''+row.id_permisospermisos+'\',\''+row.id_empleado+'\',\''+row.fecha_registro+'\',\''+row.fechasalida+'\',\''+row.fecha_retorno+'\',\''+row.fundamentacion+'\');"><span class="fas fa-edit fa-2x" aria-hidden="true"> </span> </a>' +
+                            '<a title="Editar" style="cursor:pointer; color:#3c763d;" onclick="javascript:selePermisos(\''+row.id_permisosvacaciones+'\',\''+row.id_empleado+'\',\''+row.fecha_registro+'\',\''+row.fsalida+'\',\''+row.hora_salida+'\',\''+row.hora_retorno+'\',\''+row.motivo+'\',\''+row.fundamentacion+'\',\''+row.recupera_hora+'\',\''+row.fecha_recuperacion+'\');"><span class="fas fa-edit fa-2x" aria-hidden="true"> </span> </a>' +
                             '</div>' ; 
                 }
             },                        
             {"orderable": false, 
                 render:function(data, type, row){
                     return '<div>' +
-                            '<a id="aDelVaca" href="'+row.id_permisospermisos+'" title="Eliminar" style="cursor:pointer; color:#FF0000;"><span class="fas fa-trash-alt fa-2x" aria-hidden="true"> </span></a>'+
+                            '<a id="aDelPerm" href="'+row.id_permisosvacaciones+'" title="Eliminar" style="cursor:pointer; color:#FF0000;"><span class="fas fa-trash-alt fa-2x" aria-hidden="true"> </span></a>'+
                             '</div>' ; 
                 }
             }            
@@ -462,15 +490,32 @@ listarPermisos = function(){
     });
 };
 
-selePermisos = function(id_permisosvacaciones,id_empleado,fecha_registro,fecha_salida,fecha_retorno,fundamentacion){
+selePermisos = function(id_permisosvacaciones,id_empleado,fecha_registro, fecha_salida, hora_salida, hora_retorno, motivo, fundamentacion, recupera_hora, fecha_recuperacion){
     $('#tabpermisos a[href="#tab_newpermisos"]').tab('show'); 
 
-    $('#mhdnIdVaca').val(id_permisosvacaciones);
-    $('#mhdnAccionVaca').val('A'); 
-    $('#mhdnEmpVaca').val(id_empleado);
-
-    $('#mtxtFregistrovaca').val(fecha_registro);         
-    $('#mtxtFsalvaca').val(fecha_salida);        
-    $('#mtxtFretovaca').val(fecha_retorno);        
-    $('#mtxtFundamentovaca').val(fundamentacion);    
+    $('#mhdnIdpermiso').val(id_permisosvacaciones)
+    $('#mhdnAccionperm').val('A'); 
+    $('#mhdnEmpPerm').val(id_empleado);
+    $('#mtxtFregistroperm').val(fecha_registro);
+	$('#mtxtFsalperm').val(fecha_salida);
+	$('#mtxtHsalperm').val(hora_salida);
+	$('#mtxtHretorperm').val(hora_retorno);
+	$('#mcboMotivo').val(motivo).trigger("change");
+	$('#mtxtFundamentoperm').val(fundamentacion);
+	$('#cboRecuperahora').val(recupera_hora).trigger("change");
+	$('#mtxtFrecuperm').val(fecha_recuperacion);    
 };
+    
+$("body").on("click","#aDelPerm",function(event){
+    event.preventDefault();
+    idpermiso = $(this).attr("href");
+    
+    $.post(baseurl+"adm/rrhh/cctrlpermisos/delPermisos", 
+    {
+        vidpermisosvacaciones   : idvacaciones,
+    },      
+    function(data){   	
+        oTable_listavacaciones.ajax.reload(null,false); 	
+    });
+}); 
+

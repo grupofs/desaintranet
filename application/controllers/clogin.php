@@ -45,9 +45,13 @@ class Clogin extends CI_Controller {
 	}
 	
 	public function ingresar(){ // Ingresar con usuario y clave
+		$varnull = '';
+
 		if (!isset($_SESSION['contadorLogin'])) {
 			$_SESSION['contadorLogin'] = 0;
-		}		
+		}	
+
+		$chboxsession = ($this->input->post('chboxsession') == $varnull) ? 'N' : 'S';	
 		
 		$ccia = $this->input->post('cia');
 		if ($ccia == '1') :
@@ -65,6 +69,7 @@ class Clogin extends CI_Controller {
 		$valor = $respuesta['valor'];
 			
 		if ($valor == 1) { //Acceso Correcto
+			$this->session->set_userdata('sessionAct', $chboxsession);
 			$rol = $this->session->userdata('s_idrol');
 			$tipousu = $this->session->userdata('s_tipousu');
 

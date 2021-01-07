@@ -57,13 +57,13 @@ $(function () {
                             data: null,
                             targets: 0
                         },
-                        {data: 'nombre', orderable: false, targets: 2},
+                        {data: 'nombre', orderable: false, targets: 1},
+                        {data: 'ruc', orderable: false, targets: 2},
                         {data: 'contacto_p', orderable: false, targets: 3},
                         {data: 'email_p', orderable: false, targets: 4},
                         {data: 'contacto_q', orderable: false, targets: 5},
-                        {data: 'email_q', orderable: false, targets: 5},
-                        {data: 'telefono', orderable: false, targets: 5},
-                        {data: 'ruc', orderable: false, targets: 5},
+                        {data: 'email_q', orderable: false, targets: 6},
+                        {data: 'telefono', orderable: false, targets: 7},
                         {
                             "orderable": false,
                             render: function (data, type, row) {

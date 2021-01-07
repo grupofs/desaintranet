@@ -674,6 +674,26 @@ class Cinforme extends CI_Controller {
 	public function getServicioAudi() {	// Visualizar Servicios en CBO	        
 	 	$resultado = $this->minforme->getServicioAudi();
 	 	echo json_encode($resultado);
- }
+ 	}
+	public function cloneregistro04() {	// Clonar estudio 04 PT	
+		 
+		$parametros = array(
+			'@idptregequipo'   => $this->input->post('idptregequipo'),
+			'@idptregistro'   => $this->input->post('idptregistro'),
+			'@idptregproducto'   => $this->input->post('idptregproducto')
+		);
+		$resultado = $this->minforme->cloneregistro04($parametros);
+		echo json_encode($resultado);
+	}
+	public function cloneregistro05() {	// Clonar estudio 05 PT	
+		 
+		$parametros = array(
+			'@idptregequipo'   => $this->input->post('idptregequipo'),
+			'@idptregistro'   => $this->input->post('idptregistro'),
+			'@idptregproducto'   => $this->input->post('idptregproducto')
+		);
+		$resultado = $this->minforme->cloneregistro05($parametros);
+		echo json_encode($resultado);
+	}
 }
 ?>

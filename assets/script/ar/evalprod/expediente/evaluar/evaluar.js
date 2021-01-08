@@ -72,7 +72,9 @@ $(function() {
         $('#cboc_c_p').val(evaluacion.c_c_p).change();
         $('#mtxtc_c').val(evaluacion.c_c);
         $('#mtxtc_c_r').val(evaluacion.c_c_r);
-        $('#cboPais').val(evaluacion.pais).change();
+        if (evaluacion.idPais) {
+			$('#cboPais').refreshSelect2([{ id: evaluacion.idPais, text: evaluacion.textPais }]);
+		}
         $('#cboc_n').val(evaluacion.c_n).change();
         $('#cbod_i').val(evaluacion.d_i).change();
         $('#mtxtt_v_u').val(evaluacion.t_v_u);

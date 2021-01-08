@@ -75,7 +75,7 @@ class cevaluar extends CI_Controller
             $cboo_l = $this->input->post('cboo_l');
             $cboo_n = $this->input->post('cboo_n');
 
-            $Fechaf_i_h = (!empty($Fechaf_i_h)) ? substr($Fechaf_i_h, 6, 4) . '-' . substr($Fechaf_i_h, 3, 2) . '-' . substr($Fechaf_i_h, 0, 2) : null;
+			$Fechaf_i_h = (!empty($Fechaf_i_h)) ? $Fechaf_i_h : null;
             $Fechafecha = (!empty($Fechafecha)) ? substr($Fechafecha, 6, 4) . '-' . substr($Fechafecha, 3, 2) . '-' . substr($Fechafecha, 0, 2) : null;
 
             if (empty($cboPais)) {

@@ -674,7 +674,7 @@ conta=function(){
 credi=function(){
     $('#btnformapagos').html("Crédito");
     $('#txtregformapagos').val('062');
-    $('#mtxtregpagotro').hide(); 
+    $('#mtxtregpagotro').show(); 
 };
 otro=function(){
     $('#btnformapagos').html("Otros");

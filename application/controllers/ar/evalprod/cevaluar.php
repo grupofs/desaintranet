@@ -81,7 +81,7 @@ class cevaluar extends CI_Controller
             if (empty($cboPais)) {
                 throw new Exception('Debes elegir el Pais en la evaluación.');
             }
-            if (empty($cbostatus)) {
+            if (is_null($cbostatus)) {
                 throw new Exception('Debes elegir el Status en la evaluación.');
             }
 

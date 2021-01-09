@@ -73,7 +73,7 @@ $(function() {
         $('#mtxtc_c').val(evaluacion.c_c);
         $('#mtxtc_c_r').val(evaluacion.c_c_r);
         if (evaluacion.idPais) {
-			$('#cboPais').refreshSelect2([{ id: evaluacion.idPais, text: evaluacion.textPais }]);
+			$('#cboPais').refreshSelect2([{ id: evaluacion.pais, text: evaluacion.textPais }]);
 		}
         $('#cboc_n').val(evaluacion.c_n).change();
         $('#cbod_i').val(evaluacion.d_i).change();
@@ -107,7 +107,7 @@ $(function() {
         elAcuerdos.summernote(configuration);
         elAcuerdos.summernote('code', evaluacion.acuerdo);
 
-        $('#Fechafecha').val(evaluacion.fecha);
+        $('#Fechafecha').val(moment(evaluacion.fecha, 'YYYY-MM-DD').format('DD/MM/YYYY'));
         $('#cbostatus').val(evaluacion.status).change();
         $('#cboa_s').val(evaluacion.a_s).change();
         $('#mtxtf_e_a_s').val(evaluacion.f_e_a_s);

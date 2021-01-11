@@ -121,6 +121,8 @@ $("#btnBuscar").click(function (){
 
     $("#btnexcel").removeAttr("disabled");
 
+    console.log($('#cboEst').val());
+
     otblListPropuesta = $('#tblListPropuesta').DataTable({  
         'responsive'    : true,
         'bJQueryUI'     : true,

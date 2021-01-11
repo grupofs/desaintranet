@@ -796,7 +796,7 @@ recuperaListproducto = function(){
         'AutoWidth'     : false,
         'info'        	: true,
         'filter'      	: true, 
-        'ordering'		: false,  
+        'ordering'		: false,
         'stateSave'     : true,
         'ajax'	: {
             "url"   : baseurl+"lab/coti/ccotizacion/getlistarproducto/",
@@ -818,20 +818,20 @@ recuperaListproducto = function(){
             {"orderable": false, "class":'columna', data: 'PRODUCTO', targets: 2},
             {"orderable": false, "class":'columna', data: 'CONDI', targets: 3},
             {"orderable": false, "class":'columna', data: 'NMUESTRA', targets: 4},
-            {"orderable": false, 
+            {"orderable": false, "class":'columna',  
                 render:function(data, type, row){
                     return '';
                 }
             },
-            {"orderable": false, 
+            {"orderable": false, "class":'columna',  
                 render:function(data, type, row){
                     return '<div style="text-align: center;">'+
-                    '<a id="aDelProduc" href="'+row.IDPROD+'" idcoti="'+row.IDCOTI+'" nver="'+row.NVERSION+'" title="Eliminar" style="cursor:pointer; color:#FF0000;"><span class="fas fa-trash-alt" aria-hidden="true"> </span></a>'+      
+                    '<a href="javascript:;" onclick="aVerEnsayos(\'' +row.IDPROD+ '\',\'' +row.IDCOTI+ '\',\'' +row.NVERSION+ '\');" title="Ver Ensayos" style="cursor:pointer; color:#357A50;"><span class="fas fa-eye" aria-hidden="true"> </span></a>'+      
                 '</div>';
                 }
             },
             {"orderable": false, data: 'SPACE', targets: 7},
-            {"orderable": false, data: 'SPACE', targets: 8},
+            {"orderable": false, "class":'columna', data: 'SPACE', targets: 8},
         ],
         "columnDefs": [
           {
@@ -860,12 +860,13 @@ recuperaListproducto = function(){
           },{
             "targets": [7],            
             "checkboxes": {
-                'selectRow': false
-             }
+                'selectRow': true
+             },
+             "orderable": false
           } 
         ],
         "select": {
-           'style': 'multi'
+            style:    'multi', 
         },
         "drawCallback": function ( settings ) {
             var api = this.api();
@@ -893,18 +894,6 @@ recuperaListproducto = function(){
     }).draw();
 };
 
-
-$('#tblListProductos tbody').on( 'click', '.columna', function () {     
-    var table = $('#tblListProductos').DataTable();
-    var aPos = $('#tblListProductos').dataTable().fnGetPosition(this);
-    var aData = $('#tblListProductos').dataTable().fnGetData(aPos[0]);
-    var rowData = table.rows().data().toArray();
-    
-    if(rowData.length > 0){
-        recuperaListensayo(aData.IDCOTI,aData.NVERSION,aData.IDPROD);
-    }
-} );
-
 nuevoprod = function(){    
     $('#frmCreaProduc').trigger("reset");
 
@@ -925,33 +914,59 @@ $('#mbtnNuevoProduc').click(function(){
     nuevoprod()
 });
 
+$('#tblListProductos tbody').on( 'click', 'td.columna', function () {
+  
+    var table = $('#tblListProductos').DataTable();    
+    table.$('tr.selected').removeClass('selected');
+
+} );
+
 $('#delProducto').click(function(){
+    event.preventDefault();
     var table = $('#tblListProductos').DataTable();
-    var rows_selected = table.column(7).checkboxes.selected();
-    var selected_items = [];
+    var seleccionados = table.rows({ selected: true });
+    var IDPRODUCTO;    
+    var IDCOTIZACION = $('#mtxtidcotizacion').val()
+    var NVERSION = $('#mtxtnroversion').val()
 
-    console.log(rows_selected);
-
-    $.each(rows_selected, function(index,rowId) {
-        selected_items.push({rowId});
-    })
-/*
-    console.log(posts);
-    $.each(rows_selected, function(index, rowId){
-        console.log(index);
-        console.log(rowId);
-    })
-
-    
-    var posts = JSON.parse(respuesta);
-                
-    $.each(posts, function() {
-        otblListProducto.ajax.reload(null,false);
-        Vtitle = 'Producto registrado Guardada!!!';
-        Vtype = 'success';
-        sweetalert(Vtitle,Vtype);     
-    });*/
+    Swal.fire({
+        title: 'Confirmar Eliminación',
+        text: "¿Está seguro de eliminar el Producto?",
+        type: 'error',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, bórralo!'
+    }).then((result) => {
+        if (result.value) {             
+            seleccionados.every(function(key,data){
+                IDPRODUCTO = this.data().IDPROD;
+                DeleteOK(IDCOTIZACION,NVERSION,IDPRODUCTO); 
+            });
+            mensajeDeleteOK();
+        }
+    }) 
+  
 });
+DeleteOK = function(IDCOTIZACION,NVERSION,IDPRODUCTO){  
+    $.post(baseurl+"lab/coti/ccotizacion/deleteprodxcoti/", 
+    {
+        idcotizacion    : IDCOTIZACION,
+        nversion        : NVERSION,
+        idcotiproducto  : IDPRODUCTO,
+    });
+}
+mensajeDeleteOK = function(){ 
+    otblListProducto.ajax.reload(null,false); 
+    otblListEnsayos.ajax.reload(null,false); 
+    Vtitle = 'Se Elimino Correctamente';
+    Vtype = 'success';
+    sweetalert(Vtitle,Vtype);
+}
+
+aVerEnsayos = function(IDPROD,IDCOTI,NVERSION){
+    recuperaListensayo(IDCOTI,NVERSION,IDPROD)
+};
 
 $('#modalCreaProduc').on('shown.bs.modal', function (e) {
 
@@ -1033,7 +1048,7 @@ selCotiprodu= function(IDCOTIZACION,NVERSION,IDPROD,CLOCALCLIE,PRODUCTO,CCONDI,N
     iniRegCotiprodu(CCLIENTE,CLOCALCLIE,CCONDI,CPROCEDE);
 };
    
-$("body").on("click","#aDelProduc",function(event){
+$("body").on("click","#aDelProduc1",function(event){
     event.preventDefault();
     
     IDPROD = $(this).attr("href");

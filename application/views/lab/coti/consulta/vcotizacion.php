@@ -456,7 +456,7 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="text-info">Producto <span class="text-requerido">*</span></div>
+                        <div class="text-info">Nombre del Producto <span class="text-requerido">*</span></div>
                         <div>  
                             <input type="text" name="mtxtregProducto" class="form-control" id="mtxtregProducto"/>  
                         </div>
@@ -474,7 +474,7 @@
                         </div>
                     </div>                
                     <div class="col-sm-6">
-                        <div class="text-info">Muestra <span class="text-requerido">*</span></div>
+                        <div class="text-info">Cantidad de muestra <span class="text-requerido">*</span></div>
                         <div>  
                             <input type="text" name="mtxtregmuestra" class="form-control" id="mtxtregmuestra"/>  
                         </div>

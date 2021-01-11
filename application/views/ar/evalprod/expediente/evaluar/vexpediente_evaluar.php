@@ -161,15 +161,9 @@
                 <label for="Fechaf_i_h">
                     F. Insp. H. S.
                 </label>
-                <div class="input-group">
-                    <input type="text" class="form-control datepicker"
-                           id="Fechaf_i_h" name="Fechaf_i_h"
-                           value="" >
-
-                    <div class="input-group-append">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                    </div>
-                </div>
+				<input type="text" class="form-control"
+					   id="Fechaf_i_h" name="Fechaf_i_h"
+					   value="" >
             </div>
         </div>
         <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-12" >

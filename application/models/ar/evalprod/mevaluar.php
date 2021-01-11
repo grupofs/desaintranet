@@ -75,38 +75,12 @@ class Mevaluar extends CI_Model
     public function buscarExpediente($idExpediente, $idProducto)
     {
         $this->db->select("
-            id_evaluador,
-            c_f,
-            n_r,
-            f_v,
-            c_l_p,
-            l_i,
-            c_c_p,
-            c_c,
-            pais,
-            c_n,
-            d_i,
-            t_v_u,
-            tiempo_m,
-            f_i_h,
-            entidad,
-            observacion,
-            id_observacion,
-            id_acuerdo,
-            acuerdo,
-            responsable,
-            DATEFORMAT(fecha, 'dd/mm/yyyy') as fecha,
-            status,
-            a_s,
-            f_a_v_s,
-            d_p,o_l,
-            o_n,
-            estado,
-            id_producto,
-            c_c_r,
-            f_e_a_s
+            evalprod_evaluador.*,
+            IF(evalprod_paises.id_paises IS NULL, '', evalprod_paises.id_paises) as idPais,
+            IF(evalprod_paises.id_paises IS NULL, '', evalprod_paises.nombre) as textPais
         ");
         $this->db->from('evalprod_evaluador');
+        $this->db->join('evalprod_paises', 'evalprod_evaluador.pais = evalprod_paises.id_paises', 'left');
         $this->db->where('id_expediente', $idExpediente);
         $this->db->where('id_producto', $idProducto);
         $query = $this->db->get();

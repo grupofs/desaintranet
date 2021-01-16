@@ -17,7 +17,18 @@ class Musuario extends CI_Model {
         }{
             return False;
         }	
-    }
+    }	
+
+    public function getpersonas() { // Buscar Usuario        
+         $procedure = "call usp_adm_getpersonas()";
+         $query = $this->db-> query($procedure);
+ 
+         if ($query->num_rows() > 0) { 
+             return $query->result();
+         }{
+             return False;
+         }	
+     }
     
 }
 ?>

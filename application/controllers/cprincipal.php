@@ -50,7 +50,7 @@ class Cprincipal extends CI_Controller
 
         $data['vista'] = 'DInternos';
         $data['datos_resumenpermisos'] = $resumenpermisos;
-        $data['content_for_layout'] = 'analytics/dashboardClie';
+        $data['content_for_layout'] = 'analytics/dashboardCliePT';
         $this->parser->parse('seguridad/vprincipalClie', $data);
 
     }

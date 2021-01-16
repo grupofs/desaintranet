@@ -1,5 +1,5 @@
 
-var otblListUsuarios;
+var otblListUsuarios, otblListPersonas;
 
 $('#swVigencia').on('switchChange.bootstrapSwitch',function (event, state) {
     $('#btnBuscar').click();
@@ -151,4 +151,54 @@ $(function() {
 
 $('#btnRetornarLista').click(function(){
     objFormulario.mostrarBusqueda();
+});
+
+$('#modalAdmPN').on('shown.bs.modal', function (e) {
+    
+    $('#frmBuscarPN').show();
+    $('#frmRegistrarPN').hide();
+
+    otblListPersonas = $('#tblListPersonas').DataTable({  
+        'responsive'    : true,
+        'bJQueryUI'     : true,
+        'scrollY'     	: '400px',
+        'scrollX'     	: true, 
+        'paging'      	: true,
+        'processing'  	: true,     
+        'bDestroy'    	: true,
+        'AutoWidth'     : false,
+        'info'        	: false,
+        'filter'      	: true, 
+        'ordering'		: true,  
+        'stateSave'     : true,
+        'ajax'	: {
+            "url"   : baseurl+"cusuario/getpersonas/",
+            "type"  : "POST", 
+            "data"  : function ( d ) {},     
+            dataSrc : ''        
+        },
+        'columns'	: [
+            {
+              "class"     :   "index",
+              orderable   :   false,
+              data        :   null,
+              targets     :   0
+            },
+            {"orderable": false, data: 'nrodoc', targets: 1},
+            {"orderable": false, data: 'datosrazonsocial', targets: 2},
+            {responsivePriority: 1, "orderable": false, "class": "col-xc", 
+                render:function(data, type, row){
+                    return '<div>'+
+                    '<a data-toggle="modal" title="Editar" style="cursor:pointer; color:#3c763d;" data-target="#modalCreaPropu" onClick="objFormulario.mostrarModificacion(\''+row.IDUSUARIO+'\',\''+row.DDATOS+'\');"><span class="fas fa-edit" aria-hidden="true"> </span> </a>'+
+                    '</div>'
+                }
+            }
+        ]
+    });   
+    // Enumeracion 
+    otblListPersonas.on( 'order.dt search.dt', function () { 
+        otblListPersonas.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+          cell.innerHTML = i+1;
+          } );
+    }).draw(); 
 });

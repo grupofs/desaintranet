@@ -66,7 +66,7 @@ class Mservcliente extends CI_Model {
     }
     public function getproconvproducto($parametros) { // Visualizar tipo de tramite en CBO	
         
-        $procedure = "call sp_appweb_pt_getproconvproducto(?)";
+        $procedure = "call sp_appweb_pt_getproconvproducto(?,?,?,?)";
 		$query = $this->db-> query($procedure,$parametros);
 
 		if ($query->num_rows() > 0) { 

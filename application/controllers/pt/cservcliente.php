@@ -97,7 +97,10 @@ class Cservcliente extends CI_Controller {
     public function getproconvproducto() {	// Obtener numero de propuesta	
 		
 		$parametros = array(
-            '@ccliente'   => $this->input->post('ccliente')
+            '@CCLIENTE'   => $this->input->post('ccliente'),
+            '@IDINFORME'   => $this->input->post('idinforme'),
+            '@IDREGISTRO'   => $this->input->post('idregistro'),
+            '@IDREGESTUDIO'   => $this->input->post('idregestudio')
         );
 		$resultado = $this->mservcliente->getproconvproducto($parametros);
 		echo json_encode($resultado);

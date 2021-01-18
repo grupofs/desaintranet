@@ -291,6 +291,10 @@
         min-width: 40px !important;
         max-width: 50px !important;
     }
+    .col-xxs{
+        min-width: 20px !important;
+        max-width: 30px !important;
+    }
 
     
     .index {

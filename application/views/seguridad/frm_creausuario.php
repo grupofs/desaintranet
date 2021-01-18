@@ -1,4 +1,21 @@
 
+<style>
+    #tblListPersonas_filter{
+        float: left !important;
+        text-align: left !important;
+        width: 100% !important;
+    }
+
+    #tblListPersonas_filter .form-control-sm{
+        width: 135% !important;
+    }
+
+    select.custom-select{
+        width: 50% !important;
+    }
+</style>
+
+
 
 <div class="row justify-content-center">
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -21,12 +38,12 @@
                             </div>
                         </div>         
                         <div class="col-sm-5">
-                            <div class="text-info">Nro. Documento ó Apellido</div>                            
+                            <div class="text-info">Datos del Usuario</div>                            
                             <div class="input-group mb-3">
                                 <input type="text" id="mtxtnrodoc" name="mtxtnrodoc" class="form-control rounded-0" disabled>
                                 <span class="input-group-append">
-                                    <button type="button" id="mbtnbuscnrodoc" name="mbtnbuscnrodoc" class="btn btn-primary btn-flat"><i class="fas fa-search"></i> </button>
-                                    <button type="button" id="mbtnnuevoadm" name="mbtnnuevoadm" class="btn btn-info btn-flat"><i class="fas fa-user-plus"></i> </button>
+                                    <button type="button" id="mbtnbuscnrodoc" name="mbtnbuscnrodoc" class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modalAdmPN"><i class="fas fa-search"></i> </button>
+                                    <!--<button type="button" id="mbtnnuevoadm" name="mbtnnuevoadm" class="btn btn-info btn-flat"><i class="fas fa-user-plus"></i> </button>--> 
                                 </span>
                             </div>
                         </div> 
@@ -49,28 +66,44 @@
 </div>
 
 
-<!-- /.modal-hallazgo --> 
-<div class="modal fade" id="modalHallazgo" data-backdrop="static" role="dialog" aria-hidden="true">
+<!-- /.modal-Persona Natural --> 
+<div class="modal fade" id="modalAdmPN" data-backdrop="static" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <form class="form-horizontal" id="frmHallazgo" name="frmHallazgo" action="<?= base_url('at/auditoria/cconsultauditor/setregchecklist')?>" method="POST" enctype="multipart/form-data" role="form"> 
+      
 
         <div class="modal-header text-center bg-success">
-            <h4 class="modal-title w-100 font-weight-bold">Hallazgos</h4>
+            <h4 class="modal-title w-100 font-weight-bold">Persona Natural</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
 
         <div class="modal-body">
+        <form class="form-horizontal" id="frmAdmPN" name="frmAdmPN" action="<?= base_url('at/auditoria/cconsultauditor/setregchecklist')?>" method="POST" enctype="multipart/form-data" role="form"> 
             <input type="hidden" id="mhdnccliente" name="mhdnccliente"> 
-            <input type="hidden" id="mhdncauditoriainspeccion" name="mhdncauditoriainspeccion"> 
-            <input type="hidden" id="mhdnfservicio" name="mhdnfservicio"> 
-            <input type="hidden" id="mhdncchecklist" name="mhdncchecklist"> 
-            <input type="hidden" id="mhdncrequisitochecklist" name="mhdncrequisitochecklist"> 
-            <input type="hidden" id="mhdncdetallevalor" name="mhdncdetallevalor"> 
-            <input type="hidden" id="mhdncestablearea" name="mhdncestablearea" >                         
-            <div class="form-group">  
+            <input type="hidden" id="mhdnfservicio" name="mhdnfservicio">
+                             
+            <div class="form-group" id="frmBuscarPN"> 
+                <div class="row">
+                    <div class="col-md-12" style="overflow-x: scroll;"> 
+                        <table id="tblListPersonas" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Nro Doc</th>
+                                <th>Datos de la Persona</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div> 
+            </div> 
+
+            <div class="form-group" id="frmRegistrarPN">  
                 <div class="row">
                     <div class="col-md-12"> 
                         <div class="text-info">Requisito</div>
@@ -87,47 +120,14 @@
                         </div>
                     </div>
                 </div>
-                <legend class="text-info">
-                    <i class="fas fa-camera position-left"></i>
-                    Adjuntar Evidencias
-                    <button class="btn btn-success btn-circle btn-circle-sm m-1" name="btnAddEviden" id="btnAddEviden"><i class="fas fa-plus"></i></button>
-                </legend>
-                <div class="row">                
-                    <div class="col-sm-12">
-                        <div class="text-info">Archivo</div>                        
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Imagen</span>
-                            </div>
-                            <input class="form-control" type="text" name="mtxtNombarcheviden" id="mtxtNombarcheviden">                            
-                            <span class="input-group-append">
-                                <div class="fileUpload btn btn-info">
-                                    <span><i class="fas fa-upload"></i></span>
-                                    <input type="file" class="upload" id="mtxtArchivoeviden" name="mtxtArchivoeviden" onchange="escogerArchivoeviden()"/>                
-                                </div> 
-                                <div class="fileUpload btn btn-danger">
-                                    <span><i class="fas fa-trash-alt"></i></span>                
-                                </div> 
-                            </span>  
-                        </div>                       
-                        <input type="hidden" name="mtxtRutaeviden" id="mtxtRutaeviden">
-                        <input type="hidden" name="sArchivo" id="sArchivo" value="N"> 
-                    </div> 
-                </div>
-                <div class="row">                
-                    <div class="col-sm-12">
-                        <div class="text-info">Descripcion </div>  
-                        <input class="form-control" type="text" name="mtxtDescripcion" id="mtxtDescripcion">   
-                    </div> 
-                </div>
-            </div>
+            </div>            
+        </form>
         </div>
 
         <div class="modal-footer justify-content-between" style="background-color: #dff0d8;">
             <button type="reset" class="btn btn-default" id="mbtnCHallazgo" data-dismiss="modal">Cancelar</button>
             <button type="submit" class="btn btn-info" id="mbtnGHallazgo">Registrar</button>
         </div>
-      </form>
     </div>
   </div>
 </div> 

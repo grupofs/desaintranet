@@ -25,6 +25,11 @@ class Cusuario extends CI_Controller {
 		);	
 		$resultado = $this->musuario->getbuscarusuarios($parametros);
 		echo json_encode($resultado);
+	}   
+		
+    public function getpersonas() {	// Buscar Usuario
+		$resultado = $this->musuario->getpersonas();
+		echo json_encode($resultado);
     }    
 }
 ?>

@@ -147,29 +147,42 @@ $(function () {
      * @param idProducto
      */
     objProducto.eliminar = function (boton, idProducto) {
-        boton = $(boton);
-        $.ajax({
-            url: BASE_URL + 'ar/evalprod/cexpediente/eliminar_producto',
-            method: 'POST',
-            data: {
-                id_producto: idProducto,
-                id_expediente: $('#hdnIdexpe').val()
-            },
-            dataType: 'json',
-            beforeSend: function () {
-                objPrincipal.botonCargando(boton);
-            }
-        }).done(function (response) {
-            if (response.error) {
-                sweetalert(response.error, 'error');
-            } else {
-                objProducto.listaProductos();
-            }
-        }).fail(function (jqxhr) {
-            sweetalert('Error en el proceso de ejecución al guardar el producto', 'error');
-        }).always(function () {
-            objPrincipal.liberarBoton(boton);
-        });
+		Swal.fire({
+			type: 'warning',
+			title: 'Eliminar producto',
+			text: '¿Estas seguro(a) de eliminar?',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Si',
+			cancelButtonText: 'Cancelar',
+		}).then((result) => {
+			if (result.value) {
+				boton = $(boton);
+				$.ajax({
+					url: BASE_URL + 'ar/evalprod/cexpediente/eliminar_producto',
+					method: 'POST',
+					data: {
+						id_producto: idProducto,
+						id_expediente: $('#hdnIdexpe').val()
+					},
+					dataType: 'json',
+					beforeSend: function () {
+						objPrincipal.botonCargando(boton);
+					}
+				}).done(function (response) {
+					if (response.error) {
+						sweetalert(response.error, 'error');
+					} else {
+						objProducto.listaProductos();
+					}
+				}).fail(function (jqxhr) {
+					sweetalert('Error en el proceso de ejecución al guardar el producto', 'error');
+				}).always(function () {
+					objPrincipal.liberarBoton(boton);
+				});
+			}
+		})
     };
 
     /**

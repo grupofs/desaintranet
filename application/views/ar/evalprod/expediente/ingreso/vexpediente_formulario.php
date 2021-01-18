@@ -14,7 +14,7 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="input-group">
-                        <input type="text" class="form-control" readonly
+                        <input type="text" class="form-control datepicker"
                                id="FechaReg" name="FechaReg"
                                value="<?php echo date('d/m/Y'); ?>">
 

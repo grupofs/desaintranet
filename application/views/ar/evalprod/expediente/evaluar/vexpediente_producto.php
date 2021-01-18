@@ -62,7 +62,7 @@
                 <div class="input-group" >
                     <div class="input-group-append" style="width: 5rem; min-width: 5rem;" >
                         <select name="cboTipodoc" id="cboTipodoc" aria-label="" title=""
-                                class="custom-select custom-select-sm select2bs4" >
+                                class="custom-select" >
                             <option value="0" selected="selected">-- Elija --</option>
                             <option value="1">RS</option>
                             <option value="2">NSO</option>
@@ -122,7 +122,7 @@
                 <label for="cboGrasaSatu">
                     Grasas Saturadas
                 </label>
-                <select class="form-control select2bs4" disabled
+                <select class="custom-select" disabled
                         id="cboGrasaSatu" name="cboGrasaSatu">
                     <option value="" selected="selected"></option>
                     <option value="NA">NA</option>
@@ -136,7 +136,7 @@
                 <label for="cboAzucar">
                     Azúcar
                 </label>
-                <select class="form-control select2bs4" disabled
+                <select class="custom-select" disabled
                         id="cboAzucar" name="cboAzucar">
                     <option value="" selected="selected"></option>
                     <option value="NA">NA</option>
@@ -150,7 +150,7 @@
                 <label for="cboSodio">
                     Sodio
                 </label>
-                <select class="form-control select2bs4" disabled
+                <select class="custom-select" disabled
                         id="cboSodio" name="cboSodio">
                     <option value="" selected="selected"></option>
                     <option value="NA">NA</option>
@@ -164,7 +164,7 @@
                 <label for="cboGrasaTrans">
                     Grasas Trans
                 </label>
-                <select class="form-control select2bs4" disabled
+                <select class="custom-select" disabled
                         id="cboGrasaTrans" name="cboGrasaTrans">
                     <option value="" selected="selected"></option>
                     <option value="NA">NA</option>
@@ -175,52 +175,58 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-            <div class="form-group">
-                <label for="FechaLevanta">
-                    Fecha de levantamiento
-                    <span class="fs-requerido text-danger">*</span>
-                </label>
+		<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12" >
+			<div class="row" >
+				<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+					<div class="form-group">
+						<label for="FechaLevanta">
+							Fecha de levantamiento
+							<span class="fs-requerido text-danger">*</span>
+						</label>
 
-                <div class="input-group">
-                    <input type="text" class="form-control datepicker" disabled
-                           id="FechaLevanta" name="FechaLevanta"
-                           value="">
+						<div class="input-group">
+							<input type="text" class="form-control datepicker" disabled
+								   id="FechaLevanta" name="FechaLevanta"
+								   value="">
 
-                    <div class="input-group-append">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-            <div class="form-group">
-                <label for="mtxtTiempoEval">
-                    Tiempo de evaluación
-                    <span class="fs-requerido text-danger">*</span>
-                </label>
-                <input type="text" class="form-control" disabled
-                       id="mtxtTiempoEval" name="mtxtTiempoEval"
-                       value="">
-            </div>
-        </div>
-        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-            <div class="form-group">
-                <label for="mtxtObserva">
-                    Observaciones
-                </label>
-                        <textarea name="mtxtObserva" id="mtxtObserva" disabled
-                                  class="form-control"
-                                  rows="5"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="mtxtObservaCli">
-                    Observación del Cliente
-                </label>
-                        <textarea name="mtxtObservaCli" id="mtxtObservaCli" disabled
-                                  class="form-control"
-                                  rows="5"></textarea>
-            </div>
+							<div class="input-group-append">
+								<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+					<div class="form-group">
+						<label for="mtxtTiempoEval">
+							Tiempo de evaluación
+							<span class="fs-requerido text-danger">*</span>
+						</label>
+						<input type="text" class="form-control" disabled
+							   id="mtxtTiempoEval" name="mtxtTiempoEval"
+							   value="">
+					</div>
+				</div>
+				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" >
+					<div class="form-group">
+						<label for="mtxtObservaCli">
+							Observación para Tottus
+						</label>
+						<textarea name="mtxtObservaCli" id="mtxtObservaCli" disabled
+								  class="form-control"
+								  rows="2"></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12" >
+			<div class="form-group">
+				<label for="mtxtObserva">
+					Observaciones
+				</label>
+				<textarea name="mtxtObserva" id="mtxtObserva" disabled
+						  class="form-control"
+						  rows="5"></textarea>
+			</div>
         </div>
     </div>
     <div class="row">

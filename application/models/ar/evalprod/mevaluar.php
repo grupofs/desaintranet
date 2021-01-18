@@ -76,8 +76,8 @@ class Mevaluar extends CI_Model
     {
         $this->db->select("
             evalprod_evaluador.*,
-            IF(evalprod_paises.id_paises IS NULL, '', evalprod_paises.id_paises) as idPais,
-            IF(evalprod_paises.id_paises IS NULL, '', evalprod_paises.nombre) as textPais
+            IFNULL(evalprod_paises.id_paises, '', evalprod_paises.id_paises) as idPais,
+            IFNULL(evalprod_paises.id_paises, '', evalprod_paises.nombre) as textPais
         ");
         $this->db->from('evalprod_evaluador');
         $this->db->join('evalprod_paises', 'evalprod_evaluador.pais = evalprod_paises.id_paises', 'left');

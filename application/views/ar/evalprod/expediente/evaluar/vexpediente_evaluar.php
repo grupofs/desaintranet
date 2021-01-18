@@ -8,7 +8,7 @@
                 <label for="cboc_f">
                     Lic. funcionamiento
                 </label>
-                <select name="cboc_f" id="cboc_f" class="select2bs4" >
+                <select name="cboc_f" id="cboc_f" class="custom-select" >
                     <option value=""></option>
                     <option value="1">C</option>
                     <option value="2">NC</option>
@@ -21,7 +21,7 @@
                 <label for="cbon_r">
                     Nro RUC
                 </label>
-                <select name="cbon_r" id="cbon_r" class="select2bs4" >
+                <select name="cbon_r" id="cbon_r" class="custom-select" >
                     <option value=""></option>
                     <option value="1">C</option>
                     <option value="2">NC</option>
@@ -33,7 +33,7 @@
                 <label for="cbof_v">
                     Fec. Vence
                 </label>
-                <select name="cbof_v" id="cbof_v" class="select2bs4" >
+                <select name="cbof_v" id="cbof_v" class="custom-select" >
                     <option value=""></option>
                     <option value="1">C</option>
                     <option value="2">NC</option>
@@ -46,7 +46,7 @@
                 <label for="cboc_l_p">
                     Cod. Lote Prod.
                 </label>
-                <select name="cboc_l_p" id="cboc_l_p" class="select2bs4" >
+                <select name="cboc_l_p" id="cboc_l_p" class="custom-select" >
                     <option value=""></option>
                     <option value="1">C</option>
                     <option value="2">NC</option>
@@ -59,7 +59,7 @@
                 <label for="cbol_i">
                     Lista Ingred.
                 </label>
-                <select name="cbol_i" id="cbol_i" class="select2bs4" >
+                <select name="cbol_i" id="cbol_i" class="custom-select" >
                     <option value=""></option>
                     <option value="1">C</option>
                     <option value="2">NC</option>
@@ -72,7 +72,7 @@
                 <label for="cboc_c_p">
                     Cond. Cons. Produc.
                 </label>
-                <select name="cboc_c_p" id="cboc_c_p" class="select2bs4" >
+                <select name="cboc_c_p" id="cboc_c_p" class="custom-select" >
                     <option value=""></option>
                     <option value="1">C</option>
                     <option value="2">NC</option>
@@ -114,7 +114,7 @@
                 <label for="cboc_n">
                     Cont. Neto
                 </label>
-                <select name="cboc_n" id="cboc_n" class="select2bs4" >
+                <select name="cboc_n" id="cboc_n" class="custom-select" >
                     <option value=""></option>
                     <option value="1">C</option>
                     <option value="2">NC</option>
@@ -126,7 +126,7 @@
                 <label for="cbod_i">
                     Dir. Import.
                 </label>
-                <select name="cbod_i" id="cbod_i" class="select2bs4" >
+                <select name="cbod_i" id="cbod_i" class="custom-select" >
                     <option value=""></option>
                     <option value="1">C</option>
                     <option value="2">NC</option>
@@ -144,7 +144,7 @@
                            id="mtxtt_v_u" name="mtxtt_v_u"
                            value="" >
                     <div class="input-group-prepend" >
-                        <select name="cbotiempo_m" id="cbotiempo_m" class="select2bs4"
+                        <select name="cbotiempo_m" id="cbotiempo_m" class="custom-select"
                                 style="width: 100px"
                                 title="" >
                             <option value="1">Dias</option>
@@ -228,7 +228,7 @@
                     Status
                     <span class="fs-requerido text-danger">*</span>
                 </label>
-                <select id="cbostatus" name="cbostatus" class="select2bs4" >
+                <select id="cbostatus" name="cbostatus" class="custom-select" >
                     <option value="0">EN PROCESO</option>
                     <option value="1">APROBADO</option>
                     <option value="2">RECHAZADO</option>
@@ -242,7 +242,7 @@
                 <label for="cboa_s">
                     Agota. Stock
                 </label>
-                <select id="cboa_s" name="cboa_s" class="select2bs4" >
+                <select id="cboa_s" name="cboa_s" class="custom-select" >
                     <option value="0"></option>
                     <option value="1">SI</option>
                     <option value="2">NA</option>
@@ -274,7 +274,7 @@
                 <label for="cbod_p">
                     Docum. Pendiente
                 </label>
-                <select id="cbod_p" name="cbod_p" class="select2bs4" >
+                <select id="cbod_p" name="cbod_p" class="custom-select" >
                     <option value="0"></option>
                     <option value="1">SI</option>
                     <option value="2">NO</option>
@@ -288,7 +288,7 @@
                 <label for="cboo_l">
                     Obser. Licencia
                 </label>
-                <select id="cboo_l" name="cboo_l" class="select2bs4" >
+                <select id="cboo_l" name="cboo_l" class="custom-select" >
                     <option value="0"></option>
                     <option value="1">SI</option>
                     <option value="2">NO</option>
@@ -301,7 +301,7 @@
                 <label for="cboo_n">
                     Obser. x T.Nutr.
                 </label>
-                <select id="cboo_n" name="cboo_n" class="select2bs4" >
+                <select id="cboo_n" name="cboo_n" class="custom-select" >
                     <option value="0"></option>
                     <option value="1">SI</option>
                     <option value="2">NO</option>

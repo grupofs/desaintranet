@@ -39,6 +39,21 @@ class Mproducto extends CI_Model
         return ($query->num_rows() > 0) ? $query->result() : [];
     }
 
+	/**
+	 * @param $idExpediente
+	 * @return array|mixed|object|null
+	 */
+    public function primerProducto($idExpediente)
+	{
+		$this->db->select('*');
+		$this->db->from('evalprod_producto');
+		$this->db->where('id_expediente', $idExpediente);
+		$this->db->order_by('id_producto', 'ASC');
+		$query = $this->db->get();
+		if (!$query) return null;
+		return ($query->num_rows() > 0) ? $query->row() : null;
+	}
+
     /**
      * Buscar
      * @param $id

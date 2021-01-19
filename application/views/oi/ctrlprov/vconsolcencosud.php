@@ -69,7 +69,7 @@
                     <div class="col-md-2">
                         <div class="form-group" id="divAnio"> 
                             <label>Año</label>
-                            <select class="form-control select2bs4" id="cboAnio" name="cboAnio" style="width: 100%;">
+                            <select class="form-control" id="cboAnio" name="cboAnio" style="width: 100%;">
                                 <option value="" selected="selected">Cargando...</option>
                             </select>
                         </div>
@@ -86,14 +86,14 @@
                     <div class="col-md-2">
                         <div class="form-group" id="divMes">
                             <label>Mes</label>
-                            <select class="form-control select2bs4" id="cboMes" name="cboMes" style="width: 100%;">
+                            <select class="form-control" id="cboMes" name="cboMes" style="width: 100%;">
                                 <option value="" selected="selected">Cargando...</option>
                             </select>
                         </div>
                         <div class="form-group" id="divHasta">       
                             <label>Hasta</label>                      
                             <div class="input-group date" id="txtFHasta" data-target-input="nearest">
-                                <input type="text" id="txtFFin" name="txtFFin" class="form-control datetimepicker-input" data-target="#txtFHasta" disabled/>
+                                <input type="text" id="txtFFin" name="txtFFin" class="form-control datetimepicker-input" data-target="#txtFHasta"/>
                                 <div class="input-group-append" data-target="#txtFHasta" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
@@ -101,102 +101,101 @@
                         </div>
                     </div>              
                 </div> 
-                <br>
-                <div class="row"> 
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">      
-                        <label>Ciudad :</label>
-                        <input type="text" name="txtCiudad" id="txtCiudad" class="form-control" value=""  >
+                <div class="row">    
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Maquilador</label>
+                            <select class="form-control select2bs4" id="cboMaquilador" name="cboMaquilador" style="width: 100%;">
+                                <option value="" selected="selected">Cargando...</option>
+                            </select>
+                        </div>
+                    </div>     
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Categoria</label>
+                            <select class="form-control select2bs4" id="cboAreaclie" name="cboAreaclie" style="width: 100%;">
+                                <option value="" selected="selected">Cargando...</option>
+                            </select>
+                        </div>
+                    </div>  
+                    <div class="col-md-3">
+                        <div class="form-group">                          
+                            <label>Estado</label>
+                            <select class="form-control" id="cboEstado" name="cboEstado" style="width: 100%;">
+                                <option value = "0" selected="selected">::Elegir</option>
+                                <option value = "032" >Concluido OK</option>
+                                <option value = "515" >Trunco</option>
+                                <option value = "520" >No proveedor</option>
+                            </select>
+                        </div>
                     </div>
                 </div> 
-                <br>
-                <div class="row"> <!--fila03-->
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                        <label>Tipo Busqueda</label>                        
-                        <div class="form-group">
-                            <div class="radio col-sm-4">
-                                <label><input id="BuscarPorP" name="BuscarPor" type="radio" value="P" checked="checked" /> Proveedores</label>                         
-                            </div>
-                            <div class="radio col-sm-4">
-                                <label><input id="BuscarPorC" name="BuscarPor" type="radio" value="C" /> Concesionarios</label>                                                       
-                            </div>
-                        </div> 
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">      
-                        <label>Categoria :</label>
-                        <select id="cboAreaclie" name="cboAreaclie" class="form-control select2" style="width: 100%;">
-                            <option value = "%" selected="selected">::Todos</option>
-                        </select>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">      
-                        <label>Estado :</label>
-                        <select id="cboEstado" name="cboEstado" class="form-control select2" multiple="multiple" data-placeholder="Seleccionar" style="width: 100%;">
-                            <option value = "028" >Por Programar</option>
-                            <option value = "029" >Programado</option>
-                            <option value = "031" >En Proceso</option>
-                            <option value = "032" >Concluido OK</option>
-                            <option value = "515" >Trunco</option>
-                            <option value = "520" >No proveedor</option>
-                        </select>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">      
-                        <label>Marca :</label>
+                <!--<div class="row"> 
+                    <div class="col-md-4">
+                        <label>Marca</label>
                         <input type="text" name="txtMarca" id="txtMarca" class="form-control" value=""  >
+                    </div> 
+                    <div class="col-md-4">
+                        <label>Calificacion</label>
+                        <input type="text" name="txtCalificacion" id="txtCalificacion" class="form-control" value=""  >
+                    </div> 
+                </div>-->
+            </div>                   
+            <div class="card-footer justify-content-between"> 
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-right">                   
+                            <button type="button" class="btn btn-primary" id="btnBuscar"><i class="fas fa-search"></i>&nbsp;&nbsp;Buscar</button>                    
+                        </div>
                     </div>
-                </div>
-            </div> 
-            <!--Contenedor de botones-->       
-            <div class="box-footer">            
-                <div class="col-md-12 text-right">                    
-                    <button type="button" class="btn btn-default" id="btnBuscarListado"><i class="fa fa-fw fa-search"></i> Buscar</button>                    
                 </div>
             </div>  
-            </form>
         </div> 
-    </div>
- <!--FIN Contenedor de consulta-->
- <!--Contenedor del DataTable-->
-    <div class="box box-primary">
-        <div class="box-header with-border">
-            <h3 class="box-title">Listado</h3>
-        </div>
-        <div class="panel-body">
-            <div class="table-responsive">
-                <table id="tblconsolidado" class="table table-hover table-striped" cellspacing="0"  style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>N°</th>
-                            <th>TIPO</th>
-                            <th>AÑO</th>
-                            <th>DIV</th>
-                            <th>CATEGORIA</th>      
-                            <th>RUC</th> 
-                            <th>RAZON SOCIAL DEL PROVEEDOR</th> 
-                            <th>LINEA PRODUCTO</th>  
-                            <th>MARCA</th>    
-                            <th>DIRECCIÓN</th>   
-                            <th>INSPECC./AUDIT.</th>     
-                            <th>TIPO PROG.</th>     
-                            <th>MES PROGRAM.</th>     
-                            <th>MES EJECUT.</th>   
-                            <th>FECHA EJECUT.</th>      
-                            <th>LABORATORIO</th>    
-                            <th>ESTADO</th>     
-                            <th>OBSERVAC.</th>  
-                            <th>% CALIF.</th>  
-                            <th>CLASIFIC.</th>   
-                            <th>COSTO INSPEC.</th>   
-                            <th>GASTOS POR VIATICOS</th>
-                            <th>CORREOS/TELEFONOS</th>
-                        </tr>
-                    </thead> 
-                    <tbody></tbody> 
-                    <tfoot><tr><th></th></tr></tfoot>  
-                </table>
+        </form>
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-outline card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Listado</h3>
+                    </div>                
+                    <div class="card-body" id="divtblGrid" style="overflow-x: scroll;">
+                        <table id="tblListConsolcencosud" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th>N°</th>
+                                <th>TIPO</th>
+                                <th>AÑO</th>
+                                <th>DIV</th>
+                                <th>CATEGORIA</th>      
+                                <th>RUC</th> 
+                                <th>RAZON SOCIAL DEL PROVEEDOR</th> 
+                                <th>LINEA PRODUCTO</th>  
+                                <th>MARCA</th>    
+                                <th>DIRECCIÓN</th>   
+                                <th>INSPECC./AUDIT.</th>     
+                                <th>TIPO PROG.</th>     
+                                <th>MES PROGRAM.</th>     
+                                <th>MES EJECUT.</th>   
+                                <th>FECHA EJECUT.</th>      
+                                <th>LABORATORIO</th>    
+                                <th>ESTADO</th>     
+                                <th>OBSERVAC.</th>  
+                                <th>% CALIF.</th>  
+                                <th>CLASIFIC.</th>   
+                                <th>COSTO INSPEC.</th>   
+                                <th>GASTOS POR VIATICOS</th>
+                                <th>CORREOS/TELEFONOS</th>
+                            </tr>
+                            </thead><tbody></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
+    
     </div>
- <!--FIN Contenedor del DataTable-->
 </section>
+<!-- /.Main content -->
 
 <!-- Script Generales -->
 <script type="text/javascript">

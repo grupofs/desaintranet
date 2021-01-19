@@ -1,5 +1,6 @@
 
-var oTable_consolidado;
+var otblListConsolcencosud;
+var varfdesde = '%', varfhasta = '%', varperiodo = '1';
 var cboEstado
 
 $(document).ready(function() {
@@ -9,35 +10,19 @@ $(document).ready(function() {
     $('#divDesde').hide();
     $('#divHasta').hide();
 
-        $("#BuscarPorP").focus();
+    $('#txtFDesde,#txtFHasta').datetimepicker({
+        format: 'DD/MM/YYYY',
+        daysOfWeekDisabled: [0],
+        locale:'es'
+    });
 
-        $('#FechaIni, #FechaFin').datepicker({
-            format: "dd/mm/yyyy",
-            autoclose: true,
-        }).next().on("click", function () {
-            $(this).prev().focus(); 
-        });
-        $('#FechaIni, #FechaFin').datepicker('setDate', new Date());
-        
-        $("#chkFreg").on("change", function () {
-            if($("#chkFreg").is(":checked") == true){ 
-                $("#FechaIni").prop("disabled",false);
-                $("#FechaFin").prop("disabled",false);
-                $("#cboAnio").prop("disabled",true);
-                $("#cboMes").prop("disabled",true);
-            }else if($("#chkFreg").is(":checked") == false){ 
-                $("#FechaIni").prop("disabled",true);
-                $("#FechaFin").prop("disabled",true);
-                $("#cboAnio").prop("disabled",false);
-                $("#cboMes").prop("disabled",false);
-            }; 
-        });
+    fechaActual();
 
-        /*LLENADO DE COMBOS*/         
+    /*LLENADO DE COMBOS*/         
         $.ajax({
             type: 'ajax',
             method: 'post',
-            url: baseurl+"cmaestros/getanios",
+            url: baseurl+"cglobales/getanios",
             dataType: "JSON",
             async: true,
             success:function(result)
@@ -52,7 +37,7 @@ $(document).ready(function() {
         $.ajax({
             type: 'ajax',
             method: 'post',
-            url: baseurl+"cmaestros/getmeses",
+            url: baseurl+"cglobales/getmeses",
             dataType: "JSON",
             async: true,
             success:function(result)
@@ -64,14 +49,14 @@ $(document).ready(function() {
             }
         }); 
 
-        var paramsclientecbo = {"ccliente" : '00654'};
+        var paramscliente = {"ccliente" : '00654'};
         $.ajax({
             type: 'ajax',
             method: 'post',
-            url: baseurl+"cmaestros/getproveedorxcclie",
+            url: baseurl+"oi/ctrlprov/cconsolcencosud/getProveedorxCliente",
             dataType: "JSON",
             async: true,
-            data: paramsclientecbo,
+            data: paramscliente,
             success:function(result)
             {
                 $('#cboProveedor').html(result);
@@ -80,34 +65,14 @@ $(document).ready(function() {
               alert('Error, No se puede autenticar por error');
             }
         });
-
+        
         $.ajax({
             type: 'ajax',
             method: 'post',
-            url: baseurl+"cmaestros/getmaquiladorxcclie",
+            url: baseurl+"oi/ctrlprov/cconsolcencosud/getareaxcliente",
             dataType: "JSON",
             async: true,
-            data: paramsclientecbo,
-            success:function(result)
-            {
-                $('#cboMaquilador').html(result);
-            },
-            error: function(){
-              alert('Error, No se puede autenticar por error');
-            }
-        });
-
-        var paramsareaclie = { 
-            "ccia"          : '2',
-            "ccliente"      : v_ccliente,
-        };
-        $.ajax({
-            type: 'ajax',
-            method: 'post',
-            url: baseurl+"cmaestros/getareacliente",
-            dataType: "JSON",
-            async: true,
-            data: paramsareaclie,
+            data: paramscliente,
             success:function(result)
             {
                 $('#cboAreaclie').html(result);
@@ -119,131 +84,163 @@ $(document).ready(function() {
    
 });
 
+fechaActual = function(){
+    var fecha = new Date();		
+    var fechatring = ("0" + fecha.getDate()).slice(-2) + "/" + ("0"+(fecha.getMonth()+1)).slice(-2) + "/" +fecha.getFullYear() ;
+
+    $('#txtFDesde').datetimepicker('date', moment(fechatring, 'DD/MM/YYYY') );
+    $('#txtFHasta').datetimepicker('date', moment(fechatring, 'DD/MM/YYYY') );
+
+};
+	
+$('#txtFDesde').on('change.datetimepicker',function(e){	
+    
+    $('#txtFHasta').datetimepicker({
+        format: 'DD/MM/YYYY',
+        daysOfWeekDisabled: [0],
+        locale:'es'
+    });	
+
+    var fecha = moment(e.date).format('DD/MM/YYYY');		
+    
+    $('#txtFHasta').datetimepicker('minDate', fecha);
+    $('#txtFHasta').datetimepicker('date', fecha);
+
+});
+
 $('input[type=radio][name=rFbuscar]').change(function() {
     if($('#rdPeriodo').prop('checked')){        
         $('#divAnio').show();
         $('#divMes').show();
         $('#divDesde').hide();
         $('#divHasta').hide();
+        varfdesde = '%';
+        varfhasta = '%';
+        varperiodo = '1';
     }else if ($('#rdFechas').prop('checked')){     
         $('#divAnio').hide();
         $('#divMes').hide();
         $('#divDesde').show();
         $('#divHasta').show();
+        varfdesde = '';
+        varfhasta = '';
+        varperiodo = '0';
     } 
 });
 
+$('#cboProveedor').change(function(){ 
+    var v_cproveedor = $( "#cboProveedor option:selected").attr("value");
 
-
-    $('#cboCliente').change(function(){ 
-        var v_ccliente = $( "#cboCliente option:selected").attr("value");
-
-        
-
-    })
-
-    $('#btnBuscarListado').click(function(){
-        var vfini, vffin, vanio, vmes, conce
-
-        if($("#chkFreg").is(":checked") == true){ 
-            vfini = $('#FechaIni').val();
-            vffin = $('#FechaFin').val();
-            vanio = '0';
-            vmes  = '0';
+    var paramsproveedor = {"cproveedor" : v_cproveedor};
+    $.ajax({
+        type: 'ajax',
+        method: 'post',
+        url: baseurl+"oi/ctrlprov/cconsolcencosud/getmaquilaxproveedor",
+        dataType: "JSON",
+        async: true,
+        data: paramsproveedor,
+        success:function(result)
+        {
+            $('#cboMaquilador').html(result);
+        },
+        error: function(){
+          alert('Error, No se puede autenticar por error');
         }
-        else if($("#chkFreg").is(":checked") == false){ 
-            vfini = '%';
-            vffin = '%';
-            vanio = $('#cboAnio').val();
-            vmes  = $('#cboMes').val();
-        };
-        
-        if ($("#BuscarPorP").is(":checked")) {
-            conce = 'N';
-        }else{
-            conce = 'S';
-        }
-        
-        if(document.getElementById("cboEstado").value == ""){
-            cboEstado = ["%"];
-        }else{
-            cboEstado = $('#cboEstado').val();
-        }
-          
-        oTable_consolidado = $('#tblconsolidado').DataTable({
-            'bJQueryUI'     : true,
-            'scrollY'       : '400px',
-            'scrollX'       : true,
-            'processing'    : true,     
-            'bDestroy'      : true,
-            'paging'        : false,
-            'info'          : true,
-            'filter'        : true, 
-            'ajax'          : {
-                "url"   : baseurl+"oi/cctrlproveedores/getconsolidadocencosud/",
+    });    
+
+})
+
+$("#btnBuscar").click(function (){    
+    var v_mes, v_anio
+    if(varfdesde != '%'){ varfdesde = $('#txtFIni').val(); }
+    if(varfhasta != '%'){ varfhasta = $('#txtFFin').val(); } 
+
+    if(varperiodo != '0'){ 
+        v_anio = $('#cboAnio').val(); 
+        v_mes = $('#cboMes').val(); 
+    }else{
+        v_anio = 0;
+        v_mes = 0;
+    } 
+
+    var parametros = {
+        "ccia"          : '2',
+        "carea"         : '01',
+        "cservicio"     : '01',
+        "anio"          : v_anio,
+        "mes"           : v_mes,
+        "fini"          : varfdesde,
+        "ffin"          : varfhasta,
+        "ccliente"      : '00654',
+        "cclienteprov"       : $('#cboProveedor').val(),
+        "cclientemaquila"    : $('#cboMaquilador').val(),
+        "areaclte"      : $('#cboAreaclie').val(),
+        "tipoestado"    : $('#cboEstado').val(),
+    };  
+
+    getListConsolcencosud(parametros);
+    
+});
+
+
+getListConsolcencosud = function(param){       
+        otblListConsolcencosud = $('#tblListConsolcencosud').DataTable({
+            "processing"  	: true,
+            "bDestroy"    	: true,
+            "stateSave"     : true,
+            "bJQueryUI"     : true,
+            "scrollY"     	: "540px",
+            "scrollX"     	: true, 
+            'AutoWidth'     : true,
+            "paging"      	: false,
+            "info"        	: true,
+            "filter"      	: true, 
+            "ordering"		: true,
+            "responsive"    : false,
+            "select"        : true,
+            "ajax"	: {
+                "url"   : baseurl+"oi/ctrlprov/cconsolcencosud/getconsolidadocencosud",
                 "type"  : "POST", 
-                "data"  : function ( d ) {
-                    d.ccia = '2';
-                    d.carea = '01';
-                    d.cservicio = '01';
-                    d.anio = vanio; 
-                    d.mes = vmes;  
-                    d.fini = vfini; 
-                    d.ffin = vffin;  
-                    d.ccliente = $('#cboCliente').val();
-                    d.proveedor = $('#cboProveedor').val();
-                    d.maquilador = $('#cboMaquilador').val();  
-                    d.ciudad = $('#txtCiudad').val(); 
-                    d.marca = $('#txtMarca').val(); 
-                    d.estado = cboEstado; 
-                    d.areaclie = $('#cboAreaclie').val();
-                    d.esconcesionario = conce;  
-                },     
-                dataSrc : ''        
+                "data"  : param,     
+                dataSrc : ''      
             },
-            'columns'   : [
+            "columns"	: [
                 {
-                    "class"     :   "index",
+                    "class"     :   "col-xxs",
                     orderable   :   false,
                     data        :   null,
                     targets     :   0
                 },
-                {data: 'VENTASMARCAS',targets: 1 },
-                {data: 'ANIO', targets: 2},
-                {data: 'DIVISION', targets: 3},
-                {data: 'CATEGORIASECCION', targets: 4, "class": "col-medio"},
-                {data: 'RUC', targets: 5},
-                {data: 'PROVEEDOR', targets: 6, "class": "col-largo"},
-                {data: 'LINEADEPRODUCCION', targets: 7, "class": "col-largo"},
-                {data: 'MARCA', targets: 8, "class": "col-medio"},
-                {data: 'DIRECCION', targets: 9, "class": "col-largo"},
-                {data: 'TIPO', targets: 10},
-                {data: 'PROG', targets: 11},
-                {data: 'MESPROG', targets: 12},
-                {data: 'MESEJE', targets: 13},
-                {data: 'FECHAEJE', targets: 14},
-                {data: 'LABORATORIO', targets: 15},
-                {data: 'ESTADO', targets: 16, "class": "col-medio"},
-                {data: 'OBSERVACIONES', targets: 17, "class": "col-largo"},
-                {data: 'CALIFICACION', targets: 18},
-                {data: 'CLASIFICACION', targets: 19, "class": "col-medio"},
-                {data: 'COSTOSIGV', targets: 20},
-                {data: 'GASTOSPORVIATICOS', targets: 21},
-                {data: 'EMAIL', targets: 22},
+                {data: 'VENTASMARCAS', "class": "col-xs"},
+                {data: 'ANIO', "class": "col-xs"},
+                {data: 'DIVISION', "class": "col-xs"},
+                {data: 'CATEGORIASECCION', "class": "col-sm"},
+                {data: 'RUC', "class": "col-s"},
+                {data: 'PROVEEDOR', "class": "col-xm"},
+                {data: 'LINEADEPRODUCCION', "class": "col-xm"},
+                {data: 'MARCA', "class": "col-xl"},
+                {data: 'DIRECCIONLOCALINSPECCIONADO', "class": "col-l"},
+                {data: 'TIPO', "class": "col-s"},
+                {data: 'PROG', "class": "col-s"},
+                {data: 'MESPROG', "class": "col-s"},
+                {data: 'MESEJE', "class": "col-s"},
+                {data: 'FECHAEJE', "class": "col-s"},
+                {data: 'LABORATORIO', "class": "col-s"},
+                {data: 'ESTADO', "class": "col-s"},
+                {data: 'OBSERVACIONES', "class": "col-l"},
+                {data: 'CALIFICACION', "class": "col-s"},
+                {data: 'CLASIFICACION', "class": "col-s"},
+                {data: 'COSTOSIGV', "class": "col-s"},
+                {data: 'GASTOSPORVIATICOS', "class": "col-sm"},
+                {data: 'EMAIL', "class": "col-m"},
             ], 
-            "columnDefs" : [
-                {
-                    "defaultContent": " ",
-                    "targets": "_all"
-                },
-            ],
-            'order'       : [[ 14, "asc" ]] 
+            "order": [[ 14, "asc" ]] 
         });
         // Enumeracion 
-        oTable_consolidado.on( 'order.dt search.dt', function () { 
-            oTable_consolidado.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+        otblListConsolcencosud.on( 'order.dt search.dt', function () { 
+            otblListConsolcencosud.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
             cell.innerHTML = i+1;
             });
         } ).draw(); 
          
-    });
+};

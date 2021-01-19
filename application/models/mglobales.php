@@ -38,7 +38,7 @@ class Mglobales extends CI_Model{
        $query  = $this->db->query($sql);
            
        if ($query->num_rows() > 0) {
-        $listas = '<option value="">" "</option>';                
+        $listas = '';                
             foreach ($query->result() as $row){
                 if($row->enejercicio == '1'){
                     $listas .= '<option value="'.$row->anio.'" selected="selected">'.$row->anio.'</option>'; 

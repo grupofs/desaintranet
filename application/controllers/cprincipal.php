@@ -78,6 +78,29 @@ class Cprincipal extends CI_Controller
 
     }
 
+    public function perfilcliente()
+    { // Abrir ventanas de perfil de cliente
+        if (!$this->session->userdata("login")) {
+            redirect('clogin');
+        }
+        $this->session->time = time();
+
+        $this->layout->js(array(public_url('script/perfilcliente.js')));
+
+        $idempleado = $this->session->userdata('s_idempleado');
+        $parametros = array(
+            '@idempleado' => $idempleado
+        );
+        $this->load->model('mperfilcliente');
+        $resumenperfil = $this->mperfilusuario->getresumenperfil($parametros);
+
+        $data['vista'] = 'DInternos';
+        $data['datos_perfil'] = $resumenperfil;
+        $data['content_for_layout'] = 'seguridad/vperfilcliente';
+        $this->parser->parse('seguridad/vprincipalClie', $data);
+
+    }
+
     public function ventanas()
     { // Abrir ventanas de opcion menu
         if (!$this->session->userdata("login")) {

@@ -6,12 +6,20 @@
     $infousuario = $this->session->userdata('s_infodato');
     $imgperfil = $this->session->userdata('s_druta'); 
     $nombperfil = $this->session->userdata('s_usu'); 
+    $usuario = $this->session->userdata('s_usuario');
+    $sessionAct = $this->session->userdata('sessionAct'); 
+    $ccliente = $this->session->userdata('s_ccliente'); 
+    $dcliente = $this->session->userdata('s_dcliente'); 
     $dircliente = $this->session->userdata('s_dircliente'); 
+    $logocliente = $this->session->userdata('s_logocliente'); 
     $colortext = $this->session->userdata('s_colortext'); 
     $colorfondo = $this->session->userdata('s_colorfondo'); 
 
+    if($logocliente == ''):
+        $logocliente = 'unknown.png';
+    endif;
     if($imgperfil == ''):
-        $imgperfil = 'avatar5.png';
+        $imgperfil = 'unknown.png';
     endif;
     
     $grupo = 'GRUPO FS | FSC';
@@ -114,14 +122,14 @@
                 &nbsp;
                 <li class="nav-item d-none d-sm-inline-block">
                     <div class="row">
-                        <img class="img-fluid img-circle" src="<?php echo public_url_ftp(); ?>Imagenes/user/<?php echo $imgperfil ?>" alt="Photo" style="max-height:80px; margin-right:15px; float:left;">
+                        <img class="img-fluid img-circle" src="<?php echo public_url_ftp(); ?>Imagenes/clientes/<?php echo $logocliente ?>" alt="Photo" style="max-height:80px; margin-right:15px; float:left;">
                     </div>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <div class="row">
                         <div class="col-sm-12">
                             <h4 style="margin-top:6px; margin-left:5px;">
-                                &nbsp;<?php echo $nombres ?>
+                                &nbsp;<?php echo $dcliente ?>
                             </h4>
                             <div style="font-weight:bold; font-size:14px; margin-left:5px;">
                                 &nbsp;&nbsp;<?php echo $dircliente ?>
@@ -136,12 +144,12 @@
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-                <!-- PERFIL USUARIO 
+                <!-- PERFIL USUARIO -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link" href="<?php echo base_url()?>perfil" >
-                        <i class="fas fa-address-card fa-2x"></i>
+                    <a class="nav-link" href="<?php echo base_url()?>perfilclie" >
+                        <i class="fas fa-address-card fa-3x"></i>
                     </a>
-                </li>-->
+                </li>
                 <!-- Salir -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="" onclick="CerrarSesion();" >

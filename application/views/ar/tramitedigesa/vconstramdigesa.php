@@ -1,5 +1,7 @@
 <?php
-$ccliente = $this->session->userdata('s_ccliente');
+	$ccliente = $this->session->userdata('s_ccliente');
+	$sgrupo = $this->session->userdata('s_sgrupo');
+    $idusu = $this->session->userdata('s_idusuario');
 ?>
 
 <style>
@@ -58,10 +60,19 @@ $ccliente = $this->session->userdata('s_ccliente');
 				  action="<?= base_url('ar/tramites/cexcelExport/exceltramardigesa') ?>" method="POST"
 				  enctype="multipart/form-data" role="form">
 				<div class="card-body">
-					<input type="hidden" name="hdnccliente" class="form-control" id="hdnccliente"
-						   value="<?php echo $ccliente ?>">
-					<div class="row">
-						<div class="col-sm-6">
+					<input type="hidden" name="hdnccliente" class="form-control" id="hdnccliente" value="<?php echo $ccliente ?>">
+					<input type="hidden" name="hdnsgrupo" class="form-control" id="hdnsgrupo" value="<?php echo $sgrupo ?>">
+					<input type="hidden" name="hdnidusu" class="form-control" id="hdnidusu" value="<?php echo $idusu ?>">
+					<div class="row"> 
+						<div class="col-md-5">
+							<div class="form-group" id="divEmpresas">
+								<label>Empresas</label>
+								<select class="form-control select2bs4" id="cbocliente" name="cbocliente" style="width: 100%;">
+									<option value="" selected="selected">Cargando...</option>
+								</select>
+							</div>
+						</div> 
+						<div class="col-sm-3">
 							<!-- radio
 							<div class="form-group clearfix">
 							<div class="icheck-primary d-inline">
@@ -78,8 +89,9 @@ $ccliente = $this->session->userdata('s_ccliente');
 							</div>
 							</div>-->
 						</div>
-						<div class="col-sm-6">
-							<!-- radio -->
+						<div class="col-sm-4">
+                        	<label>&nbsp;&nbsp;</label> 
+                        	<!-- radio -->
 							<div class="form-group clearfix">
 								<div class="icheck-primary d-inline">
 									<input type="radio" id="rdETodos" value="%" name="restado">
@@ -256,142 +268,58 @@ $ccliente = $this->session->userdata('s_ccliente');
 					</div>
 				</div>
 			</form>
-		</div>
-		<div class="row">
-			<div class="col-12">
-				<div class="card card-outline card-info">
-					<div class="card-header">
-						<h3 class="card-title">Listado - Tipo <label id="lblCia"></label></h3>
-					</div>
-					<div class="card-body" id="divtblGrid" style="overflow-x: scroll;">
-						<table id="tblListTramGrid" class="table table-striped table-bordered" style="width:100%">
-							<thead>
-							<tr>
-								<th>Nro.</th>
-								<th></th>
-								<th>Código</th>
-								<th>Descripción SAP</th>
-								<th>Nombre del Producto</th>
-								<th>Marca</th>
-								<th>Categoria</th>
-								<th>Presentación</th>
-								<th>Modelo</th>
-								<th>Fabricante</th>
-								<th>Pais</th>
-								<th>RS</th>
-								<th>Nro. DR</th>
-								<th>F. Vencimiento</th>
-							</tr>
-							</thead>
-							<tbody>
-							</tbody>
-						</table>
-					</div>
-					<div class="card-body" id="divtblExcel" style="overflow-x: scroll;">
-						<table id="tblListTramExcel" class="table table-striped table-bordered" style="width:100%">
-							<thead>
-							<tr>
-								<th>Nro.</th>
-								<th>Código</th>
-								<th>Descripción SAP</th>
-								<th>Nombre del Producto</th>
-								<th>Marca</th>
-								<th>Categoria</th>
-								<th>Presentación</th>
-								<th>Modelo</th>
-								<th>Fabricante</th>
-								<th>Pais</th>
-								<th>F. Ingreso</th>
-								<th>Trámite</th>
-								<th>Estado</th>
-								<th>N° Expediente</th>
-								<th>RS</th>
-								<th>Nro. DR</th>
-								<th>F. Emisión</th>
-								<th>F. Vencimiento</th>
-								<th>Archivo</th>
-							</tr>
-							</thead>
-							<tbody>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-
-	</div>
-</section>
-<!-- /.Main content -->
-
-<!-- /.modal-Listado de tramites -->
-<div class="modal fade" id="modalListTramites" data-backdrop="static" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-xl">
-		<div class="modal-content">
-			<div class="modal-header text-center bg-info">
-				<h4 class="modal-title w-100 font-weight-bold">Tramites</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<table id="tblListTramGriddet" class="display compact"
-					   style="width:100%; padding-left:75px; background-color:#D3DADF; padding-top: -10px; border-bottom: 2px solid black;">
-					<thead style="background-color:#FFFFFF;">
-					<tr>
-						<th></th>
-						<th>F. Ingreso</th>
-						<th>Trámite</th>
-						<th>Estado</th>
-						<th style="min-width: 150px; width: 150px" >N° Expediente</th>
-						<th>RS</th>
-						<th>F. Emisión</th>
-						<th>F. Vencimiento</th>
-						<th>Archivo</th>
-					</tr>
-					</thead>
-					<tbody>
-
-					</tbody>
-				</table>
-			</div>
-			<div class="modal-footer justify-content-between" style="background-color: #D4EAFC;">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="text-right">
-							<button type="reset" class="btn btn-default" data-dismiss="modal">
-								Cerrar
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- /.modal-->
-
-<!-- /.modal-Listado de Documentos -->
-<div class="modal fade" id="modalListdocumentos" data-backdrop="static" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header text-center bg-info">
-				<h4 class="modal-title w-100 font-weight-bold">Listado de Archivos</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="form-group">
-					<div class="row">
-						<div class="col-12 table-responsive">
-							<table id="tblListTramDocum" class="table table-striped table-bordered" style="width:100%">
+			<div class="row">
+				<div class="col-12">
+					<div class="card card-outline card-success">
+						<div class="card-header">
+							<h3 class="card-title">Listado  - Tipo <label id="lblCia"></label></h3>
+						</div>                
+						<div class="card-body" id="divtblGrid" style="overflow-x: scroll;">
+							<table id="tblListTramGrid" class="table table-striped table-bordered" style="width:100%">
 								<thead>
 								<tr>
-									<th>N°</th>
-									<th>Documento</th>
+									<th>grupo</th>
+									<th>Nro</th>
+									<th>Código</th>
+									<th>Descripción SAP</th>
+									<th>Nombre del Producto</th>
+									<th>Marca</th>
+									<th>Categoria</th>
+									<th>Presentación</th>
+									<th>Modelo</th>
+									<th>Fabricante</th>
+									<th>Pais</th>
+									<th>RS</th>
+									<th>Fec. Vence</th>
+								</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>               
+						<div class="card-body" id="divtblExcel" style="overflow-x: scroll;">
+							<table id="tblListTramExcel" class="table table-striped table-bordered" style="width:100%">
+								<thead>
+								<tr>
+									<th>Nro.</th>
+									<th>Código</th>
+									<th>Descripción SAP</th>
+									<th>Nombre del Producto</th>
+									<th>Marca</th>
+									<th>Categoria</th>
+									<th>Presentación</th>
+									<th>Modelo</th>
+									<th>Fabricante</th>
+									<th>Pais</th>
+									<th>F. Ingreso</th>
+									<th>Trámite</th>
+									<th>Estado</th>
+									<th>N° Expediente</th>
+									<th>RS</th>
+									<th>Nro. DR</th>
+									<th>F. Emisión</th>
+									<th>F. Vencimiento</th>
 									<th>Archivo</th>
-									<th></th>
 								</tr>
 								</thead>
 								<tbody>
@@ -401,24 +329,57 @@ $ccliente = $this->session->userdata('s_ccliente');
 					</div>
 				</div>
 			</div>
+		
+		</div>
+	</section>
+	<!-- /.Main content -->
+	
+	<!-- /.modal-Listado de Documentos --> 
+	<div class="modal fade" id="modalListdocumentos" data-backdrop="static" role="dialog" aria-hidden="true">
+	  <div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header text-center bg-info">
+				<h4 class="modal-title w-100 font-weight-bold">Listado de Archivos</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">                    
+				<div class="form-group">
+					<div class="row">
+						<div class="col-12 table-responsive">
+							<table id="tblListTramDocum" class="table table-striped table-bordered" style="width:100%">
+								<thead>
+									<tr>
+									<th>N°</th>
+									<th>Documento</th>
+									<th>Archivo</th>
+									<th></th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+					</div>                
+				</div>   
+			</div>
 			<div class="modal-footer justify-content-between" style="background-color: #D4EAFC;">
 				<div class="row">
 					<div class="col-md-12">
 						<div class="text-right">
-							<button type="reset" class="btn btn-default" id="btnmCerDocingre" data-dismiss="modal">
-								Cerrar
-							</button>
+							<button type="reset" class="btn btn-default" id="btnmCerDocingre" data-dismiss="modal">Cerrar</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</div>
-<!-- /.modal-->
-
-
-<!-- Script Generales -->
-<script type="text/javascript">
-	var baseurl = "<?php echo base_url();?>";
-</script>
+	  </div>
+	</div> 
+	<!-- /.modal-->
+	
+	
+	<!-- Script Generales -->
+	<script type="text/javascript">
+		var baseurl = "<?php echo base_url();?>"; 
+	</script>

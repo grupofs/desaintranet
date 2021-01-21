@@ -60,6 +60,8 @@ $route['cpanel'] = 'cprincipal/principalClie';
 $route['frontdesk'] = 'cprincipal/ventanasClie';
 
 $route['perfil'] = 'cprincipal/perfilusuario';
+$route['perfilclie'] = 'cprincipal/perfilcliente';
+
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

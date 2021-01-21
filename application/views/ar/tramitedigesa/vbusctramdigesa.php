@@ -1,5 +1,5 @@
 <?php
-    $idusu = $this -> session -> userdata('s_idusuario');
+    $idusu = $this->session->userdata('s_idusuario');
 ?>
 
 <style>

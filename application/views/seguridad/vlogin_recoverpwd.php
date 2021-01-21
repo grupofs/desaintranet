@@ -13,6 +13,10 @@
                 $grupo = 'FS Certificaciones';
                 $cia = 2;
                 $colorWind = 'card-navy';
+            elseif ($ccia == '0'):
+                $grupo = 'FS - FSC';
+                $cia = 0;
+                $colorWind = 'card-secondary';
             endif;
 
             $set_tipo = $tipo;
@@ -43,6 +47,9 @@
         <?php elseif ($cia == 2): ?>
                 <link rel="stylesheet" href="<?php echo public_url(); ?>cssweb/loginfsc.css">
                 <link rel="shortcut icon" href="<?php echo public_url(); ?>images/ico-fsc.ico" type="image/x-icon" />
+        <?php elseif ($cia == 0): ?>
+                <link rel="stylesheet" href="<?php echo public_url(); ?>cssweb/loginext.css">
+                <link rel="shortcut icon" href="<?php echo public_url(); ?>images/favicon.png" type="image/x-icon" />
         <?php endif; ?>
     </head>
 

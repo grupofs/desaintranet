@@ -74,8 +74,6 @@ $(function() {
         $('#mtxtc_c_r').val(evaluacion.c_c_r);
 		if (evaluacion.textPais) {
 			$('#cboPais').refreshSelect2([{ id: evaluacion.pais, text: evaluacion.textPais }]);
-		} else {
-			$('#cboPais').refreshSelect2();
 		}
         $('#cboc_n').val(evaluacion.c_n).change();
         $('#cbod_i').val(evaluacion.d_i).change();

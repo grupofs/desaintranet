@@ -17,13 +17,13 @@ class Cexpediente extends CI_Controller
      * Ruta para el ingreso de FICHA
      * @var string
      */
-    private $carpetaFICHA = '1/04/07/FICHAS/';
+    private $carpetaFICHA = '10407/FICHAS/';
 
     /**
      * Ruta para el ingreso de PDF
      * @var string
      */
-    private $carpetaPDF = '1/04/07/PDF/';
+    private $carpetaPDF = '10407/PDF/';
 
 
     /**
@@ -53,8 +53,6 @@ class Cexpediente extends CI_Controller
         $ccliente = $this->input->post('ccliente');
         $cproveedor = $this->input->post('cproveedor');
         $expedientes = $this->input->post('expediente');
-        $mostrarVencidos = $this->input->post('mostrar_vencidos');
-		$mostrarVencidos = (empty($mostrarVencidos)) ? 0 : $mostrarVencidos;
 
         $ccliente = (empty($ccliente)) ? '00005' : $ccliente;
         $fdesde = ($fdesde == '') ? null : substr($fdesde, 6, 4) . '-' . substr($fdesde, 3, 2) . '-' . substr($fdesde, 0, 2);
@@ -68,48 +66,7 @@ class Cexpediente extends CI_Controller
             '@fhasta' => $fhasta,
         );
         $resultado = $this->mexpediente->lista($parametros);
-        $resultadoExpedientes = [];
-        if (!empty($resultado)) {
-        	// Si no se toma en cuenta el filtro de vencidos, se muestra el resultado
-        	if (!$mostrarVencidos) {
-				$resultadoExpedientes = $resultado;
-			} else {
-        		$fechaActual = \Carbon\Carbon::now('America/Lima');
-				foreach ($resultado as $key => $value) {
-					$producto = (new mproducto())->primerProducto($value->id_expediente);
-					if (!empty($producto)) {
-						if (!empty($producto->f_evaluado) && validateDate($producto->f_evaluado, 'Y-m-d')) {
-							$evaluacion = $this->mevaluar->buscarExpediente($value->id_expediente, $producto->id_producto);
-							if (!empty($evaluacion)) {
-								// Solo para los de status Observado
-								if ($evaluacion->status == 3) {
-									$estado = $value->destado;
-									$fechaPorVencer = \Carbon\Carbon::createFromFormat('Y-m-d', $producto->f_evaluado, 'America/Lima');
-									$fechaVencido = \Carbon\Carbon::createFromFormat('Y-m-d', $producto->f_evaluado, 'America/Lima');
-									// Por Vencer
-									$fechaPorVencer->addWeekdays(13);
-									if ($fechaActual->gte($fechaPorVencer)) {
-										$estado = 'Por Vencer';
-									}
-									// Vencido
-									$fechaVencido->addWeekdays(15);
-									if ($fechaActual->gt($fechaVencido)) {
-										$estado = 'Vencido';
-									}
-									// Solo se muestran los "Por vencer y Vencidos"
-									if ($estado == 'Por Vencer' || $estado == 'Vencido') {
-										$value->destado = $estado;
-										$resultadoExpedientes[] = $value;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-
-        echo json_encode($resultadoExpedientes);
+        echo json_encode($resultado);
     }
 
     /**
@@ -635,11 +592,11 @@ class Cexpediente extends CI_Controller
                 $date = date_create($fecha);  
                 date_add($date,date_interval_create_from_date_string("15 days"));
                 $fechavence = date_format($date, "d-m-Y");
-
+                
                 $html = '<html>
                     <head>
                         <title>'.$expediente.'</title>
-                        <link rel="shortcut icon" href="' . base_url('assets/images/ico-gfs.ico') . '" class="img-circle" type="image/x-icon" />
+                        <link rel="shortcut icon" href="./assets/images/ico-gfs.ico" class="img-circle" type="image/x-icon" />
                         <style>
                             @page {
                                 margin: 0.5in 0.5in 0.5in 0.5in;;
@@ -816,10 +773,11 @@ class Cexpediente extends CI_Controller
                 $html .= '<table width="700px" class="marco" align="center" style="font-family:arial; font-size:10px; border: 1px solid black;">
                     <tr>
                         <td width="20px">N°</td>
-                        <td width="120px" align="center">EAN</td>
-                        <td width="280px" align="center">Descripción</td>
-                        <td width="130px" align="center">Marca</td>
+                        <td width="90px" align="center">EAN</td>
+                        <td width="250px" align="center">Descripción</td>
+                        <td width="100px" align="center">Marca</td>
                         <td width="120px" align="center">Presentación</td>
+                        <td width="100px" align="center">Observaciones</td>
                     </tr>';
                     $resultadoDet = $this->mexpediente->pdfCargoRecepcion_det($parametros);
                     if ($resultadoDet){
@@ -837,6 +795,7 @@ class Cexpediente extends CI_Controller
                                 <td>'.$descripcion.'</td>
                                 <td>'.$marca.'</td>
                                 <td>'.$presentacion.'</td>
+                                <td>'.$observacion.'</td>
                             </tr>';
                             $posDet++;
                         }
@@ -844,11 +803,9 @@ class Cexpediente extends CI_Controller
                 $html .= '</table>
                     <p>&nbsp;</p>
                     <div align="justify" style="padding-right: 15px; padding-left: 15px;">  
-                        <span style="font-family:arial; font-size:13px; font-weight: bold" align="justify">
-                        	Importante: En caso de presentar muestras para la evaluación, puede ser abierta o rasgada, considerar que las muestras no regresarán para foto y otros. Es preciso señalar que usted
-cuenta con 15 dias ÚTILES contados a partir de la recepcion de las muestras para proceder con su recojo sin considerar el estado de evaluación (Aprobado /
-Observado / Rechazado). El recojo no aplica para los productos que tienen un tiempo menor o igual a 15 diás de viada útil.
-						</span>
+                        <span style="font-family:arial; font-size:10px;" align="justify">Importante : La muestra para la evaluación, puede ser abierta o rasgada, considerar que las muestras no regresarán para foto y otros. Es preciso señalar que usted cuenta con 15 dias(
+                        '.$fechavence.') contados a partir de la recepcion de las muestras para proceder con su recojo sin considerar el estado de evaluación (Aprobado / Observado / Rechazado). El recojo no aplica para los productos
+                        que tienen un tiempo menor o igual a 15 diás de viada útil.</span>
                     </div>
                     </page>
                     </div>';

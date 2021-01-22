@@ -17,30 +17,6 @@ $(document).ready(function() {
     $('#divtblGrid').show(); 
     $('#divtblExcel').hide();
 
-    if ($('#hdnidusu').val() == '3'){
-        $('#divEmpresas').show(); 
-    }else{
-        $('#divEmpresas').hide();
-        var v_cboClie = $('#hdnccliente').val();
-        var params = { "ccliente":v_cboClie };
-
-        $.ajax({
-            type: 'ajax',
-            method: 'post',
-            url: baseurl+"ar/tramites/cbusctramdigesa/getcbomarcaxclie",
-            dataType: "JSON",
-            async: true,
-            data: params,
-            success:function(result)
-            {
-                $("#cbomarca").html(result);           
-            },
-            error: function(){
-                alert('Error, no se puede cargar la lista desplegable de establecimiento');
-            }
-        });
-    }
-
     /*LLENADO DE COMBOS*/  
     
     var params = { 
@@ -220,13 +196,9 @@ $("#btnBuscar").click(function (){
     var vClie;
 
     varfdesde = $('#txtFIni').val();
-    varfhasta = $('#txtFFin').val();    
-    
-    if ($('#hdnidusu').val() == '3'){
-        vClie = $('#cbocliente').val(); 
-    }else{
-        vClie = $('#hdnccliente').val();
-    }       
+    varfhasta = $('#txtFFin').val();  
+        
+    vClie = $('#cbocliente').val();
 
     var parametros = {
         "codprod"     : $('#txtcodprodu').val(),

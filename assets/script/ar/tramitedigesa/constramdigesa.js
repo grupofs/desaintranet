@@ -16,6 +16,30 @@ $(document).ready(function () {
 
 	$('#divtblGrid').show();
 	$('#divtblExcel').hide();
+
+    if ($('#hdnsgrupo').val() == '3'){
+        $('#divEmpresas').show(); 
+    }else{
+        $('#divEmpresas').hide();
+        var v_cboClie = $('#hdnccliente').val();
+        var params = { "ccliente":v_cboClie };
+
+        $.ajax({
+            type: 'ajax',
+            method: 'post',
+            url: baseurl+"ar/tramites/cbusctramdigesa/getcbomarcaxclie",
+            dataType: "JSON",
+            async: true,
+            data: params,
+            success:function(result)
+            {
+                $("#cbomarca").html(result);           
+            },
+            error: function(){
+                alert('Error, no se puede cargar la lista desplegable de establecimiento');
+            }
+        });
+    }
 	
     var params = { 
         "idusuario"   : $('#hdnidusu').val(),
@@ -192,9 +216,16 @@ $("#cbotipoprod").change(function(){
 });
 
 $("#btnBuscar").click(function () {
+    var vClie;
 
 	varfdesde = $('#txtFIni').val();
-	varfhasta = $('#txtFFin').val();
+	varfhasta = $('#txtFFin').val(); 
+    
+    if ($('#hdnsgrupo').val() == '3'){
+        vClie = $('#cbocliente').val(); 
+    }else{
+        vClie = $('#hdnccliente').val();
+    }    
 
 	var parametros = {
         "codprod"     : $('#txtcodprodu').val(),
@@ -211,7 +242,7 @@ $("#btnBuscar").click(function () {
         "ccategoria"  : null,
         "est"         : $('#cboestproducto').val(),
         "tipoest"     : tipotramite, 
-        "ccliente"    : $('#cbocliente').val(),
+        "ccliente"    : vClie,
         "tiporeporte" : tiporeporte,    
         "iln"        : null
 	};

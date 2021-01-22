@@ -57,5 +57,24 @@ class Cclientereportes extends CI_Controller
 
     }
     
+    public function getlistarexpedientes() 
+    {	
+		$varnull 	= 	'';	
+
+		$fdesde = $this->input->post('fdesde');
+		$fhasta = $this->input->post('fhasta');
+
+		$parametros = array(
+            '@ccliente' 	=>	$this->input->post('ccliente'),
+            '@cproveedor' 	=>	$this->input->post('cproveedor'),
+            '@expediente' 	=>	($this->input->post('expediente') == $varnull) ? '%' : '%'.$this->input->post('expediente').'%',
+            '@fdesde' 	    =>	($this->input->post('fdesde') == '%') ? NULL : substr($fdesde, 6, 4).'-'.substr($fdesde,3 , 2).'-'.substr($fdesde, 0, 2), 
+            '@fhasta' 	    =>	($this->input->post('fhasta') == '%') ? NULL : substr($fhasta, 6, 4).'-'.substr($fhasta,3 , 2).'-'.substr($fhasta, 0, 2), 
+		);
+		$resultado = $this->mclientereportes->getlistarexpedientes($parametros);
+		echo json_encode($resultado);
+
+    }
+    
 }
 ?>	

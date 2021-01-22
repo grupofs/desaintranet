@@ -53,6 +53,18 @@ class Mclientereportes extends CI_Model
             return False;
         }		   
     }
+
+    public function getlistarexpedientes($parametros)
+    {
+        $procedure = "call usp_ar_evalprod_listaexpediente(?,?,?,?,?)";
+        $query = $this->db-> query($procedure,$parametros);
+
+        if ($query->num_rows() > 0) { 
+            return $query->result();
+        }{
+            return False;
+        }		   
+    }
     
 }
 ?>

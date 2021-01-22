@@ -372,6 +372,10 @@
         <!-- file input -->
         <script src="<?php echo public_url(); ?>template/plugins/fileinput/fileinput.min.js"></script>
 
+        <!-- highcharts -->
+        <script src="<?php echo public_url() ?>template/highcharts/highcharts.js"></script>
+        <script src="<?php echo public_url() ?>template/highcharts/exporting.js"></script>
+        <script src="<?php echo public_url() ?>template/highcharts/export-data.js"></script>
 
         <!-- AdminLTE App -->
         <script src="<?php echo public_url(); ?>template/GUI/dist/js/adminlte.js"></script>

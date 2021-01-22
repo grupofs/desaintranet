@@ -2,51 +2,14 @@ var oTable_vistageneral;
 var varfdesde='%', varfhasta='%';
 
     $(document).ready(function() {
-        $('#FechaDesde, #FechaHasta').datepicker({
-            format: "dd/mm/yyyy",
-            autoclose: true
-          }).next().on("click", function () {
-            $(this).prev().focus(); 
+
+        $('#txtFDesde,#txtFHasta').datetimepicker({
+            format: 'DD/MM/YYYY',
+            daysOfWeekDisabled: [0],
+            locale:'es'
         });
-        
-        
-        $('#cboTipobuscar').change(function(){
-            cboTipo = $('#cboTipobuscar').val();
             
-            if(cboTipo == "1"){
-                $("#FechaDesde").prop("disabled",true);
-                $("#FechaHasta").prop("disabled",true);
-                varfdesde = '%';
-                varfhasta = '%';
-                fechaAyerHoy();
-            }else if(cboTipo == "2"){
-                $("#FechaDesde").prop("disabled",false);
-                $("#FechaHasta").prop("disabled",false);
-                varfdesde = '';
-                varfhasta = '';
-                fechaActual();
-            }else if(cboTipo == "0"){
-                $("#FechaDesde").prop("disabled",true);
-                $("#FechaHasta").prop("disabled",true);
-                varfdesde = '%';
-                varfhasta = '%';
-                fechaActual();
-            }         
-        });
-    
-        fechaAyerHoy = function(){
-            var ahora = new Date();
-            ahora.setDate(ahora.getDate() - 1);
-            $('#FechaDesde').datepicker('setDate', ahora);
-            $('#FechaHasta').datepicker('setDate', new Date());
-        }
-
-        fechaActual = function(){
-            $('#FechaDesde').datepicker('setDate', new Date());
-            $('#FechaHasta').datepicker('setDate', new Date());
-        }
-
-        fechaAyerHoy();
+        fechaActual();
 
         /*LLENADO DE COMBOS*/    
         var vccliente = '00005';//$('#idcliente').val();
@@ -56,7 +19,7 @@ var varfdesde='%', varfhasta='%';
         $.ajax({
             type: 'ajax',
             method: 'post',
-            url: baseurl+"ar/cevalproductos/getproveedoreseval",
+            url: baseurl+"ar/evalprod/cclientereportes/getproveedoreseval",
             dataType: "JSON",
             async: true,
             data: params,
@@ -69,14 +32,10 @@ var varfdesde='%', varfhasta='%';
             }
         });
 
-        var vccliente = '00005';//$('#idcliente').val();
-        var params = { 
-            "ccliente" : vccliente
-        };  
         $.ajax({
             type: 'ajax',
             method: 'post',
-            url: baseurl+"ar/cevalproductos/getareaeval",
+            url: baseurl+"ar/evalprod/cclientereportes/getareaeval",
             dataType: "JSON",
             async: true,
             data: params,
@@ -91,58 +50,105 @@ var varfdesde='%', varfhasta='%';
 
     })
 
+    fechaActual = function(){
+        var fecha = new Date();		
+        var fechatring = ("0" + fecha.getDate()).slice(-2) + "/" + ("0"+(fecha.getMonth()+1)).slice(-2) + "/" +fecha.getFullYear() ;
+    
+        $('#txtFDesde').datetimepicker('date', moment(fechatring, 'DD/MM/YYYY') );
+        $('#txtFHasta').datetimepicker('date', moment(fechatring, 'DD/MM/YYYY') );
+    
+    };
+	
+    $('#txtFDesde').on('change.datetimepicker',function(e){	
+        
+        $('#txtFHasta').datetimepicker({
+            format: 'DD/MM/YYYY',
+            daysOfWeekDisabled: [0],
+            locale:'es'
+        });	
+    
+        var fecha = moment(e.date).format('DD/MM/YYYY');		
+        
+        $('#txtFHasta').datetimepicker('minDate', fecha);
+        $('#txtFHasta').datetimepicker('date', fecha);
+    
+    });
 
-    $('#btnBuscarListado').click(function(){
+    $("#chkFreg").on("change", function () {
+        var fecha = new Date();		
+        var fechatring1 = "01/01/" +fecha.getFullYear() ;
+        var fechatring2 = ("0" + fecha.getDate()).slice(-2) + "/" + ("0"+(fecha.getMonth()+1)).slice(-2) + "/" +fecha.getFullYear() ;
+        
+        if($("#chkFreg").is(":checked") == true){ 
+            $("#txtFIni").prop("disabled",false);
+            $("#txtFFin").prop("disabled",false);
+            
+            varfdesde = '';
+            varfhasta = '';
+    
+            $('#txtFDesde').datetimepicker('date', fechatring1);
+            $('#txtFHasta').datetimepicker('date', fechatring2);
+        
+        }else if($("#chkFreg").is(":checked") == false){ 
+            $("#txtFIni").prop("disabled",true);
+            $("#txtFFin").prop("disabled",true);
+            
+            varfdesde = '%';
+            varfhasta = '%';
+    
+            $('#txtFDesde').datetimepicker('date', moment(fechatring2, 'DD/MM/YYYY') );
+            $('#txtFHasta').datetimepicker('date', moment(fechatring2, 'DD/MM/YYYY') );
+    
+        }; 
+    });
 
-        if(varfdesde != '%'){ varfdesde = $('#FechaDesde').val(); }
-        if(varfhasta != '%'){ varfhasta = $('#FechaHasta').val(); }   
+    $('#btnBuscar').click(function(){ 
 
+        if(varfdesde != '%'){ varfdesde = $('#txtFIni').val(); }
+        if(varfhasta != '%'){ varfhasta = $('#txtFFin').val(); }  
 
+        var parametros = {
+            "ccliente"      : '00005', 
+            "fini"        : varfdesde, 
+            "ffin"        : varfhasta,
+            "id_area"       : $('#cboArea').val(),
+            "status"        : $('#cbostatus').val(),
+            "proveedor_nuevo" : $('#cboProvnuevo').val(),
+            "id_proveedor"  : $('#cboProveedor').val(),
+            "expediente"    : $('#txtExpediente').val(),
+            "rs"            : $('#txtRs').val(),
+            "codigo"        : $('#txtEan').val(),
+            "marca"         : $('#txtMarca').val(),
+            "descripcion"   : $('#txtProducto').val(),
+            "fabricante"    : $('#txtFabricante').val(),
+            "eanmultiple"   : $('#mtxtEANmultiple').val(),
+            "skumultiple"   : $('#mtxtSKUmultiple').val(),
+        };  
+    
+        getListvistageneral(parametros);
+    });
+    
+    getListvistageneral = function(param){
         oTable_vistageneral = $('#tblvistageneral').DataTable({
-            'bJQueryUI'   : true,
-            'scrollY'     : '400px',
-            'scrollX'     : true,
-            'processing'  : true,      
-            'bDestroy'    : true,
-            'lengthMenu'  : [[10, 20, 30, -1], [10, 20, 30, "Todo"]],
-            'paging'      : false,
-            'info'        : true,
-            'filter'      : true, 
+            "processing"  	: true,
+            "bDestroy"    	: true,
+            "stateSave"     : true,
+            "bJQueryUI"     : true,
+            "scrollY"     	: "500px",
+            "scrollX"     	: true, 
+            'AutoWidth'     : true,
+            "paging"      	: false,
+            "info"        	: true,
+            "filter"      	: true, 
+            "ordering"		: false,
+            "responsive"    : false,
+            "select"        : true,
             'ajax'        : {
-                              "url"   : baseurl+"ar/cevalproductos/getvistageneral/",
+                              "url"   : baseurl+"ar/evalprod/cclientereportes/getvistageneral/",
                               "type"  : "POST", 
-                              "data": function ( d ) {
-                                  d.ccliente = '00005'; 
-                                  d.fdesde = varfdesde; 
-                                  d.fhasta = varfhasta; 
-                                  d.id_area = $('#cboArea').val();
-                                  d.status = $('#cbostatus').val();
-                                  d.proveedor_nuevo = $('#cboProvnuevo').val();
-                                  d.id_proveedor = $('#cboProveedor').val();
-                                  d.expediente = $('#txtExpediente').val();
-                                  d.rs = $('#txtRs').val();
-                                  d.codigo = $('#txtEan').val();
-                                  d.marca = $('#txtMarca').val();
-                                  d.descripcion = $('#txtProducto').val();
-                                  d.fabricante = $('#txtFabricante').val();
-                                  d.eanmultiple = $('#mtxtEANmultiple').val();
-                                  d.skumultiple = $('#mtxtSKUmultiple').val();
-                              },     
+                              "data"  : param, 
                               dataSrc : ''        
             },
-            dom: 'Bfrtip',
-            buttons: [{
-                extend: 'excelHtml5',
-                text: 'Excel <i class="fa fa-file-excel-o"></i>',
-                className: 'btn btn-success',
-                title: 'LISTADO',
-                extension: '.xlsx',
-                exportOptions: {
-                    modifier: {
-                        page: 'current'
-                    }
-                }
-            }],
             'columns'     : [
                               {
                                 "class"     :   "index",
@@ -201,14 +207,7 @@ var varfdesde='%', varfhasta='%';
                               {data: 'azucar', orderable   :   false, targets: 37},
                               {data: 'sodio', orderable   :   false, targets: 38},
                               {data: 'grasas_trans', orderable   :   false, targets: 39}
-                            ], 
-              "columnDefs": [
-                {
-                    "defaultContent": " ",
-                    "targets": "_all"
-                }
-               ],
-               'order'       : [[ 1, "desc" ]] 
+                            ]
           });        
           /***************************************************/
           // Enumeracion 
@@ -218,7 +217,7 @@ var varfdesde='%', varfhasta='%';
               } );
           } ).draw();     
           /***************************************************/         
-    });
+    };
    
     editSKU = function(id_producto,codsku){        
 		$('#mhdnIdproducto').val(id_producto);

@@ -17,13 +17,13 @@ class Cexpediente extends CI_Controller
      * Ruta para el ingreso de FICHA
      * @var string
      */
-    private $carpetaFICHA = '10407/FICHAS/';
+    private $carpetaFICHA = '1/04/07/FICHAS/';
 
     /**
      * Ruta para el ingreso de PDF
      * @var string
      */
-    private $carpetaPDF = '10407/PDF/';
+    private $carpetaPDF = '1/04/07/PDF/';
 
 
     /**
@@ -53,6 +53,8 @@ class Cexpediente extends CI_Controller
         $ccliente = $this->input->post('ccliente');
         $cproveedor = $this->input->post('cproveedor');
         $expedientes = $this->input->post('expediente');
+		$mostrarVencidos = $this->input->post('mostrar_vencidos');
+		$mostrarVencidos = (empty($mostrarVencidos)) ? 0 : $mostrarVencidos;
 
         $ccliente = (empty($ccliente)) ? '00005' : $ccliente;
         $fdesde = ($fdesde == '') ? null : substr($fdesde, 6, 4) . '-' . substr($fdesde, 3, 2) . '-' . substr($fdesde, 0, 2);
@@ -66,7 +68,47 @@ class Cexpediente extends CI_Controller
             '@fhasta' => $fhasta,
         );
         $resultado = $this->mexpediente->lista($parametros);
-        echo json_encode($resultado);
+		$resultadoExpedientes = [];
+		if (!empty($resultado)) {
+			// Si no se toma en cuenta el filtro de vencidos, se muestra el resultado
+			if (!$mostrarVencidos) {
+				$resultadoExpedientes = $resultado;
+			} else {
+				$fechaActual = \Carbon\Carbon::now('America/Lima');
+				foreach ($resultado as $key => $value) {
+					$producto = (new mproducto())->primerProducto($value->id_expediente);
+					if (!empty($producto)) {
+						if (!empty($producto->f_evaluado) && validateDate($producto->f_evaluado, 'Y-m-d')) {
+							$evaluacion = $this->mevaluar->buscarExpediente($value->id_expediente, $producto->id_producto);
+							if (!empty($evaluacion)) {
+								// Solo para los de status Observado
+								if ($evaluacion->status == 3) {
+									$estado = $value->destado;
+									$fechaPorVencer = \Carbon\Carbon::createFromFormat('Y-m-d', $producto->f_evaluado, 'America/Lima');
+									$fechaVencido = \Carbon\Carbon::createFromFormat('Y-m-d', $producto->f_evaluado, 'America/Lima');
+									// Por Vencer
+									$fechaPorVencer->addWeekdays(13);
+									if ($fechaActual->gte($fechaPorVencer)) {
+										$estado = 'Por Vencer';
+									}
+									// Vencido
+									$fechaVencido->addWeekdays(15);
+									if ($fechaActual->gt($fechaVencido)) {
+										$estado = 'Vencido';
+									}
+									// Solo se muestran los "Por vencer y Vencidos"
+									if ($estado == 'Por Vencer' || $estado == 'Vencido') {
+										$value->destado = $estado;
+										$resultadoExpedientes[] = $value;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+        echo json_encode($resultadoExpedientes);
     }
 
     /**
@@ -572,7 +614,7 @@ class Cexpediente extends CI_Controller
 		
 		$parametros = array( 
             '@id_expediente'   	=> $id_expediente,
-		);			
+		);
 		$resultado = $this->mexpediente->pdfCargoRecepcion_cab($parametros);
 		if ($resultado){
 			foreach($resultado as $row){
@@ -632,10 +674,10 @@ class Cexpediente extends CI_Controller
                     <table width="700px" style="font-family:arial; font-size:10px;">
                         <tr>
                             <td align="left" colspan="2">
-                                <img src="./FTPfileserver/Imagenes/formatos/10407/cargo/00005/tottus.png" width="120" height="40" />
+                                <img src="' . base_url('FTPfileserver/Imagenes/formatos/10407/cargo/00005/tottus.png') . '" width="120" height="40" />
                             </td>
                             <td align="right" colspan="2">
-                                <img src="./FTPfileserver/Imagenes/formatos/10407/cargo/00005/gfs_75.png" width="120" height="40" />
+                                <img src="' . base_url('FTPfileserver/Imagenes/formatos/10407/cargo/00005/gfs_75.png') . '" width="120" height="40" />
                             </td>
                         </tr>
                         <tr>
@@ -726,25 +768,25 @@ class Cexpediente extends CI_Controller
                         <td width="70px" style="height:10px;">&nbsp;Muestra</td>
                         <td width="15px" align="left">
                             <?php if($m=="1"){ ?> 
-                            <img src="./FTPfileserver/Imagenes/formatos/10407/cargo/correcto.jpg" alt="Smiley face" width="15" height="15" align="center">
+                            <img src="' . base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg') . '" alt="Smiley face" width="15" height="15" align="center">
                             <?php } ?>                   
                         </td>
                         <td width="80px">&nbsp;Ficha Tecnica</td>
                         <td width="15px" align="left">
                             <?php if($f=="1"){ ?> 
-                            <img src="./FTPfileserver/Imagenes/formatos/10407/cargo/correcto.jpg" alt="Smiley face" width="15" height="15" align="center">
+                            <img src="' . base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg') . '" alt="Smiley face" width="15" height="15" align="center">
                             <?php } ?>   
                         </td>
                         <td width="60px">&nbsp;RS/NSO/RD</td>
                         <td width="15px" align="left">
                             <?php if($r=="1"){ ?> 
-                            <img src="./FTPfileserver/Imagenes/formatos/10407/cargo/correcto.jpg" alt="Smiley face" width="15" height="15" align="center">
+                            <img src="' . base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg') . '" alt="Smiley face" width="15" height="15" align="center">
                             <?php } ?>  
                         </td>
                         <td width="60px">&nbsp;Hoja de Seguridad</td>
                         <td width="15px" align="left">
                             <?php if($h=="1"){ ?> 
-                            <img src="./FTPfileserver/Imagenes/formatos/10407/cargo/correcto.jpg" alt="Smiley face" width="15" height="15" align="center">
+                            <img src="' . base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg') . '" alt="Smiley face" width="15" height="15" align="center">
                             <?php } ?>  
                         </td>
                     </tr>
@@ -752,19 +794,19 @@ class Cexpediente extends CI_Controller
                         <td style="height:10px;">&nbsp;Licencia de Func.</td>
                         <td align="left">
                             <?php if($l=="1"){ ?> 
-                            <img src="./FTPfileserver/Imagenes/formatos/10407/cargo/correcto.jpg" alt="Smiley face" width="15" height="15" align="center">
+                            <img src="' . base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg') . '" alt="Smiley face" width="15" height="15" align="center">
                             <?php } ?>  
                         </td>
                         <td colspan="2" >&nbsp;Inspeccion Higienico Sanitaria</td>
                         <td colspan="2" align="left">
                             <?php if($i=="1"){ ?> 
-                            <img src="./FTPfileserver/Imagenes/formatos/10407/cargo/correcto.jpg" alt="Smiley face" width="15" height="15" align="center">
+                            <img src="' . base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg') . '" alt="Smiley face" width="15" height="15" align="center">
                             <?php } ?>  
                         </td>
                         <td>&nbsp;Otros</td>
                         <td  align="left">
                             <?php if($o=="1"){ ?> 
-                            <img src="./FTPfileserver/Imagenes/formatos/10407/cargo/correcto.jpg" alt="Smiley face" width="15" height="15" align="center">
+                            <img src="' . base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg') . '" alt="Smiley face" width="15" height="15" align="center">
                             <?php } ?>  
                         </td>
                     </tr>
@@ -773,11 +815,10 @@ class Cexpediente extends CI_Controller
                 $html .= '<table width="700px" class="marco" align="center" style="font-family:arial; font-size:10px; border: 1px solid black;">
                     <tr>
                         <td width="20px">N°</td>
-                        <td width="90px" align="center">EAN</td>
-                        <td width="250px" align="center">Descripción</td>
-                        <td width="100px" align="center">Marca</td>
+                        <td width="120px" align="center">EAN</td>
+                        <td width="280px" align="center">Descripción</td>
+                        <td width="130px" align="center">Marca</td>
                         <td width="120px" align="center">Presentación</td>
-                        <td width="100px" align="center">Observaciones</td>
                     </tr>';
                     $resultadoDet = $this->mexpediente->pdfCargoRecepcion_det($parametros);
                     if ($resultadoDet){
@@ -787,7 +828,6 @@ class Cexpediente extends CI_Controller
                             $descripcion 	= $rowDet->descripcion;
                             $marca 	        = $rowDet->marca;
                             $presentacion 	= $rowDet->presentacion;
-                            $observacion 	= $rowDet->observacion;
 
                             $html .= '<tr style="font-family:arial; font-size:9px;">
                                 <td>'.$posDet.'</td>
@@ -795,7 +835,6 @@ class Cexpediente extends CI_Controller
                                 <td>'.$descripcion.'</td>
                                 <td>'.$marca.'</td>
                                 <td>'.$presentacion.'</td>
-                                <td>'.$observacion.'</td>
                             </tr>';
                             $posDet++;
                         }
@@ -803,9 +842,11 @@ class Cexpediente extends CI_Controller
                 $html .= '</table>
                     <p>&nbsp;</p>
                     <div align="justify" style="padding-right: 15px; padding-left: 15px;">  
-                        <span style="font-family:arial; font-size:10px;" align="justify">Importante : La muestra para la evaluación, puede ser abierta o rasgada, considerar que las muestras no regresarán para foto y otros. Es preciso señalar que usted cuenta con 15 dias(
-                        '.$fechavence.') contados a partir de la recepcion de las muestras para proceder con su recojo sin considerar el estado de evaluación (Aprobado / Observado / Rechazado). El recojo no aplica para los productos
-                        que tienen un tiempo menor o igual a 15 diás de viada útil.</span>
+                        <span style="font-family:arial; font-size:13px; font-weight: bold" align="justify">
+                        	Importante: En caso de presentar muestras para la evaluación, puede ser abierta o rasgada, considerar que las muestras no regresarán para foto y otros. Es preciso señalar que usted
+cuenta con 15 dias ÚTILES(' . $fechavence . ') contados a partir de la recepcion de las muestras para proceder con su recojo sin considerar el estado de evaluación (Aprobado /
+Observado / Rechazado). El recojo no aplica para los productos que tienen un tiempo menor o igual a 15 diás de viada útil.
+						</span>
                     </div>
                     </page>
                     </div>';

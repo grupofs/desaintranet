@@ -128,7 +128,7 @@ class Mcotizacion extends CI_Model {
     public function setcotizacion($parametros) {  // Registrar evaluacion PT
         $this->db->trans_begin();
 
-        $procedure = "call usp_lab_coti_setcotizacion(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        $procedure = "call usp_lab_coti_setcotizacion(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
         $query = $this->db->query($procedure,$parametros);
 
         if ($this->db->trans_status() === FALSE)
@@ -244,7 +244,7 @@ class Mcotizacion extends CI_Model {
     public function getlistarensayo($idcoti,$nversion,$idproduc) { // Listar Ensayos	
         $sql = "select a.cinternocotizacion, a.nversioncotizacion, a.nordenproducto, a.censayo as 'CENSAYO', b.censayofs as 'CODIGO', b.densayo as 'DENSAYO', b.naniopublicacion as 'ANIO', b.dnorma as 'NORMA',
                     a.icostoclienteparcial as 'CONSTOENSAYO', a.nvias as 'NVIAS', a.ncantidad as 'CANTIDAD', a.icostorealparcial as 'COSTO', a.ctipoproducto as 'TIPOPROD',
-                    if sacnoac = 'N' then 'NO AC' ELSE 'AC' end if as 'ACRE', c.dproducto, a.claboratorio
+                    if sacnoac = 'N' then 'NO AC' ELSE 'AC' end if as 'ACRE', c.dproducto, a.claboratorio, '' as 'SPACE'
                 from pensayoproducto a   
                     join mensayo b on b.censayo = a.censayo
                     join pproductoxcotizacion c on c.cinternocotizacion = a.cinternocotizacion and c.nversioncotizacion = a.nversioncotizacion and c.nordenproducto = a.nordenproducto   

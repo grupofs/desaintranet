@@ -71,7 +71,7 @@ class Ccotizacion extends CI_Controller {
 		$ccliente 		        = $this->input->post('cboregclie');
 		$cproveedorcliente 	    = $this->input->post('cboregprov');
 		$ccontacto 	            = $this->input->post('cboregcontacto');
-		$npermanenciamuestra 	= $this->input->post('mtxtregpermane');
+		$npermanenciamuestra 	= $this->input->post('mtxtcontramuestra');
 		$ntiempoentregainforme 	= $this->input->post('mtxtregentregainf');
 		$stiempoentregainforme 	= $this->input->post('txtregtipodias');
 		$dobservacion 		    = $this->input->post('mtxtobserv');
@@ -87,6 +87,7 @@ class Ccotizacion extends CI_Controller {
 		$itotal 	            = $this->input->post('txtmonttotal');
         $smostrarprecios 	    = ($this->input->post('chkregverpago') == '') ? 'N' : 'S';
 		$cusuario 			    = $this->input->post('mtxtcusuario');
+		$zpermanenciamuestra 	= $this->input->post('mtxtregpermane');
 		$accion 			    = $this->input->post('hdnAccionregcoti');
         
         $parametros = array(
@@ -116,6 +117,7 @@ class Ccotizacion extends CI_Controller {
             '@itotal'                   =>  $itotal,
             '@smostrarprecios'          =>  $smostrarprecios,
             '@cusuario'                 =>  $cusuario,
+			'@zpermanenciamuestra'    	=>  $zpermanenciamuestra,
             '@accion'           	    =>  $accion
         );
         $retorna = $this->mcotizacion->setcotizacion($parametros);

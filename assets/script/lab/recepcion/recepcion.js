@@ -21,14 +21,61 @@ $(document).ready(function() {
     $('#tablab a[href="#tablab-list"]').click(function(event){return false;});
     $('#tablab a[href="#tablab-reg"]').click(function(event){return false;});
 
-    $('#txtFDesde,#txtFHasta').datetimepicker({
+    $('#txtFDesde,#txtFHasta,#mtxtFRecep').datetimepicker({
         format: 'DD/MM/YYYY',
         daysOfWeekDisabled: [0],
         locale:'es'
     });
 
-    fechaActual();
- 
+    fechaAnioActual();
+    $('#chkFreg').prop("checked", true);
+
+    $('#frmRecepcion').validate({
+        rules: {
+            mtxtmproductoreal: {
+                required: true,
+            },
+        },
+        messages: {
+            mtxtmproductoreal: {
+                required: "Por Favor ingrese Nombre del Producto"
+            },
+        },
+        errorElement: 'span',
+        errorPlacement: function (error, element) {
+          error.addClass('invalid-feedback');
+          element.closest('.form-group').append(error);
+        },
+        highlight: function (element, errorClass, validClass) {
+          $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+          $(element).removeClass('is-invalid');
+        },        
+        submitHandler: function (form) {
+            var request = $.ajax({
+                url:$('#frmRecepcion').attr("action"),
+                type:$('#frmRecepcion').attr("method"),
+                data:$('#frmRecepcion').serialize(),
+                error: function(){
+                    Vtitle = 'Error en Guardar!!!';
+                    Vtype = 'error';
+                    sweetalert(Vtitle,Vtype); 
+                }
+            });
+            request.done(function( respuesta ) {
+                var posts = JSON.parse(respuesta);
+                
+                $.each(posts, function() {
+                    otblListProducto.ajax.reload(null,false);
+                    Vtitle = 'La Recepcion esta Guardada!!!';
+                    Vtype = 'success';
+                    sweetalert(Vtitle,Vtype);     
+                });
+            });
+            return false;
+        }
+    });
 });
 
 const objFormulario = {
@@ -93,6 +140,21 @@ fechaActual = function(){
     $('#txtFDesde').datetimepicker('date', moment(fechatring, 'DD/MM/YYYY') );
     $('#txtFHasta').datetimepicker('date', moment(fechatring, 'DD/MM/YYYY') );
 
+};
+
+fechaAnioActual = function(){
+    $("#txtFIni").prop("disabled",false);
+    $("#txtFFin").prop("disabled",false);
+        
+    varfdesde = '';
+    varfhasta = '';
+    
+    var fecha = new Date();		
+    var fechatring1 = "01/01/" +fecha.getFullYear() ;
+    var fechatring2 = ("0" + fecha.getDate()).slice(-2) + "/" + ("0"+(fecha.getMonth()+1)).slice(-2) + "/" +fecha.getFullYear() ;
+
+    $('#txtFDesde').datetimepicker('date', moment(fechatring1, 'DD/MM/YYYY') );
+    $('#txtFHasta').datetimepicker('date', moment(fechatring2, 'DD/MM/YYYY') );
 };
 	
 $('#txtFDesde').on('change.datetimepicker',function(e){	
@@ -247,6 +309,7 @@ $('#btnNuevo').click(function(){
     $("#txtmonttotal").prop({readonly:true});
 
     $('#regProductos').hide();
+    
 });
 
 fechaActualReg = function(){
@@ -289,41 +352,6 @@ iniRegCoti = function(subservicio,ccliente,cproveedor,ccontacto){
             alert('Error, No se puede autenticar por error');
         }
     }); 
-    /* 
-    var params = { "ccliente":ccliente};
-    $.ajax({
-        type: 'ajax',
-        method: 'post',
-        url: baseurl+"lab/coti/ccotizacion/getprovcliente",
-        dataType: "JSON",
-        async: true,
-        data: params,
-        success:function(result)
-        {
-            $('#cboregprov').html(result);
-            $('#cboregprov').val(cproveedor).trigger("change"); 
-        },
-        error: function(){
-            alert('Error, No se puede autenticar por error');
-        }
-    }); 
-    $.ajax({
-        type: 'ajax',
-        method: 'post',
-        url: baseurl+"lab/coti/ccotizacion/getcontaccliente",
-        dataType: "JSON",
-        async: true,
-        data: params,
-        success:function(result)
-        {
-            $('#cboregcontacto').html(result);
-            $('#cboregcontacto').val(ccontacto).trigger("change"); 
-        },
-        error: function(){
-            alert('Error, No se puede autenticar por error');
-        }
-    });
-    */  
 };
 
 $("#cboregclie").change(function(){ 
@@ -463,12 +491,13 @@ recuperaListproducto = function(){
             {responsivePriority: 1,"orderable": false, 
                 render:function(data, type, row){
                     return '<div class="text-left" >' +
-                        '<a data-toggle="modal" title="Editar" style="cursor:pointer; color:green;" data-target="#modalRecepcion" onClick="selCotiprodu(\'' + row.IDCOTI + '\',\'' + row.NVERSION + '\',\'' + row.IDPROD + '\',\'' + row.CLOCALCLIE + '\',\'' + row.PRODUCTO + '\',\'' + row.CCONDI + '\',\'' + row.NMUESTRA + '\',\'' + row.CPROCEDE + '\',\'' + row.CANTMIN + '\',\'' + row.ETIQUETA + '\',\'' + row.CTIPOPROD + '\',\'' + row.PORCION + '\',\'' + row.CUM + '\');"><span class="fas fa-edit fa-2x" aria-hidden="true"> </span> </a>'+
+                        '<a href="javascript:;" data-toggle="modal" title="Editar" style="cursor:pointer; color:green;" data-target="#modalRecepcion" onClick="selCotiprodu(\'' + row.cinternocotizacion + '\',\'' + row.nversioncotizacion + '\',\'' + row.nordenproducto + '\',\'' + row.cmuestra + '\',\'' + row.frecepcionmuestra + '\',\'' + row.drealproducto + '\',\'' + row.dpresentacion + '\',\'' + row.dtemperatura + '\',\'' + row.dcantidad + '\',\'' + row.dproveedorproducto + '\',\'' + row.dlote + '\',\'' + row.fenvase + '\',\'' + row.fmuestra + '\',\'' + row.hmuestra + '\',\'' + row.stottus + '\',\'' + row.ntrimestre + '\',\'' + row.zctipomotivo + '\',\'' + row.careacliente + '\',\'' + row.zctipoitem + '\',\'' + row.dubicacion + '\',\'' + row.dcondicion + '\',\'' + row.dobservacion + '\',\'' + row.dotraobservacion + '\');"><span class="fas fa-edit fa-2x" aria-hidden="true"> </span> </a>'+
                     '</div>';
                 }
             }
         ]
     }); 
+
     // Enumeracion 
     otblListProducto.on( 'order.dt search.dt', function () { 
         otblListProducto.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
@@ -479,126 +508,42 @@ recuperaListproducto = function(){
 
 $('#modalRecepcion').on('shown.bs.modal', function (e) {
     
+    $('#mtxtFRecep').datetimepicker({
+        format: 'DD/MM/YYYY',
+        daysOfWeekDisabled: [0],
+        locale:'es'
+    });
+    
+    $('#divExtra').hide();
 });
 
-selCotiprodu= function(IDCOTIZACION,NVERSION,IDPROD,CLOCALCLIE,PRODUCTO,CCONDI,NMUESTRA,CPROCEDE,CANTMIN,ETIQUETA,CTIPOPROD,PORCION,CUM){
-    $('#frmCreaProduc').trigger("reset");
-    $('#mhdnAccionProduc').val('A'); 
-    $('#mtxtidcotizacion').val(IDCOTIZACION); 
-    $('#mtxtnroversion').val(NVERSION);
-    $('#mhdnIdProduc').val(IDPROD);
+selCotiprodu = function(cinternocotizacion,nversioncotizacion,nordenproducto,cmuestra,frecepcionmuestra,drealproducto,dpresentacion,dtemperatura,dcantidad,dproveedorproducto,dlote,fenvase,fmuestra,hmuestra,stottus,ntrimestre,zctipomotivo,careacliente,zctipoitem,dubicacion,dcondicion,dobservacion,dotraobservacion){
+    $('#frmRecepcion').trigger("reset");
+    $('#mhdnAccionRecepcion').val('A');
+    
+    $('#mhdnidcotizacion').val(cinternocotizacion); 
+    $('#mhdnnroversion').val(nversioncotizacion);
+    $('#mhdnnordenproducto').val(nordenproducto);
 
-    $('#mcboregLocalclie').val(CLOCALCLIE);
-    $('#mtxtregProducto').val(PRODUCTO);
-    $('#mcboregcondicion').val(CCONDI);
-    $('#mtxtregmuestra').val(NMUESTRA);
-    $('#mcboregprocedencia').val(CPROCEDE);
-    $('#mtxtregcantimin').val(CANTMIN);
-    $('#mcboregetiquetado').val(ETIQUETA);
-    $('#mcboregoctogono').val(CTIPOPROD);
-    $('#mtxtregtamporci').val(PORCION);
-    $('#mcboregumeti').val(CUM);
+    $('#mtxtmcodigo').val(cmuestra);
+    $('#mtxtFrecepcion').val(frecepcionmuestra);
+    $('#mtxtmproductoreal').val(drealproducto);
+    $('#mtxtmpresentacion').val(dpresentacion);
+    $('#mtxttemprecep').val(dtemperatura);
+    $('#mtxtcantmuestra').val(dcantidad);    
+    $('#mtxtproveedor').val(dproveedorproducto);
+    $('#mtxtnrolote').val(dlote);
+    $('#mtxtFenvase').val(fenvase);
+    $('#mtxtFmuestra').val(fmuestra);
+    $('#mtxthmuestra').val(hmuestra);
+    $('#mcbotottus').val(stottus);
+    $('#mcbomonitoreo').val(ntrimestre);
+    $('#mcbomotivo').val(zctipomotivo);
+    $('#mcboarea').val(careacliente);
+    $('#mcboitem').val(zctipoitem);
+    $('#mtxtubicacion').val(dubicacion);
+    $('#mtxtestado').val(dcondicion);
+    $('#mtxtObserva').val(dobservacion);
+    $('#mtxtObsotros').val(dotraobservacion);
 };
    
-$("body").on("click","#aDelProduc",function(event){
-    event.preventDefault();
-    idcotiproducto = $(this).attr("href");
-
-    Swal.fire({
-        title: 'Confirmar Eliminación',
-        text: "¿Está seguro de eliminar la Propuesta?",
-        icon: 'error',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, bórralo!'
-    }).then((result) => {
-        if (result.value) {
-            $.post(baseurl+"lab/coti/ccotizacion/delproducto/", 
-            {
-                idcotiproducto   : idcotiproducto,
-            },      
-            function(data){     
-                otblListProducto.ajax.reload(null,false); 
-                Vtitle = 'Se Elimino Correctamente';
-                Vtype = 'success';
-                sweetalert(Vtitle,Vtype);      
-            });
-        }
-    }) 
-});
-
-verEnsayo= function(IDCOTIZACION,NVERSION,vIDPROD){
-    recuperaListensayo(IDCOTIZACION,NVERSION,vIDPROD);
-};
-
-recuperaListensayo = function(vIDCOTIZACION,vNVERSION,vIDPROD){
-    otblListEnsayos = $('#tblListEnsayos').DataTable({  
-        'responsive'    : false,
-        'bJQueryUI'     : true,
-        'scrollY'     	: '300px',
-        'scrollX'     	: true, 
-        'paging'      	: true,
-        'processing'  	: true,     
-        'bDestroy'    	: true,
-        'AutoWidth'     : false,
-        'info'        	: true,
-        'filter'      	: true, 
-        'ordering'		: false,  
-        'stateSave'     : true,
-        'ajax'	: {
-            "url"   : baseurl+"lab/coti/ccotizacion/getlistarensayo/",
-            "type"  : "POST", 
-            "data": function ( d ) {
-                d.idcoti    = vIDCOTIZACION; 
-                d.nversion  = vNVERSION;
-                d.idproduc  = vIDPROD;  
-            },     
-            dataSrc : ''        
-        },
-        'columns'	: [
-            {
-              "class"     :   "index col-xs",
-              orderable   :   false,
-              data        :   null,
-              targets     :   0,
-            },
-            {"orderable": false, data: 'CODIGO', targets: 1},
-            {"orderable": false, data: 'DENSAYO', targets: 2},
-            {"orderable": false, data: 'ANIO', targets: 3},
-            {"orderable": false, data: 'NORMA', targets: 4},
-            {"orderable": false, data: 'CONSTOENSAYO', targets: 4},
-            {"orderable": false, data: 'NVIAS', targets: 4},
-            {"orderable": false, data: 'CANTIDAD', targets: 4},
-            {"orderable": false, data: 'COSTO', targets: 4},
-            {"orderable": false, 
-                render:function(data, type, row){
-                    return '<div class="text-left" >' +
-                        '<a data-toggle="modal" title="Editar" style="cursor:pointer; color:green;" data-target="#modalEnsayosLab" onClick="selCotiensayo(\'' + row.IDCOTIZACION + '\',\'' + row.NVERSION + '\',\'' + row.IDPROD + '\');"><span class="fas fa-edit fa-2x" aria-hidden="true"> </span> </a>'+
-                    '</div>';
-                }
-            },
-            {"orderable": false, 
-                render:function(data, type, row){
-                    return '<div>'+
-                        '<a id="aDelProduc" href="'+row.CENSAYO+'" title="Eliminar" style="cursor:pointer; color:#FF0000;"><span class="fas fa-trash-alt fa-2x" aria-hidden="true"> </span></a>'+      
-                    '</div>';
-                }
-            }
-        ]
-    });  
-    // Enumeracion 
-    otblListEnsayos.on( 'order.dt search.dt', function () { 
-        otblListEnsayos.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-          cell.innerHTML = i+1;
-          } );
-    }).draw();
-};
-
-$('#btnRetornarCoti').click(function(){
-    objFormulario.mostrarCotizacion();
-});
-
-selCotiensayo = function(vIDCOTIZACION,vNVERSION,vIDPROD){
-
-};

@@ -4,6 +4,8 @@ var varfdesde = '%', varfhasta = '%';
 
 
 $(document).ready(function() {
+    $('#divBuscarEnsayo').hide();
+
     $('#tablab a[href="#tablab-list-tab"]').attr('class', 'disabled');
     $('#tablab a[href="#tablab-reg-tab"]').attr('class', 'disabled active');
 
@@ -27,11 +29,12 @@ $(document).ready(function() {
         locale:'es'
     });
 
+    fechaAnioActual();
+    $('#chkFreg').prop("checked", true);
+
     $("#mtxtregnumcoti").prop({readonly:true});  
     $("#mtxtregestado").prop({readonly:true});
     
-    fechaActual();
-
     $.ajax({
         type: 'ajax',
         method: 'post',
@@ -94,6 +97,7 @@ $(document).ready(function() {
                     $('#mtxtidcotizacion').val(this.cinternocotizacion);
                     $('#mtxtnroversion').val(0);
                     $('#mtxtregnumcoti').val(this.dcotizacion);
+                    recuperaListproducto();
                     Vtitle = 'Cotizacion Guardada!!!';
                     Vtype = 'success';
                     sweetalert(Vtitle,Vtype);      
@@ -207,7 +211,7 @@ $(document).ready(function() {
                     Vtype = 'success';
                     sweetalert(Vtitle,Vtype); 
                     $('#mbtnCerrarEnsayo').click();   
-                    objFormulario.mostrarCotizacion();    
+                    //objFormulario.mostrarCotizacion();    
                 });
             });
             return false;
@@ -276,8 +280,8 @@ $(function() {
         if (icon.hasClass('fa-minus')) icon.removeClass('fa-minus');
         icon.addClass('fa-plus');
         boton.click();
-        $('#contenedorRegensayo').hide();
-        $('#contenedorCotizacion').show();
+        $('#divBuscarEnsayo').hide();
+        //$('#contenedorCotizacion').show();
     };
 
     /**
@@ -297,8 +301,8 @@ $(function() {
         $('#hdnIdprod').val(IDPRODUCTO);
         $('#hdnprod').val(PRODUCTO);
 
-        $('#contenedorRegensayo').show();
-        $('#contenedorCotizacion').hide();
+        $('#divBuscarEnsayo').show();
+        //$('#divBuscarEnsayo').hide();
     };
 });
 
@@ -310,6 +314,21 @@ fechaActual = function(){
     $('#txtFHasta').datetimepicker('date', moment(fechatring, 'DD/MM/YYYY') );
     $('#mtxtFCoti').datetimepicker('date', moment(fechatring, 'DD/MM/YYYY') );
 
+};
+
+fechaAnioActual = function(){
+    $("#txtFIni").prop("disabled",false);
+    $("#txtFFin").prop("disabled",false);
+        
+    varfdesde = '';
+    varfhasta = '';
+    
+    var fecha = new Date();		
+    var fechatring1 = "01/01/" +fecha.getFullYear() ;
+    var fechatring2 = ("0" + fecha.getDate()).slice(-2) + "/" + ("0"+(fecha.getMonth()+1)).slice(-2) + "/" +fecha.getFullYear() ;
+
+    $('#txtFDesde').datetimepicker('date', moment(fechatring1, 'DD/MM/YYYY') );
+    $('#txtFHasta').datetimepicker('date', moment(fechatring2, 'DD/MM/YYYY') );
 };
 	
 $('#txtFDesde').on('change.datetimepicker',function(e){	
@@ -396,19 +415,19 @@ listarBusqueda = function(){
             },
             {"orderable": false, data: 'DCLIENTE', targets: 1},
             {"orderable": false, data: 'NROCOTI', targets: 2},
-            {"orderable": false, data: 'DFECHA', targets: 3},
-            {"orderable": false, data: 'PRECIO', targets: 4},
+            {"orderable": false, data: 'DFECHA', "class" : "col-s dt-body-center", targets: 3},
+            {"orderable": false, data: 'PRECIO', "class" : "col-s dt-body-right", targets: 4},
             {"orderable": false, data: 'ELABORADO', targets: 5},
             {"orderable": false, 
                 render:function(data, type, row){                    
                     if(row.SCOTIZACION == "S"){
-                        varCerrar = '<a id="aAbrirCoti" href="'+row.IDCOTIZACION+'" nver="'+row.NVERSION+'" title="Abrir" style="cursor:pointer; color:blue;"><span class="far fa-folder-open" aria-hidden="true"> </span></a>'
+                        varCerrar = '<a id="aAbrirCoti" href="'+row.IDCOTIZACION+'" nver="'+row.NVERSION+'" title="Abrir" style="cursor:pointer; color:blue;"><span class="far fa-folder-open fa-2x" aria-hidden="true"> </span></a>'
                     }else{
-                        varCerrar = '<a id="aCerrarCoti" href="'+row.IDCOTIZACION+'" nver="'+row.NVERSION+'" title="Cerrar" style="cursor:pointer; color:red;"><span class="far fa-folder" aria-hidden="true"> </span></a>'
+                        varCerrar = '<a id="aCerrarCoti" href="'+row.IDCOTIZACION+'" nver="'+row.NVERSION+'" title="Cerrar" style="cursor:pointer; color:red;"><span class="far fa-folder fa-2x" aria-hidden="true"> </span></a>'
                     };
 
                     return '<div style="text-align: center;">' +
-                        '<a title="Editar" style="cursor:pointer; color:green;" onClick="selCoti(\'' + row.IDCOTIZACION + '\',\'' + row.NVERSION + '\',\'' + row.DFECHA + '\',\'' + row.NROCOTI + '\',\'' + row.SCOTIZACION + '\',\'' + row.VIGENCIACOTI + '\',\'' + row.SREGISTRO + '\',\'' + row.CCLIENTE + '\',\'' + row.CPROVEEDOR + '\',\'' + row.TIPOCAMBIO + '\',\'' + row.SUBSERVICIO + '\',\'' + row.MONEDA + '\',\'' + row.SMUESTREO + '\',\'' + row.CONTACTO + '\',\'' + row.PERMANMUESTRA + '\',\'' + row.TIPOPAGO + '\',\'' + row.OTROPAGO + '\',\'' + row.NTIEMPOENTREGAINFO + '\',\'' + row.STIEMPOENTREGAINFO + '\',\'' + row.OBSERVA + '\',\'' + row.VERPRECIO + '\',\'' + row.IMUESTREO + '\',\'' + row.PIGV + '\',\'' + row.PDESCUENTO + '\',\'' + row.ISUBTOTAL + '\',\'' + row.ITOTAL + '\');"><span class="fas fa-edit" aria-hidden="true"> </span> </a>'+
+                        '<a title="Editar" style="cursor:pointer; color:green;" onClick="selCoti(\'' + row.IDCOTIZACION + '\',\'' + row.NVERSION + '\',\'' + row.DFECHA + '\',\'' + row.NROCOTI + '\',\'' + row.SCOTIZACION + '\',\'' + row.VIGENCIACOTI + '\',\'' + row.SREGISTRO + '\',\'' + row.CCLIENTE + '\',\'' + row.CPROVEEDOR + '\',\'' + row.TIPOCAMBIO + '\',\'' + row.SUBSERVICIO + '\',\'' + row.MONEDA + '\',\'' + row.SMUESTREO + '\',\'' + row.CONTACTO + '\',\'' + row.PERMANMUESTRA + '\',\'' + row.TIPOPAGO + '\',\'' + row.OTROPAGO + '\',\'' + row.NTIEMPOENTREGAINFO + '\',\'' + row.STIEMPOENTREGAINFO + '\',\'' + row.OBSERVA + '\',\'' + row.VERPRECIO + '\',\'' + row.IMUESTREO + '\',\'' + row.PIGV + '\',\'' + row.PDESCUENTO + '\',\'' + row.ISUBTOTAL + '\',\'' + row.ITOTAL + '\',\'' + row.ZPERMANMUESTRA + '\');"><span class="fas fa-edit fa-2x" aria-hidden="true"> </span> </a>'+
                         '&nbsp;&nbsp;'+
                         varCerrar
                     '</div>';
@@ -420,7 +439,7 @@ listarBusqueda = function(){
             "data": null, 
             "render": function(data, type, row) {
                 return '<div>'+
-                '    <p><a title="Cotozacion" style="cursor:pointer;" onclick="pdfCoti(\'' + row.IDCOTIZACION + '\',\'' + row.NVERSION + '\');"  class="pull-left">'+row.NROCOTI+'&nbsp;&nbsp;'+row.DESTADO+'&nbsp;<i class="fas fa-file-pdf" style="color:#FF0000;"></i></a><p>' +
+                '    <p><a title="Cotozacion" style="cursor:pointer;" onclick="pdfCoti(\'' + row.IDCOTIZACION + '\',\'' + row.NVERSION + '\');"  class="pull-left">'+row.NROCOTI+'&nbsp;&nbsp;'+row.DESTADO+'&nbsp;<i class="fas fa-file-pdf fa-2x" style="color:#FF0000;"></i></a><p>' +
                 '</div>';
             }
         }],
@@ -537,6 +556,7 @@ $('#btnNuevo').click(function(){
     $('#mtxtregpagotro').hide();
     $('#mtxtregtipocambio').hide();
     $('#regProductos').hide(); 
+    $('#divBuscarEnsayo').hide();
         
     $("#txtmontmuestreo").prop({readonly:true});
     $("#txtmontsubtotal").prop({readonly:true}); 
@@ -657,6 +677,16 @@ $("#cboregclie").change(function(){
     }); 
 });
 
+na=function(){
+    $('#btntipocontramuestra').html("NA");
+    $('#mtxtcontramuestra').val(0);   
+    $('#mtxtregpermane').val('N');
+};
+dias=function(){
+    $('#btntipocontramuestra').html("Días"); 
+    $('#mtxtregpermane').val('D');
+};
+
 calen=function(){
     $('#btntipodias').html("Días Calendario");
     $('#txtregtipodias').val('C');
@@ -702,7 +732,7 @@ $("#chksmuestreo").on("change", function () {
     }; 
 }); 
 
-selCoti= function(IDCOTIZACION,NVERSION,DFECHA,NROCOTI,SCOTIZACION,VIGENCIACOTI,SREGISTRO,CCLIENTE,CPROVEEDOR,TIPOCAMBIO,SUBSERVICIO,MONEDA,SMUESTREO,CONTACTO,PERMANMUESTRA,TIPOPAGO,OTROPAGO,NTIEMPOENTREGAINFO,STIEMPOENTREGAINFO,OBSERVA,VERPRECIO,IMUESTREO,PIGV,PDESCUENTO,ISUBTOTAL,ITOTAL){  
+selCoti= function(IDCOTIZACION,NVERSION,DFECHA,NROCOTI,SCOTIZACION,VIGENCIACOTI,SREGISTRO,CCLIENTE,CPROVEEDOR,TIPOCAMBIO,SUBSERVICIO,MONEDA,SMUESTREO,CONTACTO,PERMANMUESTRA,TIPOPAGO,OTROPAGO,NTIEMPOENTREGAINFO,STIEMPOENTREGAINFO,OBSERVA,VERPRECIO,IMUESTREO,PIGV,PDESCUENTO,ISUBTOTAL,ITOTAL,ZPERMANMUESTRA){  
     
     $('#tablab a[href="#tablab-reg"]').tab('show'); 
     $('#frmRegCoti').trigger("reset");
@@ -726,8 +756,14 @@ selCoti= function(IDCOTIZACION,NVERSION,DFECHA,NROCOTI,SCOTIZACION,VIGENCIACOTI,
     $('#cboregclie').val(CCLIENTE); 
     $('#cboregprov').val(CPROVEEDOR); 
     $('#cboregcontacto').val(CONTACTO);  
-    $('#mtxtregpermane').val(PERMANMUESTRA);
+    $('#mtxtcontramuestra').val(PERMANMUESTRA);
     $('#mtxtregentregainf').val(NTIEMPOENTREGAINFO); 
+    
+    if(ZPERMANMUESTRA == 'N'){       
+        na(); 
+    }else{
+        dias();
+    }
     if(STIEMPOENTREGAINFO == 'C'){       
         calen(); 
     }else{
@@ -769,32 +805,30 @@ selCoti= function(IDCOTIZACION,NVERSION,DFECHA,NROCOTI,SCOTIZACION,VIGENCIACOTI,
     $("#txtmontsubtotal").prop({readonly:true}); 
     $("#txtporctigv").prop({readonly:true});
     $("#txtmonttotal").prop({readonly:true});
-
-    document.getElementById('addProducto').style.visibility = 'visible';
     
     iniRegCoti(SUBSERVICIO,CCLIENTE,CPROVEEDOR,CONTACTO);
 
     recuperaListproducto();
     recuperaListensayo('',0,''); 
-    /*$('#btnParticiopantes').show();*/
+    $('#divBuscarEnsayo').hide();
 };
 
 $('#btnRetornarLista').click(function(){
     $('#tablab a[href="#tablab-list"]').tab('show');  
-    //$('#btnBuscar').click();
+    $('#btnBuscar').click();
 });
 
 recuperaListproducto = function(){
     otblListProducto = $('#tblListProductos').DataTable({  
         'responsive'    : false,
         'bJQueryUI'     : true,
-        'scrollY'     	: '200px',
+        'scrollY'     	: '400px',
         'scrollX'     	: true, 
-        'paging'      	: true,
+        'paging'      	: false,
         'processing'  	: true,     
         'bDestroy'    	: true,
         'AutoWidth'     : false,
-        'info'        	: true,
+        'info'        	: false,
         'filter'      	: true, 
         'ordering'		: false,
         'stateSave'     : true,
@@ -814,24 +848,24 @@ recuperaListproducto = function(){
               data        :   'SPACE',
               targets     :   0,
             },
-            {"orderable": false, "class":'columna', data: 'LOCALCLIE', targets: 1},
-            {"orderable": false, "class":'columna', data: 'PRODUCTO', targets: 2},
-            {"orderable": false, "class":'columna', data: 'CONDI', targets: 3},
-            {"orderable": false, "class":'columna', data: 'NMUESTRA', targets: 4},
-            {"orderable": false, "class":'columna',  
+            {"orderable": false, data: 'LOCALCLIE', targets: 1},
+            {"orderable": false, data: 'PRODUCTO', targets: 2},
+            {"orderable": false, data: 'CONDI', targets: 3},
+            {"orderable": false, data: 'NMUESTRA', targets: 4},
+            {"orderable": false,   
                 render:function(data, type, row){
                     return '';
                 }
             },
-            {"orderable": false, "class":'columna',  
+            {"orderable": false, "class":'columna',   
                 render:function(data, type, row){
                     return '<div style="text-align: center;">'+
-                    '<a href="javascript:;" onclick="aVerEnsayos(\'' +row.IDPROD+ '\',\'' +row.IDCOTI+ '\',\'' +row.NVERSION+ '\');" title="Ver Ensayos" style="cursor:pointer; color:#357A50;"><span class="fas fa-eye" aria-hidden="true"> </span></a>'+      
+                    '<a href="javascript:;" onclick="aVerEnsayos(\'' +row.IDPROD+ '\',\'' +row.IDCOTI+ '\',\'' +row.NVERSION+ '\',\'' +row.PRODUCTO+ '\');" title="Ver Ensayos" style="cursor:pointer; color:#357A50;"><span class="fas fa-eye" aria-hidden="true"> </span></a>'+      
                 '</div>';
                 }
             },
             {"orderable": false, data: 'SPACE', targets: 7},
-            {"orderable": false, "class":'columna', data: 'SPACE', targets: 8},
+            {"orderable": false, data: 'SPACE', targets: 8},
         ],
         "columnDefs": [
           {
@@ -866,7 +900,8 @@ recuperaListproducto = function(){
           } 
         ],
         "select": {
-            style:    'multi', 
+            style:    'multi',  
+            selector: 'td:not(:nth-child(6)):not(:nth-child(8))'      
         },
         "drawCallback": function ( settings ) {
             var api = this.api();
@@ -883,7 +918,24 @@ recuperaListproducto = function(){
                     last = ctra;
                 }
             } );
-        }
+        },
+        dom: 'Bfrtip',
+        buttons: [
+            {
+             text: '<a data-toggle="modal" data-target="#modalCreaProduc" id="addProducto" name="addProducto" ><img src="assets/images/details_open.png" border="0" align="absmiddle"> Agregar Producto </a>',
+             action: function (e, dt, node, config ){
+                nuevoprod();
+             },
+             className: 'btn btn-default btn-sm btnadd'
+            },
+            {
+             text: '<a id="delProducto" name="delProducto" ><img src="assets/images/details_close.png" border="0" align="absmiddle"> Eliminar Producto </a>',
+             action: function (e, dt, node, config ){
+                eliminarprod();
+             },
+             className: 'btn btn-default btn-sm btndel'
+            }
+        ]
     }); 
     otblListProducto.column(1).visible( false );   
     // Enumeracion 
@@ -906,22 +958,31 @@ nuevoprod = function(){
     iniRegCotiprodu(v_idcliente,0,0,0);
 }
 
-$('#addProducto').click(function(){
-    nuevoprod()
-});
 
 $('#mbtnNuevoProduc').click(function(){
     nuevoprod()
 });
 
-$('#tblListProductos tbody').on( 'click', 'td.columna', function () {
-  
+$('#tblListProductos tbody').on( 'click', 'tr td.columna', function () {
+    /*$(this).toggleClass('selected');
+    
+    $(this).removeClass('selected');
+    
+    if ($(this).hasClass('active')) {
+        $(this).removeClass('selected');
+        alert('clicked!');
+    }
+    else {
+        otblListProducto.$('tr.selected').removeClass('selected');
+        $(this).addClass('selected');
+        alert('not clicked!');
+    }
     var table = $('#tblListProductos').DataTable();    
-    table.$('tr.selected').removeClass('selected');
+    table.$('tr.selected').removeClass('selected');*/
 
 } );
 
-$('#delProducto').click(function(){
+eliminarprod = function(){
     event.preventDefault();
     var table = $('#tblListProductos').DataTable();
     var seleccionados = table.rows({ selected: true });
@@ -947,7 +1008,7 @@ $('#delProducto').click(function(){
         }
     }) 
   
-});
+};
 DeleteOK = function(IDCOTIZACION,NVERSION,IDPRODUCTO){  
     $.post(baseurl+"lab/coti/ccotizacion/deleteprodxcoti/", 
     {
@@ -964,7 +1025,10 @@ mensajeDeleteOK = function(){
     sweetalert(Vtitle,Vtype);
 }
 
-aVerEnsayos = function(IDPROD,IDCOTI,NVERSION){
+aVerEnsayos = function(IDPROD,IDCOTI,NVERSION,PRODUCTO){
+    var v_nrocoti = $('#mtxtregnumcoti').val()
+    document.querySelector('#lblProducto').innerText = PRODUCTO;
+    document.querySelector('#lblNrocoti').innerText = v_nrocoti;
     recuperaListensayo(IDCOTI,NVERSION,IDPROD)
 };
 
@@ -1117,13 +1181,13 @@ recuperaListensayo = function(vIDCOTIZACION,vNVERSION,vIDPROD){
         'bJQueryUI'     : true,
         'scrollY'     	: '300px',
         'scrollX'     	: true, 
-        'paging'      	: true,
+        'paging'      	: false,
         'processing'  	: true,     
         'bDestroy'    	: true,
         'AutoWidth'     : false,
-        'info'        	: true,
+        'info'        	: false,
         'filter'      	: true, 
-        'ordering'		: false,  
+        'ordering'		: false,
         'stateSave'     : true,
         'ajax'	: {
             "url"   : baseurl+"lab/coti/ccotizacion/getlistarensayo/",
@@ -1139,7 +1203,7 @@ recuperaListensayo = function(vIDCOTIZACION,vNVERSION,vIDPROD){
             {
               "class"     :   "index col-xs",
               orderable   :   false,
-              data        :   null,
+              data        :   'SPACE',
               targets     :   0,
             },
             {"orderable": false, data: 'CODIGO', targets: 1},

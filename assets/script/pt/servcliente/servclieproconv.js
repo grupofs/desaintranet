@@ -5,7 +5,7 @@ var vccliente = $('#hdnccliente').val();
 
 $(document).ready(function() { 
     listEquipo();  
-    listProducto();     
+    //listProducto();     
 });
 
 listEquipo= function(){    
@@ -35,9 +35,9 @@ listEquipo= function(){
         'columns'	: [
             {"orderable": false, data: 'ESTUDIO'},
             {
-              "class"     :   "col-xxs",
+              "class"     :   "index details-control col-s",
               orderable   :   false,
-              data        :   null,
+              data        :   'ESPACE',
               targets     :   1
             },
             {"class":"col-m", "orderable": false, data: 'NROINFOR'},
@@ -45,21 +45,7 @@ listEquipo= function(){
             {"class":"col-sm", "orderable": false, data: 'MEDIOCAL'},
             {"class":"col-sm", "orderable": false, data: 'FABRI'},
             {"class":"col-sm", "orderable": false, data: 'ENVASE'},
-            {"class":"col-xs", "orderable": false, data: 'IDENTIF'},          
-            {"orderable": false, 
-                render:function(data, type, row){
-                    return '<div>'+
-                    '<a data-toggle="modal" title="Ver" style="cursor:pointer; color:#3c763d;" data-target="#modalVerequi" onClick="javascript:selEquipo(\''+row.IDPROPU+'\',\''+row.CODCLIENTE+'\',\''+row.NROPROPU+'\',\''+row.FECHPROPU+'\',\''+row.IDSERV+'\',\''+row.DETAPROPU+'\',\''+row.COSTOTOTAL+'\',\''+row.ESTPROPU+'\',\''+row.CONTACTO+'\',\''+row.OBSPROPU+'\',\''+row.SERVNEW+'\',\''+row.CLIPOTEN+'\',\''+row.IDUSUARIO+'\',\''+row.TIPOCOSTO+'\',\''+row.ARCHIVO+'\',\''+row.CODESTABLE+'\',\''+row.RUTA+'\',\''+row.NOMBARCH+'\');"><span class="fas fa-edit" aria-hidden="true"> </span> </a>'+
-                    '</div>'
-                }
-            },             
-            {"orderable": false, 
-                render:function(data, type, row){
-                    return '<div>'+
-                    '<a data-toggle="modal" title="Ver" style="cursor:pointer; color:#3c763d;" data-target="#modalVerequi" onClick="javascript:selEquipo(\''+row.IDPROPU+'\',\''+row.CODCLIENTE+'\',\''+row.NROPROPU+'\',\''+row.FECHPROPU+'\',\''+row.IDSERV+'\',\''+row.DETAPROPU+'\',\''+row.COSTOTOTAL+'\',\''+row.ESTPROPU+'\',\''+row.CONTACTO+'\',\''+row.OBSPROPU+'\',\''+row.SERVNEW+'\',\''+row.CLIPOTEN+'\',\''+row.IDUSUARIO+'\',\''+row.TIPOCOSTO+'\',\''+row.ARCHIVO+'\',\''+row.CODESTABLE+'\',\''+row.RUTA+'\',\''+row.NOMBARCH+'\');"><span class="fas fa-edit" aria-hidden="true"> </span> </a>'+
-                    '</div>'
-                }
-            },
+            {"class":"col-xs", "orderable": false, data: 'IDENTIF'}, 
         ],
         rowGroup: {
             startRender : function ( rows, group ) {
@@ -85,7 +71,17 @@ listEquipo= function(){
                     return '<p>'+row.NROINFOR+'</p>';
                 }                      
             }
-        }]
+        }/*,{
+            "targets": [1], 
+            "data": 'ESPACE',
+            "render": function(data, type, row) {
+                if(row.idptregestudio == 1){
+                    $(row).find('tr').removeClass( 'details-control' );
+                    alert(row.idptregestudio);
+                };
+                return row.ESPACE;
+            }
+        }*/]
     });   
     // Enumeracion 
     otblListEquipos.on( 'order.dt search.dt', function () { 
@@ -118,23 +114,20 @@ $('#tblListEquipos tbody').on( 'click', 'td.details-control', function () {
         })
         row.child( 
            '<table id="tblListProductos" class="display compact" style="width:100%; padding-left:75px; background-color:#D3DADF; padding-top: -10px; border-bottom: 2px solid black;">'+
-           '<thead style="background-color:#FFFFFF;"><tr><th></th><th>NOMBRE</th><th>ENVASE</th><th>TIPO</th><th>DIMENSIONES</th><th>PROCAL</th></tr></thead><tbody>' +
+           '<thead style="background-color:#FFFFFF;"><tr><th>NOMBRE</th><th>ENVASE</th><th>TIPO</th><th>DIMENSIONES</th><th>PROCAL</th></tr></thead><tbody>' +
             '</tbody></table>').show();
 
             otblListProductos = $('#tblListProductos').DataTable({
-                "processing"  	: true,
-                "bDestroy"    	: true,
-                "stateSave"     : true,
-                "bJQueryUI"     : true,
-                "scrollY"     	: "100px",
-                "scrollX"     	: true, 
-                'AutoWidth'     : false,
-                "paging"      	: false,
-                "info"        	: false,
-                "filter"      	: true, 
-                "ordering"		: false,
-                "responsive"    : false,
-                "select"        : true,
+                "bJQueryUI": true,
+                'bStateSave': true,
+                'scrollY':        false,
+                'scrollX':        true,
+                'scrollCollapse': false,
+                'bDestroy'    : true,
+                'paging'      : false,
+                'info'        : false,
+                'filter'      : false,   
+                'stateSave'   : true,
                 'ajax'        : {
                     "url"   : baseurl+"pt/cservcliente/getproconvproducto/",
                     "type"  : "POST", 
@@ -147,12 +140,6 @@ $('#tblListEquipos tbody').on( 'click', 'td.details-control', function () {
                     dataSrc : ''        
                 },
                 'columns'     : [
-                    {
-                      "class"     :   "index",
-                      orderable   :   false,
-                      data        :   null,
-                      targets     :   0
-                    },
                     {"orderable": false, data: 'PRODUCTO'},
                     {"orderable": false, data: 'ENVASE'},
                     {"orderable": false, data: 'TIPO'},
@@ -161,12 +148,6 @@ $('#tblListEquipos tbody').on( 'click', 'td.details-control', function () {
                               
                 ], 
             });
-            // Enumeracion 
-            otblListProductos.on( 'order.dt search.dt', function () { 
-                otblListProductos.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-                  cell.otblListProductos = i+1;
-                  } );
-            }).draw(); 
 
         tr.addClass('details');
     }
@@ -178,6 +159,7 @@ $('#tblListEquipos tbody').on('click', 'tr.dtrg-group', function () {
     otblListEquipos.draw(true);
 }); 
 
+/*
 listProducto= function(){    
 
     otblListProductos = $('#tblListProductos').DataTable({  
@@ -258,10 +240,10 @@ listProducto= function(){
     }).draw();  
     otblListProductos.column(0).visible( false ); 
 };
-/* COMPRIMIR GRUPO */
+// COMPRIMIR GRUPO 
 $('#tblListProductos tbody').on('click', 'tr.dtrg-group', function () {
     var name = $(this).data('name');
     collapsedGroupsEq[name] = !collapsedGroupsEq[name];
     otblListProductos.draw(true);
 }); 
-
+*/

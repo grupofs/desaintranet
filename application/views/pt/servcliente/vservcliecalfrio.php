@@ -41,12 +41,11 @@
                             <thead>
                             <tr>
                                 <th></th>
+                                <th>NRO INFORME</th>
                                 <th>NOMBRE</th>
                                 <th>TIPO</th>
                                 <th>ENVASE</th>
                                 <th>DIMENSIONES</th>
-                                <th></th>
-                                <th></th>
                                 <th></th>
                             </tr>
                             </thead>

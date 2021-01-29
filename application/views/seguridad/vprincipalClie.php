@@ -10,6 +10,7 @@
     $sessionAct = $this->session->userdata('sessionAct'); 
     $ccliente = $this->session->userdata('s_ccliente'); 
     $dcliente = $this->session->userdata('s_dcliente'); 
+    $ruccliente = $this->session->userdata('s_ruccliente'); 
     $dircliente = $this->session->userdata('s_dircliente'); 
     $logocliente = $this->session->userdata('s_logocliente'); 
     $colortext = $this->session->userdata('s_colortext'); 
@@ -168,15 +169,15 @@
         <!-- MAIN MENU -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!--  Logo -->
-            <a class="brand-link" target="_blank">
-                <img src="<?php echo public_url(); ?>images/logo-servicios.png"  alt="Logo" class="brand-image elevation-3" style="opacity: .8; max-height:35px;">
+            <a class="brand-link" style="padding: 1rem .5rem;" target="_blank">
+                <img src="<?php echo public_url(); ?>images/logo-servicios.png"  alt="Logo" class="img-circle elevation-2" style="opacity: 1; max-height:50px;">
                 <span class="brand-text font-weight-light">PANEL | DASHBOARD</span>
             </a>
 
             <!-- Panel Lateral I -->
             <div class="sidebar">
                 <!-- Usuario -->
-                <div class="user-panel mt-3 pb-3 mb-3 d-flex" >
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
                         <img src="<?php echo public_url_ftp(); ?>Imagenes/user/<?php echo $imgperfil ?>"  class="img-circle elevation-2" alt="User Image">
                     </div>

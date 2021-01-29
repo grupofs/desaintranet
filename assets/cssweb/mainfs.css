@@ -1,32 +1,37 @@
 /********************************************************************/
-/*               CSS MAIN FSC                                       */
+/*               CSS MAIN FS                                        */
 /********************************************************************/  
 
-/*Cabezera de Bienvenida*/
-.nomcab{
-    color:rgba(255,255,255,.75);
-}
+/*** CABEZERA BIENVENIDA ***/
+    .nomcab{
+        color:rgba(255,255,255,.75);
+    }
+/*** FIN CABEZERA BIENVENIDA ***/
 
-/*** Tab - Pestañas ***/
-#tablab{
-    background-color: #28a745;
-}
 
-.nav-link :active{
-    color: #000000;
-}
+/*** PANEL TABS FS ***/
+    ul.tabfs{
+        background-color: #28a745 !important;
+    }
+    .nav-link :active{
+        color: #000000;
+    }    
+    .nav-link{
+        color: #000000;
+    }
+/*** FIN PANEL TABS FS ***/
 
-.nav-link{
-    color: #ffffff;
-}
 
-/*** Card - Tarjetas ***/
-.card-footer {
-    background-color: #dff0d8;
-}
+/*** CARD - TARJETAS ***/
+    .card-footer {
+        background-color: #dff0d8;
+    }
+/*** FIN CARD - TARJETAS ***/
 
-/*** Modal - Ventana Emergente ***/
-.modal-footer {
-    background-color: #dff0d8;
-    display: block;
-}
+
+/*** MODAL - VENTANA EMERGENTE ***/
+    .modal-footer {
+        background-color: #dff0d8;
+        display: block;
+    }
+/*** FIN MODAL - VENTANA EMERGENTE ***/

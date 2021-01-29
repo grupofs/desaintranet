@@ -40,22 +40,22 @@
 <!-- /.content-header -->
 
 <!-- Main content -->
-<section class="content" style="background-color: #E0F4ED;">
+<section class="content">
     <div class="container-fluid"> 
         <div class="row">
             <div class="col-12">
                 <input type="hidden" id="mtxtuserpropu" name="mtxtuserpropu" value="<?php echo $codusu ?>">
                 <div class="card card-success card-outline card-tabs">
                     <div class="card-header p-0 pt-1 border-bottom-0">            
-                        <ul class="nav nav-tabs" id="tabinforme" style="background-color: #28a745;" role="tablist">                    
+                        <ul class="nav nav-tabs tabfs" id="tabinforme" role="tablist">                    
                             <li class="nav-item">
-                                <a class="nav-link active" style="color: #000000;" id="tabinforme-list-tab" data-toggle="pill" href="#tabinforme-list" role="tab" aria-controls="tabinforme-list" aria-selected="true">LISTADO</a>
+                                <a class="nav-link active" id="tabinforme-list-tab" data-toggle="pill" href="#tabinforme-list" role="tab" aria-controls="tabinforme-list" aria-selected="true">LISTADO</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" style="color: #000000;" id="tabinforme-eval-tab" data-toggle="pill" href="#tabinforme-eval" role="tab" aria-controls="tabinforme-eval" aria-selected="false">EVALUACION</a>
+                                <a class="nav-link" id="tabinforme-eval-tab" data-toggle="pill" href="#tabinforme-eval" role="tab" aria-controls="tabinforme-eval" aria-selected="false">EVALUACION</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" style="color: #000000;" id="tabinforme-reg-tab" data-toggle="pill" href="#tabinforme-reg" role="tab" aria-controls="tabinforme-reg" aria-selected="false">REGISTRO</a>
+                                <a class="nav-link" id="tabinforme-reg-tab" data-toggle="pill" href="#tabinforme-reg" role="tab" aria-controls="tabinforme-reg" aria-selected="false">REGISTRO</a>
                             </li>
                         </ul>
                     </div>

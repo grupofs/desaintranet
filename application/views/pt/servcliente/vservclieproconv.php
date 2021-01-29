@@ -48,8 +48,6 @@
                                 <th>FABRICANTE</th>
                                 <th>ENVASE</th>
                                 <th>#ID</th>
-                                <th></th>
-                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -59,7 +57,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <!--<div class="row">
             <div class="col-12">
                 <div class="card card-outline card-success">
                     <div class="card-header">
@@ -86,7 +84,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </section>
 <!-- /.Main content -->

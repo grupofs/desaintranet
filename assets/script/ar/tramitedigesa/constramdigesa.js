@@ -260,6 +260,7 @@ $("#btnBuscar").click(function () {
 });
 
 getListTramGrid = function(param){
+    var groupColumn = 0; 
     otblListTramGrid = $('#tblListTramGrid').DataTable({ 
         "processing"  	: true,
         "bDestroy"    	: true,
@@ -283,6 +284,7 @@ getListTramGrid = function(param){
         "columns"	: [
             {"data": "grupo"},
             {"class":"index details-control col-xs", "data": "SPACE", orderable:false},
+            {"class":"col-xxs", "data": "SREGISTROPDTO"},
             {"class":"col-xs", "data": "CODIGOPROD"},
             {"class":"col-xm", "data": "DES_SAP"},
             {"class":"col-lm", "data": "NOMBREPROD"},
@@ -295,7 +297,39 @@ getListTramGrid = function(param){
             {"class":"col-sm", "data": "REGSANIPROD"},  
             {"class":"col-s", "data": "FECHAVENCE"}
         ],
-        rowGroup: {
+        "drawCallback": function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'all'} ).nodes();
+            var last = null;
+			var grupo;
+ 
+            api.column([0], {} ).data().each( function ( ctra, i ) { 
+                grupo = api.column(0).data()[i];
+                if ( last !== ctra ) {
+                    $(rows).eq( i ).before(
+                        '<tr class="group"><td colspan="8"><strong>'+ctra.toUpperCase()+'</strong></td></tr>'
+                    ); 
+                    last = ctra;
+                }
+            } );
+        },
+        "createdRow": function( row, data, dataIndex ) {
+            if ( data.VIGENCIA == "Z" ) {
+                $(row).addClass('text-rojo');    
+            }
+        },
+        "columnDefs": [{
+            "targets": [2], 
+            "data": null, 
+            "render": function(data, type, row) { 
+                if(row.SREGISTROPDTO == "A") {
+                    return '<div class="circulo-verde"> <h3>A</h3> </div>';
+                }else{
+                    return '<div class="circulo-rojo"> <h3>I</h3> </div>';
+                }                      
+            }
+        }]
+        /*rowGroup: {
             startRender : function ( rows, group ) {
                 var collapsed = !!collapsedGroups[group];
     
@@ -308,7 +342,7 @@ getListTramGrid = function(param){
                 .toggleClass('collapsed', collapsed);
             },
             dataSrc: "grupo"
-        }
+        }*/
     });   
     // Enumeracion 
     otblListTramGrid.on( 'order.dt search.dt', function () { 

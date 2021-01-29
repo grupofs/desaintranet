@@ -27,7 +27,7 @@
         filter: alpha(opacity=0);
     }
 
-    .dt-body-right {text-align: right;}
+    
 </style>
 
 <!-- content-header -->

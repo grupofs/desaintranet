@@ -40,8 +40,16 @@
             
             <div class="card-body">
                 <input type="hidden" name="hdnidusu" class="form-control" id="hdnidusu" value="<?php echo $idusu ?>">
-                <div class="row">    
+                <div class="row"> 
                     <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Clientes</label>
+                            <select class="form-control select2bs4" id="cboClie" name="cboClie" style="width: 100%;">
+                                <option value="" selected="selected">Cargando...</option>
+                            </select>
+                        </div>
+                    </div>   
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label>Tipo Consulta</label>
                             <select class="form-control select2bs4" id="cboesttramite" name="cboesttramite" style="width: 100%;">
@@ -51,7 +59,7 @@
                             </select>
                         </div>
                     </div> 
-                    <div class="col-sm-8">
+                    <div class="col-sm-5">
                         <div class="form-group">
                             <label>&nbsp;&nbsp;</label> 
                             <input type="text" class="form-control" id="txtbuscar" name="txtbuscar" placeholder="...">
@@ -81,13 +89,13 @@
                         <table id="tblListporcapa" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                             <tr>
-                            <th></th>
-                            <th>Curso</th>
-                            <th>Establecimiento</th>
-                            <th>Participante</th>
-                            <th>DNI</th>
-                            <th>Nota</th>
-                            <th></th>
+                                <th>Curso</th>
+                                <th></th>
+                                <th>Establecimiento</th>
+                                <th>Participante</th>
+                                <th>DNI</th>
+                                <th>Nota</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -98,9 +106,9 @@
                         <table id="tblListportienda" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                             <tr>
+                                <th>Establecimiento</th>
                                 <th></th>
                                 <th>Curso</th>
-                                <th>Establecimiento</th>
                                 <th>Participante</th>
                                 <th>DNI</th>
                                 <th>Nota</th>
@@ -115,19 +123,12 @@
                         <table id="tblListporparti" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                             <tr>
-                                <th>grupo</th>
-                                <th>Nro</th>
-                                <th>Código</th>
-                                <th>Descripción SAP</th>
-                                <th>Nombre del Producto</th>
-                                <th>Marca</th>
-                                <th>Categoria</th>
-                                <th>Presentación</th>
-                                <th>Modelo</th>
-                                <th>Fabricante</th>
-                                <th>Pais</th>
-                                <th>RS</th>
-                                <th>Fec. Vence</th>
+                                <th>Participante</th>
+                                <th></th>
+                                <th>Curso</th>
+                                <th>Establecimiento</th>
+                                <th>Nota</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>

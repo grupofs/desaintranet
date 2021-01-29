@@ -277,7 +277,7 @@
 <div class="modal fade" id="modalRecepcion" data-backdrop="static" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <form class="form-horizontal" id="frmRecepcion" name="frmRecepcion" action="<?= base_url('lab/coti/ccotizacion/setrecepcionmuestra')?>" method="POST" enctype="multipart/form-data" role="form"> 
+      <form class="form-horizontal" id="frmRecepcion" name="frmRecepcion" action="<?= base_url('lab/recepcion/crecepcion/setrecepcionmuestra')?>" method="POST" enctype="multipart/form-data" role="form"> 
 
         <div class="modal-header text-center bg-success">
             <h4 class="modal-title w-100 font-weight-bold">Registro de Recepcion</h4>
@@ -389,7 +389,7 @@
                     </div>  
                 </div>                
             </div> 
-            <div class="form-group">
+            <div class="form-group" id="divExtra">
                 <div class="row">    
                     <div class="col-sm-2">
                         <div class="text-info">Tottus</div>

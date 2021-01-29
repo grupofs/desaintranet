@@ -35,8 +35,7 @@
 			</div>
 			<div class="col-sm-6">
 				<ol class="breadcrumb float-sm-right">
-					<li class="breadcrumb-item"><a href="<?php echo public_base_url(); ?>cpanel"> <i
-									class="fas fa-tachometer-alt"></i>Home</a></li>
+					<li class="breadcrumb-item"><a href="<?php echo public_base_url(); ?>cpanel"> <i class="fas fa-tachometer-alt"></i>Home</a></li>
 					<li class="breadcrumb-item active">AA. RR.</li>
 				</ol>
 			</div>
@@ -48,21 +47,18 @@
 <!-- Main content -->
 <section class="content">
 	<div class="container-fluid">
+		<form class="form-horizontal" id="frmexceltramar" name="frmexceltramar" action="<?= base_url('ar/tramites/cexcelExport/exceltramardigesa') ?>" method="POST" enctype="multipart/form-data" role="form">
 		<div class="card card-info">
 			<div class="card-header">
 				<h3 class="card-title">BUSQUEDA</h3>
 				<div class="card-tools">
-					<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-					</button>
+					<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
 				</div>
 			</div>
-			<form class="form-horizontal" id="frmexceltramar" name="frmexceltramar"
-				  action="<?= base_url('ar/tramites/cexcelExport/exceltramardigesa') ?>" method="POST"
-				  enctype="multipart/form-data" role="form">
-				<div class="card-body">
-					<input type="hidden" name="hdnccliente" class="form-control" id="hdnccliente" value="<?php echo $ccliente ?>">
-					<input type="hidden" name="hdnsgrupo" class="form-control" id="hdnsgrupo" value="<?php echo $sgrupo ?>">
-					<input type="hidden" name="hdnidusu" class="form-control" id="hdnidusu" value="<?php echo $idusu ?>">
+			<div class="card-body">
+				<input type="hidden" name="hdnccliente" class="form-control" id="hdnccliente" value="<?php echo $ccliente ?>">
+				<input type="hidden" name="hdnsgrupo" class="form-control" id="hdnsgrupo" value="<?php echo $sgrupo ?>">
+				<input type="hidden" name="hdnidusu" class="form-control" id="hdnidusu" value="<?php echo $idusu ?>">
 					<div class="row"> 
 						<div class="col-md-5">
 							<div class="form-group" id="divEmpresas">
@@ -280,6 +276,7 @@
 								<tr>
 									<th>grupo</th>
 									<th>Nro</th>
+                                	<th></th>
 									<th>Código</th>
 									<th>Descripción SAP</th>
 									<th>Nombre del Producto</th>

@@ -40,7 +40,6 @@
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                 </div>
             </div>
-            
             <div class="card-body">
                 <input type="hidden" name="hdnidusu" class="form-control" id="hdnidusu" value="<?php echo $idusu ?>">
                 <div class="row">    
@@ -251,6 +250,8 @@
                             <tr>
                                 <th>grupo</th>
                                 <th>Nro</th>
+                                <th></th>
+                                <th>AR</th>
                                 <th>Código</th>
                                 <th>Descripción SAP</th>
                                 <th>Nombre del Producto</th>

@@ -15,7 +15,7 @@
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="<?php echo public_base_url(); ?>cpanel">Home</a></li>
+          <li class="breadcrumb-item"><a href="<?php echo public_base_url(); ?>main">Home</a></li>
           <li class="breadcrumb-item active">Laboratorio</li>
         </ol>
       </div>
@@ -31,7 +31,7 @@
             <div class="col-12">
                 <div class="card card-lightblue card-outline card-tabs">
                     <div class="card-header p-0 pt-1 border-bottom-0">            
-                        <ul class="nav nav-tabs" id="tablab" role="tablist">                    
+                        <ul class="nav nav-tabs tabfsc" id="tablab" role="tablist">                    
                             <li class="nav-item">
                                 <a class="nav-link active" id="tablab-list-tab" data-toggle="pill" href="#tablab-list" role="tab" aria-controls="tablab-list" aria-selected="true">LISTADO</a>
                             </li>
@@ -96,7 +96,7 @@
                                             <div class="col-md-12">
                                                 <div class="text-right">
                                                     <button type="submit" class="btn btn-primary" id="btnBuscar"><i class="fas fa-search"></i> Buscar</button> 
-                                                    <button type="button" class="btn btn-outline-info" id="btnNuevo" ><i class="fas fa-plus"></i> Nuevo</button>   
+                                                    <button type="button" class="btn btn-outline-info" id="btnNuevo" ><i class="fas fa-plus"></i> Nuevo Cotización</button>   
                                                 </div>
                                             </div>
                                         </div>
@@ -104,7 +104,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
-                                        <div class="card card-outline card-primary">
+                                        <div class="card card-outline card-lightblue">
                                             <div class="card-header">
                                                 <h3 class="card-title">Listado de Cotizaciones</h3>
                                             </div>                                        
@@ -190,7 +190,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <div class="text-info">Proveedor </div>
+                                                    <div class="text-info">Proveedor del Cliente </div>
                                                     <select class="form-control select2bs4" id="cboregprov" name="cboregprov" style="width: 100%;">
                                                         <option value="" selected="selected">Cargando...</option>
                                                     </select>
@@ -198,7 +198,7 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <div class="text-info">Contacto </div>
+                                                    <div class="text-info">Contacto del Cliente </div>
                                                     <select class="form-control select2bs4" id="cboregcontacto" name="cboregcontacto" style="width: 100%;">
                                                         <option value="" selected="selected">Cargando...</option>
                                                     </select>
@@ -207,12 +207,24 @@
                                         </div>
                                         <div class="row">   
                                             <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <div class="text-info">Perman. contra muestra </div>
-                                                    <input type="text" name="mtxtregpermane"id="mtxtregpermane" class="form-control" >
+                                                <div class="form-group">                                                    
+                                                    <div class="text-info">Contra Muestra </div>
+                                                    <div class="input-group mb-3">
+                                                        <input type="number" name="mtxtcontramuestra"id="mtxtcontramuestra" class="form-control" value="0" min="0" pattern="^[0-9]+">
+                                                        <div class="input-group-prepend">
+                                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                            <span id="btntipocontramuestra">NA</span>
+                                                            </button>
+                                                            <div class="dropdown-menu">
+                                                                <a class="dropdown-item" onClick="javascript:na()">NA</a>
+                                                                <a class="dropdown-item" onClick="javascript:dias()">Días</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <input type="hidden" name="mtxtregpermane"id="mtxtregpermane">
                                                 </div>
                                             </div>  
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <div class="form-group">
                                                     <div class="text-info">Tiempo Entrega Inf. </div>
                                                     <div class="input-group mb-3">
@@ -230,7 +242,7 @@
                                                     <input type="hidden" name="txtregtipodias" id="txtregtipodias">
                                                 </div>
                                             </div> 
-                                            <div class="col-md-7">
+                                            <div class="col-md-8">
                                                 <div class="form-group">
                                                     <div class="text-info">Observaciones </div>
                                                     <input type="text" name="mtxtobserv"id="mtxtobserv" class="form-control" >
@@ -337,13 +349,9 @@
                                         </div> 
                                         <div class="row"> 
                                             <div class="col-12">
-                                                <div class="card card-outline card-primary">
+                                                <div class="card card-outline card-lightblue">
                                                     <div class="card-header">
                                                         <h3 class="card-title">Listado de Productos</h3>
-                                                        <div class="card-tools">
-                                                            <a data-toggle="modal" data-target="#modalCreaProduc" id="addProducto" name="addProducto" class="btn btn-default btn-sm" style="visibility:visible; background: #DBEBD6; cursor:pointer;"><img src='<?php echo base_url() ?>assets/images/details_open.png' border="0" align="absmiddle"> Agregar Producto</a> 
-                                                            <a id="delProducto" name="delProducto" class="btn btn-default btn-sm" style="visibility:visible; background: #FE6255; cursor:pointer;"><img src='<?php echo base_url() ?>assets/images/details_close.png' border="0" align="absmiddle"> Eliminar Producto</a> 
-                                                        </div>
                                                     </div>                                        
                                                     <div class="card-body">
                                                         <table id="tblListProductos" class="table table-striped table-bordered" style="width:100%">
@@ -365,9 +373,9 @@
                                                         </table>
                                                     </div>
                                                 </div>
-                                                <div class="card card-outline card-primary">
+                                                <div class="card card-outline card-lightblue">
                                                     <div class="card-header">
-                                                        <h3 class="card-title">Listado de Ensayos</h3>
+                                                        <h3 class="card-title"><i class="fas fa-microscope"></i>&nbsp;<b>Ensayos - <small id="lblProducto"></small> ::</b> <label id="lblNrocoti"></label></h3>
                                                     </div>                                        
                                                     <div class="card-body">
                                                         <table id="tblListEnsayos" class="table table-striped table-bordered" style="width:100%">
@@ -391,6 +399,59 @@
                                                         </table>
                                                     </div>
                                                 </div>
+                                                <div class="card card-lightblue" id="divBuscarEnsayo">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">Busqueda de Ensayos</h3>
+                                                    </div>                                        
+                                                    <div class="card-body">
+                                                        <input type="hidden" id="hdnIdcoti" name="hdnIdcoti" >
+                                                        <input type="hidden" id="hdnNvers" name="hdnNvers" >
+                                                        <input type="hidden" id="hdnIdprod" name="hdnIdprod" >
+                                                        <input type="hidden" id="hdnprod" name="hdnprod" >    
+                                                        <div class="row">
+                                                            <div class="col-sm-6 text-left">                                                 
+                                                                <label>Ensayo / Codigo / Laboratorio / Matriz</label>
+                                                                <text type="text" name="mtxtdescrensayo"id="mtxtdescrensayo" class="form-control"></text>
+                                                            </div>
+                                                            <div class="col-sm-3">                                                 
+                                                                <label>Estado Acreditado</label>                        
+                                                                <select class="form-control" id="mcboacredensayo" name="mcboacredensayo">
+                                                                    <option value="" selected="selected"></option>
+                                                                    <option value="A">SI AC</option>
+                                                                    <option value="N">NO AC</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-3 text-right"> 
+                                                                <button type="button" class="btn btn-primary" id="btnBuscarEnsayo"><i class="fas fa-search"></i> Buscar</button>  
+                                                                <button type="button" class="btn btn-secondary" id="btnRetornarCoti"><i class="fas fa-door-open"></i> Retornar</button>  
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <div class="row"> 
+                                                            <div class="col-12">
+                                                                <table id="tblbuscarEnsayos" class="display compact" style="width:100%">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>N°</th>
+                                                                            <th>Ensayo</th>
+                                                                            <th>Codigo</th>
+                                                                            <th>Año</th>
+                                                                            <th>Acred.</th>
+                                                                            <th>Norma</th>
+                                                                            <th>Laboratorio</th>
+                                                                            <th>Costo</th>
+                                                                            <th>Tipo Ensayo</th>
+                                                                            <th>Matriz</th>
+                                                                            <th></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -405,7 +466,7 @@
 </section>
 <!-- /.Main content -->
 
-<!-- Reg. Ensayos -->
+<!-- Reg. Ensayos
 <section class="content" id="contenedorRegensayo" style="display: none" >
     <div class="container-fluid">
         <div class="row">
@@ -418,7 +479,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 <!-- /.Reg. Ensayos -->
 
 <!-- /.modal-crear-producto --> 
@@ -543,7 +604,7 @@
             <div class="form-group">                
                 <div class="row">
                     <div class="col-md-6 text-left">  
-                            <button type="reset" class="btn btn-secondary" id="mbtnCCreaProduc" data-dismiss="modal"><i class="fas fa-undo-alt"></i>Cancelar</button> 
+                            <button type="reset" class="btn btn-secondary" id="mbtnCCreaProduc" data-dismiss="modal"><i class="fas fa-door-open"></i>Salir</button> 
                     </div>
                     <div class="col-md-6 text-right">
                             <button type="submit" class="btn btn-success" id="mbtnGCreaProduc"><i class="fas fa-save"></i>Grabar</button> 
@@ -559,7 +620,86 @@
 </div> 
 <!-- /.modal-->
 
-<!-- /.modal-EnsayosLab --> 
+
+<!-- /.modal- Insertar EnsayosLab --> 
+<div class="modal fade" id="modalselensayo" data-backdrop="static" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form class="form-horizontal" id="frmEnsayosLab" name="frmEnsayosLab" action="<?= base_url('lab/coti/ccotizacion/setregensayoxprod')?>" method="POST" enctype="multipart/form-data" role="form"> 
+
+        <div class="modal-header text-center bg-success">
+            <h4 class="modal-title w-100 font-weight-bold">Ingresar Ensayos x Laboratorio</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <input type="hidden" id="mhdnmcensayo" name="mhdnmcensayo"> 
+            <input type="hidden" id="hdnmIdcoti" name="hdnmIdcoti" >
+            <input type="hidden" id="hdnmNvers" name="hdnmNvers" >
+            <input type="hidden" id="hdnmIdprod" name="hdnmIdprod" >
+            
+            <input type="hidden" id="mtxtmCLab" name="mtxtmCLab" >
+            <input type="hidden" id="hdnmAccion" name="hdnmAccion" >
+            <div class="form-group">
+                <div class="row"> 
+                    <div class="col-12">
+                        <h4>
+                            <i class="fas fa-archive"></i> <label id="lblmProducto"></label>
+                        </h4>
+                    </div>
+                </div>                
+            </div> 
+            <div class="form-group">
+                <div class="row"> 
+                    <div class="col-2">
+                        <label>Codigo :</label>
+                    </div>
+                    <div class="col-3">
+                        <h5>                            
+                            <small id="lblmCodigo"></small>
+                        </h5>
+                    </div>
+                    <div class="col-2">
+                        <label>Ensayo :</label>
+                    </div>
+                    <div class="col-5">
+                        <h5>                            
+                            <small id="lblmEnsayo"></small>
+                        </h5>
+                    </div>
+                </div>                
+            </div>                        
+            <div class="form-group"> 
+                <div class="row">
+                    <div class="col-md-6"> 
+                        <div class="text-info">Costo</div>
+                        <div>    
+                            <input type="text" name="mtxtmCosto" class="form-control" id="mtxtmCosto"/> 
+                        </div>
+                    </div>
+                    <div class="col-md-6"> 
+                        <div class="text-info">Vias</div>                        
+                        <div>    
+                            <input type="number" name="mtxtmvias" class="form-control" id="mtxtmvias"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer justify-content-between" style="background-color: #dff0d8;">
+            <button type="reset" class="btn btn-default" id="mbtnCerrarEnsayo" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-info" id="mbtnGabarEnsayo">Grabar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> 
+<!-- /.modal-->
+
+<!-- /.modal-Editar EnsayosLab --> 
 <div class="modal fade" id="modaleditensayo" data-backdrop="static" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">

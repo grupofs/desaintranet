@@ -87,6 +87,7 @@ class Mlogin extends CI_Model{
 				's_cgrupoempresarial'	=> $row -> CGRUPOEMPRESARIAL,
 				's_ccliente'		=> $row -> CCLIENTE,
 				's_dcliente'		=> $row -> DCLIENTE,
+				's_ruccliente'		=> $row -> RUCCLIENTE,
 				's_dircliente'		=> $row -> DIRECLIE,
 				's_logocliente'		=> $row -> LOGOCLIE,
 				's_colortext'		=> $row -> COLORTEXTCLIE,

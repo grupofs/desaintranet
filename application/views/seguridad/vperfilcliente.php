@@ -5,20 +5,27 @@
     $usu = $this -> session -> userdata('s_usuario');
     $cusuario = $this -> session -> userdata('s_cusuario');
     $imgperfil = $this->session->userdata('s_druta'); 
+    $ccliente = $this->session->userdata('s_ccliente'); 
+    $dcliente = $this->session->userdata('s_dcliente'); 
+    $ruccliente = $this->session->userdata('s_ruccliente'); 
+    $dircliente = $this->session->userdata('s_dircliente'); 
+    $logocliente = $this->session->userdata('s_logocliente'); 
     $cia = $this-> session-> userdata('s_cia');
   
-    foreach($datos_perfil as $mresumenperfil){ 
-      $anexo = $mresumenperfil->anexo;
-      $cel_empresa = $mresumenperfil->cel_empresa;
-      $nomarea = $mresumenperfil->nomarea;  
-      $nombre_cargo = $mresumenperfil->nombre_cargo;
-      $email = $mresumenperfil->email;
-    }  
+    if($logocliente == ''):
+        $logocliente = 'unknown.png';
+    endif;
+    if($imgperfil == ''):
+        $imgperfil = 'unknown.png';
+    endif;
 ?>
 
 <style>
-    .img-perfil{
+    .img-empresa{
         width: 200px !important;
+    }
+    .img-perfil{
+        width: 100px !important;
     }
     #file-input{
         display: none;
@@ -69,58 +76,45 @@
                     <div class="col-md-4">
                         <div class="card card-gray-dark card-outline">
                             <div class="card-body box-profile">
-                                <h2><i class="fa fa-user"></i> Mi Perfil</h2>
+                                <h2><i class="fa fa-user"></i> Mi Empresa</h2>
                                 <div class="text-center">
                                     <form id="frmFileinput" name="frmFileinput" method="post" enctype="multipart/form-data">
-                                        <input type="hidden" id="hdnIdusu" name="hdnIdusu" value="<?php echo $idusu ?>">
-                                        <input type="hidden" id="hdnCusuario" name="hdnCusuario" value="<?php echo $cusuario ?>">  
+                                        <input type="hidden" id="hdnCcliente" name="hdnCcliente" value="<?php echo $ccliente ?>">  
                                         <label for="file-input"> 
-                                            <img src="<?php echo public_url_ftp(); ?>Imagenes/user/<?php echo $imgperfil ?>" alt="Foto de Perfil" class="profile-user-img img-fluid img-circle img-perfil" style="border: 3px solid #adb5bd; padding: 3px;" title="Click para cambiar de foto ">
+                                            <img src="<?php echo public_url_ftp(); ?>Imagenes/clientes/<?php echo $logocliente ?>" alt="Logo Empresa" class="profile-user-img img-fluid img-circle img-empresa" style="border: 3px solid #adb5bd; padding: 3px;" title="Click para cambiar Logo Empresa ">
                                         </label>
-                                        <input id="file-input" name="file-input" type="file" onchange="changeFiles()" ref="image"/> 
+                                        <input id="file-input" name="file-input" type="file" onchange="changeFilesClie
+                                        
+                                        ()" ref="image"/> 
                                     </form>
                                 </div> 
-                                <h3 class="profile-username text-center"><?php echo $usu ?></h3>
-                                <p class="text-muted text-center"><?php echo $nombre_cargo ?></p>                 
+                                <h3 class="profile-username text-center"><?php echo $usu ?></h3>             
                                 <div id="border">
                                     <ul class="list-group mb-6">
                                         <li class="list-group-item li-perfil">
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <b>Área : </b>
-                                                </div> 
-                                                <div class="col-8">
-                                                    <a><?php echo $nomarea ?></a>
+                                            <div class="row text-center">
+                                                <div class="col-12">
+                                                    <a><?php echo $dcliente ?></a>
                                                 </div>
                                             </div>
                                         </li>
                                         <li class="list-group-item li-perfil">
                                             <div class="row">
-                                                <div class="col-4">
-                                                    <b>Email : </b>
+                                                <div class="col-3">
+                                                    <b># </b>
                                                 </div> 
-                                                <div class="col-8">
-                                                    <a><?php echo $email ?></a>
+                                                <div class="col-9">
+                                                    <a><?php echo $ruccliente ?></a>
                                                 </div>
                                             </div>
                                         </li>
                                         <li class="list-group-item li-perfil">
                                             <div class="row">
-                                                <div class="col-4">
-                                                    <b>Anexo : </b>
+                                                <div class="col-3">
+                                                    <b>Dirección : </b>
                                                 </div> 
-                                                <div class="col-8">
-                                                    <a><?php echo $anexo ?></a>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item li-perfil">
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <b>Celular : </b>
-                                                </div> 
-                                                <div class="col-8">
-                                                    <a><?php echo $cel_empresa ?></a>
+                                                <div class="col-9">
+                                                    <a><?php echo $dircliente ?></a>
                                                 </div>
                                             </div>
                                         </li>
@@ -134,55 +128,62 @@
                             <form class="form-horizontal" id="frmDatosPersonales" action="<?= base_url('cperfilusuario/setperfil')?>" method="POST" enctype="multipart/form-data" role="form">
                                 <div class="card-body">
                                     <h2><i class="fa fa-id-card"></i>  Datos Personales</h2>
-                                
                                     <input type="hidden" id="hdnIdadm" name="hdnIdadm" value="<?php echo $idadm ?>"> <!-- ID -->
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="text-info">Nombres</div>
-                                                <div> 
-                                                <input type="text" class="form-control" id="txtnombperfil" name="txtnombperfil" >
-                                                </div>
+                                            <div class="col-md-2 text-center">
+                                                <form id="frmFileinput" name="frmFileinput" method="post" enctype="multipart/form-data">
+                                                    <input type="hidden" id="hdnIdusu" name="hdnIdusu" value="<?php echo $idusu ?>">
+                                                    <input type="hidden" id="hdnCusuario" name="hdnCusuario" value="<?php echo $cusuario ?>">  
+                                                    <label for="file-input"> 
+                                                        <img src="<?php echo public_url_ftp(); ?>Imagenes/user/<?php echo $imgperfil ?>" alt="Foto de Perfil" class="profile-user-img img-fluid img-circle img-perfil" style="border: 3px solid #adb5bd; padding: 3px;" title="Click para cambiar de foto ">
+                                                    </label>
+                                                    <input id="file-input" name="file-input" type="file" onchange="changeFiles()" ref="image"/> 
+                                                </form>
                                             </div>
-                                            <div class="col-md-4">
-                                                <div class="text-info">Apellido Paterno</div>
-                                                <div> 
-                                                <input type="text" class="form-control" id="txtapepatperfil" name="txtapepatperfil" >
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="text-info">Apellido Materno</div>
-                                                <div> 
-                                                <input type="text" class="form-control" id="txtapematperfil" name="txtapematperfil" >
-                                                </div>
-                                            </div>
-                                        </div> 
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <div class="text-info">Documentos <span style="color: #FD0202">*</span></div>
-                                                <div>   
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                                            <span id="btntipodoc">DNI</span>
-                                                            </button>
-                                                            <div class="dropdown-menu">
-                                                                <a class="dropdown-item" onClick="javascript:tddni()">DNI</a>
-                                                                <a class="dropdown-item" onClick="javascript:tdcex()">C.EXT</a>
-                                                            </div>
+                                            <div class="col-md-10">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="text-info">Apellido Paterno</div>
+                                                        <div> 
+                                                        <input type="text" class="form-control" id="txtapepatperfil" name="txtapepatperfil" >
                                                         </div>
-                                                        <input type="text" class="form-control" name="txtNrodoc" id="txtNrodoc" data-validation="required"/>
-                                                    </div>                                                                                 
-                                                    <input type="hidden" name="txtTipodoc" id="txtTipodoc" value="1">  
-                                                </div> 
-                                            </div> 
-                                            <div class="col-md-8">
-                                                <div class="text-info">Direccion</div>
-                                                <div> 
-                                                <input type="text" class="form-control" id="txtdirperfil" name="txtdirperfil" >
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="text-info">Apellido Materno</div>
+                                                        <div> 
+                                                        <input type="text" class="form-control" id="txtapematperfil" name="txtapematperfil" >
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div> 
-                                        </div>  
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="text-info">Nombres</div>
+                                                        <div> 
+                                                        <input type="text" class="form-control" id="txtnombperfil" name="txtnombperfil" >
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="text-info">Documentos <span style="color: #FD0202">*</span></div>
+                                                        <div>   
+                                                            <div class="input-group mb-3">
+                                                                <div class="input-group-prepend">
+                                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                                    <span id="btntipodoc">DNI</span>
+                                                                    </button>
+                                                                    <div class="dropdown-menu">
+                                                                        <a class="dropdown-item" onClick="javascript:tddni()">DNI</a>
+                                                                        <a class="dropdown-item" onClick="javascript:tdcex()">C.EXT</a>
+                                                                    </div>
+                                                                </div>
+                                                                <input type="text" class="form-control" name="txtNrodoc" id="txtNrodoc" data-validation="required"/>
+                                                            </div>                                                                                 
+                                                            <input type="hidden" name="txtTipodoc" id="txtTipodoc" value="1">  
+                                                        </div> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="text-info">Correo Electrónico</div>

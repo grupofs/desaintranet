@@ -39,7 +39,7 @@ class Cprincipal extends CI_Controller
         }
         $this->session->time = time();
 
-        $this->layout->js(array(public_url('script/analytics/dashboardARevalprod.js')));
+        $this->layout->js(array(public_url('script/analytics/dashboardClieARevalprod.js')));
 
         $idempleado = $this->session->userdata('s_idempleado');
         $parametros = array(
@@ -92,7 +92,7 @@ class Cprincipal extends CI_Controller
             '@idempleado' => $idempleado
         );
         $this->load->model('mperfilcliente');
-        $resumenperfil = $this->mperfilusuario->getresumenperfil($parametros);
+        $resumenperfil = $this->mperfilcliente->getresumenperfil($parametros);
 
         $data['vista'] = 'DInternos';
         $data['datos_perfil'] = $resumenperfil;

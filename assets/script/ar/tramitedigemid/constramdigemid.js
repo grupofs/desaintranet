@@ -1,6 +1,7 @@
 var otblListTramGrid, otblListTramExcel, otblListTramGriddet, otblListTramDocum;
 var tiporeporte = 'G', tipotramite = 'V', tipofind = 'S';
 var varfdesde, varfhasta;
+var collapsedGroups = {};
 
 $(document).ready(function() {
     $('#busAvanzada').hide();

@@ -75,7 +75,8 @@
   <link rel="stylesheet" href="<?php echo public_url(); ?>template/DataTable/Responsive/css/responsive.dataTables.min.css">
   <link rel="stylesheet" href="<?php echo public_url(); ?>template/DataTable/Select/css/select.dataTables.min.css">
   <link rel="stylesheet" href="<?php echo public_url(); ?>template/DataTable/Checkboxes/css/dataTables.checkboxes.css">  
-  <link rel="stylesheet" type="text/css" href="<?php echo public_url(); ?>template/DataTable/RowGroup/css/rowGroup.dataTables.min.css" />
+  <link rel="stylesheet" href="<?php echo public_url(); ?>template/DataTable/RowGroup/css/rowGroup.dataTables.min.css" />
+  <link rel="stylesheet" href="<?php echo public_url(); ?>template/DataTable/buttons/css/buttons.dataTables.min.css" />
     
   <!-- file input -->
   <link rel="stylesheet" href="<?php echo public_url(); ?>template/plugins/fileinput/fileinput.min.css">
@@ -346,7 +347,8 @@
         <script src="<?php echo public_url(); ?>template/DataTable/DataTables/js/datetime.js"></script> 
         <script src="<?php echo public_url(); ?>template/DataTable/Select/js/dataTables.select.min.js"></script> 
         <script src="<?php echo public_url(); ?>template/DataTable/Checkboxes/js/dataTables.checkboxes.min.js"></script>   
-        <script src="<?php echo public_url(); ?>template/DataTable/RowGroup/js/dataTables.rowGroup.min.js"></script> 
+        <script src="<?php echo public_url(); ?>template/DataTable/RowGroup/js/dataTables.rowGroup.min.js"></script>  
+        <script src="<?php echo public_url(); ?>template/DataTable/Buttons/js/dataTables.buttons.min.js"></script> 
         <!-- file input -->
         <script src="<?php echo public_url(); ?>template/plugins/fileinput/fileinput.min.js"></script>
         <!-- AdminLTE App -->

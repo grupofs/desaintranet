@@ -2,61 +2,22 @@
 /*               CSS ESTILO GENERAL                                 */
 /********************************************************************/  
 
-/*DISEÑO PLANTILLA*/  
-.content-header{
-    padding: 10px .5rem 0.5px !important; 
-} 
-.content-header .container-fluid h1 {
-    font-size: 1.5rem !important;
-}  
-.content-wrapper>.content {
-    padding: .5rem !important;
-}
-.content{
-    background-color: #e2e4e3 !important; 
-}  
+/*** DISEÑO PLANTILLA ***/  
+    .content-header{
+        padding: 10px .5rem 0.5px !important; 
+    } 
+    .content-header .container-fluid h1 {
+        font-size: 1.5rem !important;
+    }  
+    .content-wrapper>.content {
+        padding: .5rem !important;
+    }
+    .content{
+        background-color: #e2e4e3 !important; 
+    }  
+/*** FIN DISEÑO PLANTILLA ***/  
 
 
-/*** PANEL TABS PRIMARY ***/
-.with-nav-tabs.panel-tabfs .nav-tabs > li > a,
-.with-nav-tabs.panel-tabfs .nav-tabs > li > a:hover,
-.with-nav-tabs.panel-tabfs .nav-tabs > li > a:focus {
-    color: #fff;
-}
-.with-nav-tabs.panel-tabfs .nav-tabs > .open > a,
-.with-nav-tabs.panel-tabfs .nav-tabs > .open > a:hover,
-.with-nav-tabs.panel-tabfs .nav-tabs > .open > a:focus,
-.with-nav-tabs.panel-tabfs .nav-tabs > li > a:hover,
-.with-nav-tabs.panel-tabfs .nav-tabs > li > a:focus {
-    color: #fff;
-    background-color: #188E58;
-    border-color: transparent;
-}
-.with-nav-tabs.panel-tabfs .nav-tabs > li.active > a,
-.with-nav-tabs.panel-tabfs .nav-tabs > li.active > a:hover,
-.with-nav-tabs.panel-tabfs .nav-tabs > li.active > a:focus {
-    color: #0BBC6B;
-    background-color: #fff;
-    border-color: #0BBC6B;
-    border-bottom-color: transparent;
-}
-.with-nav-tabs.panel-tabfs .nav-tabs > li.dropdown .dropdown-menu {
-    background-color: #0BBC6B;
-    border-color: #00a65a;
-}
-.with-nav-tabs.panel-tabfs .nav-tabs > li.dropdown .dropdown-menu > li > a {
-    color: #fff;   
-}
-.with-nav-tabs.panel-tabfs .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
-.with-nav-tabs.panel-tabfs .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
-    background-color: #00a65a;
-}
-.with-nav-tabs.panel-tabfs .nav-tabs > li.dropdown .dropdown-menu > .active > a,
-.with-nav-tabs.panel-tabfs .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
-.with-nav-tabs.panel-tabfs .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
-    background-color: #10D27A;
-}
-/*** FIN PANEL TABS PRIMARY ***/
     tab {
         display: inline-block; 
         margin-left: 30px; 
@@ -204,6 +165,49 @@
         font-weight:bold;
     }
 
+    .text-rojo {
+        color: #FD0202;
+    }
+
+    .circulo-rojo {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background: red;
+        display: table-cell; /*flex*/
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin:0px auto;
+        padding:1%;
+        vertical-align: middle;
+    }
+    .circulo-rojo > h3 {
+        font-family: sans-serif;
+        color: white;
+        font-size: 1rem;
+        font-weight: bold;
+    }
+    .circulo-verde {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        background: green;
+        display: table-cell; /*flex*/
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin:0px auto;
+        padding:1%;
+        vertical-align: middle;
+    }
+    .circulo-verde > h3 {
+        font-family: sans-serif;
+        color: white;
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
 /*COLORES CRICULOS*/
     .circle-red {
         color: #F44336 !important;
@@ -296,10 +300,30 @@
         max-width: 30px !important;
     }
 
-    
+    .dt-body-right {text-align: right;}
+    .dt-body-center {text-align: center;}
+
     .index {
         vertical-align: inherit !important;
         padding-right: 45px !important;
+    }
+
+    .btnadd{
+        visibility:visible !important; 
+        background-image: linear-gradient(to bottom, #fff 0%, rgb(193, 214, 175) 100%) !important;
+        cursor:pointer !important;
+    }
+    .btnadd:hover{
+        background-image: linear-gradient(to bottom, #fff 0%, rgb(255, 255, 255) 100%) !important;
+    }
+
+    .btndel{
+        visibility:visible !important;
+        background-image: linear-gradient(to bottom, #fff 0%, rgba(231, 34, 34, 0.616) 100%) !important;
+        cursor:pointer !important;
+    }
+    .btndel:hover{
+        background-image: linear-gradient(to bottom, #fff 0%, rgb(255, 255, 255) 100%) !important;
     }
 
 /*SOMBREAR FILA DE UNA DATATABLE*/
@@ -309,6 +333,11 @@
 
     table.dataTable thead {background-color:#CED3E3}
 
+
+
+    select.custom-select {
+        width: 50% !important;
+    }
 /* PAGINACION DATATABLE*/
 .dataTables_wrapper .dataTables_paginate .paginate_button {
     box-sizing: border-box;
@@ -395,6 +424,7 @@ body.swal2-toast-shown .swal2-container.swal2-shown {
 .swal2-popup.swal2-toast.swal2-show {
     padding: 10px;
 }
+
 
 .evaluar-estado-proceso-background {
     color: #000;

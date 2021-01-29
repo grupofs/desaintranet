@@ -161,7 +161,7 @@ tdcex=function(){
     $('#txtTipodoc').val('4');
 };
 
-changeFiles = function(){
+changeFilesClie = function(){
     var archivoInput = document.getElementById('file-input');
     var archivoRuta = archivoInput.value;
     var extPermitidas = /(.gif|.jpg|.png|.jpeg)$/i;
@@ -177,7 +177,7 @@ changeFiles = function(){
         var request = $.ajax({
             data: parametrotxt,
             method: 'post',
-            url: baseurl+"cperfilusuario/imagen_perfil/",
+            url: baseurl+"cperfilcliente/imagen_cliente/",
             dataType: "JSON",
             async: true,
             contentType: false,
@@ -187,7 +187,7 @@ changeFiles = function(){
             }
         });
         request.done(function( respuesta ) {            
-          window.location="perfil";
+          window.location="perfilclie";
           Vtitle = 'Imagen se actualizo!!';
           Vtype = 'success';
           sweetalert(Vtitle,Vtype);

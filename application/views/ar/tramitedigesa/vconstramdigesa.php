@@ -191,7 +191,7 @@
 						<div class="row">
 							<div class="col-sm-6">
 								<div class="form-group">
-									<label>Modelo /tono /variedad /submarca</label>
+									<label>Categoría</label>
 									<input type="text" class="form-control" id="txtcaractprodu" name="txtcaractprodu"
 										   placeholder="...">
 								</div>

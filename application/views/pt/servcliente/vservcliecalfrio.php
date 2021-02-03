@@ -46,7 +46,6 @@
                                 <th>TIPO</th>
                                 <th>ENVASE</th>
                                 <th>DIMENSIONES</th>
-                                <th></th>
                             </tr>
                             </thead>
                             <tbody>

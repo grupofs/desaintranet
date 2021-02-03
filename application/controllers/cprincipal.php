@@ -39,7 +39,7 @@ class Cprincipal extends CI_Controller
         }
         $this->session->time = time();
 
-        $this->layout->js(array(public_url('script/analytics/dashboardClieARevalprod.js')));
+        $this->layout->js(array(public_url('script/analytics/dashboard.js')));
 
         $idempleado = $this->session->userdata('s_idempleado');
         $parametros = array(
@@ -50,7 +50,7 @@ class Cprincipal extends CI_Controller
 
         $data['vista'] = 'DInternos';
         $data['datos_resumenpermisos'] = $resumenpermisos;
-        $data['content_for_layout'] = 'analytics/dashboardClieARevalprod';
+        $data['content_for_layout'] = 'analytics/dashboardCliePT';
         $this->parser->parse('seguridad/vprincipalClie', $data);
 
     }

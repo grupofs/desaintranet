@@ -344,6 +344,26 @@
                                                 </div>
                                                 <div class="col-md-2">
                                                     <div class="form-group">
+                                                        <label>DIÁMETRO/ANCHO</label>
+                                                        <input type="text" class="form-control" id="txtDiamReg01" name="txtDiamReg03">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label>ALTURA/LARGO</label>
+                                                        <input type="text" class="form-control" id="txtAltuReg01" name="txtAltuReg03">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label>GROSOR</label>
+                                                        <input type="text" class="form-control" id="txtGrosReg01" name="txtGrosReg03">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
                                                         <label>Nro de Equipos</label>
                                                         <input type="text" class="form-control" id="txtNroequipoReg01" name="txtNroequipoReg01">
                                                     </div>

@@ -34,19 +34,19 @@
             <div class="col-12">
                 <div class="card card-outline card-success">
                     <div class="card-header">
-                        <h3 class="card-title">EQUIPOS</h3>
+                        <h3 class="card-title">ESTUDIO DE DISTRIBUCIÓN DE TEMPERATURA</h3>
                     </div>                
                     <div class="card-body" style="overflow-x: scroll;">
                         <table id="tblListEquipos" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                             <tr>
-                                <th>ESTUDIO</th>
+                                <th>TIPO</th>
                                 <th></th>
                                 <th>NRO INFORME</th>
-                                <th>TIPO</th>
                                 <th>MEDIO CALENTAMIENTO</th>
                                 <th>FABRICANTE</th>
                                 <th>ENVASE</th>
+                                <th>DIMENSIONES</th>
                                 <th>#ID</th>
                             </tr>
                             </thead>
@@ -57,11 +57,11 @@
                 </div>
             </div>
         </div>
-        <!--<div class="row">
+        <div class="row">
             <div class="col-12">
                 <div class="card card-outline card-success">
                     <div class="card-header">
-                        <h3 class="card-title">PRODUCTOS</h3>
+                        <h3 class="card-title">ESTUDIO DE PENETRACIÓN DE CALOR</h3>
                     </div>                
                     <div class="card-body" style="overflow-x: scroll;">
                         <table id="tblListProductos" class="table table-striped table-bordered" style="width:100%">
@@ -69,13 +69,14 @@
                             <tr>
                                 <th>TIPO</th>
                                 <th></th>
+                                <th>NRO INFORME</th>
                                 <th>NOMBRE</th>
                                 <th>ENVASE</th>
                                 <th>PROCAL</th>
                                 <th>DIMENSIONES</th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
+                                <th>TIPO DE EQUIPO</th>
+                                <th>#ID EQUIPO</th>
+                                <th>FABRICANTE DEL EQUIPO</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -84,7 +85,7 @@
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div> 
     </div>
 </section>
 <!-- /.Main content -->

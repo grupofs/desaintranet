@@ -2611,6 +2611,10 @@ recuperaRegistro = function(v_RegEstu,idptregequipo,idptregproducto,idptregrecin
                 $('#txtNroequipoReg01').val(this.nro_equipos);
                 $('#txtNracanastReg01').val(this.nro_canastillas);
                 $('#txtIdenequipoReg01').val(this.identificacion);
+
+                $('#txtDiamReg01').val(this.diametro);
+                $('#txtAltuReg01').val(this.altura);
+                $('#txtGrosReg01').val(this.grosor);
                 
                 var params = { 
                     "idptregestudio":v_RegEstu 

@@ -291,7 +291,7 @@ class Minforme extends CI_Model {
     public function setregestudio01($parametros) {  // Registrar estudio 01 PT
         $this->db->trans_begin();
 
-        $procedure = "call sp_appweb_pt_setregistro01(?,?,?,?,?,?,?,?,?,?,?,?,?);";
+        $procedure = "call sp_appweb_pt_setregistro01(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
         $query = $this->db->query($procedure,$parametros);
 
         if ($this->db->trans_status() === FALSE)

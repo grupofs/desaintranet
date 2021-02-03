@@ -98,9 +98,6 @@ class Cservcliente extends CI_Controller {
 		
 		$parametros = array(
             '@CCLIENTE'   => $this->input->post('ccliente'),
-            '@IDINFORME'   => $this->input->post('idinforme'),
-            '@IDREGISTRO'   => $this->input->post('idregistro'),
-            '@IDREGESTUDIO'   => $this->input->post('idregestudio')
         );
 		$resultado = $this->mservcliente->getproconvproducto($parametros);
 		echo json_encode($resultado);

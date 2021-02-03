@@ -5,7 +5,7 @@ var vccliente = $('#hdnccliente').val();
 
 $(document).ready(function() { 
     listEquipo();  
-    //listProducto();     
+    listProducto();     
 });
 
 listEquipo= function(){    
@@ -33,18 +33,18 @@ listEquipo= function(){
             dataSrc : ''        
         },
         'columns'	: [
-            {"orderable": false, data: 'ESTUDIO'},
+            {"orderable": false, data: 'TIPO'},
             {
-              "class"     :   "index details-control col-s",
+              "class"     :   "col-xxs",
               orderable   :   false,
               data        :   'ESPACE',
               targets     :   1
             },
-            {"class":"col-m", "orderable": false, data: 'NROINFOR'},
-            {"class":"col-m", "orderable": false, data: 'TIPO'},
-            {"class":"col-sm", "orderable": false, data: 'MEDIOCAL'},
-            {"class":"col-sm", "orderable": false, data: 'FABRI'},
+            {"class":"col-xm", "orderable": false, data: 'NROINFOR'},
+            {"class":"col-xm", "orderable": false, data: 'MEDIOCAL'},
+            {"class":"col-xm", "orderable": false, data: 'FABRI'},
             {"class":"col-sm", "orderable": false, data: 'ENVASE'},
+            {"class":"col-m", "orderable": false, data: 'DIMENSION'},
             {"class":"col-xs", "orderable": false, data: 'IDENTIF'}, 
         ],
         rowGroup: {
@@ -59,7 +59,7 @@ listEquipo= function(){
                 .attr('data-name', group)
                 .toggleClass('collapsed', collapsed);
             },
-            dataSrc: "ESTUDIO"
+            dataSrc: "TIPO"
         },
         "columnDefs": [{
             "targets": [2], 
@@ -91,7 +91,7 @@ listEquipo= function(){
     }).draw();  
     otblListEquipos.column(0).visible( false ); 
 };
-/* DETALLE TRAMITES */
+/* DETALLE TRAMITES 
 $('#tblListEquipos tbody').on( 'click', 'td.details-control', function () {
             
    // var tr = $(this).closest('tr');
@@ -151,7 +151,7 @@ $('#tblListEquipos tbody').on( 'click', 'td.details-control', function () {
 
         tr.addClass('details');
     }
-});
+});*/
 /* COMPRIMIR GRUPO */
 $('#tblListEquipos tbody').on('click', 'tr.dtrg-group', function () {
     var name = $(this).data('name');
@@ -159,7 +159,7 @@ $('#tblListEquipos tbody').on('click', 'tr.dtrg-group', function () {
     otblListEquipos.draw(true);
 }); 
 
-/*
+
 listProducto= function(){    
 
     otblListProductos = $('#tblListProductos').DataTable({  
@@ -174,7 +174,7 @@ listProducto= function(){
         "info"        	: true,
         "filter"      	: true, 
         "ordering"		: false,
-        "responsive"    : false,
+        "responsive"    : true,
         "select"        : true,
         'ajax'	: {
             "url"   : baseurl+"pt/cservcliente/getproconvproducto/",
@@ -187,35 +187,19 @@ listProducto= function(){
         'columns'	: [
             {"orderable": false, data: 'TIPO'},
             {
-              "class"     :   "index",
+              "class"     :   "col-xxs",
               orderable   :   false,
               data        :   null,
               targets     :   1
             },
-            {"orderable": false, data: 'PRODUCTO'},
-            {"orderable": false, data: 'ENVASE'},
-            {"orderable": false, data: 'NROPROCAL'},
-            {"orderable": false, data: 'DIMENSION'},
-            {"orderable": false, 
-                render:function(data, type, row){
-                    return '<div>'+
-                    '</div>'
-                }
-            },            
-            {"orderable": false, 
-                render:function(data, type, row){
-                    return '<div>'+
-                    '<a data-toggle="modal" title="Ver" style="cursor:pointer; color:#3c763d;" data-target="#modalVerequi" onClick="javascript:selEquipo(\''+row.IDPROPU+'\',\''+row.CODCLIENTE+'\',\''+row.NROPROPU+'\',\''+row.FECHPROPU+'\',\''+row.IDSERV+'\',\''+row.DETAPROPU+'\',\''+row.COSTOTOTAL+'\',\''+row.ESTPROPU+'\',\''+row.CONTACTO+'\',\''+row.OBSPROPU+'\',\''+row.SERVNEW+'\',\''+row.CLIPOTEN+'\',\''+row.IDUSUARIO+'\',\''+row.TIPOCOSTO+'\',\''+row.ARCHIVO+'\',\''+row.CODESTABLE+'\',\''+row.RUTA+'\',\''+row.NOMBARCH+'\');"><span class="fas fa-edit" aria-hidden="true"> </span> </a>'+
-                    '</div>'
-                }
-            },             
-            {"orderable": false, 
-                render:function(data, type, row){
-                    return '<div>'+
-                    '<a data-toggle="modal" title="Ver" style="cursor:pointer; color:#3c763d;" data-target="#modalVerequi" onClick="javascript:selEquipo(\''+row.IDPROPU+'\',\''+row.CODCLIENTE+'\',\''+row.NROPROPU+'\',\''+row.FECHPROPU+'\',\''+row.IDSERV+'\',\''+row.DETAPROPU+'\',\''+row.COSTOTOTAL+'\',\''+row.ESTPROPU+'\',\''+row.CONTACTO+'\',\''+row.OBSPROPU+'\',\''+row.SERVNEW+'\',\''+row.CLIPOTEN+'\',\''+row.IDUSUARIO+'\',\''+row.TIPOCOSTO+'\',\''+row.ARCHIVO+'\',\''+row.CODESTABLE+'\',\''+row.RUTA+'\',\''+row.NOMBARCH+'\');"><span class="fas fa-edit" aria-hidden="true"> </span> </a>'+
-                    '</div>'
-                }
-            },
+            {"class":"col-xm", "orderable": false, data: 'NROINFOR'},
+            {"class":"col-lm", "orderable": false, data: 'PRODUCTO'},
+            {"class":"col-sm", "orderable": false, data: 'ENVASE'},
+            {"class":"col-s", "orderable": false, data: 'NROPROCAL'},
+            {"class":"col-sm", "orderable": false, data: 'DIMENSION'},
+            {"class":"col-sm", "orderable": false, data: 'TIPOEQUIPO'},
+            {"class":"col-sm", "orderable": false, data: 'IDENEQUIPO'},
+            {"class":"col-sm", "orderable": false, data: 'FABRIEQUIPO'},
         ],
         rowGroup: {
             startRender : function ( rows, group ) {
@@ -230,7 +214,18 @@ listProducto= function(){
                 .toggleClass('collapsed', collapsed);
             },
             dataSrc: "TIPO"
-        }
+        },
+        "columnDefs": [{
+            "targets": [2], 
+            "data": null, 
+            "render": function(data, type, row) { 
+                if(row.ARCHIVO != "") {
+                    return '<p><a title="Descargar" style="cursor:pointer; color:#294ACF;" href="'+baseurl+row.ruta_informe+row.ARCHIVO+'" target="_blank" class="pull-left">'+row.NROINFOR+'&nbsp;<i class="fas fa-cloud-download-alt""></i></a><p>';
+                }else{
+                    return '<p>'+row.NROINFOR+'</p>';
+                }                      
+            }
+        }]
     });   
     // Enumeracion 
     otblListProductos.on( 'order.dt search.dt', function () { 
@@ -246,4 +241,4 @@ $('#tblListProductos tbody').on('click', 'tr.dtrg-group', function () {
     collapsedGroupsEq[name] = !collapsedGroupsEq[name];
     otblListProductos.draw(true);
 }); 
-*/
+

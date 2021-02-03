@@ -29,7 +29,7 @@
             </div>
             <div class="card-body">
             <div class="row">
-                <div class="col-sm-4 col-md-2">
+            <!--<div class="col-sm-4 col-md-2">
                     <div class="callout callout-info" style="height: 200px;">
                         <div class="text-center">
                         <img class="profile-user-img img-fluid img-circle" src="<?php echo public_url(); ?>images/procesoTermico.svg" alt="user image">
@@ -40,7 +40,7 @@
                         </label>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <div class="col-sm-4 col-md-2">
                     <div class="callout callout-info" style="height: 200px;">
                         <div class="text-center">
@@ -65,7 +65,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4 col-md-2">
+                <!--<div class="col-sm-4 col-md-2">
                     <div class="callout callout-info" style="height: 200px;">
                         <div class="text-center">
                         <img class="profile-user-img img-fluid img-circle" src="<?php echo public_url(); ?>images/processAseptico.svg" alt="user image">
@@ -100,7 +100,7 @@
                         </label>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
             </div>
         </div>

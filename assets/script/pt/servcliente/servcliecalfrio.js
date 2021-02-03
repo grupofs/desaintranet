@@ -8,19 +8,20 @@ $(document).ready(function() {
 
 listProducto= function(){    
 
-    otblListProductos = $('#tblListProductos').DataTable({  
-        'responsive'    : false,
-        'bJQueryUI'     : true,
-        'scrollY'     	: '200px',
-        'scrollX'     	: true, 
-        'paging'      	: true,
-        'processing'  	: true,     
-        'bDestroy'    	: true,
-        'AutoWidth'     : false,
-        'info'        	: true,
-        'filter'      	: true, 
-        'ordering'		: false,  
-        'stateSave'     : true,
+    otblListProductos = $('#tblListProductos').DataTable({   
+        "processing"  	: true,
+        "bDestroy"    	: true,
+        "stateSave"     : true,
+        "bJQueryUI"     : true,
+        "scrollY"     	: "400px",
+        "scrollX"     	: true, 
+        'AutoWidth'     : true,
+        "paging"      	: false,
+        "info"        	: true,
+        "filter"      	: true, 
+        "ordering"		: false,
+        "responsive"    : false,
+        "select"        : true,
         'ajax'	: {
             "url"   : baseurl+"pt/cservcliente/getcalfrioproducto/",
             "type"  : "POST", 
@@ -31,36 +32,16 @@ listProducto= function(){
         },
         'columns'	: [
             {
-              "class"     :   "index",
+              "class"     :   "details-control col-xs",
               orderable   :   false,
               data        :   null,
               targets     :   0
             },
-            {"class":"col-m", "orderable": false, data: 'NROINFOR'},
-            {"orderable": false, data: 'PRODUCTO'},
-            {"orderable": false, data: 'TIPO'},
-            {"orderable": false, data: 'ENVASE'},
-            {"orderable": false, data: 'DIMENSION'},
-            {"orderable": false, 
-                render:function(data, type, row){
-                    return '<div>'+
-                    '</div>'
-                }
-            },            
-            /*{"orderable": false, 
-                render:function(data, type, row){
-                    return '<div>'+
-                    '<a data-toggle="modal" title="Ver" style="cursor:pointer; color:#3c763d;" data-target="#modalVerequi" onClick="javascript:selEquipo(\''+row.IDPROPU+'\',\''+row.CODCLIENTE+'\',\''+row.NROPROPU+'\',\''+row.FECHPROPU+'\',\''+row.IDSERV+'\',\''+row.DETAPROPU+'\',\''+row.COSTOTOTAL+'\',\''+row.ESTPROPU+'\',\''+row.CONTACTO+'\',\''+row.OBSPROPU+'\',\''+row.SERVNEW+'\',\''+row.CLIPOTEN+'\',\''+row.IDUSUARIO+'\',\''+row.TIPOCOSTO+'\',\''+row.ARCHIVO+'\',\''+row.CODESTABLE+'\',\''+row.RUTA+'\',\''+row.NOMBARCH+'\');"><span class="fas fa-edit" aria-hidden="true"> </span> </a>'+
-                    '</div>'
-                }
-            },             
-            {"orderable": false, 
-                render:function(data, type, row){
-                    return '<div>'+
-                    '<a data-toggle="modal" title="Ver" style="cursor:pointer; color:#3c763d;" data-target="#modalVerequi" onClick="javascript:selEquipo(\''+row.IDPROPU+'\',\''+row.CODCLIENTE+'\',\''+row.NROPROPU+'\',\''+row.FECHPROPU+'\',\''+row.IDSERV+'\',\''+row.DETAPROPU+'\',\''+row.COSTOTOTAL+'\',\''+row.ESTPROPU+'\',\''+row.CONTACTO+'\',\''+row.OBSPROPU+'\',\''+row.SERVNEW+'\',\''+row.CLIPOTEN+'\',\''+row.IDUSUARIO+'\',\''+row.TIPOCOSTO+'\',\''+row.ARCHIVO+'\',\''+row.CODESTABLE+'\',\''+row.RUTA+'\',\''+row.NOMBARCH+'\');"><span class="fas fa-edit" aria-hidden="true"> </span> </a>'+
-                    '</div>'
-                }
-            },*/
+            {"class":"col-sm", "orderable": false, data: 'NROINFOR'},
+            {"class":"col-lm", "orderable": false, data: 'PRODUCTO'},
+            {"class":"col-sm", "orderable": false, data: 'TIPO'},
+            {"class":"col-m", "orderable": false, data: 'ENVASE'},
+            {"class":"col-xm", "orderable": false, data: 'DIMENSION'},
         ],
         "columnDefs": [{
             "targets": [1], 
@@ -81,3 +62,64 @@ listProducto= function(){
           } );
     }).draw() 
 };
+/* DETALLE TRAMITES */
+$('#tblListProductos tbody').on( 'click', 'td.details-control', function () {
+            
+   // var tr = $(this).closest('tr');
+    var tr = $(this).parents('tr');
+    var row = otblListProductos.row(tr);
+    var rowData = row.data();
+    
+    if ( row.child.isShown() ) {                    
+        row.child.hide();
+        tr.removeClass( 'details' );
+    }
+    else {
+        otblListProductos.rows().every(function(){
+            // If row has details expanded
+            if(this.child.isShown()){
+                // Collapse row details
+                this.child.hide();
+                $(this.node()).removeClass('details');
+            }
+        })
+        row.child( 
+           '<table id="tblListEquipo" class="display compact" style="width:100%; padding-left:75px; background-color:#D3DADF; padding-top: -10px; border-bottom: 2px solid black;">'+
+           '<thead style="background-color:#FFFFFF;"><tr><th>TIPO DE EQUIPO</th><th>FABRICANTE EQUIPO</th></thead><tbody>' +
+            '</tbody></table>').show();
+            /*
+            otblListProductos = $('#tblListProductos').DataTable({
+                "bJQueryUI": true,
+                'bStateSave': true,
+                'scrollY':        false,
+                'scrollX':        true,
+                'scrollCollapse': false,
+                'bDestroy'    : true,
+                'paging'      : false,
+                'info'        : false,
+                'filter'      : false,   
+                'stateSave'   : true,
+                'ajax'        : {
+                    "url"   : baseurl+"pt/cservcliente/getproconvproducto/",
+                    "type"  : "POST", 
+                    "data": function ( d ) {
+                        d.ccliente = rowData.ccliente;
+                        d.idinforme = rowData.idptinforme;
+                        d.idregistro = rowData.idptregistro;
+                        d.idregestudio = rowData.idptregestudio;
+                    },     
+                    dataSrc : ''        
+                },
+                'columns'     : [
+                    {"orderable": false, data: 'PRODUCTO'},
+                    {"orderable": false, data: 'ENVASE'},
+                    {"orderable": false, data: 'TIPO'},
+                    {"orderable": false, data: 'DIMENSION'},
+                    {"orderable": false, data: 'NROPROCAL'},
+                              
+                ], 
+            });*/
+
+        tr.addClass('details');
+    }
+});

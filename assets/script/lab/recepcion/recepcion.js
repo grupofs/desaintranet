@@ -1,5 +1,5 @@
 
-var otblListRecepcion, otblListProducto, otblListEnsayos;
+var otblListRecepcion, otblListProducto;
 var varfdesde = '%', varfhasta = '%';
 
 
@@ -67,70 +67,17 @@ $(document).ready(function() {
                 var posts = JSON.parse(respuesta);
                 
                 $.each(posts, function() {
+                    alert("ok");
                     otblListProducto.ajax.reload(null,false);
                     Vtitle = 'La Recepcion esta Guardada!!!';
                     Vtype = 'success';
-                    sweetalert(Vtitle,Vtype);     
+                    sweetalert(Vtitle,Vtype); 
+                    $('#mbtnCCreaProduc').click();    
                 });
             });
             return false;
         }
     });
-});
-
-const objFormulario = {
-};
-$(function() {    
-    /**
-     * Muestra la lista ocultando el formulario
-     */
-    objFormulario.mostrarCotizacion = function () {
-        const boton = $('#btnAccionContenedorLista');
-        const icon = boton.find('i');
-        if (icon.hasClass('fa-minus')) icon.removeClass('fa-minus');
-        icon.addClass('fa-plus');
-        boton.click();
-        $('#contenedorRegensayo').hide();
-        $('#contenedorCotizacion').show();
-        //objFiltro.buscar()
-    };
-
-    /**
-     * Muestra el formulario ocultando la lista
-     */
-    objFormulario.addRegistroEnsayo = function (ccliente,cauditoriainspeccion,fservicio,cchecklist,cestablecimiento,ddataobject) {
-        const boton = $('#btnAccionContenedorLista');
-        const icon = boton.find('i');
-        if (icon.hasClass('fa-plus')) icon.removeClass('fa-plus');
-        icon.addClass('fa-minus');
-        boton.click();
-
-        $('#hdnCcliente').val(ccliente);
-        $('#hdnIdaudi').val(cauditoriainspeccion);
-        $('#hdnFaudi').val(fservicio);
-        $('#hdnChecklist').val(cchecklist);
-        $('#hdnDataobject').val(ddataobject);
-        
-        //listarChecklist();
-        var params = { "cestablecimiento":cestablecimiento};
-        $.ajax({
-            type: 'ajax',
-            method: 'post',
-            url: baseurl+"at/auditoria/cconsultauditor/getcboregAreazona",
-            dataType: "JSON",
-            async: true,
-            data: params,
-            success:function(result){
-                $('#cboregAreazona').html(result);
-            },
-            error: function(){
-                alert('Error, No se puede autenticar por error');
-            }
-        });
-
-        $('#contenedorRegensayo').show();
-        $('#contenedorCotizacion').hide();
-    };
 });
 
 fechaActual = function(){
@@ -290,132 +237,12 @@ pdfCoti = function(idcoti,nversion){
     window.open(baseurl+"lab/coti/ccotizacion/pdfCoti/"+idcoti+"/"+nversion);
 };
 
-$('#btnNuevo').click(function(){
-    
-    $('#tablab a[href="#tablab-reg"]').tab('show'); 
-    $('#frmRegCoti').trigger("reset");
-    $('#hdnAccionregcoti').val('N'); 
-    $('#mtxtidcoti').val(''); 
 
-    fechaActualReg();
-    iniRegCoti("%","%","%","%");
-
-    $('#mtxtregpagotro').hide();
-    $('#mtxtregtipocambio').hide(); 
-    
-    $("#txtmontmuestreo").prop({readonly:true});
-    $("#txtmontsubtotal").prop({readonly:true}); 
-    $("#txtmontigv").prop({readonly:true});
-    $("#txtmonttotal").prop({readonly:true});
-
-    $('#regProductos').hide();
-    
-});
-
-fechaActualReg = function(){
+fechaActualRecep = function(){
     var fecha = new Date();		
     var fechatring = ("0" + fecha.getDate()).slice(-2) + "/" + ("0"+(fecha.getMonth()+1)).slice(-2) + "/" +fecha.getFullYear() ;
-    $('#mtxtFCoti').datetimepicker('date', moment(fechatring, 'DD/MM/YYYY') );
-
+    $('#mtxtFrecepcion').datetimepicker('date', moment(fechatring, 'DD/MM/YYYY') );
 };
-
-iniRegCoti = function(subservicio,ccliente,cproveedor,ccontacto){
-
-    $.ajax({
-        type: 'ajax',
-        method: 'post',
-        url: baseurl+"lab/coti/ccotizacion/getcboregserv",
-        dataType: "JSON",
-        async: true,
-        success:function(result)
-        {
-            $('#cboregserv').html(result);
-            $('#cboregserv').val(subservicio).trigger("change"); 
-        },
-        error: function(){
-            alert('Error, No se puede autenticar por error');
-        }
-    }); 
-
-    $.ajax({
-        type: 'ajax',
-        method: 'post',
-        url: baseurl+"lab/coti/ccotizacion/getcliente",
-        dataType: "JSON",
-        async: true,
-        success:function(result)
-        {
-            $('#cboregclie').html(result);
-            $('#cboregclie').val(ccliente).trigger("change"); 
-        },
-        error: function(){
-            alert('Error, No se puede autenticar por error');
-        }
-    }); 
-};
-
-$("#cboregclie").change(function(){ 
-    var v_idcliente = $('#cboregclie').val();
-
-    var params = { "ccliente":v_idcliente};
-    $.ajax({
-        type: 'ajax',
-        method: 'post',
-        url: baseurl+"lab/coti/ccotizacion/getprovcliente",
-        dataType: "JSON",
-        async: true,
-        data: params,
-        success:function(result)
-        {
-            $('#cboregprov').html(result);
-        },
-        error: function(){
-            alert('Error, No se puede autenticar por error');
-        }
-    }); 
-    $.ajax({
-        type: 'ajax',
-        method: 'post',
-        url: baseurl+"lab/coti/ccotizacion/getcontaccliente",
-        dataType: "JSON",
-        async: true,
-        data: params,
-        success:function(result)
-        {
-            $('#cboregcontacto').html(result); 
-        },
-        error: function(){
-            alert('Error, No se puede autenticar por error');
-        }
-    }); 
-});
-
-   
-$('#frmRegCoti').submit(function(event){
-    event.preventDefault();
-    
-    var request = $.ajax({
-        url:$('#frmRegCoti').attr("action"),
-        type:$('#frmRegCoti').attr("method"),
-        data:$('#frmRegCoti').serialize(),
-        error: function(){
-          alert('Error, No se puede autenticar por error');
-        }
-    });
-    request.done(function( respuesta ) {
-        var posts = JSON.parse(respuesta);
-        
-        $.each(posts, function() {
-            $('#regProductos').show(); 
-            $('#hdnAccionregcoti').val('A'); 
-            $('#mtxtidcotizacion').val(this.cinternocotizacion);
-            $('#mtxtregnumcoti').val(this.dcotizacion);
-            Vtitle = 'Cotizacion Guardada!!!';
-            Vtype = 'success';
-            sweetalert(Vtitle,Vtype);     
-        });
-    });
-});
 
 selRecep= function(IDCOTIZACION,NVERSION,DCLIENTE,NROCOTI){  
     
@@ -442,7 +269,7 @@ recuperaListproducto = function(){
     otblListProducto = $('#tblListProductos').DataTable({  
         'responsive'    : true,
         'bJQueryUI'     : true,
-        'scrollY'     	: '200px',
+        'scrollY'     	: '500px',
         'scrollX'     	: true, 
         'paging'      	: true,
         'processing'  	: true,     
@@ -513,6 +340,8 @@ $('#modalRecepcion').on('shown.bs.modal', function (e) {
         daysOfWeekDisabled: [0],
         locale:'es'
     });
+
+    $("#mtxtregnumcoti").prop({readonly:true});  
     
     $('#divExtra').hide();
 });
@@ -526,15 +355,42 @@ selCotiprodu = function(cinternocotizacion,nversioncotizacion,nordenproducto,cmu
     $('#mhdnnordenproducto').val(nordenproducto);
 
     $('#mtxtmcodigo').val(cmuestra);
-    $('#mtxtFrecepcion').val(frecepcionmuestra);
+    
+    if(frecepcionmuestra == 'null'){
+        fechaActualRecep();
+    }else{
+        $('#mtxtFrecepcion').val(frecepcionmuestra);
+    }
+    
     $('#mtxtmproductoreal').val(drealproducto);
     $('#mtxtmpresentacion').val(dpresentacion);
     $('#mtxttemprecep').val(dtemperatura);
     $('#mtxtcantmuestra').val(dcantidad);    
     $('#mtxtproveedor').val(dproveedorproducto);
     $('#mtxtnrolote').val(dlote);
-    $('#mtxtFenvase').val(fenvase);
-    $('#mtxtFmuestra').val(fmuestra);
+    
+    if(fenvase == 'null'){
+        $('#mtxtFenvase').val('');
+    }else{
+        $('#mtxtFenvase').val(fenvase);
+        $('#mtxtFenvase').datetimepicker({
+            format: 'DD/MM/YYYY',
+            daysOfWeekDisabled: [0],
+            locale:'es'
+        });
+    }
+    
+    if(fmuestra == 'null'){
+        $('#mtxtFmuestra').val('');
+    }else{
+        $('#mtxtFmuestra').val(fmuestra);
+        $('#mtxtFmuestra').datetimepicker({
+            format: 'DD/MM/YYYY',
+            daysOfWeekDisabled: [0],
+            locale:'es'
+        });
+    }
+
     $('#mtxthmuestra').val(hmuestra);
     $('#mcbotottus').val(stottus);
     $('#mcbomonitoreo').val(ntrimestre);

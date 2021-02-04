@@ -167,10 +167,7 @@
                                                 
                                     <div class="card-footer justify-content-between"> 
                                         <div class="row">
-                                            <div class="col-md-2"> 
-                                                <button type="button" class="btn btn-outline-success" id="btnNuevo" ><i class="fas fa-plus"></i> Crear Nuevo</button>                        
-                                            </div>
-                                            <div class="col-md-10">
+                                            <div class="col-md-12">
                                                 <div class="text-right">
                                                     <button type="submit" class="btn btn-primary" id="btnBuscar"><i class="fas fa-search"></i> Buscar</button>    
                                                 </div>
@@ -216,7 +213,7 @@
                                                     <small id="lblcoti"> </small>
                                                 </h4>
                                             </div> 
-                                            <div class="col-6">
+                                            <div class="col-6 text-right">
                                                 <button type="button" class="btn btn-secondary" id="btnRetornarLista"><i class="fas fa-undo-alt"></i> Retornar</button>
                                             </div> 
                                         </div> 
@@ -297,14 +294,14 @@
                     <div class="col-sm-2">
                         <div class="text-info">Codigo</div>
                         <div>  
-                            <input type="text" name="mtxtmcodigo" class="form-control" id="mtxtmcodigo" disabled/>  
+                            <input type="text" name="mtxtmcodigo" class="form-control" id="mtxtmcodigo"/>  
                         </div>
                     </div>                 
                     <div class="col-sm-3">
                         <div class="form-group">
                             <div class="text-info">F. Recepcion <span class="text-requerido">*</span></div>
                             <div class="input-group date" id="mtxtFRecep" data-target-input="nearest">
-                                <input type="text" id="mtxtFrecepcion" name="mtxtFrecepcion" class="form-control datetimepicker-input" data-target="#mtxtFRecep"/>
+                                <input type="text" id="mtxtFrecepcion" name="mtxtFrecepcion" class="form-control datetimepicker-input" data-target="#mtxtFRecep" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask />
                                 <div class="input-group-append" data-target="#mtxtFRecep" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>

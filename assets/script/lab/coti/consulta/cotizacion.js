@@ -97,6 +97,14 @@ $(document).ready(function() {
                     $('#mtxtidcotizacion').val(this.cinternocotizacion);
                     $('#mtxtnroversion').val(0);
                     $('#mtxtregnumcoti').val(this.dcotizacion);
+
+                    varisubtotal = this.var_isubtotal;
+                    variigev = this.var_iigev;
+                    varitotal = this.var_itotal;
+
+                    $('#txtmontsubtotal').val(varisubtotal);
+                    $('#txtmonttotal').val(varitotal);
+                    
                     recuperaListproducto();
                     Vtitle = 'Cotizacion Guardada!!!';
                     Vtype = 'success';
@@ -206,6 +214,13 @@ $(document).ready(function() {
                     varIDCOTIZACION = this.cinternocotizacion;
                     varNVERSION = this.nversioncotizacion;
                     varIDPROD = this.nordenproducto;
+                    varisubtotal = this.var_isubtotal;
+                    variigev = this.var_iigev;
+                    varitotal = this.var_itotal;
+
+                    $('#txtmontsubtotal').val(varisubtotal);
+                    $('#txtmonttotal').val(varitotal);
+                    
                     recuperaListensayo(varIDCOTIZACION,varNVERSION,varIDPROD);
                     Vtitle = 'Ensayo registrado Guardada!!!';
                     Vtype = 'success';

@@ -76,7 +76,6 @@ $(function () {
 			const boton = $('#btnBuscarListado');
 			const tipo = $('#cboTipobuscar').val();
 			const mostrarVencidos = ($('#mostrar_vencidos').length) ? $('#mostrar_vencidos').is(':checked') : false;
-			console.log(mostrarVencidos);
 			objFiltro.cargando = true;
 			this.oTableLista = $('#tbllistaexpedientes').DataTable({
 				'bJQueryUI': true,

@@ -411,6 +411,31 @@ $(function () {
         }
     };
 
+	/**
+	 * Exportar registros de expedientes
+	 */
+	objLista.exportar = function() {
+		const tipo = $('#cboTipobuscar').val();
+		const mostrarVencidos = ($('#mostrar_vencidos').length) ? $('#mostrar_vencidos').is(':checked') : false;
+		const fdesde = (parseInt(tipo) == 0) ? '' : $('#FechaDesde').val();
+		const fhasta = (parseInt(tipo) == 0) ? '' : $('#FechaHasta').val();
+		const mostrarVencido = (mostrarVencidos) ? 1 : 0;
+		const url = BASE_URL + 'ar/evalprod/cexpediente/exportar' +
+			'?ccliente=' + $('#idcliente').val()
+			+ '&cproveedor=' + $('#cboProveedor').val()
+			+ '&expediente=' + $('#txtExpediente').val()
+			+ '&tipo=' + tipo
+			+ '&fdesde=' + fdesde
+			+ '&fhasta=' + fhasta
+			+ '&mostrar_vencidos=' + mostrarVencido;
+		const download = window.open(url, '_blank');
+		if (!download) {
+			objPrincipal.notify('warning', 'Habilita el poder exportar registros.');
+		} else {
+			download.focus();
+		}
+	};
+
 });
 
 $(document).ready(function () {
@@ -432,5 +457,7 @@ $(document).ready(function () {
         $('#frmPDF').trigger("reset");
         $('#pdf_id_expediente').val(0);
     });
+
+    $('#btnExportar').click(objLista.exportar);
 
 });

@@ -11,8 +11,8 @@
 		"source": "https://github.com/bcit-ci/CodeIgniter"
 	},
 	"require": {
-	  	"php": ">=7.2.*",
-		"phpoffice/phpspreadsheet": "^1.11",
+	  	"php": ">=7.4",
+		"phpoffice/phpspreadsheet": "^1.16",
 		"dompdf/dompdf" : "^0.8.0",
 		"nesbot/carbon": "^2.39"
 	},

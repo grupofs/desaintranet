@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+
 /**
  * Class Cexpediente
  *
@@ -856,6 +858,101 @@ Observado / Rechazado). El recojo no aplica para los productos que tienen un tie
 		$filename = $expediente;
 		$this->pdfgenerator->generate($html, $filename);
         //echo $html;
+	}
+
+	/**
+	 * @throws PHPExcel_Exception
+	 * @throws PHPExcel_Reader_Exception
+	 * @throws PHPExcel_Writer_Exception
+	 */
+	public function exportar()
+	{
+		try {
+			$fdesde = $this->input->get('fdesde');
+			$fhasta = $this->input->get('fhasta');
+			$ccliente = $this->input->get('ccliente');
+			$cproveedor = $this->input->get('cproveedor');
+			$expedientes = $this->input->get('expediente');
+			$ccliente = (empty($ccliente)) ? '00005' : $ccliente;
+			$fdesde = ($fdesde == '') ? null : substr($fdesde, 6, 4) . '-' . substr($fdesde, 3, 2) . '-' . substr($fdesde, 0, 2);
+			$fhasta = ($fhasta == '') ? null : substr($fhasta, 6, 4) . '-' . substr($fhasta, 3, 2) . '-' . substr($fhasta, 0, 2);
+
+			$objPHPExcel = new Spreadsheet();
+			$sheet = $objPHPExcel->getActiveSheet();
+
+			$sheet->setCellValue('A1', 'LISTA DE EXPEDIENTES');
+			$sheet->getStyle('A1')->getFont()->setBold(true);
+			$sheet->mergeCells('A1:G1');
+			$sheet->getStyle('A1:B1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+
+			$sheet
+				->setCellValue('A2', '#')
+				->setCellValue('B2', 'Expediente')
+				->setCellValue('C2', 'Proveedor')
+				->setCellValue('D2', 'Total')
+				->setCellValue('E2', 'Fecha Ingreso')
+				->setCellValue('F2', 'Fecha Limite')
+				->setCellValue('G2', 'Estado');
+
+			$colorTitulo = array(
+				'font' => array(
+					'name' => 'Verdana',
+					'bold' => true,
+					'size' => 10,
+					'color' => array(
+						'rgb' => '000000'
+					)
+				)
+			);
+
+			$fondoTitulo = array(
+				'type' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+				'startcolor' => array(
+					'rgb' => '28a745'
+				)
+			);
+
+			$objPHPExcel->getActiveSheet()->getStyle('A2:G2')->applyFromArray($colorTitulo);
+			$objPHPExcel->getActiveSheet()->getStyle('A2:G2')->getFill()->applyFromArray($fondoTitulo);
+			$objPHPExcel->getActiveSheet()->setTitle('Expedientes');
+
+			$resultado = $this->mexpediente->lista([
+				'@ccliente' => $ccliente,
+				'@cproveedor' => (empty($cproveedor) || $cproveedor == 'null') ? 0 : $cproveedor,
+				'@expediente' => (empty($expedientes)) ? '%' : "%{$expedientes}%",
+				'@fdesde' => $fdesde,
+				'@fhasta' => $fhasta,
+			]);
+			if (!empty($resultado)) {
+				$pos = 3;
+				foreach ($resultado as $key => $item) {
+					$objPHPExcel->getActiveSheet()->setCellValue('A' . $pos, ($key + 1));
+					$objPHPExcel->getActiveSheet()->setCellValue('B' . $pos, $item->expediente);
+					$objPHPExcel->getActiveSheet()->setCellValue('C' . $pos, $item->proveedor);
+					$objPHPExcel->getActiveSheet()->setCellValue('D' . $pos, $item->total);
+					$objPHPExcel->getActiveSheet()->setCellValue('E' . $pos, $item->fecha);
+					$objPHPExcel->getActiveSheet()->setCellValue('F' . $pos, $item->flimite);
+					$objPHPExcel->getActiveSheet()->setCellValue('G' . $pos, $item->destado);
+					++$pos;
+				}
+			}
+
+			foreach (range('A', 'G') as $columnID) {
+				$objPHPExcel->getActiveSheet()->getColumnDimension($columnID)
+					->setAutoSize(true);
+			}
+			$objPHPExcel->setActiveSheetIndex(0);
+
+			$nombre = 'expedientes' . date('dmy');
+			$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, "Xlsx");
+			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			header('Content-Disposition: attachment; filename="' . $nombre . '.xlsx"');
+			$writer->save("php://output");
+			exit();
+
+		} catch (Exception $ex) {
+			echo $ex->getMessage();
+		}
 	}
 
 }

@@ -30,9 +30,9 @@ $(function() {
             "orderable": false,
             render: function (data, type, row) {
                 return '<div class="text-left" >' +
-                    '<button class="btn btn-transparent btn-sm text-primary" onClick="objLista.evaluar(\'' + row.id_expediente + '\', this);">' +
+                    '<a class="btn btn-transparent btn-sm text-primary" target="_blank" href="' + BASE_URL + 'ar/evalprod/cevaluar/producto/' + row.id_expediente + '">' +
                     '<i class="fa fa-pencil-alt fa-2x" ></i>' +
-                    '</button>' +
+                    '</a>' +
                     '</div>';
             }
         });

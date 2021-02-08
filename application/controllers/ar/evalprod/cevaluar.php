@@ -11,6 +11,7 @@ use Carbon\Carbon;
  * @property mproducto mproducto
  * @property marea marea
  * @property memail memail
+ * @property marea_contacto marea_contacto
  */
 class cevaluar extends CI_Controller
 {
@@ -26,7 +27,85 @@ class cevaluar extends CI_Controller
         $this->load->model('ar/evalprod/mproducto', 'mproducto');
         $this->load->model('ar/evalprod/marea', 'marea');
         $this->load->model('memail', 'memail');
+		$this->load->model('ar/evalprod/marea_contacto', 'marea_contacto');
     }
+
+	/**
+	 * Vista para la evaluación del producto
+	 * @param int $idExpediente
+	 * @param int $uri
+	 */
+    public function producto($idExpediente = 0, $uri = 0)
+	{
+		if (!$this->session->userdata("login")) {
+			redirect('clogin');
+		}
+		$this->session->time = time();
+
+		$this->layout->js([
+			versionar_archivo('script/ar/evalprod/proveedor/buscar.js'),
+			versionar_archivo('script/ar/evalprod/proveedor/generar.js'),
+			versionar_archivo('script/ar/evalprod/buscar_pais.js'),
+			versionar_archivo('script/ar/evalprod/expediente/evaluar/generar.js'),
+			versionar_archivo('script/ar/evalprod/expediente/evaluar/producto.js'),
+			versionar_archivo('script/ar/evalprod/expediente/evaluar/evaluar.js')
+		]);
+
+		$expediente = $this->mexpediente->buscarPorId($idExpediente);
+		if (empty($expediente)) {
+			show_404();
+		}
+		$proveedor = $this->mproveedor->buscarPorId($expediente->id_proveedor);
+
+		$resultado = $this->mproducto->lista([
+			'@id_expediente' => $expediente->id_expediente,
+		]);
+		$totalResultado = count($resultado);
+
+		$producto = (isset($resultado[$uri])) ? $resultado[$uri] : [];
+		$evaluacion = [];
+		if (!empty($producto)) {
+			$evaluacion = $this->mevaluar->buscarExpediente($expediente->id_expediente, $producto->id_producto);
+		}
+
+		$this->load->library('pagination');
+		$this->pagination->initialize([
+			'base_url' => base_url('ar/evalprod/cevaluar/producto/' . $expediente->id_expediente),
+			'total_rows' => $totalResultado,
+			'per_page' => 1,
+			'uri_segment' => 6,
+			'num_links' => 50,
+			'reuse_query_string' => TRUE,
+			'full_tag_open' => '<nav aria-label="Lista Productos" ><ul class="pagination" >',
+			'full_tag_lose' => '</ul></nav>',
+			'first_tag_open' => '<li class="page-item" >',
+			'first_tag_close' => '</li>',
+			'last_tag_open' => '<li class="page-item" >',
+			'last_tag_close' => '</li>',
+			'cur_tag_open' => '<li class="page-item active" ><a class="page-link" href="javascript:void(0)">',
+			'cur_tag_close' => '</a></li>',
+			'next_tag_open' => '<li class="page-item" >',
+			'next_tag_close' => '</a></li>',
+			'prev_tag_open' => '<li class="page-item" >',
+			'prev_tag_close' => '</li>',
+			'num_tag_open' => '<li class="page-item" >',
+			'num_tag_close' => '</li>',
+			'last_link' => FALSE,
+		]);
+
+		$this->parser->parse('seguridad/vprincipal', [
+			'vista' => 'Ventana',
+			'content_for_layout' => 'ar/evalprod/expediente/evaluar/vevaluar_expediente',
+			'datos_ventana' => [
+				'expediente' => $expediente,
+				'proveedor' => $proveedor,
+				'total_rows' => $totalResultado,
+				'pagination' => $this->pagination->create_links(),
+				'producto' => $producto,
+				'evaluacion' => $evaluacion,
+			]
+		]);
+	}
 
     /**
      * Guarda la evaluacion del expediente

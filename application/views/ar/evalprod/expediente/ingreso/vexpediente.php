@@ -120,14 +120,21 @@ $cia = $this-> session-> userdata('s_cia');
                                     </div>
                                     <!--Contenedor de botones-->
                                     <div class="card-footer">
-                                        <div class="col-md-12 text-right">
-                                            <button type="button" class="btn btn-default" id="btnBuscarListado">
-                                                <i class="fa fa-fw fa-search"></i> Buscar
-                                            </button>
-                                            <button type="button" class="btn btn-primary" id="btnNuevoRegistro"><i
-                                                    class="fa fa-fw fa-file"></i> Nuevo expediente
-                                            </button>
-                                        </div>
+										<div class="d-flex flex-row justify-content-between" >
+											<div class="col-sm-6 col-12 text-left">
+												<button type="button" class="btn btn-success">
+													<i class="fa fa-fw fa-download"></i> Exportar registros
+												</button>
+											</div>
+											<div class="col-sm-6 col-12 text-right">
+												<button type="button" class="btn btn-default" id="btnBuscarListado">
+													<i class="fa fa-fw fa-search"></i> Buscar
+												</button>
+												<button type="button" class="btn btn-primary" id="btnNuevoRegistro"><i
+															class="fa fa-fw fa-file"></i> Nuevo expediente
+												</button>
+											</div>
+										</div>
                                     </div>
                                 </div>
                                 <!--FIN Contenedor de consulta-->

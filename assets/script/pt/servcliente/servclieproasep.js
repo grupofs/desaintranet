@@ -11,6 +11,7 @@ listProducto= function(){
     otblListProductos = $('#tblListProductos').DataTable({  
         'responsive'    : false,
         'bJQueryUI'     : true,
+        "scrollResize"  : true,
         'scrollY'     	: '200px',
         'scrollX'     	: true, 
         'paging'      	: true,

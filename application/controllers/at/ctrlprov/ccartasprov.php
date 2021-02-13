@@ -75,7 +75,6 @@ class Ccartasprov extends CI_Controller {
 				$cargo_firmante 		= $row->cargo_firmante;
 				
 				
-				
 
 				$html .= '<div class="teacherPage">				
 					<page>					
@@ -83,7 +82,7 @@ class Ccartasprov extends CI_Controller {
 					<tbody>
 						<tr>
 							<td ALIGN="right">
-								<img src="./FTPfileserver/Imagenes/formatos/1/01/02/cartas/00005/logo_tottus.jpg" width="160" height="70" />
+								<img src="'.public_url_ftp().'Imagenes/formatos/1/01/02/cartas/00005/logo_tottus.jpg" width="160" height="70" />
 							</td>
 						</tr>
 						<tr>
@@ -142,7 +141,7 @@ class Ccartasprov extends CI_Controller {
 							<table>
 							<tr>
 								<td style="text-align:center;">
-									<img src="./FTPfileserver/Imagenes/formatos/1/01/02/cartas/00005/firma_PFano.jpg" width="180" height="120">
+									<img src="'.public_url_ftp().'Imagenes/formatos/1/01/02/cartas/00005/firma_PFano.jpg" width="180" height="120">
 								</td>
 								<td>&nbsp;</td>
 							</tr>

@@ -44,13 +44,14 @@ figure {
 .navbar-fixed-bottom .navbar-collapse,
 .navbar-fixed-top .navbar-collapse,
 .pre-scrollable {
-    max-height: 340px
+    max-height: 340px;
 }
 
 html {
     font-family: sans-serif;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%
+    
 }
 
 article,

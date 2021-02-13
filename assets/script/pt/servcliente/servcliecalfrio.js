@@ -13,6 +13,7 @@ listProducto= function(){
         "bDestroy"    	: true,
         "stateSave"     : true,
         "bJQueryUI"     : true,
+        "scrollResize"  : true,
         "scrollY"     	: "400px",
         "scrollX"     	: true, 
         'AutoWidth'     : true,

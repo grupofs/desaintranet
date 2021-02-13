@@ -67,6 +67,8 @@ class Cregcapa extends CI_Controller {
 		$cestablecimiento 	= $this->input->post('cboregEstab');
 		$comentarios 		= $this->input->post('mtxtComentarios');
 		$finicio 			= $this->input->post('mtxtFinicio');
+		$tipocerti 			= $this->input->post('cbotipocerti');
+		$modelcerti 			= $this->input->post('cbomodelcerti');
 		$accion 			= $this->input->post('hdnAccionregcapa');
         
         $parametros = array(
@@ -75,6 +77,8 @@ class Cregcapa extends CI_Controller {
             '@cestablecimiento'     =>  ($cestablecimiento == $varnull || $cestablecimiento == '%') ? '000000' : $this->input->post('cboregEstab'),
             '@fini'					=>  substr($finicio, 6, 4).'-'.substr($finicio,3 , 2).'-'.substr($finicio, 0, 2),
             '@comentarios'      	=>  $comentarios,
+            '@tipocerti'      		=>  $tipocerti,
+            '@modelcerti'      		=>  $modelcerti,
             '@accion'           	=>  $accion
         );
         $retorna = $this->mregcapa->setcapa($parametros);
@@ -94,6 +98,9 @@ class Cregcapa extends CI_Controller {
 		$id_capadet 	= $this->input->post('mhdnIdCapaDet');
 		$id_capacurso 	= $this->input->post('mcboCurso');
 		$id_capamodulo 	= $this->input->post('mcboTema');
+		$fechasrealizado 	= $this->input->post('mtxtfrealiza');
+		$duracionhoras 	= $this->input->post('mtxthduracion');
+		$notaminima 	= $this->input->post('mtxtnotamin');
 		$accion 		= $this->input->post('mhdnAccionCapa');
         
         $parametros = array(
@@ -101,6 +108,9 @@ class Cregcapa extends CI_Controller {
             '@id_capadet'		=>  $id_capadet,
             '@id_capacurso'     =>  $id_capacurso,
             '@id_capamodulo'	=>  $id_capamodulo,
+            '@fechasrealizado'	=>  $fechasrealizado,
+            '@duracionhoras'	=>  $duracionhoras,
+            '@notaminima'		=>  $notaminima,
             '@accion'			=>  $accion
         );
         $retorna = $this->mregcapa->setcapadet($parametros);
@@ -679,5 +689,7 @@ class Cregcapa extends CI_Controller {
         $retorna = $this->mregcapa->setparticipante($parametros);
         echo json_encode($retorna);		
 	}
+    
+
 }
 ?>

@@ -160,7 +160,7 @@
                                         <input type="hidden" name="mtxtidcapa" id="mtxtidcapa" class="form-control">
                                         <input type="hidden" name="hdnAccionregcapa" id="hdnAccionregcapa" class="form-control">
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-5">
                                                 <div class="form-group">    
                                                     <label>Clientes</label>
                                                     <select class="form-control select2bs4" id="cboregClie" name="cboregClie" style="width: 100%;">
@@ -168,26 +168,51 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-5">
                                                 <div class="form-group">
                                                     <label>Establecimiento</label>
                                                     <select class="form-control select2bs4" id="cboregEstab" name="cboregEstab" style="width: 100%;">
                                                         <option value="" selected="selected">Cargando...</option>
                                                     </select>
                                                 </div>
+                                            </div>              
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Fecha Inicio</label>
+                                                    <div class="input-group date" id="mtxtFCapaini" data-target-input="nearest">
+                                                        <input type="text" id="mtxtFinicio" name="mtxtFinicio" class="form-control datetimepicker-input" data-target="#mtxtFCapaini"/>
+                                                        <div class="input-group-append" data-target="#mtxtFCapaini" data-toggle="datetimepicker">
+                                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                        </div>
+                                                    </div>                        
+                                                </div> 
                                             </div>
                                         </div>
-                                        <div class="row">                 
-                                            <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label>Fecha Inicio</label>
-                                                <div class="input-group date" id="mtxtFCapaini" data-target-input="nearest">
-                                                    <input type="text" id="mtxtFinicio" name="mtxtFinicio" class="form-control datetimepicker-input" data-target="#mtxtFCapaini"/>
-                                                    <div class="input-group-append" data-target="#mtxtFCapaini" data-toggle="datetimepicker">
-                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                    </div>
-                                                </div>                        
-                                            </div> 
+                                        <div class="row">   
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Tipo de Certificado</label>
+                                                    <select class="form-control select2bs4" id="cbotipocerti" name="cbotipocerti" style="width: 100%;">
+                                                        <option value="" selected="selected">::Seleccionar</option>
+                                                        <option value="E">Por Empresa</option>
+                                                        <option value="IP">Individual por Programa</option>
+                                                        <option value="IC">Individual por Curso</option>
+                                                    </select>
+                                                </div>
+                                            </div>   
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>Modelo de Certificado</label>
+                                                    <select class="form-control select2bs4" id="cbomodelcerti" name="cbomodelcerti" style="width: 100%;">
+                                                        <option value="" selected="selected">::Seleccionar</option>
+                                                        <option value="A">Evaluado</option>
+                                                        <option value="AN">Evaluado con Nota</option>
+                                                        <option value="AD">Evaluado con DNI</option>
+                                                        <option value="AT">Evaluado con DNI y Nota</option>
+                                                        <option value="P">Participante</option>
+                                                        <option value="PD">Participante con DNI</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -198,6 +223,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-6 text-left">
+                                                <!--<button type="button" class="btn btn-info" id="btnVercertificados"><i class="fas fa-file-invoice"></i> Ver Certificados</button> -->
                                                 <button type="button" class="btn btn-primary" id="btnParticiopantes"><i class="fas fa-user-friends"></i> Participantes</button>  
                                             </div> 
                                             <div class="col-sm-6 text-right"> 
@@ -386,22 +412,38 @@
                         
             <div class="form-group">
                 <div class="row">
-                    <div class="col-sm-6">
-                        <div class="text-info">Curso</div>
+                    <div class="col-sm-4">
+                        <div class="text-info">Programa</div>
                         <div>                            
                             <select class="form-control select2bs4" id="mcboCurso" name="mcboCurso" style="width: 100%;">
                                 <option value="" selected="selected">Cargando...</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="text-info">Tema</div>
+                    <div class="col-sm-8">
+                        <div class="text-info">Curso</div>
                         <div>                            
                             <select class="form-control select2bs4" id="mcboTema" name="mcboTema" style="width: 100%;">
                                 <option value="" selected="selected">Cargando...</option>
                             </select>
                         </div>
                     </div>   
+                </div>                
+            </div> 
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="text-info">Fechas de realización</div>
+                        <input type="text" class="form-control"  name="mtxtfrealiza"id="mtxtfrealiza" value="" />
+                    </div>   
+                    <div class="col-sm-3">
+                        <div class="text-info">Horas de duración</div>
+                        <input type="number" name="mtxthduracion"id="mtxthduracion" class="form-control" value="0" min="0" pattern="^[0-9]+">
+                    </div>  
+                    <div class="col-sm-3">
+                        <div class="text-info">Nota Minima</div>
+                        <input type="number" name="mtxtnotamin"id="mtxtnotamin" class="form-control" value="0" min="0" pattern="^[0-9]+">
+                    </div>
                 </div>                
             </div>    
             <div class="form-group">

@@ -97,6 +97,14 @@ $(document).ready(function() {
                     $('#mtxtidcotizacion').val(this.cinternocotizacion);
                     $('#mtxtnroversion').val(0);
                     $('#mtxtregnumcoti').val(this.dcotizacion);
+
+                    varisubtotal = this.var_isubtotal;
+                    variigev = this.var_iigev;
+                    varitotal = this.var_itotal;
+
+                    $('#txtmontsubtotal').val(varisubtotal);
+                    $('#txtmonttotal').val(varitotal);
+                    
                     recuperaListproducto();
                     Vtitle = 'Cotizacion Guardada!!!';
                     Vtype = 'success';
@@ -157,7 +165,13 @@ $(document).ready(function() {
                 
                 $.each(posts, function() {
                     otblListProducto.ajax.reload(null,false);
-                    Vtitle = 'Producto registrado Guardada!!!';
+                    varicinternocotizacion = this.cinternocotizacion;
+                    varinversioncotizacion = this.nversioncotizacion;
+                    varinordenproducto = this.nordenproducto;
+                    varidproducto = this.dproducto;
+                    objFormulario.addRegistroEnsayo(varicinternocotizacion,varinversioncotizacion,varinordenproducto,varidproducto);
+                    $('#mbtnCCreaProduc').click();
+                    Vtitle = 'Producto registrado Guardadaa!!!';
                     Vtype = 'success';
                     sweetalert(Vtitle,Vtype);     
                 });
@@ -206,6 +220,13 @@ $(document).ready(function() {
                     varIDCOTIZACION = this.cinternocotizacion;
                     varNVERSION = this.nversioncotizacion;
                     varIDPROD = this.nordenproducto;
+                    varisubtotal = this.var_isubtotal;
+                    variigev = this.var_iigev;
+                    varitotal = this.var_itotal;
+
+                    $('#txtmontsubtotal').val(varisubtotal);
+                    $('#txtmonttotal').val(varitotal);
+                    
                     recuperaListensayo(varIDCOTIZACION,varNVERSION,varIDPROD);
                     Vtitle = 'Ensayo registrado Guardada!!!';
                     Vtype = 'success';
@@ -280,14 +301,16 @@ $(function() {
         if (icon.hasClass('fa-minus')) icon.removeClass('fa-minus');
         icon.addClass('fa-plus');
         boton.click();
-        $('#divBuscarEnsayo').hide();
-        //$('#contenedorCotizacion').show();
+
+        //$('#divBuscarEnsayo').hide();
+        $('#contenedorRegensayo').hide();
+        $('#contenedorCotizacion').show();
     };
 
     /**
      * Muestra el formulario ocultando la lista
      */
-    objFormulario.addRegistroEnsayo = function (IDCOTIZACION,NVERSION,IDPRODUCTO,PRODUCTO) {
+    objFormulario.addProducto = function (IDCOTIZACION,NVERSION) {
         const boton = $('#btnAccionContenedorLista');
         const icon = boton.find('i');
         if (icon.hasClass('fa-plus')) icon.removeClass('fa-plus');
@@ -296,13 +319,18 @@ $(function() {
 
         buscarEnsayos();
         
-        $('#hdnIdcoti').val(IDCOTIZACION);
-        $('#hdnNvers').val(NVERSION);
-        $('#hdnIdprod').val(IDPRODUCTO);
-        $('#hdnprod').val(PRODUCTO);
+        $('#mhdnAccionProduc').val('N');
+        $('#mhdnidcotizacion').val(v_IDCOTIZACION);
+        $('#mhdnnroversion').val(v_NVERSION);
+        $('#mhdncusuario').val(v_CUSUARIO);    
 
-        $('#divBuscarEnsayo').show();
-        //$('#divBuscarEnsayo').hide();
+        var v_idcliente = $('#cboregclie').val();
+        iniRegCotiprodu(v_idcliente,0,0,0);
+
+        //$('#divBuscarEnsayo').show();
+        $('#contenedorCotizacion').hide();
+        $('#contenedorRegensayo').show();
+        
     };
 });
 
@@ -922,7 +950,7 @@ recuperaListproducto = function(){
         dom: 'Bfrtip',
         buttons: [
             {
-             text: '<a data-toggle="modal" data-target="#modalCreaProduc" id="addProducto" name="addProducto" ><img src="assets/images/details_open.png" border="0" align="absmiddle"> Agregar Producto </a>',
+             text: '<a id="addProducto" name="addProducto" ><img src="assets/images/details_open.png" border="0" align="absmiddle"> Agregar Producto </a>',
              action: function (e, dt, node, config ){
                 nuevoprod();
              },
@@ -949,19 +977,13 @@ recuperaListproducto = function(){
 nuevoprod = function(){    
     $('#frmCreaProduc').trigger("reset");
 
-    $('#mhdnAccionProduc').val('N');
-    $('#mhdnidcotizacion').val($('#mtxtidcotizacion').val());
-    $('#mhdnnroversion').val($('#mtxtnroversion').val());
-    $('#mhdncusuario').val($('#mtxtcusuario').val());    
+    v_IDCOTIZACION = $('#mtxtidcotizacion').val();
+    v_NVERSION = $('#mtxtnroversion').val();
+    v_CUSUARIO = $('#mtxtcusuario').val();
 
-    var v_idcliente = $('#cboregclie').val();
-    iniRegCotiprodu(v_idcliente,0,0,0);
+    objFormulario.addProducto(v_IDCOTIZACION,v_NVERSION,v_CUSUARIO)
 }
 
-
-$('#mbtnNuevoProduc').click(function(){
-    nuevoprod()
-});
 
 $('#tblListProductos tbody').on( 'click', 'tr td.columna', function () {
     /*$(this).toggleClass('selected');
@@ -1238,7 +1260,7 @@ recuperaListensayo = function(vIDCOTIZACION,vNVERSION,vIDPROD){
     }).draw();
 };
 
-$('#btnRetornarCoti').click(function(){
+$('#mbtnCCreaProduc').click(function(){
     objFormulario.mostrarCotizacion();
 });
 

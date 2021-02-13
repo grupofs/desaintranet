@@ -96,10 +96,10 @@ class Mregcapa extends CI_Model {
             return false;
         }	
     }
-    public function setcapa($parametros) {  // Registrar informe PT
+    public function setcapa($parametros) {  // Registrar capa
         $this->db->trans_begin();
 
-        $procedure = "call usp_at_capa_setcapa(?,?,?,?,?,?);";
+        $procedure = "call usp_at_capa_setcapa(?,?,?,?,?,?,?,?);";
         $query = $this->db->query($procedure,$parametros);
 
         if ($this->db->trans_status() === FALSE){
@@ -127,7 +127,7 @@ class Mregcapa extends CI_Model {
     public function setcapadet($parametros) {  // Registrar informe PT
         $this->db->trans_begin();
 
-        $procedure = "call usp_at_capa_setcapadet(?,?,?,?,?);";
+        $procedure = "call usp_at_capa_setcapadet(?,?,?,?,?,?,?,?);";
         $query = $this->db->query($procedure,$parametros);
 
         if ($this->db->trans_status() === FALSE){

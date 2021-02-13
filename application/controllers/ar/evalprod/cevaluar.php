@@ -1,7 +1,8 @@
 <?php
 
 use Carbon\Carbon;
-
+//require 'PHPMailer/PHPMailerAutoload.php';
+use PHPMailer\PHPMailerAutoload;
 /**
  * Class cevaluar
  *
@@ -264,6 +265,91 @@ class cevaluar extends CI_Controller
         echo json_encode(['items' => $items]);
     }
 
+    
+    public function envio_correo_prueba()
+    {
+        
+        
+        $from = "plataforma@grupofs.com";
+        $namfrom = "TOTTUS EVALUACION";
+
+        $replyto = "tottusevalproduct@grupofs.com";
+        $replynam = "TOTTUS EVALUACION";
+
+        //cargamos la libreria email de ci
+        $this->load->library("email");
+        //configuracion para grupofs
+        $configGrupofs = array(
+            'protocol' => 'smtp',
+            'smtp_crypto' => 'tls',
+            'smtp_host' => 'smtp.office365.com',
+            'smtp_port' => '587',
+            'smtp_user' => 'plataforma@grupofs.com',
+            'smtp_pass' => 'FoodS2020$$',
+            'mailtype' => 'html',
+            'charset' => 'utf-8',
+            'newline' => "\r\n",
+            'crlf' => "\r\n",
+        );
+        $mensaje = "";
+        $mensaje .= "Estimado Cliente: <br><br>Le informamos que, el resultado de la evaluaci&oacute;n de sus productos ha sido el siguiente:<br><br>";
+        $to = 'ederortega.surfdance@gmail.com';
+        $cc = 'tottusevalproduct@grupofs.com';
+
+        $asunto = " EXPEDIENTE PRUEBA. ";
+
+        //cargamos la configuración para enviar con gmail
+        $this->email->initialize($configGrupofs);
+        $this->email->from($from, $namfrom);
+        $this->email->to($to);
+        $this->email->cc($cc);
+        $this->email->reply_to($replyto, $replynam);
+        $this->email->subject($asunto);
+        $this->email->message($mensaje);
+
+        for ($i = 1; $i <= 1; $i++) {
+            if (!$this->email->send()) {
+                throw new Exception($this->email->print_debugger());
+            }
+            sleep(1);
+        }
+        /*
+        //Create a new PHPMailer instance
+        $asunto = " EXPEDIENTE. ";
+        $mensaje = "";
+        $mensaje .= "Estimado Cliente: <br><br>Le informamos que, el resultado de la evaluaci&oacute;n de sus productos ha sido el siguiente:<br><br>";
+
+        $mail = new PHPMailer();
+        $mail->IsSMTP();
+        
+        //Configuracion servidor mail
+        $mail->SMTPAuth = true;
+        $mail->SMTPSecure = 'tls'; //seguridad
+        $mail->Host = "smtp.office365.com"; // servidor smtp
+        $mail->Port = 587; //puerto
+        $mail->Username ='plataforma-ti@grupofs.com'; //nombre usuario
+        $mail->Password = 'FoodS2020$$'; //contraseña
+        //Agregar destinatario
+        $mail->AddAddress('ederortega.surfdance@gmail.com','Addres01');
+        $mail->setFrom('eortega@grupofs.com', 'setFrom1');//remitente
+        $mail->setFrom('plataforma-ti@grupofs.com', 'setFrom0');//remitente
+        $mail->addReplyTo('eortega@grupofs.com', 'addReplyTo');
+        $mail->Subject = $asunto;
+        $mail->Body = $mensaje;
+        //Set who the message is to be sent to
+        //$mail->addAddress('ederdance@hotmail.com', 'John Doe');
+        //Avisar si fue enviado o no y dirigir al index
+        if ($mail->Send()) {
+            echo'<script type="text/javascript">
+                alert("Enviado Correctamente");
+                </script>';
+        } else {
+            echo'<script type="text/javascript">
+                alert("NO ENVIADO, intentar de nuevo");
+                </script>';
+        }
+        */
+    }
     /**
      * Envío de correo
      */

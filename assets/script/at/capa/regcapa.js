@@ -220,7 +220,7 @@ $("#btnBuscar").click(function (){
             {responsivePriority: 1, "orderable": false, "class": "col-s", 
                 render:function(data, type, row){
                     return '<div>'+
-                    '<a title="Registro" style="cursor:pointer; color:#3c763d;" onClick="javascript:selCapa(\''+row.id_capa+'\',\''+row.ccliente+'\',\''+row.cestablecimiento+'\',\''+row.comentarios+'\',\''+row.fini+'\',\''+row.ffin+'\');"><span class="fas fa-external-link-alt fa-2x" aria-hidden="true"> </span> </a>'+
+                    '<a title="Registro" style="cursor:pointer; color:#3c763d;" onClick="javascript:selCapa(\''+row.id_capa+'\',\''+row.ccliente+'\',\''+row.cestablecimiento+'\',\''+row.comentarios+'\',\''+row.fini+'\',\''+row.tipocerti+'\',\''+row.modelcerti+'\');"><span class="fas fa-external-link-alt fa-2x" aria-hidden="true"> </span> </a>'+
                     '&nbsp;'+
                     '<a id="aDelCapa" href="'+row.id_capadet+'" title="Eliminar" style="cursor:pointer; color:#FF0000;"><span class="fas fa-trash-alt fa-2x" aria-hidden="true"> </span></a>'+      
                     '</div>'
@@ -506,13 +506,14 @@ $('#btnNuevo').click(function(){
     $('#btnParticiopantes').hide();
 });
 
-selCapa= function(id_capa,ccliente,cestablecimiento,comentarios,fini,ffin){  
+selCapa= function(id_capa,ccliente,cestablecimiento,comentarios,fini,tipocerti,modelcerti){  
     $('#tabcapa a[href="#tabcapa-reg"]').tab('show'); 
     $('#frmRegCapa').trigger("reset");
     $('#hdnAccionregcapa').val('A'); 
     $('#mtxtidcapa').val(id_capa); 
     $('#mtxtFinicio').val(fini); 
-    $('#mtxtFfin').val(ffin);  
+    $('#cbotipocerti').val(tipocerti).trigger("change"); 
+    $('#cbomodelcerti').val(modelcerti).trigger("change");  
     $('#mtxtComentarios').val(comentarios);    
 
     document.getElementById('addcurso').style.visibility = 'visible';
@@ -630,6 +631,50 @@ $('#frmRegCapa').submit(function(event){
 });
 
 //
+$('#btnVercertificados').click(function(){
+    var idcapa      = $('#mtxtidcapa').val();
+    var tipocerti   = $('#cbotipocerti').val();
+    var modelcerti  = $('#cbomodelcerti').val();
+
+    if(tipocerti == 'E' && modelcerti == 'A'){
+        window.open(baseurl+"at/capa/cgendoccapa/pdfcertiEmpApro/"+idcapa);
+    }else if(tipocerti == 'E' && modelcerti == 'P'){
+        window.open(baseurl+"at/capa/cgendoccapa/pdfcertiEmpParti/"+idcapa);
+    }else if(tipocerti == 'E' && modelcerti == 'AN'){
+        window.open(baseurl+"at/capa/cgendoccapa/pdfcertiEmpAproNota/"+idcapa);
+    }else if(tipocerti == 'E' && modelcerti == 'AD'){
+        window.open(baseurl+"at/capa/cgendoccapa/pdfcertiEmpAproDni/"+idcapa);
+    }else if(tipocerti == 'E' && modelcerti == 'AT'){
+        window.open(baseurl+"at/capa/cgendoccapa/pdfcertiEmpAproNotadni/"+idcapa);
+    }else if(tipocerti == 'E' && modelcerti == 'PD'){
+        window.open(baseurl+"at/capa/cgendoccapa/pdfcertiEmpPartiDni/"+idcapa);
+    }else if(tipocerti == 'IP' && modelcerti == 'A'){
+        window.open(baseurl+"at/capa/cgendoccapa/pdfcertiIndivProgApro/"+idcapa);
+    }else if(tipocerti == 'IP' && modelcerti == 'P'){
+        window.open(baseurl+"at/capa/cgendoccapa/pdfcertiIndivProgParti/"+idcapa);
+    }else if(tipocerti == 'IP' && modelcerti == 'AN'){
+        window.open(baseurl+"at/capa/cgendoccapa/pdfcertiIndivProgAproNota/"+idcapa);
+    }else if(tipocerti == 'IP' && modelcerti == 'AD'){
+        window.open(baseurl+"at/capa/cgendoccapa/pdfcertiIndivProgAproDni/"+idcapa);
+    }else if(tipocerti == 'IP' && modelcerti == 'AT'){
+        window.open(baseurl+"at/capa/cgendoccapa/pdfcertiIndivProgAproNotaDni/"+idcapa);
+    }else if(tipocerti == 'IP' && modelcerti == 'PD'){
+        window.open(baseurl+"at/capa/cgendoccapa/pdfcertiIndivProgPartiDni/"+idcapa);
+    }else if(tipocerti == 'IC' && modelcerti == 'A'){
+        window.open(baseurl+"at/capa/cgendoccapa/pdfcertiIndivCurApro/"+idcapa);
+    }else if(tipocerti == 'IC' && modelcerti == 'P'){
+        window.open(baseurl+"at/capa/cgendoccapa/pdfcertiIndivCurParti/"+idcapa);
+    }else if(tipocerti == 'IC' && modelcerti == 'AN'){
+        window.open(baseurl+"at/capa/cgendoccapa/pdfcertiIndivCurAproNota/"+idcapa);
+    }else if(tipocerti == 'IC' && modelcerti == 'AD'){
+        window.open(baseurl+"at/capa/cgendoccapa/pdfcertiIndivCurAproDni/"+idcapa);
+    }else if(tipocerti == 'IC' && modelcerti == 'AT'){
+        window.open(baseurl+"at/capa/cgendoccapa/pdfcertiIndivCurAproNotaDni/"+idcapa);
+    }else if(tipocerti == 'IC' && modelcerti == 'PD'){
+        window.open(baseurl+"at/capa/cgendoccapa/pdfcertiIndivCurPartiDni/"+idcapa);
+    }
+});
+
 $('#btnParticiopantes').click(function(){
     $('#tabcapa a[href="#tabcapa-parti"]').tab('show');
     var vidcapa = $('#mtxtidcapa').val();
@@ -676,7 +721,7 @@ recuperaListcapadet = function(){
             {"orderable": false, 
               render:function(data, type, row){                
                   return  '<div>'+
-                  '<a data-toggle="modal" title="Editar" style="cursor:pointer; color:#3c763d;" data-target="#modalCreacurso" onClick="javascript:selCapadet(\''+row.id_capacitacion+'\',\''+row.id_capadet+'\',\''+row.id_capacurso+'\',\''+row.id_capamodulo+'\',\''+row.ruta_presentacion+'\',\''+row.ruta_taller+'\',\''+row.ruta_examen+'\',\''+row.nomb_presentacion+'\',\''+row.nomb_taller+'\',\''+row.nomb_examen+'\');"><span class="fas fa-edit" aria-hidden="true"> </span> </a>'+
+                  '<a data-toggle="modal" title="Editar" style="cursor:pointer; color:#3c763d;" data-target="#modalCreacurso" onClick="javascript:selCapadet(\''+row.id_capacitacion+'\',\''+row.id_capadet+'\',\''+row.id_capacurso+'\',\''+row.id_capamodulo+'\',\''+row.ruta_presentacion+'\',\''+row.ruta_taller+'\',\''+row.ruta_examen+'\',\''+row.nomb_presentacion+'\',\''+row.nomb_taller+'\',\''+row.nomb_examen+'\',\''+row.fechasrealizado+'\',\''+row.duracionhoras+'\',\''+row.notaminima+'\');"><span class="fas fa-edit" aria-hidden="true"> </span> </a>'+
                   '&nbsp;'+
                   '<a id="aDelCapadet" href="'+row.id_capadet+'" title="Eliminar" style="cursor:pointer; color:#FF0000;"><span class="fas fa-trash-alt" aria-hidden="true"> </span></a>'+      
                   '</div>'
@@ -707,7 +752,7 @@ $("#addcurso").click(function (){
     iniRegCapadet(0,0);      	
 });
 
-selCapadet = function(id_capa,id_capadet,id_capacurso,id_capamodulo,ruta_presentacion,ruta_taller,ruta_examen,nomb_presentacion,nomb_taller,nomb_examen){
+selCapadet = function(id_capa,id_capadet,id_capacurso,id_capamodulo,ruta_presentacion,ruta_taller,ruta_examen,nomb_presentacion,nomb_taller,nomb_examen,fechasrealizado,duracionhoras,notaminima){
     $('#mhdnAccionCapa').val('A'); 
 
     $('#mhdnIdCapa').val(id_capa);
@@ -718,6 +763,9 @@ selCapadet = function(id_capa,id_capadet,id_capacurso,id_capamodulo,ruta_present
     $('#mtxtNomarchpresent').val(nomb_presentacion);
     $('#mtxtNomarchtaller').val(nomb_taller);
     $('#mtxtNomarchexamen').val(nomb_examen);
+    $('#mtxtfrealiza').val(fechasrealizado);
+    $('#mtxthduracion').val(duracionhoras);
+    $('#mtxtnotamin').val(notaminima);
 
     iniRegCapadet(id_capacurso,id_capamodulo);
 }
@@ -1344,7 +1392,21 @@ $('#frmRegParti').submit(function(event){
 
 //
 $('#btnRetornarLista').click(function(){
-    $('#tabcapa a[href="#tabcapa-list"]').tab('show');  
+    $('#tabcapa a[href="#tabcapa-list"]').tab('show'); 
+    $.ajax({
+        type: 'ajax',
+        method: 'post',
+        url: baseurl+"at/capa/cregcapa/getclientecapa",
+        dataType: "JSON",
+        async: true,
+        success:function(result)
+        {
+            $('#cboClie').html(result);
+        },
+        error: function(){
+            alert('Error, No se puede autenticar por error');
+        }
+    });
     $('#btnBuscar').click();
 });
 

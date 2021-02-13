@@ -121,6 +121,31 @@ $(function() {
         $('#cboo_n').val(evaluacion.o_n).change();
     };
 
+	/**
+	 * Activa plugin para libreria summernote
+	 */
+	objEvaluar.activarSummerNote = function() {
+		const configuration = {
+			lang: 'es-ES',
+			height: '220px',
+			codemirror: { // codemirror options
+				theme: 'cerulean'
+			},
+			toolbar: [
+				['style', ['fontname', 'bold', 'italic', 'underline', 'clear']],
+				['font', ['strikethrough', 'superscript', 'subscript']],
+				['fontsize', ['fontsize']],
+				['color', ['color']],
+				['para', ['style', 'ul', 'ol', 'paragraph']],
+				['height', ['height']],
+				['insert', ['table', 'hr']],
+				['view', ['fullscreen']]
+			]
+		};
+		$('#mtxtobservacion').summernote(configuration);
+		$('#mtxtacuerdos').summernote(configuration);
+	};
+
     /**
      * Guardar la evaluacion del expediente por el producto
      */
@@ -172,6 +197,8 @@ $(function() {
 });
 
 $(document).ready(function() {
+
+	objEvaluar.activarSummerNote();
 
     $('button#btnEvaluacion').click(objEvaluar.guardar);
 

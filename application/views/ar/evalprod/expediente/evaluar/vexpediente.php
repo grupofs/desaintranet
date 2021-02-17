@@ -118,9 +118,7 @@ $cia = $this->session->userdata('s_cia');
 					<div class="card-footer">
 						<div class="d-flex flex-row justify-content-between" >
 							<div class="col-sm-6 col-12 text-left">
-								<button type="button" class="btn btn-success">
-									<i class="fa fa-fw fa-download"></i> Exportar registros
-								</button>
+
 							</div>
 							<div class="col-sm-6 col-12 text-right">
 								<button type="button" class="btn btn-default" id="btnBuscarListado">

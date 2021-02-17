@@ -45,7 +45,7 @@
 									   id="txtProveedor"
 									   value="<?php echo (!empty($proveedor)) ? $proveedor->nombre : '' ?>">
 								<div class="input-group-prepend">
-									<button type="button" class="btn btn-success" >
+									<button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalCambiarProveedor" >
 										<i class="fa fa-sync"></i> Cambiar Proveedor
 									</button>
 									<button type="button" class="btn btn-info" id="btnEditarProveedor">
@@ -77,5 +77,32 @@
 	</div>
 	<div class="card-body">
 		<?php $this->load->view('ar/evalprod/expediente/evaluar/vexpediente_evaluar'); ?>
+	</div>
+</div>
+
+<div class="modal fade" id="modalCambiarProveedor"
+	 tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Cambiar de Proveedor</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group" >
+					<label for="">
+						Proveedor
+					</label>
+					<select name="cambiar_proveedor_id" id="cambiar_proveedor_id" class="custom-select"
+							style="width: 100% !important;" ></select>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+				<button type="button" class="btn btn-primary" id="btnCambiarProveedor" ><i class="fa fa-save" ></i> Aceptar</button>
+			</div>
+		</div>
 	</div>
 </div>

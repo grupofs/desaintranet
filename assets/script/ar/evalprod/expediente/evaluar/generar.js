@@ -81,6 +81,31 @@ $(function() {
         objGenerarProveedor.abrir($(this), $('#id_proveedor').val());
     };
 
+	/**
+	 * Realiza el cambio de proveedor
+	 */
+	objFormulario.cambiarProveedor = function() {
+		const boton = $(this);
+		$.ajax({
+			url: BASE_URL + 'ar/evalprod/cevaluar/cambiar_proveedor',
+			method: 'POST',
+			data: {
+				id_expediente: $('#hdnIdexpe').val(),
+				id_proveedor: $('#cambiar_proveedor_id').val(),
+			},
+			dataType: 'json',
+			beforeSend: function() {
+				objPrincipal.botonCargando(boton);
+			}
+		}).done(function() {
+			location.reload();
+		}).fail(function() {
+			objPrincipal.notify('error', 'Error al actualizar el proveedor');
+		}).always(function() {
+			objPrincipal.liberarBoton(boton);
+		});
+	};
+
 });
 
 $(document).ready(function() {
@@ -92,6 +117,10 @@ $(document).ready(function() {
     s2Pais.init($('#cboPais'));
 
     $('button#btnEditarProveedor').click(objFormulario.editarProveedor);
+
+    s2Proveedor.init($('#cambiar_proveedor_id'));
+
+    $('#btnCambiarProveedor').click(objFormulario.cambiarProveedor);
 
 });
 

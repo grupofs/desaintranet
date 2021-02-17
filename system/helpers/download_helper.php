@@ -59,10 +59,12 @@ if ( ! function_exists('force_download'))
 	 * @param	string	filename
 	 * @param	mixed	the data to be downloaded
 	 * @param	bool	whether to try and send the actual file MIME type
+	 * @param	bool	confirm remove file
 	 * @return	void
 	 */
-	function force_download($filename = '', $data = '', $set_mime = FALSE)
+	function force_download($filename = '', $data = '', $set_mime = FALSE, $removeFile = FALSE)
 	{
+		$_filename = $filename;
 		if ($filename === '' OR $data === '')
 		{
 			return;
@@ -153,6 +155,9 @@ if ( ! function_exists('force_download'))
 		}
 
 		fclose($fp);
+		if ($removeFile) {
+			unlink($_filename);
+		}
 		exit;
 	}
 }

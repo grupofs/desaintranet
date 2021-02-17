@@ -1,8 +1,7 @@
 <?php
 
 use Carbon\Carbon;
-//require 'PHPMailer/PHPMailerAutoload.php';
-use PHPMailer\PHPMailerAutoload;
+
 /**
  * Class cevaluar
  *
@@ -14,7 +13,7 @@ use PHPMailer\PHPMailerAutoload;
  * @property memail memail
  * @property marea_contacto marea_contacto
  */
-class cevaluar extends CI_Controller
+class cevaluar extends FS_Controller
 {
     /**
      * cevaluar constructor.
@@ -344,91 +343,6 @@ class cevaluar extends CI_Controller
         echo json_encode(['items' => $items]);
     }
 
-    
-    public function envio_correo_prueba()
-    {
-        
-        
-        $from = "plataforma@grupofs.com";
-        $namfrom = "TOTTUS EVALUACION";
-
-        $replyto = "tottusevalproduct@grupofs.com";
-        $replynam = "TOTTUS EVALUACION";
-
-        //cargamos la libreria email de ci
-        $this->load->library("email");
-        //configuracion para grupofs
-        $configGrupofs = array(
-            'protocol' => 'smtp',
-            'smtp_crypto' => 'tls',
-            'smtp_host' => 'smtp.office365.com',
-            'smtp_port' => '587',
-            'smtp_user' => 'plataforma@grupofs.com',
-            'smtp_pass' => 'FoodS2020$$',
-            'mailtype' => 'html',
-            'charset' => 'utf-8',
-            'newline' => "\r\n",
-            'crlf' => "\r\n",
-        );
-        $mensaje = "";
-        $mensaje .= "Estimado Cliente: <br><br>Le informamos que, el resultado de la evaluaci&oacute;n de sus productos ha sido el siguiente:<br><br>";
-        $to = 'ederortega.surfdance@gmail.com';
-        $cc = 'tottusevalproduct@grupofs.com';
-
-        $asunto = " EXPEDIENTE PRUEBA. ";
-
-        //cargamos la configuración para enviar con gmail
-        $this->email->initialize($configGrupofs);
-        $this->email->from($from, $namfrom);
-        $this->email->to($to);
-        $this->email->cc($cc);
-        $this->email->reply_to($replyto, $replynam);
-        $this->email->subject($asunto);
-        $this->email->message($mensaje);
-
-        for ($i = 1; $i <= 1; $i++) {
-            if (!$this->email->send()) {
-                throw new Exception($this->email->print_debugger());
-            }
-            sleep(1);
-        }
-        /*
-        //Create a new PHPMailer instance
-        $asunto = " EXPEDIENTE. ";
-        $mensaje = "";
-        $mensaje .= "Estimado Cliente: <br><br>Le informamos que, el resultado de la evaluaci&oacute;n de sus productos ha sido el siguiente:<br><br>";
-
-        $mail = new PHPMailer();
-        $mail->IsSMTP();
-        
-        //Configuracion servidor mail
-        $mail->SMTPAuth = true;
-        $mail->SMTPSecure = 'tls'; //seguridad
-        $mail->Host = "smtp.office365.com"; // servidor smtp
-        $mail->Port = 587; //puerto
-        $mail->Username ='plataforma-ti@grupofs.com'; //nombre usuario
-        $mail->Password = 'FoodS2020$$'; //contraseña
-        //Agregar destinatario
-        $mail->AddAddress('ederortega.surfdance@gmail.com','Addres01');
-        $mail->setFrom('eortega@grupofs.com', 'setFrom1');//remitente
-        $mail->setFrom('plataforma-ti@grupofs.com', 'setFrom0');//remitente
-        $mail->addReplyTo('eortega@grupofs.com', 'addReplyTo');
-        $mail->Subject = $asunto;
-        $mail->Body = $mensaje;
-        //Set who the message is to be sent to
-        //$mail->addAddress('ederdance@hotmail.com', 'John Doe');
-        //Avisar si fue enviado o no y dirigir al index
-        if ($mail->Send()) {
-            echo'<script type="text/javascript">
-                alert("Enviado Correctamente");
-                </script>';
-        } else {
-            echo'<script type="text/javascript">
-                alert("NO ENVIADO, intentar de nuevo");
-                </script>';
-        }
-        */
-    }
     /**
      * Envío de correo
      */
@@ -456,8 +370,11 @@ class cevaluar extends CI_Controller
                 }
             }
 
-            $from = "tottusevalproduct@grupofs.com";
-            $namfrom = "TOTTUS EVALUACION";
+            $from = "plataforma@grupofs.com";
+            $namfrom = "PLATAFORMA GRUPOFS";
+
+            $replyto = "tottusevalproduct@grupofs.com";
+            $replynam = "TOTTUS EVALUACION";
 
             //cargamos la libreria email de ci
             $this->load->library("email");
@@ -469,13 +386,15 @@ class cevaluar extends CI_Controller
             //configuracion para grupofs
             $configGrupofs = array(
                 'protocol' => 'smtp',
+                'smtp_crypto' => 'tls',
                 'smtp_host' => $emailData->DSERVER,
                 'smtp_port' => $emailData->NPUERTO,
                 'smtp_user' => $emailData->DUSER,
                 'smtp_pass' => $emailData->DPASSWORD,
                 'mailtype' => 'html',
                 'charset' => 'utf-8',
-                'newline' => "\r\n"
+                'newline' => "\r\n",
+                'crlf' => "\r\n",
             );
             $expediente = $this->memail->buscarExpediente($objExpediente->id_expediente);
             if (empty($expediente)) {
@@ -495,7 +414,7 @@ class cevaluar extends CI_Controller
                 $proveedor = $rowpv->proveedor;
                 $expediente = $rowpv->expediente;
                 $status = $rowpv->status;
-//                $fecha_limite = $rowpv->flimite;
+                //$fecha_limite = $rowpv->flimite;
                 // Agregando 15 dias habilitando de Lunes a Viernes
                 $fechaActual = Carbon::createFromFormat('Y-m-d', $rowpv->fecha, 'America/Lima');
                 $fecha_limite = $fechaActual->addWeekdays(15)->format('d-m-Y');
@@ -660,14 +579,14 @@ class cevaluar extends CI_Controller
                 $to = $para;
                 $cc = $copia;
 
-                $asunto = $proveedor . " EXP. " . $expediente . " " . $nombre_status;
+                $asunto = "TOTTUS EVALUACION :: ".$proveedor . " EXP. " . $expediente . " " . $nombre_status;
 
                 //cargamos la configuración para enviar con gmail
                 $this->email->initialize($configGrupofs);
                 $this->email->from($from, $namfrom);
                 $this->email->to($to);
                 $this->email->cc($cc);
-                $this->email->reply_to($from, $namfrom);
+                $this->email->reply_to($replyto, $replynam);
                 $this->email->subject($asunto);
                 $this->email->message($mensaje);
 
@@ -687,5 +606,37 @@ class cevaluar extends CI_Controller
             echo json_encode(['error' => $ex->getMessage()]);
         }
     }
+
+	/**
+	 * Modifica el proveedor de un expediente
+	 */
+    public function cambiar_proveedor()
+	{
+		if (!$this->input->is_ajax_request()) {
+			show_404();
+		}
+		try {
+			$idExpediente = $this->input->post('id_expediente');
+			$idProveedor = $this->input->post('id_proveedor');
+			$expediente = $this->mexpediente->buscarPorId($idExpediente);
+			if (empty($expediente)) {
+				throw new Exception('El expediente no pudo ser encontrado.');
+			}
+			$proveedor = $this->mproveedor->buscarPorId($idProveedor);
+			if (empty($proveedor)) {
+				throw new Exception('El proveedor no pudo ser encontrado.');
+			}
+			$this->db->update('evalprod_expediente', [
+				'id_proveedor' => $proveedor->id_proveedor,
+			], [
+				'id_expediente' => $expediente->id_expediente,
+			]);
+			$this->result['status'] = 200;
+			$this->result['message'] = 'Proveedor modificado correctamente.';
+		} catch (Exception $ex) {
+			$this->result['message'] = $ex->getMessage();
+		}
+		responseResult($this->result);
+	}
 
 }

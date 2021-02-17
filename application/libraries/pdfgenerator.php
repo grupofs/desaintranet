@@ -4,7 +4,7 @@ use Dompdf\Dompdf;
 
 class Pdfgenerator {
 // por defecto, usaremos papel A4 en vertical, salvo que digamos otra cosa al momento de generar un PDF
-public function generate($html, $filename='', $stream=TRUE, $paper = 'A4', $orientation)
+public function generate($html, $filename='', $stream=TRUE, $paper = 'A4', $orientation = 'portrait')
   {
 
     $dompdf = new DOMPDF(array('enable_remote' => true));

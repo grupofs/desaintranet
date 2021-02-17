@@ -676,10 +676,10 @@ class Cexpediente extends CI_Controller
                     <table width="700px" style="font-family:arial; font-size:10px;">
                         <tr>
                             <td align="left" colspan="2">
-                                <img src="' . base_url('FTPfileserver/Imagenes/formatos/10407/cargo/00005/tottus.png') . '" width="120" height="40" />
+                                <img src="' . base64ResourceConvert(base_url('FTPfileserver/Imagenes/formatos/10407/cargo/00005/tottus.png')) . '" width="120" height="40" />
                             </td>
                             <td align="right" colspan="2">
-                                <img src="' . base_url('FTPfileserver/Imagenes/formatos/10407/cargo/00005/gfs_75.png') . '" width="120" height="40" />
+                                <img src="' . base64ResourceConvert(base_url('FTPfileserver/Imagenes/formatos/10407/cargo/00005/gfs_75.png')) . '" width="120" height="40" />
                             </td>
                         </tr>
                         <tr>
@@ -770,25 +770,25 @@ class Cexpediente extends CI_Controller
                         <td width="70px" style="height:10px;">&nbsp;Muestra</td>
                         <td width="15px" align="left">
                             <?php if($m=="1"){ ?> 
-                            <img src="' . base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg') . '" alt="Smiley face" width="15" height="15" align="center">
+                            <img src="' . base64ResourceConvert(base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg')) . '" alt="Smiley face" width="15" height="15" align="center">
                             <?php } ?>                   
                         </td>
                         <td width="80px">&nbsp;Ficha Tecnica</td>
                         <td width="15px" align="left">
                             <?php if($f=="1"){ ?> 
-                            <img src="' . base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg') . '" alt="Smiley face" width="15" height="15" align="center">
+                            <img src="' . base64ResourceConvert(base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg')) . '" alt="Smiley face" width="15" height="15" align="center">
                             <?php } ?>   
                         </td>
                         <td width="60px">&nbsp;RS/NSO/RD</td>
                         <td width="15px" align="left">
                             <?php if($r=="1"){ ?> 
-                            <img src="' . base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg') . '" alt="Smiley face" width="15" height="15" align="center">
+                            <img src="' . base64ResourceConvert(base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg')) . '" alt="Smiley face" width="15" height="15" align="center">
                             <?php } ?>  
                         </td>
                         <td width="60px">&nbsp;Hoja de Seguridad</td>
                         <td width="15px" align="left">
                             <?php if($h=="1"){ ?> 
-                            <img src="' . base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg') . '" alt="Smiley face" width="15" height="15" align="center">
+                            <img src="' . base64ResourceConvert(base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg')) . '" alt="Smiley face" width="15" height="15" align="center">
                             <?php } ?>  
                         </td>
                     </tr>
@@ -796,19 +796,19 @@ class Cexpediente extends CI_Controller
                         <td style="height:10px;">&nbsp;Licencia de Func.</td>
                         <td align="left">
                             <?php if($l=="1"){ ?> 
-                            <img src="' . base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg') . '" alt="Smiley face" width="15" height="15" align="center">
+                            <img src="' . base64ResourceConvert(base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg')) . '" alt="Smiley face" width="15" height="15" align="center">
                             <?php } ?>  
                         </td>
                         <td colspan="2" >&nbsp;Inspeccion Higienico Sanitaria</td>
                         <td colspan="2" align="left">
                             <?php if($i=="1"){ ?> 
-                            <img src="' . base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg') . '" alt="Smiley face" width="15" height="15" align="center">
+                            <img src="' . base64ResourceConvert(base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg')) . '" alt="Smiley face" width="15" height="15" align="center">
                             <?php } ?>  
                         </td>
                         <td>&nbsp;Otros</td>
                         <td  align="left">
                             <?php if($o=="1"){ ?> 
-                            <img src="' . base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg') . '" alt="Smiley face" width="15" height="15" align="center">
+                            <img src="' . base64ResourceConvert(base_url('FTPfileserver\Imagenes\formatos\10407\cargo/correcto.jpg')) . '" alt="Smiley face" width="15" height="15" align="center">
                             <?php } ?>  
                         </td>
                     </tr>
@@ -845,7 +845,7 @@ class Cexpediente extends CI_Controller
                     <p>&nbsp;</p>
                     <div align="justify" style="padding-right: 15px; padding-left: 15px;">  
                         <span style="font-family:arial; font-size:13px; font-weight: bold" align="justify">
-                        	Importante: En caso de presentar muestras para la evaluación, puede ser abierta o rasgada, considerar que las muestras no regresarán para foto y otros. Es preciso señalar que usted
+                        	<span style="background: #e6e83e; padding: 3px" >Importante</span>: En caso de presentar muestras para la evaluación, puede ser abierta o rasgada, considerar que las muestras no regresarán para foto y otros. Es preciso señalar que usted
 cuenta con 15 dias ÚTILES(' . $fechavence . ') contados a partir de la recepcion de las muestras para proceder con su recojo sin considerar el estado de evaluación (Aprobado /
 Observado / Rechazado). El recojo no aplica para los productos que tienen un tiempo menor o igual a 15 diás de viada útil.
 						</span>

@@ -127,9 +127,35 @@ if (!function_exists('numberFormat')) {
 	 * @param string $type
 	 * @return string
 	 */
-	function numberFormat($value, $decimal, $type = 'none')
+	function numberFormat($value, $decimal, $type = 'none'): string
 	{
 		$thousands_sep = ($type == "human") ? ',' : '';
 		return number_format($value, $decimal, ".", $thousands_sep);
+	}
+}
+
+if (!function_exists('getMonthText')) {
+	/**
+	 * Devuelve la posición de un mes en texto
+	 * @param $pos
+	 * @return string
+	 */
+	function getMonthText($pos): string
+	{
+		$months = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+		return (isset($months[$pos])) ? $months[$pos] : '';
+	}
+}
+
+if (!function_exists('base64ResourceConvert')) {
+	/**
+	 * @param $resource
+	 * @return string
+	 */
+	function base64ResourceConvert($resource): string
+	{
+		$type = pathinfo($resource, PATHINFO_EXTENSION);
+		$data = file_get_contents($resource);
+		return 'data:image/' . $type . ';base64,' . base64_encode($data);
 	}
 }

@@ -35,7 +35,7 @@ $(function () {
                     'info': true,
                     'filter': true,
                     'ajax': {
-                        "url": BASE_URL + "ar/evalprod/cproveedor/lista",
+                        "url": baseurl + "ar/evalprod/cproveedor/lista",
                         "type": "GET",
                         "data": function (d) {
                             d.nombre = $('#txtNombre').val();

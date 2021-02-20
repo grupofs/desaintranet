@@ -110,7 +110,7 @@ $(function () {
      */
     objGenerarProveedor.buscarPorId = function (id) {
         return $.ajax({
-            url: BASE_URL + 'ar/evalprod/cproveedor/buscar',
+            url: baseurl + 'ar/evalprod/cproveedor/buscar',
             method: 'POST',
             data: {
                 id: id

@@ -47,7 +47,7 @@ $(function() {
 
         this.select2 = el.select2({
             ajax: {
-                url: BASE_URL + 'ar/evalprod/cproveedor/autocompletado',
+                url: baseurl + 'ar/evalprod/cproveedor/autocompletado',
                 method: 'POST',
                 dataType: 'json',
                 delay: 250,

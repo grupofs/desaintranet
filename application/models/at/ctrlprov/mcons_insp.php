@@ -22,8 +22,7 @@ class mcons_insp extends CI_Model
 		if (!$query) {
 			return [];
 		}
-//		return ($query->num_rows()) ? $query->result() : [];
-		return $this->dataRef();
+		return ($query->num_rows() > 0) ? $query->result() : [];
 	}
 
 	/**

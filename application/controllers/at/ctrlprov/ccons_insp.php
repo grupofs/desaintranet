@@ -28,24 +28,73 @@ class ccons_insp extends FS_Controller
 	 */
 	public function search()
 	{
+		$ccia = $this->input->post('ccia');
+		$area = $this->input->post('area');
+		$cservicio = $this->input->post('cservicio');
+		$afecha = (int)$this->input->post('afecha');
+		$fini = $this->input->post('fini');
+		$ffin = $this->input->post('ffin');
+		$ccliente = $this->input->post('ccliente');
+		$cclienteprov = $this->input->post('cclienteprov');
+		$cclientemaquila = $this->input->post('cclientemaquila');
+		$careacliente = $this->input->post('careacliente');
+		$ubigeoprov = $this->input->post('ubigeoprov');
+		$ubigeomaquila = $this->input->post('ubigeomaquila');
+		$tipoestado = $this->input->post('tipoestado');
+		$cond = $this->input->post('cond');
+		$peligro = $this->input->post('peligro');
+		$nrorow = $this->input->post('nrorow');
+		$sevalprod = $this->input->post('selvaprod');
+		$ultinsp = $this->input->post('ultinsp');
+
+		$area = is_null($area) ? '01' : $area;
+		$cservicio = is_null($cservicio) ? '02' : $cservicio;
+		$ccliente = is_null($ccliente) ? '00005' : $ccliente;
+		$cclienteprov = is_null($cclienteprov) ? '%' : $cclienteprov;
+		$cclientemaquila = is_null($cclientemaquila) ? '%' : $cclientemaquila;
+		$careacliente = is_null($careacliente) ? '%' : $careacliente;
+		$ubigeoprov = is_null($ubigeoprov) ? '%' : $ubigeoprov;
+		$ubigeomaquila = is_null($ubigeomaquila) ? '%' : $ubigeomaquila;
+		$tipoestado = is_null($tipoestado) ? '%' : $tipoestado;
+		$cond = is_null($cond) ? '0' : $cond;
+		$peligro = is_null($peligro) ? '%' : $peligro;
+		$nrorow = is_null($nrorow) ? 0 : $nrorow;
+		$sevalprod = is_null($sevalprod) ? '0' : $sevalprod;
+		$ultinsp = is_null($ultinsp) ? '0' : $ultinsp;
+
+		// Se verifica si filtrara con fecha o no
+		$now = \Carbon\Carbon::now('America/Lima')->format('Y-m-d');
+		if (!$afecha) {
+			$fini = null;
+			$ffin = null;
+		} else {
+			// En caso sea un formato invalido se tomara la fecha de hoy
+			$fini = (validateDate($fini, 'd/m/Y'))
+				? \Carbon\Carbon::createFromFormat('d/m/Y', $fini, 'America/Lima')->format('Y-m-m')
+				: $now;
+			$ffin = (validateDate($ffin, 'd/m/Y'))
+				? \Carbon\Carbon::createFromFormat('d/m/Y', $ffin, 'America/Lima')->format('Y-m-m')
+				: $now;
+		}
+
 		$inspecciones = $this->mcons_insp->buscarInspecciones([
-			"@CCIA" => '1',
-			"@CAREA" => '01',
-			"@CSERVICIO" => '02',
-			"@FINI" => null,
-			"@FFIN" => null,
-			"@CCLIENTE" => '00005',
-			"@CCLIENTEPROV" => '%',
-			"@CCLIENTEMAQUILA" => '%',
-			"@CAREACLIENTE" => '%',
-			"@UBIGEOPROV" => '%',
-			"@UBIGEOMAQUILA" => '%',
-			"@TIPOESTADO" => '%',
-			"@COND" => '0',
-			"@PELIGRO" => '%',
-			"@NROROW" => 0,
-			"@SEVALPROD" => '0',
-			"@ULTINSP" => '0'
+			"@CCIA" => $ccia,
+			"@CAREA" => $area,
+			"@CSERVICIO" => $cservicio,
+			"@FINI" => $fini,
+			"@FFIN" => $ffin,
+			"@CCLIENTE" => $ccliente,
+			"@CCLIENTEPROV" => $cclienteprov,
+			"@CCLIENTEMAQUILA" => $cclientemaquila,
+			"@CAREACLIENTE" => $careacliente,
+			"@UBIGEOPROV" => $ubigeoprov,
+			"@UBIGEOMAQUILA" => $ubigeomaquila,
+			"@TIPOESTADO" => $tipoestado,
+			"@COND" => $cond,
+			"@PELIGRO" => $peligro,
+			"@NROROW" => $nrorow,
+			"@SEVALPROD" => $sevalprod,
+			"@ULTINSP" => $ultinsp
 		]);
 		echo json_encode(['items' => $inspecciones]);
 	}
@@ -55,8 +104,12 @@ class ccons_insp extends FS_Controller
 	 */
 	public function pdf()
 	{
-		$dompdf = $this->_pdf();
-		$dompdf->stream("ficha_tenica.pdf", array("Attachment" => 0));
+		try {
+			$dompdf = $this->_pdf();
+			$dompdf->stream("ficha_tenica.pdf", array("Attachment" => 0));
+		} catch (Exception $ex) {
+			show_error($ex->getMessage(), 500, 'Error al realizar la carga de PDF');
+		}
 	}
 
 	/**
@@ -65,11 +118,16 @@ class ccons_insp extends FS_Controller
 	 */
 	private function _pdf()
 	{
+		$codigo = $this->input->get('codigo');
+		$fecha = $this->input->get('fecha');
 		$data = [
-			'@CAUDI' => '00000303',
-			'@FSERV' => '2020-10-09',
+			'@CAUDI' => $codigo,
+			'@FSERV' => $fecha,
 		];
 		$caratula = $this->mcons_insp->pdfCaratula($data);
+		if (empty($caratula)) {
+			throw new Exception('El control de proveedor no pudo ser encontrado.');
+		}
 		$parrafo1Pt1 = $this->mcons_insp->pdfParrafo1Parte1($data);
 		$parrafo1Pt2 = $this->mcons_insp->pdfParrafo1Parte2($data);
 		$cuadro1 = $this->mcons_insp->pdfCuadro1($data);

@@ -53,29 +53,36 @@ $cia = $this->session->userdata('s_cia');
 									</div>
 									<div class="card-body">
 										<form class="form-horizontal" id="frmBuscarTramite">
-											<input name="idcliente" type="hidden" id="idcliente"
+											<input type="hidden" id="idcliente"
 												   value="<?php echo $codcliente ?>">
-											<input name="idusuario" type="hidden" id="idusuario"
+											<input type="hidden" id="idusuario"
 												   value="<?php echo $idusuario; ?>">
-											<input name="idrol" type="hidden" id="idrol"
+											<input type="hidden" id="idrol"
 												   value="<?php echo $idrol; ?>">
-											<input name="idcia" type="hidden" id="idcia"
+											<input type="hidden" id="idcia" name="idcia"
 												   value="<?php echo $cia ?>">
 
 											<div class="row"> <!--fila01-->
 												<div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-12">
 													<div class="form-group">
-														<label for="">Fecha de Inspección</label>
+														<div class="custom-control custom-checkbox mb-2">
+															<input type="checkbox" class="custom-control-input"
+																   checked
+																   id="activar_fecha">
+															<label for="activar_fecha" class="custom-control-label">
+																Fecha de Inspección
+															</label>
+														</div>
 														<div class="input-group">
 															<input type="text" class="form-control datepicker"
-																   id="FechaDesde" name="FechaDesde" aria-label=""
-																   value=""/>
+																   id="fini" name="fini" aria-label=""
+																   value="<?php echo '01/01/' .  date('Y'); ?>"/>
 															<div class="input-group-prepend">
 																<span class="input-group-text">hasta</span>
 															</div>
 															<input type="text" class="form-control datepicker"
-																   id="FechaHasta" name="FechaHasta" aria-label=""
-																   value=""/>
+																   id="ffin" name="ffin" aria-label=""
+																   value="<?php echo date('d/m/Y'); ?>"/>
 														</div>
 													</div>
 												</div>
@@ -142,7 +149,8 @@ $cia = $this->session->userdata('s_cia');
 												   style="width:100%">
 												<thead>
 												<tr>
-													<th>N°</th>
+													<th style="width: 120px" ></th>
+<!--													<th style="width: 20px" >N°</th>-->
 													<th>Código</th>
 													<th>Fecha Inspección</th>
 													<th>Fecha Creación</th>
@@ -151,7 +159,6 @@ $cia = $this->session->userdata('s_cia');
 													<th>RUC</th>
 													<th>Dirección Proveedor</th>
 													<th>Ubigeo Proveedor</th>
-													<th></th>
 												</tr>
 												</thead>
 												<tbody></tbody>
@@ -184,15 +191,16 @@ $cia = $this->session->userdata('s_cia');
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body" style="background-color:#ffffff; border-top: 1px solid #00a65a; border-bottom: 1px solid #00a65a;" >
-				<div class="row" >
-					<div class="col-xl-3 col-lg-4 col-md-5 col-sm-8 col-12" >
-						<button class="btn btn-danger mb-3" id="closePDF" >
-							<i class="fa fa-save" ></i> Cerrar Informe Técnico
+			<div class="modal-body"
+				 style="background-color:#ffffff; border-top: 1px solid #00a65a; border-bottom: 1px solid #00a65a;">
+				<div class="row">
+					<div class="col-xl-3 col-lg-4 col-md-5 col-sm-8 col-12">
+						<button class="btn btn-danger mb-3" id="closePDF">
+							<i class="fa fa-save"></i> Cerrar Informe Técnico
 						</button>
 					</div>
-					<div class="col-12" >
-						<div class="embed-responsive embed-responsive-21by9" style="min-height: 480px; zoom: 1;" >
+					<div class="col-12">
+						<div class="embed-responsive embed-responsive-21by9" style="min-height: 480px; zoom: 1;">
 							<iframe class="embed-responsive-item" id="framePDF" src="" frameborder="0"></iframe>
 						</div>
 					</div>

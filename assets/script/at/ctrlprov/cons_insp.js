@@ -17,7 +17,10 @@ $(function () {
 	 * ID de la inspección abierta para realizar su descarga
 	 * @type {integer|null}
 	 */
-	objInsp.modalIDInsp = null;
+	objInsp.pdf = {
+		codigo: '',
+		fecha: ''
+	};
 
 	/**
 	 * Activa la carga de la busqueda
@@ -45,7 +48,7 @@ $(function () {
 			objInsp.activeLoading();
 			const oTableLista = $('#tblInspecciones').DataTable({
 				'bJQueryUI': true,
-				'scrollY': '400px',
+				'scrollY': '650px',
 				'scrollX': true,
 				'processing': true,
 				'bDestroy': true,
@@ -56,27 +59,21 @@ $(function () {
 					"url": BASE_URL + 'at/ctrlprov/ccons_insp/search',
 					"type": "POST",
 					"data": function (d) {
+						d.afecha = ($('#activar_fecha').is(':checked')) ? 1 : 0;
+						d.fini = $('#fini').val();
+						d.ffin = $('#ffin').val();
+						d.ccia = $('#idcia').val();
 					},
 					dataSrc: function (data) {
 						objInsp.inactiveLoading();
 						return data.items;
+					},
+					error: function() {
+						objPrincipal.alert('warning', 'Error en el proceso de ejecución.', 'Vuelva a intentarlo más tarde.');
+						objInsp.inactiveLoading();
 					}
 				},
 				'columns': [
-					{
-						"class": "index",
-						orderable: false,
-						data: null,
-						targets: 0
-					},
-					{data: 'CODIGO', orderable: false, targets: 1},
-					{data: 'FECHAINSPECCION', orderable: false, targets: 2},
-					{data: 'FCREACION', orderable: false, targets: 3},
-					{data: 'CLIENTE', orderable: false, targets: 4},
-					{data: 'PROVEEDOR', orderable: false, targets: 5},
-					{data: 'RUC', orderable: false, targets: 6},
-					{data: 'DIRECCIONPROV', orderable: false, targets: 7},
-					{data: 'UBIGEOPROV', orderable: false, targets: 8},
 					{
 						"orderable": false,
 						render: function (data, type, row) {
@@ -86,12 +83,26 @@ $(function () {
 									'<i class="fa fa-download" ></i> Descargar Informe' +
 									'</button>';
 							} else {
-								return '<button type="button" class="btn btn-primary btn-block open-pdf" data-id="' + row.ID + '" data-toggle="modal" data-target="#staticBackdrop">' +
+								return '<button type="button" class="btn btn-primary btn-block open-pdf" data-codigo="' + row.CODIGO + '" data-fecha="' + row.FECHAINSPECCION + '" data-toggle="modal" data-target="#staticBackdrop">' +
 									'<i class="fa fa-file-pdf" ></i> Ver Informe' +
 									'</button>';
 							}
 						}
 					},
+					// {
+					// 	"class": "index",
+					// 	orderable: false,
+					// 	data: null,
+					// 	targets: 1
+					// },
+					{data: 'CODIGO', orderable: false, targets: 1},
+					{data: 'FECHAINSPECCION', orderable: false, targets: 2},
+					{data: 'FCREACION', orderable: false, targets: 3},
+					{data: 'CLIENTE', orderable: false, targets: 4},
+					{data: 'PROVEEDOR', orderable: false, targets: 5},
+					{data: 'RUC', orderable: false, targets: 6},
+					{data: 'DIRECCIONPROV', orderable: false, targets: 7},
+					{data: 'UBIGEOPROV', orderable: false, targets: 8},
 				],
 				"columnDefs": [
 					{
@@ -100,14 +111,14 @@ $(function () {
 					}
 				]
 			});
-			oTableLista.on('order.dt search.dt', function () {
-				oTableLista.column(0, {
-					search: 'applied',
-					order: 'applied'
-				}).nodes().each(function (cell, i) {
-					cell.innerHTML = i + 1;
-				});
-			}).draw();
+			// oTableLista.on('order.dt search.dt', function () {
+			// 	oTableLista.column(1, {
+			// 		search: 'applied',
+			// 		order: 'applied'
+			// 	}).nodes().each(function (cell, i) {
+			// 		cell.innerHTML = i + 1;
+			// 	});
+			// }).draw();
 		}
 	};
 
@@ -117,7 +128,8 @@ $(function () {
 	objInsp.openPDF = function () {
 		const button = $(this);
 		// save ID
-		objInsp.modalIDInsp = button.data('id');
+		objInsp.pdf.codigo = button.data('codigo');
+		objInsp.pdf.fecha = button.data('fecha');
 		const modalPDF = $('#modalPDF');
 		modalPDF.modal('show');
 		$('#framePDF').attr('src', objInsp.getLink());
@@ -128,7 +140,7 @@ $(function () {
 	 * @returns {string}
 	 */
 	objInsp.getLink = function () {
-		return BASE_URL + 'at/ctrlprov/ccons_insp/pdf';
+		return BASE_URL + 'at/ctrlprov/ccons_insp/pdf?codigo=' + objInsp.pdf.codigo + '&fecha=' + objInsp.pdf.fecha;
 	};
 
 	/**
@@ -160,7 +172,7 @@ $(function () {
 	/**
 	 * Descarga del link del PDF
 	 */
-	objInsp.downloadPDF = function() {
+	objInsp.downloadPDF = function () {
 		const button = $(this);
 		const link = button.data('link');
 		objInsp.download(link);
@@ -179,6 +191,15 @@ $(function () {
 		download.focus();
 	};
 
+	/**
+	 * Activa o desactiva las fechas
+	 */
+	objInsp.activeDate = function() {
+		const chech = !$(this).is(':checked');
+		$('#fini').prop('disabled', chech);
+		$('#ffin').prop('disabled', chech);
+	};
+
 });
 
 $(document).ready(function () {
@@ -190,5 +211,7 @@ $(document).ready(function () {
 	$(document).on('click', '.download-pdf', objInsp.downloadPDF);
 
 	$('#closePDF').click(objInsp.closePDF);
+
+	$('#activar_fecha').change(objInsp.activeDate);
 
 });

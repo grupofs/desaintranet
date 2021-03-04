@@ -165,8 +165,11 @@ class ccons_insp extends FS_Controller
 			'cuadro2' => $cuadro2,
 			'imgGrafico2' => $imgGrafico2,
 		], TRUE);
+		$options = new \Dompdf\Options();
+		$options->set('dpi', 100);
+		$options->set('isPhpEnabled', TRUE);
 		// Realiza la creación del PDF
-		$dompdf = new \Dompdf\Dompdf();
+		$dompdf = new \Dompdf\Dompdf($options);
 		$dompdf->loadHtml($content);
 		$dompdf->setPaper('A4', 'portrait');
 		$dompdf->render();

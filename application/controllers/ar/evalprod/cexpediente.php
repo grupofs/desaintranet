@@ -646,8 +646,8 @@ class Cexpediente extends CI_Controller
                                 margin: 0.5in 0.5in 0.5in 0.5in;;
                             }
                             .teacherPage {
-                                    page: teacher;
-                                    page-break-after: always;
+								page: teacher;
+								page-break-after: always;
                             }
                             p{
                                 font-weight: bold;
@@ -671,8 +671,8 @@ class Cexpediente extends CI_Controller
                     </head>
                     <body>';
 
-                $html .= '<div class="teacherPage">				
-                    <page>					
+                $html .= '				
+                    <div class="teacherPage">			
                     <table width="700px" style="font-family:arial; font-size:10px;">
                         <tr>
                             <td align="left" colspan="2">
@@ -850,7 +850,6 @@ cuenta con 15 dias ÚTILES(' . $fechavence . ') contados a partir de la recepcio
 Observado / Rechazado). El recojo no aplica para los productos que tienen un tiempo menor o igual a 15 diás de viada útil.
 						</span>
                     </div>
-                    </page>
                     </div>';
 			}
 		}

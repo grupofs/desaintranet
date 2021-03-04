@@ -24,6 +24,7 @@ $(function () {
                 objLista.oTableLista.ajax.reload(null, false);
             } else {
                 const boton = $('#btnBuscar');
+                const tipoUsuario = $('#tipo_usuario').val();
                 objLista.cargando = true;
                 this.oTableLista = $('#tblLista').DataTable({
                     'bJQueryUI': true,
@@ -67,11 +68,15 @@ $(function () {
                         {
                             "orderable": false,
                             render: function (data, type, row) {
-                                return '<div class="text-left" >' +
-                                    '<button class="btn btn-transparent text-success btn-sm" onClick="objLista.editar(\'' + row.id_proveedor + '\',this);">' +
-                                    '<i class="fa fa-edit fa-2x" ></i>' +
-                                    '</button>' +
-                                    '</div>';
+                            	if (tipoUsuario == 'I') {
+									return '<div class="text-left" >' +
+										'<button class="btn btn-transparent text-success btn-sm" onClick="objLista.editar(\'' + row.id_proveedor + '\',this);">' +
+										'<i class="fa fa-edit fa-2x" ></i>' +
+										'</button>' +
+										'</div>';
+								} else {
+                            		return '';
+								}
                             }
                         }
                     ],
@@ -110,6 +115,37 @@ $(function () {
         objGenerarProveedor.abrir($(boton), id);
     };
 
+	/**
+	 * Realiza la descarga de los proveedores
+	 */
+	objLista.descargar = function() {
+		const button = $(this);
+		$.ajax({
+			url: baseurl + 'ar/evalprod/cproveedor/exportar',
+			method: 'POST',
+			data: {
+				nombre: $('#txtNombre').val(),
+				ruc: $('#txtRuc').val(),
+			},
+			dataType: 'json',
+			beforeSend: function() {
+				objPrincipal.botonCargando(button);
+			}
+		}).done(function(res) {
+			objPrincipal.notify('success', 'Descarga del reporte correctamente.');
+			const url = baseurl + 'ar/evalprod/cproveedor/download?filename=' + res.data;
+			const download = window.open(url, '_blank');
+			if (!download) {
+				objPrincipal.alert('warning', 'Habilite la ventana emergente de su navegador.');
+			}
+			download.focus();
+		}).fail(function() {
+			objPrincipal.notify('error', 'Error en la descarga del reporte');
+		}).always(function() {
+			objPrincipal.liberarBoton(button);
+		});
+	};
+
 });
 
 $(document).ready(function () {
@@ -119,6 +155,8 @@ $(document).ready(function () {
     $('#btnBuscar').click(objLista.buscar);
 
     $('#btnNuevoProveedor').click(objLista.crearProveedor);
+
+    $('#btnDownload').click(objLista.descargar);
 
 });
 

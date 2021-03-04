@@ -32,6 +32,7 @@ $infousuario = $this->session->userdata('s_infodato');
 		<form class="form-horizontal" id="frmexceltramar" name="frmexceltramar"
 			  action="<?= base_url('ar/tramites/cexcelExport/exceltramardigesa') ?>" method="POST"
 			  enctype="multipart/form-data" role="form">
+			<input type="hidden" id="id_usuario" value="<?php echo $idusu; ?>" >
 			<div class="card card-info">
 				<div class="card-header">
 					<h3 class="card-title">BUSQUEDA</h3>

@@ -1,12 +1,18 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+
 /**
  * Class Cproveedor
  *
  * @property mproveedor mproveedor
  */
-class Cproveedor extends CI_Controller
+class Cproveedor extends FS_Controller
 {
     /**
      * Cproveedor constructor.
@@ -123,5 +129,145 @@ class Cproveedor extends CI_Controller
         $proveedor = $this->mproveedor->buscarPorId($id);
         echo json_encode(['proveedor' => $proveedor]);
     }
+
+	/**
+	 * Realiza la descarga de proveedores
+	 */
+    public function exportar()
+	{
+		if (!$this->input->is_ajax_request()) {
+			show_404();
+		}
+		try {
+
+			$ccliente = $this->session->userdata('s_ccliente');
+			$ccliente = (empty($ccliente)) ? '00005' : $ccliente; // por defecto es 00005
+			$nombre = $this->input->post('nombre');
+			$ruc = $this->input->post('ruc');
+			$resultado = $this->mproveedor->lista($ccliente, $nombre, $ruc);
+
+			$spreadsheet = new Spreadsheet();
+			$sheet = $spreadsheet->getActiveSheet();
+			$sheet->setTitle('Proveedores');
+
+			$spreadsheet->getDefaultStyle()
+				->getFont()
+				->setName('Arial')
+				->setSize(10);
+
+			$sheet->setCellValue('A1', 'LISTA DE PROVEEDORES')
+				->mergeCells('A1:G1');
+
+			$sheet->setCellValue('A2', 'PROVEEDOR')
+				->setCellValue('B2', 'RUC')
+				->setCellValue('C2', 'CONTACTO 1')
+				->setCellValue('D2', 'EMAIL 1')
+				->setCellValue('E2', 'CONTACTO 2')
+				->setCellValue('F2', 'EMAIL 2')
+				->setCellValue('G2', 'TELEFONO');
+
+			if (!empty($resultado)) {
+				$pos = 3;
+				foreach ($resultado as $key => $value) {
+					$sheet->setCellValue('A' . $pos, $value->nombre);
+					$sheet->setCellValue('B' . $pos, $value->ruc);
+					$sheet->setCellValue('C' . $pos, $value->contacto_p);
+					$sheet->setCellValue('D' . $pos, $value->email_p);
+					$sheet->setCellValue('E' . $pos, $value->contacto_q);
+					$sheet->setCellValue('F' . $pos, $value->email_q);
+					$sheet->setCellValue('G' . $pos, $value->telefono);
+					++$pos;
+				}
+			}
+
+			$titulo = [
+				'font' => [
+					'name' => 'Arial',
+					'size' => 12,
+					'color' => array('rgb' => 'FFFFFF'),
+					'bold' => true,
+				],
+				'fill' => [
+					'fillType' => Fill::FILL_SOLID,
+					'startColor' => [
+						'rgb' => '29B037'
+					]
+				],
+				'borders' => [
+					'allBorders' => [
+						'borderStyle' => Border::BORDER_THIN,
+						'color' => [
+							'rgb' => '000000'
+						]
+					]
+				],
+				'alignment' => [
+					'horizontal' => Alignment::HORIZONTAL_CENTER,
+					'vertical' => Alignment::VERTICAL_CENTER,
+					'wrapText' => true,
+				],
+			];
+			$cabecera = [
+				'font' => [
+					'name' => 'Arial',
+					'size' => 10,
+					'color' => array('rgb' => 'FFFFFF'),
+					'bold' => true,
+				],
+				'fill' => [
+					'fillType' => Fill::FILL_SOLID,
+					'startColor' => [
+						'rgb' => '29B037'
+					]
+				],
+				'borders' => [
+					'allBorders' => [
+						'borderStyle' => Border::BORDER_THIN,
+						'color' => [
+							'rgb' => '000000'
+						]
+					]
+				],
+				'alignment' => [
+					'horizontal' => Alignment::HORIZONTAL_CENTER,
+					'vertical' => Alignment::VERTICAL_CENTER,
+					'wrapText' => true,
+				],
+			];
+			$sheet->getStyle('A1:G1')->applyFromArray($titulo);
+			$sheet->getStyle('A2:G2')->applyFromArray($cabecera);
+
+			foreach (range('A', 'G') as $column) {
+				$sheet->getColumnDimension($column)->setAutoSize(true);
+			}
+
+			$writer = new Xlsx($spreadsheet);
+			$filename = 'proveedores_' . date('Ymd') . '.xlsx';
+			$path = RUTA_ARCHIVOS . '../../temp/' . $filename;
+			$writer->save($path);
+
+			$this->result['status'] = 200;
+			$this->result['message'] = 'Se realizo la exportación correctamente.';
+			$this->result['data'] = $filename;
+
+		} catch (Exception $ex) {
+			$this->result['message'] = $ex->getMessage();
+		}
+		responseResult($this->result);
+	}
+
+	/**
+	 * Realiza la descarga del archivo
+	 */
+	public function download()
+	{
+		$fileName = $this->input->get('filename');
+		$this->load->helper('download');
+		$pathFile = RUTA_ARCHIVOS . '../../temp/' . $fileName;
+		if (!file_exists($pathFile)) {
+			show_404();
+		}
+		force_download($pathFile, null, false, true);
+	}
 
 }

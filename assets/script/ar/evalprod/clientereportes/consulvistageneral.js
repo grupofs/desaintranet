@@ -136,6 +136,7 @@ $('#btnBuscar').click(function () {
 
 getListvistageneral = function (param) {
 	const boton = $('#btnBuscar');
+	const idUsuario = $('#id_usuario').val();
 	oTable_vistageneral = $('#tblvistageneral').DataTable({
 		"processing": true,
 		"bDestroy": true,
@@ -178,14 +179,18 @@ getListvistageneral = function (param) {
 			{
 				"orderable": false,
 				render: function (data, type, row) {
-					if (row.codsku == '-') {
-						return '<div>' +
-							'<a data-original-title="SKU" data-toggle="modal" data-target="#modalSKU" onClick="editSKU(\'' + row.id_producto + '\',\'' + row.codsku + '\');"><i class="fa fa-edit fa-2x" data-original-title="SKU" data-toggle="tooltip"></i></a>' +
-							'</div>'
+					if (idUsuario == '170') {
+						return row.codsku;
 					} else {
-						return '<div>' + row.codsku +
-							'<a data-original-title="SKU" data-toggle="modal" data-target="#modalSKU" onClick="editSKU(\'' + row.id_producto + '\',\'' + row.codsku + '\');"><i class="fa fa-edit fa-1x" data-original-title="SKU" data-toggle="tooltip"></i></a>' +
-							'</div>'
+						if (row.codsku == '-') {
+							return '<div>' +
+								'<a data-original-title="SKU" data-toggle="modal" data-target="#modalSKU" onClick="editSKU(\'' + row.id_producto + '\',\'' + row.codsku + '\');"><i class="fa fa-edit fa-2x" data-original-title="SKU" data-toggle="tooltip"></i></a>' +
+								'</div>'
+						} else {
+							return '<div>' + row.codsku +
+								'<a data-original-title="SKU" data-toggle="modal" data-target="#modalSKU" onClick="editSKU(\'' + row.id_producto + '\',\'' + row.codsku + '\');"><i class="fa fa-edit fa-1x" data-original-title="SKU" data-toggle="tooltip"></i></a>' +
+								'</div>'
+						}
 					}
 				}
 			},

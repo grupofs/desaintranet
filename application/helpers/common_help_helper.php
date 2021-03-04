@@ -143,6 +143,7 @@ if (!function_exists('getMonthText')) {
 	function getMonthText($pos): string
 	{
 		$months = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+		$pos = intval($pos);
 		return (isset($months[$pos])) ? $months[$pos] : '';
 	}
 }

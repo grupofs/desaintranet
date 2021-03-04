@@ -1,23 +1,24 @@
 <html lang="es">
 <head>
 	<title>Ficha tecnica</title>
-	<style>
+	<meta http-equiv="Content-Type" content="charset=utf-8"/>
+	<style type="text/css">
 		@page {
-			margin: 0.5in 0.5in 0.5in 0.5in;
+			margin: 48px;
 			font-size: 16px;
+			font-family: Arial;
 		}
 
-		.teacherPage {
-
-		}
-
-		header {
+		#header {
 			position: fixed;
 			top: 0px;
 			left: 0px;
 			right: 0px;
-			height: 150px;
-			min-height: 150px;
+			height: 100px;
+		}
+
+		.new-page {
+			margin-top: 100px;
 		}
 
 		.col-1 {
@@ -141,7 +142,7 @@
 	</style>
 </head>
 <body>
-<header>
+<div id="header">
 	<div class="col-12">
 		<table class="table">
 			<tr>
@@ -159,50 +160,73 @@
 			</tr>
 		</table>
 	</div>
-</header>
+</div>
+<script type="text/php">
+    if (isset($pdf)) {
+        $text = "Pag. {PAGE_NUM} de {PAGE_COUNT}";
+        $size = 14;
+        $font = $fontMetrics->getFont("Arial");
+        $width = $fontMetrics->get_text_width($text, $font, $size) / 2;
+        $x = $pdf->get_width() - $width + 25;
+        $y = $pdf->get_height() - 35;
+		$pdf->page_text($x, $y, $text, $font, $size);
+    }
+</script>
 <page>
-	<div class="col-12 text-caratula">
-		<table class="table"
-			   style="height: 380px; vertical-align: middle">
+	<div class="col-12 text-caratula new-page">
+		<table class="table" style="">
 			<tr>
-				<td class="col-12 text-center">INFORME TECNICO N° <?php echo $caratula->dinforme ?></td>
-			</tr>
-		</table>
-		<table class="table bg-gray border-gray">
-			<tr>
-				<td class="col-12 text-center font-weigth-bold" style="padding: 10px;">
-					INSPECCION SANITARIA
+				<td class="col-12 text-center"
+					style="height: 200px; vertical-align: middle;">
+					INFORME TECNICO N° <?php echo $caratula->dinforme ?>
 				</td>
 			</tr>
 			<tr>
-				<td class="col-12 text-center font-weigth-bold uppercase" style="padding: 15px;">
-					PROGRAMA DE <?php echo $caratula->dsubservicio ?> <br>
-					<?php echo $caratula->nomcliente ?>
+				<td class="col-12" style="border: 0; padding: 0;" >
+					<table class="table bg-gray border-gray" >
+						<tr>
+							<td class="col-12 text-center font-weigth-bold">
+								INSPECCION SANITARIA
+							</td>
+						</tr>
+						<tr>
+							<td class="col-12 text-center font-weigth-bold uppercase" style="padding: 15px" >
+								PROGRAMA DE <?php echo $caratula->dsubservicio ?> <br>
+								<?php echo $caratula->nomcliente ?>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td class="col-12 text-center" style="height: 200px; vertical-align: middle" >
+					<p class="uppercase">
+						<?php echo $caratula->proveedor; ?>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td class="col-12 text-center" style="height: 150px; vertical-align: middle" >
+					<p class="uppercase">
+						LINEA: <?php echo $caratula->lineaprocesoclte ?>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td class="col-12 text-center" style="height: 220px; vertical-align: middle" >
+					<p class="uppercase">
+						<?php
+						$fservicio = explode('-', $caratula->fservicio);
+						echo $fservicio[2] . ' DE ' . getMonthText($fservicio[1]) . ' DE ' . $fservicio[0];
+						?>
+					</p>
 				</td>
 			</tr>
 		</table>
-	</div>
-	<div class="col-12 text-center text-caratula" style="margin-top: 35px">
-		<p class="uppercase">
-			<?php echo $caratula->proveedor; ?>
-		</p>
-	</div>
-	<div class="col-12 text-center text-caratula" style="margin-top: 95px">
-		<p class="uppercase">
-			LINEA: <?php echo $caratula->lineaprocesoclte ?>
-		</p>
-	</div>
-	<div class="col-12 text-center text-caratula" style="margin-top: 120px">
-		<p class="uppercase">
-			<?php
-			$fservicio = explode('-', $caratula->fservicio);
-			echo $fservicio[2] . ' DE ' . getMonthText($fservicio[1]) . ' DE ' . $fservicio[0];
-			?>
-		</p>
 	</div>
 </page>
 <page>
-	<div class="col-12" style="margin-top: 100px">
+	<div class="col-12 new-page" >
 		<table class="table">
 			<tr>
 				<td class="col-12 text-center" style="padding: 10px">
@@ -265,149 +289,6 @@
 					<img src="<?php echo $imgGrafico1; ?>" style="width: 100%; height: 450px">
 				</td>
 			</tr>
-		</table>
-	</div>
-</page>
-<div style="margin-top: 120px">
-	<table class="table">
-		<tr>
-			<td class="col-12 text-center uppercase" style="padding: 10px;">
-				RESULTADO DE LA INSPECCION
-			</td>
-		</tr>
-	</table>
-	<table class="table table-bordered">
-		<thead>
-		<tr class="bg-gray">
-			<th colspan="7" class="col-12 text-center">
-				Listado de Verificación
-			</th>
-		</tr>
-		<tr class="bg-gray">
-			<td class="col-1 text-center">
-				N°
-			</td>
-			<td class="col-5 text-center">
-				Aspecto Evaluado
-			</td>
-			<td class="col-2 text-center">
-				Puntajo <br> Maximo
-			</td>
-			<td class="col-2 text-center">
-				Puntaje <br> Obtenido
-			</td>
-			<td class="col-2 text-center">
-				% de <br> Confirmado
-			</td>
-			<td class="col-1 text-center">
-				% <br> Peso
-			</td>
-			<td class="col-1 text-center">
-				% de <br> Conf. Final
-			</td>
-		</tr>
-		</thead>
-		<tbody>
-		<?php if (!empty($cuadro2)) { ?>
-			<?php foreach ($cuadro2 as $keyCuadro2 => $itemCuadro2) { ?>
-				<tr>
-					<td class="col-1 text-center">
-						<?php echo $itemCuadro2->dnumerador ?>
-					</td>
-					<td class="col-7 text-left">
-						<?php echo $itemCuadro2->drequisito ?>
-					</td>
-					<td class="col-2 text-center">
-						<?php echo $itemCuadro2->nvalorrequisito ?>
-					</td>
-					<td class="col-2 text-center">
-						<?php echo $itemCuadro2->mayor_val ?>
-					</td>
-					<td class="col-2 text-center">
-						100%
-					</td>
-					<td class="col-2 text-center bg-gray">
-						&nbsp;
-					</td>
-					<td class="col-1 text-left bg-gray">
-						&nbsp;
-					</td>
-				</tr>
-			<?php } ?>
-		<?php } ?>
-		</tbody>
-		<tfoot>
-		<tr>
-			<td colspan="2" class="text-center" >
-				Puntaje Parcial
-			</td>
-			<td class="text-center" >
-				572
-			</td>
-			<td class="text-center" >
-				572
-			</td>
-			<td colspan="3" class="text-left" >
-				100%
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2" class="text-center" >
-				Puntaje Final
-			</td>
-			<td colspan="5" class="text-center" >
-				100.00%
-			</td>
-		</tr>
-		</tfoot>
-	</table>
-	<div class="col-12" style="margin-top: 30px" >
-		<img src="<?php echo $imgGrafico2 ?>" style="width: 100%; height: 350px">
-	</div>
-</div>
-<page>
-	<div class="col-12" style="margin-top: 50px" >
-		<table class="table" >
-			<tbody>
-			<tr class="bg-gray" >
-				<th colspan="2" class="col-12 text-left uppercase" >DATOS DEL PROVEEDOR</th>
-			</tr>
-			<tr>
-				<td class="col-4 text-left" >
-					Razon Social
-				</td>
-				<td class="col-8 text-left" >
-					AGRO INDUSTRIAL PARAMONGA S.A.A
-				</td>
-			</tr>
-			<tr>
-				<td class="col-4 text-left" >
-					R.U.C.
-				</td>
-				<td class="col-8 text-left" >
-					20135948641
-				</td>
-			</tr>
-			<tr>
-				<td class="col-4 text-left" >
-					Dirección
-				</td>
-				<td class="col-8 text-left" >
-					Av. Ferrocarril N° 212 Paramonga (Lima - Barranca - Paramonga)
-				</td>
-			</tr>
-			<tr>
-				<td class="col-4 text-left" >
-					Representante
-				</td>
-				<td class="col-8 text-left" >
-					Ing. Percy Muente Kunigami
-				</td>
-			</tr>
-			<tr class="bg-gray">
-				<th colspan="2" class="col-12 text-left uppercase" >DATOS DE LA EMPRESA MAQUILLADORA</th>
-			</tr>
-			</tbody>
 		</table>
 	</div>
 </page>

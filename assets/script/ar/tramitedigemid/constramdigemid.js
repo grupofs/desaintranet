@@ -159,7 +159,7 @@ getListTramGrid = function(param){
         'stateSave'     : true,
         'select'        : true,
         'ajax'	: {
-            "url"   : baseurl+"ar/tramites/cconstramdigesa/getconsulta_grid_tr/",
+            "url"   : baseurl+"ar/tramites/cconstramdigemid/getconsulta_grid_tr/",
             "type"  : "POST", 
             "data"  : param,     
             dataSrc : ''       
@@ -239,7 +239,7 @@ $('#tblListTramGrid tbody').on( 'click', 'td.details-control', function () {
                 'filter'      : false,   
                 'stateSave'   : true,
                 'ajax'        : {
-                    "url"   : baseurl+"ar/tramites/cconstramdigesa/getbuscartramite",
+                    "url"   : baseurl+"ar/tramites/cconstramdigemid/getbuscartramite",
                     "type"  : "POST", 
                     "data": function ( d ) {
                         d.codprod = rowData.codigo;
@@ -297,7 +297,7 @@ getListTramExcel = function(param){
         'ordering'		: false,  
         'stateSave'     : true,
         'ajax'	: {
-            "url"   : baseurl+"ar/tramites/cconstramdigesa/getconsulta_excel_tr/",
+            "url"   : baseurl+"ar/tramites/cconstramdigemid/getconsulta_excel_tr/",
             "type"  : "POST", 
             "data"  : param,     
             dataSrc : ''       
@@ -362,7 +362,7 @@ selTramdocumento = function(codar, codent, ctram, csum){
         'ordering'		: false,  
         'stateSave'     : true,
         'ajax'	: {
-            "url"   : baseurl+"ar/tramites/cconstramdigesa/getdocum_aarr/",
+            "url"   : baseurl+"ar/tramites/cconstramdigemid/getdocum_aarr/",
             "type"  : "POST", 
             "data": function ( d ) {
               d.casuntoregula = codar;

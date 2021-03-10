@@ -25,7 +25,7 @@
     <div class="row mb-2">
       <div class="col-sm-6">
         <h1 class="m-0 text-dark">CONSULTAS TRAMITES
-            <small>Digesa</small>
+            <small>Digemid</small>
         </h1>
       </div>
       <div class="col-sm-6">
@@ -49,7 +49,7 @@
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                 </div>
             </div>
-            <form class="form-horizontal" id="frmexceltramar" name="frmexceltramar" action="<?= base_url('ar/tramites/cexcelExport/exceltramardigesa')?>" method="POST" enctype="multipart/form-data" role="form">  
+            <form class="form-horizontal" id="frmexceltramar" name="frmexceltramar" action="<?= base_url('ar/tramites/cexcelExport/exceltramardigemid')?>" method="POST" enctype="multipart/form-data" role="form">
             <div class="card-body">
                 <input type="hidden" name="hdnccliente" class="form-control" id="hdnccliente" value="<?php echo $ccliente ?>">
                 <div class="row">                    

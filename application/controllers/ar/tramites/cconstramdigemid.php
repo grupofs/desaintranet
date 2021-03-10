@@ -53,7 +53,7 @@ class Cconstramdigemid extends CI_Controller {
             '@tipoest' 		=>  $tipoest,
             '@TIPOREPORTE'	=>	$tiporeporte,
             '@iln'			=>	$iln
-		);		
+		);
 		$resultado = $this->mconstramdigemid->getconsulta_grid_tr($parametros);
 		echo json_encode($resultado);
 	}

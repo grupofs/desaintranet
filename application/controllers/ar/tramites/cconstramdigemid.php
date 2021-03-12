@@ -98,14 +98,15 @@ class Cconstramdigemid extends CI_Controller {
             '@TIPOREPORTE'	=>	$tiporeporte,
             '@iln'			=>	$iln
 		);		
-		$resultado = $this->mconstramdigemida->getconsulta_excel_tr($parametros);
+		$resultado = $this->mconstramdigemid->getconsulta_excel_tr($parametros);
 		echo json_encode($resultado);
 	}
 
     public function getbuscartramite(){
+		$parametros['@codaarr'] = $this->input->post('codaarr');
+        $parametros['@codrsnso'] = $this->input->post('codrsnso');
         $parametros['@codprod'] = $this->input->post('codprod');
-        $parametros['@tipo'] = $this->input->post('tipo');
-        
+
         $resultado = $this->mconstramdigemid->getbuscartramite($parametros);
         echo json_encode($resultado);
     }

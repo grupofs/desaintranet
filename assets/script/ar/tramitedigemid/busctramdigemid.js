@@ -326,11 +326,12 @@ $('#tblListTramGrid tbody').on( 'click', 'td.details-control', function () {
                 'filter'      : false,   
                 'stateSave'   : true,
                 'ajax'        : {
-                    "url"   : baseurl+"ar/tramites/cbusctramdigemid/getbuscartramite",
+                    "url"   : baseurl+"ar/tramites/cconstramdigemid/getbuscartramite",
                     "type"  : "POST", 
                     "data": function ( d ) {
-                        d.codprod = rowData.codigo;
-                        d.tipo = rowData.tipo;
+						d.codrsnso = rowData.REGSANIPROD;
+						d.codprod = rowData.cproductofs;
+						d.codaarr = rowData.codigo;
                     },     
                     dataSrc : ''        
                 },
@@ -345,7 +346,7 @@ $('#tblListTramGrid tbody').on( 'click', 'td.details-control', function () {
                     { "orderable": false,"data": "TRAMITE", targets: 2},
                     { "orderable": false,"data": "ESTADO", targets: 3},
                     { "orderable": false,"data": "NUMEROEXPE", targets: 4},
-                    { "orderable": false,"data": "RS-NSO", targets: 5},
+                    { "orderable": false,"data": "RSNSO", targets: 5},
                     { "orderable": false,"data": "FEMISION", targets: 6},
                     { "orderable": false,"data": "FVENCIMIENTO", targets: 7},
                     {"orderable": false, 
@@ -455,7 +456,7 @@ selTramdocumento = function(codar, codent, ctram, csum){
             "data": function ( d ) {
               d.casuntoregula = codar;
               d.centidad = codent;
-              d.ctramite = ctram;;
+              d.ctramite = ctram;
               d.csumario = csum;
             },    
             dataSrc : ''       

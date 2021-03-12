@@ -179,7 +179,13 @@
                             <div class="form-group">
                                 <label>Estado de Trámite</label>
                                 <select class="form-control select2bs4" id="cboesttramite" name="cboesttramite" style="width: 100%;">
-                                    <option value="" selected="selected">Cargando...</option>
+									<option value="" selected="selected">Todos</option>
+									<option value="P">En proceso</option>
+									<option value="V">En trámite en la entidad</option>
+									<option value="O">Observado DG</option>
+									<option value="R">Aprobado</option>
+									<option value="T">Trunco</option>
+									<option value="C">Rechazado DG</option>
                                 </select>
                             </div>
                         </div>

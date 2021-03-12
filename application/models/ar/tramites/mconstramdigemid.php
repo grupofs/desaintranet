@@ -50,7 +50,7 @@ class Mconstramdigemid extends CI_Model {
     }
 
     public function getbuscartramite($parametros) { // Recupera Listado de Propuestas      
-		$procedure = "call sp_appweb_tramdoc_buscartramite(?,?)";
+		$procedure = "call sp_appweb_tramdoc_buscartramite(?,?,?)";
 		$query = $this->db-> query($procedure,$parametros);
 
 		if ($query->num_rows() > 0) { 

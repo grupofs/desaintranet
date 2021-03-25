@@ -164,7 +164,7 @@ class Mbusctramdigesa extends CI_Model {
     }
 
     public function getbuscartramite($parametros) { // Recupera Listado de Propuestas      
-		$procedure = "call sp_appweb_tramdoc_buscartramite(?,?)";
+		$procedure = "call sp_appweb_tramdoc_buscartramite(?,?,?)";
 		$query = $this->db-> query($procedure,$parametros);
 
 		if ($query->num_rows() > 0) { 
@@ -184,6 +184,25 @@ class Mbusctramdigesa extends CI_Model {
 			return False;
 		}	
     }
+
+    public function getcaractprodu($ccliente) { // Visualizar Clientes del servicio en CBO	
+        
+        $sql = "select ccategoriacliente,dcategoriacliente from mcategoriacliente where ccliente = ".$ccliente.";";
+		$query = $this->db-> query($sql);
+        
+        if ($query->num_rows() > 0) {
+
+            $listas = '<option value="" selected="selected">::Elegir</option>';
+            
+            foreach ($query->result() as $row)
+            {
+                $listas .= '<option value="'.$row->ccategoriacliente.'">'.$row->dcategoriacliente.'</option>';  
+            }
+               return $listas;
+        }{
+            return false;
+        }	
+	} 
 
 }
 ?>

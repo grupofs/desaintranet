@@ -1,3 +1,12 @@
+<style>
+	select.custom-select {
+		width: 100% !important;
+	}
+	.swal2-content {
+		padding: 1rem 1rem 1rem;
+	}
+</style>
+
 <div class="content-header">
 	<div class="container-fluid">
 		<div class="row mb-2">

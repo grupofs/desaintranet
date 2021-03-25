@@ -7,7 +7,34 @@ const objProducto = {};
 
 $(function() {
 
+	/**
+	 * Muestra la venta de crear un nuevo producto
+	 */
 	objProducto.openModal = function() {
+		objProducto.imprimirDatos(null);
+		$('#modalAddProduct').modal('show');
+	};
+
+	/**
+	 * Busqueda del producto
+	 * @param id
+	 * @param boton
+	 */
+	objProducto.editarModal = function(id, boton) {
+		objProducto.buscar(2, id, boton)
+			.done(function(res) {
+				if (res && res.items) {
+					objProducto.imprimirDatos(res.items[0]);
+					$('#modalAddProduct').modal('show');
+				}
+			});
+	};
+
+	/**
+	 * Imprime los datos del producto en caso exista
+	 * @param producto
+	 */
+	objProducto.imprimirDatos = function(producto) {
 		// Se limpia el campo del formulario
 		const formData = $('#frmProducto');
 		formData.find('input, select, textarea').val(null);
@@ -49,6 +76,90 @@ $(function() {
 
 		// Pais
 		s2Pais.init($('#producto_pais'));
+
+		// Bloqueo de RS
+		const elProductoRS = $('#producto_rs');
+		const elProductoFechaIni = $('#producto_fecha_inicio');
+		const elProductoFechaVenc = $('#producto_fecha_vencimiento');
+		const esRS = objTramite.esRegistroSanitario();
+		elProductoRS.prop('readonly', esRS);
+		elProductoFechaIni.prop('readonly', esRS);
+		elProductoFechaVenc.prop('readonly', esRS);
+		// Se tomara en cuenta los datos del RS en el producto creado
+		if (esRS) {
+			elProductoRS.val($('#carga_registro_nro_rs').val());
+			elProductoFechaIni.val($('#carga_registro_fecha_inicio').val());
+			elProductoFechaVenc.val($('#carga_registro_fecha_final').val());
+			if (!elProductoRS.val()) {
+				objPrincipal.alert('warning', 'Debes ingresar los datos del RS para crear un nuevo producto.', 'Por ser un RS de alimentos (DIGESA)');
+				$('#modalAddProduct').modal('hide');
+			}
+		}
+
+		// Imprime los datos del producto
+		if (producto) {
+			$('#producto_cliente_id').val(producto.CPRODUCTOFS);
+			$('#producto_codigo_producto').val(producto.CPRODUCTOCLIENTE);
+			$('#producto_rs').val(producto.DREGISTROSANITARIO);
+			if (producto.CCATEGORIACLIENTE) {
+				$('#producto_categoria_id').refreshSelect2([{
+					id: producto.CCATEGORIACLIENTE,
+					text: producto.DCATEGORIACLIENTE
+				}]);
+			}
+			$('#producto_fecha_inicio').val(producto.FFINREGSANITARIO);
+			$('#producto_fecha_vencimiento').val(producto.FINICIOREGSANITARIO);
+			$('#producto_descripcion_sap').val(producto.DPRODUCTOCLIENTE);
+			$('#producto_nombre').val(producto.DNOMBREPRODUCTO);
+			if (producto.CMARCA) {
+				$('#producto_marca_id').refreshSelect2([{id: producto.CMARCA, text: producto.DMARCA}]);
+			}
+			$('#producto_presentacion').val(producto.DPRESENTACION);
+			if (producto.CFABRICANTE) {
+				$('#producto_fabricante_id').refreshSelect2([{id: producto.CFABRICANTE, text: producto.DFABRICANTE}]);
+			}
+			if (producto.CTIPO) {
+				$('#producto_pais').refreshSelect2([{id: producto.CTIPO, text: producto.DREGISTRO}]);
+			}
+			$('#producto_direccion_fabricante').val(producto.DDIRECCIONFABRICANTE);
+			$('#producto_vida_util').val(producto.VIDAUTIL);
+			$('#producto_estado').val(producto.SREGISTRO).change();
+		}
+	};
+
+	/**
+	 * Tipo:
+	 *  0 or null = Todo
+	 *  1 = Por RS
+	 *  2 = Por Codigo
+	 * @param boton
+	 * @param tipo
+	 * @param buscar
+	 * @returns {*}
+	 */
+	objProducto.buscar = function(tipo, buscar, boton) {
+		return $.ajax({
+			url: BASE_URL + 'ar/ope/cproductocliente/buscar',
+			method: 'POST',
+			data: {
+				ccliente: objFormularioAR.data.cliente.CCLIENTE,
+				tipo_producto: $('#tramite_tipo_producto_id option:selected').val(),
+				tipo: tipo,
+				buscar: buscar,
+			},
+			dataType: 'json',
+			beforeSend: function() {
+				if (boton) {
+					objPrincipal.botonCargando(boton);
+				}
+			},
+		}).fail(function() {
+			objPrincipal.alert('warning', 'Error al buscar el(los) producto(s)');
+		}).always(function() {
+			if (boton) {
+				objPrincipal.liberarBoton(boton);
+			}
+		});
 	};
 
 	/**
@@ -58,6 +169,10 @@ $(function() {
 		const button = $(this);
 		const form = $('#frmProducto');
 		const buttons = $('.modal-footer').find('button');
+		const esRS = objTramite.esRegistroSanitario();
+		const elProductoRS = $('#producto_rs');
+		const elProductoFechaIni = $('#producto_fecha_inicio');
+		const elProductoFechaVenc = $('#producto_fecha_vencimiento');
 		$.ajax({
 			url: form.attr('action'),
 			method: 'POST',
@@ -72,10 +187,25 @@ $(function() {
 				objFormularioAR.disabledForm('frmProducto', 'readonly', false);
 			},
 		}).done(function(res) {
+			// Se valida que no exista
+			const indexProducto = objProductoLista.buscarProductoElegido(res.data.CPRODUCTOFS);
+			if (indexProducto === -1) {
+				// Se agrega el producto
+				objProductoLista.agregarProducto(res.data);
+				objProductoLista.calcularProductos();
+			}
+			// Confirmación del registro
 			objPrincipal.notify('success', res.message);
-			const type = parseInt(button.data('type'));
-			if (type === 2) {
-				objFormularioAR.clearForm('frmProducto', '#producto_cliente_text, #producto_tipo_producto_text');
+			const type = $('#producto-copia-pega').is(':checked');
+			if (type) {
+				$('#producto_codigo_producto').val('').select();
+				$('#producto_descripcion_sap').val('');
+				// Solo si no es un RS se limpian los datos
+				if (!esRS) {
+					elProductoRS.val('');
+					elProductoFechaIni.val('');
+					elProductoFechaVenc.val('');
+				}
 			} else {
 				$('#modalAddProduct').modal('hide');
 			}
@@ -86,6 +216,10 @@ $(function() {
 			buttons.prop('disabled', false);
 			objPrincipal.liberarBoton(button);
 			objFormularioAR.enableForm('frmProducto', 'readonly', false);
+			// Dependiendo si es un RS se habilita o no los botones
+			elProductoRS.prop('readonly', esRS);
+			elProductoFechaIni.prop('readonly', esRS);
+			elProductoFechaVenc.prop('readonly', esRS);
 		});
 	};
 
@@ -94,7 +228,11 @@ $(function() {
 $(document).ready(function() {
 
 	$('#modalAddProduct').on('shown.bs.modal', function() {
-		objProducto.openModal();
+		$('#producto-copia-pega').prop('checked', false);
+	});
+
+	$('#modalAddProduct').on('hidden.bs.modal', function() {
+		objProductoFiltro.search();
 	});
 
 	$('.btn-producto-guardar').click(objProducto.guardar);

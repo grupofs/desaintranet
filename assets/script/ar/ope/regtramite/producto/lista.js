@@ -40,6 +40,8 @@ $(function () {
 			objPrincipal.alert('warning', 'Debes elegir el Tipo de Producto para continuar.');
 		}
 
+		objProductoLista.calcularProductos();
+
 		// La busqueda de productos se realiza
 		objProductoFiltro.search();
 	};
@@ -138,14 +140,41 @@ $(function () {
 			}
 			if (indexProducto === -1) {
 				row.addClass('table-active');
-				objProductoLista.productosElegidos.push(producto);
+				objProductoLista.agregarProducto(producto);
 			}
 		} else {
 			if (indexProducto !== -1) {
 				row.removeClass('table-active');
-				objProductoLista.productosElegidos.splice(indexProducto, 1);
+				objProductoLista.eliminarProducto(indexProducto);
 			}
 		}
+		objProductoLista.calcularProductos();
+	};
+
+	/**
+	 * MEtodo para agregar el prodcuto
+	 * @param producto
+	 */
+	objProductoLista.agregarProducto = function(producto) {
+		if (!producto) {
+			objPrincipal.notify('warning', 'No pudo ser guardado correctamente el producto elegido.');
+			return;
+		}
+		objProductoLista.productosElegidos.push(producto);
+	};
+
+	/**
+	 * MEtodo para agregar el prodcuto
+	 * @param index
+	 */
+	objProductoLista.eliminarProducto = function(index) {
+		objProductoLista.productosElegidos.splice(index, 1);
+	};
+
+	/**
+	 * Calculo de los productos totales
+	 */
+	objProductoLista.calcularProductos = function() {
 		$('#tblProductosElegidos').text(objProductoLista.productosElegidos.length);
 	};
 
@@ -166,6 +195,22 @@ $(function () {
 	objProductoLista.imprimirProductos = function() {
 		const table = $('#tblTramiteProductos tbody');
 		const productos = objProductoLista.productosElegidos;
+		// Se imprime los datos del primero producto elegido cuando es Ampliacion o Reinscripcion
+		const tramites = objTramite.bloqueoPorTramite();
+		let primerProductoRS = '';
+		if (tramites.esAmpliacion || tramites.esReinscripcionRS) {
+			const primerProducto = productos[0];
+			if (primerProducto) {
+				primerProductoRS = primerProducto.DREGISTROSANITARIO;
+				$('#carga_registro_nro_rs').val(primerProductoRS);
+				$('#carga_registro_fecha_inicio').val(primerProducto.FINICIOREGSANITARIO);
+				$('#carga_registro_fecha_final').val(primerProducto.FFINREGSANITARIO);
+				if (!primerProductoRS) {
+					objPrincipal.notify('warning', 'El primer producto elegido no cuenta con un RS.');
+				}
+			}
+		}
+
 		let row = '';
 		if (productos && Array.isArray(productos)) {
 			let item = 1;
@@ -185,13 +230,16 @@ $(function () {
 				row += '<input type="text" class="form-control" id="tramite_producto_comentario[' + position + ']" name="tramite_producto_comentario[' + position + ']" value="' + comment + '" />';
 				row += '</td>';
 				row += '<td class="text-center" style="width: 50px; min-width: 50px">';
-				row += '<button type="button" role="button" class="btn btn-light btn-sm dropdown-toggle" data-boundary="viewport" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+				row += '<button type="button" role="button" class="btn btn-light btn-sm dropdown-toggle option-producto" data-boundary="viewport" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
 				row += '<i class="fa fa-bars"></i>';
 				row += '</button>';
 				row += '<div class="dropdown-menu dropdown-menu-right">';
 				row += '<h6 class="dropdown-header">Opciones</h6>';
 				row += '<button type="button" role="button" class="dropdown-item option-tramite-producto-eliminar">';
 				row += '<i class="fa fa-trash"></i> Eliminar';
+				row += '</button>';
+				row += '<button type="button" role="button" class="dropdown-item option-tramite-producto-editar" data-id="' + producto.CPRODUCTOFS + '" >';
+				row += '<i class="fa fa-edit"></i> Editar';
 				row += '</button>';
 				row += '</div>';
 				row += '<input type="hidden" class="d-none" readonly id="tramite_producto_id[' + position + ']" name="tramite_producto_id[' + position + ']" value="' + producto.CPRODUCTOFS + '" />';
@@ -229,6 +277,8 @@ $(function () {
 $(document).ready(function () {
 
 	$('#modalSelectProduct').on('show.bs.modal', function () {
+		$('#filter_producto_descripcion').val('');
+		$('.productofs--paginate-search').val('');
 		objProductoLista.openModal();
 	});
 
@@ -245,6 +295,15 @@ $(document).ready(function () {
 	// Eliminación del producto elegido en el tramite
 	$(document).on('click', '.option-tramite-producto-eliminar', objProductoLista.eliminarProductoElegido);
 
+	$(document).on('click', '.option-tramite-producto-editar', function() {
+		const el = $(this);
+		objProducto.editarModal(el.data('id'), el);
+	});
+
 	$('#btnEliminarProductosElegidos').click(objProductoLista.eliminarProductoElegidos);
+
+	$('#btnProductoNuevo').click(function() {
+		objProducto.openModal();
+	});
 
 });

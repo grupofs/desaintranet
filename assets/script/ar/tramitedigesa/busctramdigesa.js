@@ -166,6 +166,22 @@ $("#cbocliente").change(function(){
             alert('Error, no se puede cargar la lista desplegable de establecimiento');
         }
     });
+
+    $.ajax({
+        type: 'ajax',
+        method: 'post',
+        url: baseurl+"ar/tramites/cbusctramdigesa/getcaractprodu",
+        dataType: "JSON",
+        async: true,
+        data: params,
+        success:function(result)
+        {
+            $("#txtcaractprodu").html(result);           
+        },
+        error: function(){
+            alert('Error, no se puede cargar la lista desplegable de establecimiento');
+        }
+    });
     
 });
 
@@ -204,7 +220,7 @@ $("#btnBuscar").click(function (){
         "codprod"     : $('#txtcodprodu').val(),
         "nomprod"     : $('#txtdescprodu').val(),
         "regsan"      : $('#txtnrors').val(),
-        "tono"        : $('#txtcaractprodu').val(),
+        "tono"        : null,
         "estado"      : $('#cboesttramite').val(),
         "marca"       : $('#cbomarca').val(),
         "tramite"     : '001',
@@ -212,7 +228,7 @@ $("#btnBuscar").click(function (){
         "fi"          : varfdesde,
         "ff"          : varfhasta,
         "numexpdiente": $('#txtnroexpe').val(),
-        "ccategoria"  : null,
+        "ccategoria"  : $('#txtcaractprodu').val(),
         "est"         : $('#cboestproducto').val(),
         "tipoest"     : tipotramite, 
         "ccliente"    : vClie,
@@ -259,7 +275,6 @@ getListTramGrid = function(param){
             {"data": "grupo"},
             {"class":"index details-control col-xs", "data": "SPACE", orderable:false},
             {"class":"col-xxs", "data": "SREGISTROPDTO"},
-            {"class":"col-xxs", "data": "codigo"},
             {"class":"col-xs", "data": "CODIGOPROD"},
             {"class":"col-xm", "data": "DES_SAP"},
             {"class":"col-lm", "data": "NOMBREPROD"},
@@ -289,7 +304,7 @@ getListTramGrid = function(param){
             } );
         },
         "createdRow": function( row, data, dataIndex ) {
-            if ( data.VIGENCIA == "Z" ) {
+            if ( data.CADUCO == 1 ) {
                 $(row).addClass('text-rojo');    
             }
         },
@@ -350,7 +365,7 @@ $('#tblListTramGrid tbody').on( 'click', 'td.details-control', function () {
         })
         row.child( 
            '<table id="tblListTramGriddet" class="display compact" style="width:100%; padding-left:75px; background-color:#D3DADF; padding-top: -10px; border-bottom: 2px solid black;">'+
-           '<thead style="background-color:#FFFFFF;"><tr><th></th><th>F. Ingreso</th><th>Trámite</th><th>Estado</th><th>N° Expediente</th><th>RS</th><th>F. Emisión</th><th>F. Vencimiento</th><th>Archivo</th></tr></thead><tbody>' +
+           '<thead style="background-color:#FFFFFF;"><tr><th></th><th>AR</th><th>F. Ingreso</th><th>Trámite</th><th>Estado</th><th>N° Expediente</th><th>RS</th><th>F. Emisión</th><th>F. Vencimiento</th><th>Archivo</th></tr></thead><tbody>' +
             '</tbody></table>').show();
 
             otblListTramGriddet = $('#tblListTramGriddet').DataTable({
@@ -368,8 +383,9 @@ $('#tblListTramGrid tbody').on( 'click', 'td.details-control', function () {
                     "url"   : baseurl+"ar/tramites/cbusctramdigesa/getbuscartramite",
                     "type"  : "POST", 
                     "data": function ( d ) {
-                        d.codprod = rowData.codigo;
-                        d.tipo = rowData.tipo;
+                        d.codaarr = rowData.codigo;
+                        d.codrsnso = rowData.REGSANIPROD;
+                        d.codprod = rowData.cproductofs;
                     },     
                     dataSrc : ''        
                 },
@@ -380,13 +396,14 @@ $('#tblListTramGrid tbody').on( 'click', 'td.details-control', function () {
                       data        :   null,
                       targets     :   0
                     },
-                    { "orderable": false,"data": "FINGRESO", targets: 1},
-                    { "orderable": false,"data": "TRAMITE", targets: 2},
-                    { "orderable": false,"data": "ESTADO", targets: 3},
-                    { "orderable": false,"data": "NUMEROEXPE", targets: 4},
-                    { "orderable": false,"data": "RS-NSO", targets: 5},
-                    { "orderable": false,"data": "FEMISION", targets: 6},
-                    { "orderable": false,"data": "FVENCIMIENTO", targets: 7},
+                    { "orderable": false,"data": "CODAR", targets: 1},
+                    { "orderable": false,"data": "FINGRESO", targets: 2},
+                    { "orderable": false,"data": "TRAMITE", targets: 3},
+                    { "orderable": false,"data": "ESTADO", targets: 4},
+                    { "orderable": false,"data": "NUMEROEXPE", targets: 5},
+                    { "orderable": false,"data": "RSNSO", targets: 6},
+                    { "orderable": false,"data": "FEMISION", targets: 7},
+                    { "orderable": false,"data": "FVENCIMIENTO", targets: 8},
                     {"orderable": false, 
                         render:function(data, type, row){
                             return  '<div>'+  

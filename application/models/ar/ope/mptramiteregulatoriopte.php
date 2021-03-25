@@ -67,8 +67,7 @@ class mptramiteregulatoriopte extends CI_Model
 	 * @param $FEMISIONREGISTRO
 	 * @param $FVENCIMIENTOREGISTRO
 	 * @param string $STRAMITE
-	 * @param string $CUSUARIOCREA
-	 * @param string $CUSUARIOMODIFICA
+	 * @param string $CUSUARIO
 	 * @param string $SREGISTRO
 	 * @param string $DNUMERODR
 	 * @return array
@@ -88,8 +87,7 @@ class mptramiteregulatoriopte extends CI_Model
 		$FEMISIONREGISTRO,
 		$FVENCIMIENTOREGISTRO,
 		string $STRAMITE,
-		string $CUSUARIOCREA,
-		string $CUSUARIOMODIFICA,
+		string $CUSUARIO,
 		string $SREGISTRO,
 		string $DNUMERODR
 	)
@@ -107,14 +105,14 @@ class mptramiteregulatoriopte extends CI_Model
 		}
 
 		if (!validateDate($FREGISTROENTIDAD, 'Y-m-d')) {
-			throw new Exception('Tramite: El formato de la fecha de registro entidad es invalido.');
+			throw new Exception('Tramite: El formato de la fecha de registro entidad es incorrecto.');
 		}
 		if (!validateDate($FEMISIONREGISTRO, 'Y-m-d')) {
-			throw new Exception('Tramite: El formato de la fecha de emisión no es invalido.');
+			throw new Exception('Tramite: El formato de la fecha de emisión es incorrecto.');
 		}
 		if (!empty($FVENCIMIENTOREGISTRO)) {
 			if (!validateDate($FVENCIMIENTOREGISTRO, 'Y-m-d')) {
-				throw new Exception('Tramite: El formato de la fecha vencimiento de registro no es invalido.');
+				throw new Exception('Tramite: El formato de la fecha vencimiento de registro es incorrecto.');
 			}
 		}
 		$data = [
@@ -131,9 +129,9 @@ class mptramiteregulatoriopte extends CI_Model
 			'FEMISIONREGISTRO' => $FEMISIONREGISTRO,
 			'FVENCIMIENTOREGISTRO' => $FVENCIMIENTOREGISTRO,
 			'STRAMITE' => $STRAMITE,
-			'CUSUARIOCREA' => $CUSUARIOCREA,
+			'CUSUARIOCREA' => $CUSUARIO,
 			'TCREACION' => date('Y-m-d H:i:s'),
-			'CUSUARIOMODIFICA' => $CUSUARIOMODIFICA,
+			'CUSUARIOMODIFICA' => $CUSUARIO,
 			'TMODIFICACION' => null,
 			'SREGISTRO' => $SREGISTRO,
 			'DNUMERODR' => $DNUMERODR,
@@ -179,6 +177,8 @@ class mptramiteregulatoriopte extends CI_Model
 		if (empty($CASUNTOREGULATORIO) || empty($CENTIDADREGULA) || empty($CTRAMITE)) {
 			throw new Exception('Tramite: El AR no es valido para actualizar.');
 		}
+		if (isset($datos['CUSUARIOCREA'])) unset($datos['CUSUARIOCREA']);
+		if (isset($datos['TCREACION'])) unset($datos['TCREACION']);
 		$datos['TMODIFICACION'] = date('Y-m-d H:i:s');
 		$res = $this->db->update('ptramiteregulatoriopte', $datos, [
 			'CASUNTOREGULATORIO' => $CASUNTOREGULATORIO,

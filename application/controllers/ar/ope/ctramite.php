@@ -56,6 +56,9 @@ class ctramite extends FS_Controller
 			show_404();
 		}
 		try {
+			// Usuario
+			$s_cusuario = $this->session->userdata('s_cusuario');
+
 			$fechaInicio = Carbon::now('America/Lima')->format('Y-m-d'); // No se toma en cuenta por que se tomara la fecha del servidor
 			$fechaCierre = null; // Solo podra modificado cuando se cierre el AR
 			$estado = $this->input->post('ar_estado');
@@ -74,7 +77,7 @@ class ctramite extends FS_Controller
 				throw new Exception('Debe elegir un cliente');
 			}
 			// Se guada el AR
-			$dataAR = $this->mtramite->guardar($codigo, $fechaInicio, $fechaCierre, $estado, $objGrupoEmpresarial->cinternopte, $clienteID);
+			$dataAR = $this->mtramite->guardar($codigo, $fechaInicio, $fechaCierre, $estado, $objGrupoEmpresarial->cinternopte, $clienteID, $s_cusuario);
 			$this->result['status'] = 200;
 			$this->result['message'] = "A.R. {$dataAR['CASUNTOREGULATORIO']} fue creado correctamente.";
 			$this->result['data'] = [
@@ -97,6 +100,8 @@ class ctramite extends FS_Controller
 			show_404();
 		}
 		try {
+			// Usuario
+			$s_cusuario = $this->session->userdata('s_cusuario');
 
 			// Tramite regulatorio
 			$asuntoregulatorio_id = $this->input->post('asuntoregulatorio_id');
@@ -183,8 +188,7 @@ class ctramite extends FS_Controller
 							$tramiteFechaInicio,
 							$tramiteFechaFinal,
 							$carga_registro_estado,
-							'',
-							'',
+							$s_cusuario,
 							'A',
 							$carga_registro_nro_dr
 						);
@@ -221,8 +225,7 @@ class ctramite extends FS_Controller
 						$tramiteProductoId,
 						$tramiteProductoFechaEstimada,
 						trim($tramiteProductoComentario),
-						'',
-						'',
+						$s_cusuario,
 						'A'
 					);
 				}
@@ -259,7 +262,7 @@ class ctramite extends FS_Controller
 									$objEntidad->CENTIDADREGULA,
 									$objTramite->CTRAMITE,
 									$documentoNombre,
-									'',
+									$s_cusuario,
 									'A'
 								);
 							}
@@ -272,8 +275,7 @@ class ctramite extends FS_Controller
 								$documentoTipo,
 								'',
 								'',
-								'',
-								'',
+								$s_cusuario,
 								'A'
 							);
 							if (!empty($archivo_documento_operation) && is_array($archivo_documento_operation)) {
@@ -292,18 +294,34 @@ class ctramite extends FS_Controller
 											if (!$this->upload->do_upload('archivo_documento')) {
 												throw new Exception('Error al cargar el documento ' . $originName);
 											} else {
-												$archivo = $rutaArchivo . $this->upload->data('filename');
-												$objArchivo = new mpdocumentoregulatorioarchivo();
-												$objArchivo->guardar(
-													'',
-													$objAsuntoRegulatorio->CASUNTOREGULATORIO,
-													$objEntidad->CENTIDADREGULA,
-													$objTramite->CTRAMITE,
-													$objDocumento->CDOCUMENTO,
-													$archivo,
-													'',
-													'A'
-												);
+												$archivo = $rutaArchivo . $this->upload->data('file_name');
+												// El primer archivo se guardara en el documento principal (como siempre lo a estado haciendo.)
+												if ($keyArchivo == 0) {
+													$updateData = [
+														'DUBICACIONFILESERVER' => $archivo,
+													];
+													$objDocumentoArchivoActualizado = new mpdocumentoregulatorio();
+													$objDocumentoArchivoActualizado->actualizar(
+														$objAsuntoRegulatorio->CASUNTOREGULATORIO,
+														$objEntidad->CENTIDADREGULA,
+														$objTramite->CTRAMITE,
+														$objDocumento->CDOCUMENTO,
+														$updateData,
+													);
+												} else {
+													// Los demás archivos se cargan en una tabla detalle de archivos
+													$objArchivo = new mpdocumentoregulatorioarchivo();
+													$objArchivo->guardar(
+														'',
+														$objAsuntoRegulatorio->CASUNTOREGULATORIO,
+														$objEntidad->CENTIDADREGULA,
+														$objTramite->CTRAMITE,
+														$objDocumento->CDOCUMENTO,
+														$archivo,
+														$s_cusuario,
+														'A'
+													);
+												}
 											}
 										}
 									}

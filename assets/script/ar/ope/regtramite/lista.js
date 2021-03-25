@@ -66,7 +66,7 @@ $(function () {
 						rows += '<td class="text-left position-relative ' + colorInactive + '" style="width: 150px; min-width: 150px" >';
 						rows += '<span class="badge ' + colorBadge + '" >Código A.R.</span> ' + tramite.casuntoregulatorio;
 						rows += '<div class="btn-group ar-content-options position-absolute" style="bottom: -15px; left: 10px; display: none" >';
-						rows += '<button type="button" role="button" class="btn btn-outline-danger btn-sm rounded-pill btn-edit-ar" >';
+						rows += '<button type="button" role="button" class="btn btn-danger btn-sm btn-edit-ar" >';
 						rows += '<i class="fa fa-eye" ></i> Ver AR';
 						rows += '</button>';
 						rows += '</div>';
@@ -261,7 +261,7 @@ $(function () {
 	/**
 	 * Editar registro de asunto regulatorio
 	 */
-	objLista.editAR = function() {
+	objLista.editAR = function () {
 		const button = $(this);
 		const row = button.parent('div').parent('td').parent('tr');
 		const id = row.data('id');
@@ -292,7 +292,7 @@ $(document).ready(function () {
 	s2Marca.init($('#filter_marca'));
 	s2Categoria.init($('#filter_categoria'));
 
-	$('#filtro_cliente').change(function() {
+	$('#filtro_cliente').change(function () {
 		$('#filter_marca').refreshSelect2([]);
 		$('#filter_categoria').refreshSelect2([]);
 		s2Marca.params.ccliente = $(this).val();

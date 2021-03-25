@@ -29,8 +29,8 @@
 	<div class="container-fluid">
 		<div class="row mb-2">
 			<div class="col-sm-6">
-				<h1 class="m-0 text-dark">CONSULTAS TRAMITES
-					<small>Digesa</small>
+				<h1 class="m-0 text-dark">EXPEDIENTES DE REGISTROS SANITARIOS
+					<small></small>
 				</h1>
 			</div>
 			<div class="col-sm-6">
@@ -189,18 +189,10 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-sm-6">
+							<div class="col-sm-3">
 								<div class="form-group">
 									<label>Categoría</label>
-									<input type="text" class="form-control" id="txtcaractprodu" name="txtcaractprodu"
-										   placeholder="...">
-								</div>
-							</div>
-							<div class="col-md-3">
-								<div class="form-group">
-									<label>Estado de Trámite</label>
-									<select class="form-control select2bs4" id="cboesttramite" name="cboesttramite"
-											style="width: 100%;">
+									<select class="form-control select2bs4" id="txtcaractprodu" name="txtcaractprodu" style="width: 100%;">
 										<option value="" selected="selected">Cargando...</option>
 									</select>
 								</div>

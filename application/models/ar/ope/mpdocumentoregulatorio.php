@@ -65,8 +65,7 @@ class mpdocumentoregulatorio extends CI_Model
 							int $documentoTipo,
 							string $DNUEVODOCUMENTO,
 							string $DUBICACIONFILESERVER,
-							string $CUSUARIOCREA,
-							string $CUSUARIOMODIFICA,
+							string $CUSUARIO,
 							string $SREGISTRO)
 	{
 		if (empty($CASUNTOREGULATORIO)) {
@@ -99,8 +98,8 @@ class mpdocumentoregulatorio extends CI_Model
 			'DNUEVODOCUMENTO' => $DNUEVODOCUMENTO,
 			'DUBICACIONFILESERVER' => $DUBICACIONFILESERVER,
 			'SCARGADOCUMENTO' => $SCARGADOCUMENTO,
-			'CUSUARIOCREA' => $CUSUARIOCREA,
-			'CUSUARIOMODIFICA' => $CUSUARIOMODIFICA,
+			'CUSUARIOCREA' => $CUSUARIO,
+			'CUSUARIOMODIFICA' => $CUSUARIO,
 			'SREGISTRO' => $SREGISTRO,
 		];
 
@@ -159,8 +158,8 @@ class mpdocumentoregulatorio extends CI_Model
 			throw new Exception('El Documento no es valido para actualizar.');
 		}
 		$datos['TMODIFICACION'] = date('Y-m-d H:i:s');
-		unset($datos['TCREACION']);
-		unset($datos['CUSUARIOCREA']);
+		if(isset($datos['TCREACION'])) unset($datos['TCREACION']);
+		if(isset($datos['CUSUARIOCREA'])) unset($datos['CUSUARIOCREA']);
 		$res = $this->db->update('PDOCUMENTOREGULATORIO', $datos, [
 			'CASUNTOREGULATORIO' => $CASUNTOREGULATORIO,
 			'CENTIDADREGULA' => $CENTIDADREGULA,

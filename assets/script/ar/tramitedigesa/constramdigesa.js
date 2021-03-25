@@ -189,6 +189,22 @@ $("#cbocliente").change(function(){
             alert('Error, no se puede cargar la lista desplegable de establecimiento');
         }
     });
+
+    $.ajax({
+        type: 'ajax',
+        method: 'post',
+        url: baseurl+"ar/tramites/cbusctramdigesa/getcaractprodu",
+        dataType: "JSON",
+        async: true,
+        data: params,
+        success:function(result)
+        {
+            $("#txtcaractprodu").html(result);           
+        },
+        error: function(){
+            alert('Error, no se puede cargar la lista desplegable de establecimiento');
+        }
+    });
     
 });
 
@@ -231,7 +247,7 @@ $("#btnBuscar").click(function () {
         "codprod"     : $('#txtcodprodu').val(),
         "nomprod"     : $('#txtdescprodu').val(),
         "regsan"      : $('#txtnrors').val(),
-        "tono"        : $('#txtcaractprodu').val(),
+        "tono"        : null,
         "estado"      : $('#cboesttramite').val(),
         "marca"       : $('#cbomarca').val(),
         "tramite"     : '001',
@@ -239,7 +255,7 @@ $("#btnBuscar").click(function () {
         "fi"          : varfdesde,
         "ff"          : varfhasta,
         "numexpdiente": $('#txtnroexpe').val(),
-        "ccategoria"  : null,
+        "ccategoria"  : $('#txtcaractprodu').val(),
         "est"         : $('#cboestproducto').val(),
         "tipoest"     : tipotramite, 
         "ccliente"    : vClie,
@@ -314,7 +330,7 @@ getListTramGrid = function(param){
             } );
         },
         "createdRow": function( row, data, dataIndex ) {
-            if ( data.VIGENCIA == "Z" ) {
+            if ( data.CADUCO == 1 ) {
                 $(row).addClass('text-rojo');    
             }
         },
@@ -393,8 +409,9 @@ $('#tblListTramGrid tbody').on( 'click', 'td.details-control', function () {
                     "url"   : baseurl+"ar/tramites/cbusctramdigesa/getbuscartramite",
                     "type"  : "POST", 
                     "data": function ( d ) {
-                        d.codprod = rowData.codigo;
-                        d.tipo = rowData.tipo;
+                        d.codaarr = rowData.codigo;
+                        d.codrsnso = rowData.REGSANIPROD;
+                        d.codprod = rowData.cproductofs;
                     },     
                     dataSrc : ''        
                 },
@@ -409,7 +426,7 @@ $('#tblListTramGrid tbody').on( 'click', 'td.details-control', function () {
                     { "orderable": false,"data": "TRAMITE", targets: 2},
                     { "orderable": false,"data": "ESTADO", targets: 3},
                     { "orderable": false,"data": "NUMEROEXPE", targets: 4},
-                    { "orderable": false,"data": "RS-NSO", targets: 5},
+                    { "orderable": false,"data": "RSNSO", targets: 5},
                     { "orderable": false,"data": "FEMISION", targets: 6},
                     { "orderable": false,"data": "FVENCIMIENTO", targets: 7},
                     {"orderable": false, 

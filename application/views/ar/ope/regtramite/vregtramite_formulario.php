@@ -177,7 +177,8 @@
 				<div class="row">
 					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 						<div class="form-group row">
-							<label for="carga_registro_nro_dr" class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
+							<label for="carga_registro_nro_dr" class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12"
+								   title="Hoja de Resumen del Documento Resolutivo" >
 								Nro. DR
 							</label>
 							<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
@@ -197,9 +198,8 @@
 								<select class="custom-select"
 										id="carga_registro_estado"
 										name="carga_registro_estado">
-									<option value="P">En proceso</option>
-									<option value="v">En trámite en la entidad</option>
-									<option value="O">Observado DG</option>
+<!--									<option value="P">En proceso</option>-->
+<!--									<option value="O">Observado DG</option>-->
 									<option value="A">Aprobado</option>
 									<option value="T">Trunco</option>
 									<option value="G">Rechazado DG</option>
@@ -269,18 +269,18 @@
 						<table class="table table-bordered table-valign-middle table-hover" id="tblTramiteProductos">
 							<thead>
 							<tr>
-								<th class="text-center" style="width: 50px; min-width: 50px" >
+								<th class="text-center" style="width: 50px; min-width: 50px">
 									N°
 								</th>
-								<th class="text-center" style="width: 220px; min-width: 220px" >
+								<th class="text-center" style="width: 220px; min-width: 220px">
 									SKU
 									<span class="fs-requerido text-danger">*</span>
 								</th>
-								<th class="text-center" style="min-width: 400px" >
+								<th class="text-center" style="min-width: 400px">
 									Descripción del producto
 									<span class="fs-requerido text-danger">*</span>
 								</th>
-								<th class="text-center" style="width: 320px; min-width: 320px" >
+								<th class="text-center" style="width: 320px; min-width: 320px">
 									Comentario
 								</th>
 								<th class="text-center" style="width: 50px; min-width: 50px">OP</th>
@@ -293,6 +293,7 @@
 								<td colspan="6">
 									<div class="d-flex justify-content-between">
 										<button type="button" role="button" class="btn btn-link btn-sm"
+												id="btnAgregarProducto"
 												data-toggle="modal" data-target="#modalSelectProduct">
 											<i class="fa fa-plus"></i> Agregar nuevo producto
 										</button>
@@ -317,37 +318,66 @@
 					Documentos del tramite
 				</legend>
 				<div class="box-body">
-					<div class="table-responsive">
-						<table class="table table-bordered table-valign-middle table-hover" id="tblDocumentos" >
-							<thead>
-							<tr>
-								<th class="text-center" style="width: 50px; min-width: 50px;" >
-									N°
-								</th>
-								<th class="text-center" style="min-width: 150px; width: 150px" >
-									Tipo
-								</th>
-								<th class="text-center" style="min-width: 200px" >
-									Documento
-								</th>
-								<th class="text-center" style="width: 100px; min-width: 100px;" >
-									Adjuntos
-								</th>
-								<th class="text-center" style="width: 50px; min-width: 50px">OP</th>
-							</tr>
-							</thead>
-							<tbody>
-							</tbody>
-							<tfoot>
-							<tr>
-								<td colspan="10">
-									<button type="button" role="button" class="btn btn-link btn-sm" id="btnDocumentoAgregar" >
-										<i class="fa fa-plus"></i> Agregar requisito
-									</button>
-								</td>
-							</tr>
-							</tfoot>
-						</table>
+					<ul class="nav nav-tabs" id="myTab" role="tablist">
+						<li class="nav-item" role="presentation">
+							<a class="nav-link border-left active" id="home-tab" data-toggle="tab" href="#listaDocumentos" role="tab"
+							   aria-controls="home" aria-selected="true">Lista de Documentos</a>
+						</li>
+						<li class="nav-item" role="presentation">
+							<a class="nav-link" id="profile-tab" data-toggle="tab" href="#rutaDocumentos" role="tab"
+							   aria-controls="profile" aria-selected="false">Archivos (<span id="totalRutaDocumentos" >0</span>)</a>
+						</li>
+					</ul>
+					<div class="tab-content border border-top-0" id="myTabContent">
+						<div class="tab-pane fade show active" id="listaDocumentos" role="tabpanel" aria-labelledby="home-tab">
+							<div class="table-responsive">
+								<table class="table table-bordered table-valign-middle table-hover" id="tblDocumentos">
+									<thead>
+									<tr>
+										<th class="text-center" style="width: 50px; min-width: 50px;">
+											N°
+										</th>
+										<th class="text-center" style="min-width: 150px; width: 150px">
+											Tipo
+										</th>
+										<th class="text-center" style="min-width: 200px">
+											Documento
+										</th>
+										<th class="text-center" style="width: 100px; min-width: 100px;">
+											Adjuntos
+										</th>
+										<th class="text-center" style="width: 50px; min-width: 50px">OP</th>
+									</tr>
+									</thead>
+									<tbody>
+									</tbody>
+									<tfoot>
+									<tr>
+										<td colspan="10">
+											<button type="button" role="button" class="btn btn-link btn-sm"
+													id="btnDocumentoAgregar">
+												<i class="fa fa-plus"></i> Agregar requisito
+											</button>
+										</td>
+									</tr>
+									</tfoot>
+								</table>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="rutaDocumentos" role="tabpanel" aria-labelledby="profile-tab">
+							<div class="table-responsive" >
+								<table class="table table-bordered table-striped" id="btnRutaDocumentos" >
+									<thead>
+									<tr>
+										<th class="text-center" style="width: 60px; min-width: 60px" >#</th>
+										<th class="text-left" style="min-width: 250px" >Ruta</th>
+									</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
 			</fieldset>
@@ -398,22 +428,22 @@
 			</div>
 			<div class="modal-body"
 				 style="background-color:#ffffff; border-top: 1px solid #00a65a; border-bottom: 1px solid #00a65a;">
-				<input type="hidden" class="d-none" id="archivo_documento_position" value="" />
-				<div class="table-responsive" >
-					<table class="table table-bordered table-striped" id="tblDocumentoArchivos" >
+				<input type="hidden" class="d-none" id="archivo_documento_position" value=""/>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped" id="tblDocumentoArchivos">
 						<thead>
 						<tr>
-							<th class="text-left" style="min-width: 220px;" >Archivo</th>
-							<th class="text-center" style="width: 130px; min-width: 130px;" >OP</th>
+							<th class="text-left" style="min-width: 220px;">Archivo</th>
+							<th class="text-center" style="width: 130px; min-width: 130px;">OP</th>
 						</tr>
 						</thead>
 						<tbody>
 						</tbody>
 						<tfoot>
 						<tr>
-							<th class="text-left" colspan="5" >
-								<button type="button" role="button" class="btn btn-link" id="btnArchivoAgregar" >
-									<i class="fa fa-plus" ></i> Agregar nuevo archivo
+							<th class="text-left" colspan="5">
+								<button type="button" role="button" class="btn btn-link" id="btnArchivoAgregar">
+									<i class="fa fa-plus"></i> Agregar nuevo archivo
 								</button>
 							</th>
 						</tr>

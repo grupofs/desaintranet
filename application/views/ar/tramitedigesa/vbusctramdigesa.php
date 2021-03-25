@@ -14,8 +14,8 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0 text-dark">CONSULTAS TRAMITES
-            <small>Digesa</small>
+        <h1 class="m-0 text-dark">EXPEDIENTES DE REGISTROS SANITARIOS
+            <small></small>
         </h1>
       </div>
       <div class="col-sm-6">
@@ -167,23 +167,11 @@
                         </div>
                     </div>
                     <div class="row"> 
-                        <div class="col-sm-6">
+                        <div class="col-sm-3">
                             <div class="form-group">
                                 <label>Categoría</label>
-                                <input type="text" class="form-control" id="txtcaractprodu" name="txtcaractprodu" placeholder="...">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Estado de Trámite</label>
-                                <select class="form-control select2bs4" id="cboesttramite" name="cboesttramite" style="width: 100%;">
-                                    <option value="" selected="selected">Todos</option>
-									<option value="P">En proceso</option>
-									<option value="V">En trámite en la entidad</option>
-									<option value="O">Observado DG</option>
-									<option value="R">Aprobado</option>
-									<option value="T">Trunco</option>
-									<option value="C">Rechazado DG</option>
+                                <select class="form-control select2bs4" id="txtcaractprodu" name="txtcaractprodu" style="width: 100%;">
+                                    <option value="" selected="selected">Cargando...</option>
                                 </select>
                             </div>
                         </div>
@@ -251,7 +239,6 @@
                                 <th>grupo</th>
                                 <th>Nro</th>
                                 <th></th>
-                                <th>AR</th>
                                 <th>Código</th>
                                 <th>Descripción SAP</th>
                                 <th>Nombre del Producto</th>

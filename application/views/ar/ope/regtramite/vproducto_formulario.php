@@ -15,6 +15,7 @@
 				 style="background-color:#ffffff; border-top: 1px solid #00a65a; border-bottom: 1px solid #00a65a;">
 				<form action="<?php echo base_url('ar/ope/cproductocliente/guardar') ?>" method="POST"
 					  accept-charset="UTF-8" id="frmProducto" >
+					<input type="hidden" class="d-none" id="producto_cliente_id" name="producto_cliente_id" value="" >
 					<div class="form-group row">
 						<label for="producto_cliente_text" class="col-xl-2 col-lg-2 col-md-4 col-sm-12 col-12">
 							Cliente
@@ -199,6 +200,16 @@
 								   value=""/>
 						</div>
 					</div>
+					<div class="form-group row">
+						<label for="producto_vida_util" class="col-xl-2 col-lg-2 col-md-4 col-sm-12 col-12">
+							Vida Util
+						</label>
+						<div class="col-xl-10 col-lg-10 col-md-8 col-sm-12 col-12">
+							<input type="text" class="form-control" aria-label="" maxlength="250"
+								   id="producto_vida_util" name="producto_vida_util"
+								   value=""/>
+						</div>
+					</div>
 					<div class="row">
 						<div class="col-xl-4 col-lg-5 col-md-12 col-sm-12 col-12">
 							<div class="form-group row">
@@ -218,28 +229,13 @@
 					</div>
 				</form>
 			</div>
-			<div class="modal-footer">
-				<div class="btn-group">
-					<button type="button" class="btn btn-danger btn-producto-guardar" data-type="1" >
-						<i class="fa fa-save"></i> Guardar
-					</button>
-					<button type="button"
-							class="btn btn-danger dropdown-toggle dropdown-toggle-split d-xl-none d-lg-none d-md-none"
-							data-toggle="dropdown"
-							aria-haspopup="true"
-							aria-expanded="false">
-						<span class="sr-only">...</span>
-					</button>
-					<div class="dropdown-menu dropdown-menu-right">
-						<button class="dropdown-item btn-producto-guardar" data-type="2" >
-							<i class="fa fa-refresh"></i> Guardar y crear uno nuevo
-						</button>
-					</div>
+			<div class="modal-footer w-100 d-flex flex-row">
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="producto-copia-pega" value="1" >
+					<label class="custom-control-label" for="producto-copia-pega">Copiar y Guardar</label>
 				</div>
-				<button type="button"
-						class="btn btn-secondary d-xl-block d-lg-block d-md-block d-none btn-producto-guardar"
-						data-type="2" >
-					<i class="fa fa-refresh"></i> Guardar y crear uno nuevo
+				<button type="button" class="btn btn-danger btn-producto-guardar" >
+					<i class="fa fa-save"></i> Guardar
 				</button>
 				<button type="button" class="btn btn-link" data-dismiss="modal">
 					Salir

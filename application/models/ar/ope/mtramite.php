@@ -37,12 +37,13 @@ class mtramite extends CI_Model
 	 * @param $estado
 	 * @param $internopte
 	 * @param $clienteID
+	 * @param $cusuario
 	 * @see crear
 	 * @see actualizar
 	 * @return array
 	 * @throws Exception
 	 */
-	public function guardar($codigo, $fechaInicio, $fechaCierre, $estado, $internopte, $clienteID): array
+	public function guardar($codigo, $fechaInicio, $fechaCierre, $estado, $internopte, $clienteID, $cusuario = null): array
 	{
 		if ($estado !== 'A' && $estado !== 'C') {
 			throw new Exception('El valor del estado es invalido.');
@@ -69,10 +70,10 @@ class mtramite extends CI_Model
 			'FCIERRE' => $fechaCierre,
 			'SCIERRE' => $estado,
 			'CCLIENTE' => $clienteID,
-			'CUSUARIOCREA' => '',
+			'CUSUARIOCREA' => $cusuario,
 			'TCREACION' => date('Y-m-d H:i:s'),
-			'CUSUARIOMODIFICA' => null,
-			'TMODIFICACION' => null,
+			'CUSUARIOMODIFICA' => $cusuario,
+			'TMODIFICACION' => date('Y-m-d H:i:s'),
 			'SREGISTRO' => 'A',
 		];
 		$res = (empty($codigo)) ? $this->crear($data) : $this->actualizar($codigo, $data);

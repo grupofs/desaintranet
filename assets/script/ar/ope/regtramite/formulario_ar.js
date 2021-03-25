@@ -47,13 +47,24 @@ $(function () {
 		name = (typeof name === 'undefined') ? 'disabled' : name;
 		clearData = (typeof clearData === 'undefined') ? true : clearData;
 		const formData = $('form#' + form);
+		const elValue = formData.find('input, select, textarea');
 		formData.find('fieldset').removeAttr('style');
 		// Inputs
+		const elButtons = formData.find('button, a');
+		const elCheckbox = formData.find('checkbox, radio');
 		formData.find('select.select2-hidden-accessible').prop('disabled', false);
-		formData.find('button, a').prop(name, false);
-		formData.find('checkbox, radio').prop(name, false);
-		const elValue = formData.find('input, select, textarea');
-		elValue.prop(name, false);
+		if (name === 'all') {
+			elButtons.prop('disabled', false);
+			elCheckbox.prop('disabled', false);
+			elValue.prop('disabled', false);
+			elButtons.prop('readonly', false);
+			elCheckbox.prop('readonly', false);
+			elValue.prop('readonly', false);
+		} else {
+			elButtons.prop(name, false);
+			elCheckbox.prop(name, false);
+			elValue.prop(name, false);
+		}
 		if (clearData) {
 			objFormularioAR.clearForm(form);
 		}
@@ -122,7 +133,7 @@ $(function () {
 					text: data.cliente.DRAZONSOCIAL
 				}]);
 				objFormularioAR.disabledForm('formAR', 'readonly', false);
-				objFormularioAR.enableForm('formTramite', 'disabled', false);
+				objFormularioAR.enableForm('formTramite', 'all', false);
 				$('#btnSaveAR').hide();
 				// Tramite
 				const entidad = (data.entidad) ? [{
@@ -156,7 +167,7 @@ $(function () {
 						objTramite.agregarItem({
 							id: item.CTRAMITE,
 							text: item.DTRAMITE,
-						});
+						}, false);
 					});
 				}
 				// Productos
@@ -169,6 +180,8 @@ $(function () {
 					objDocumento.imprimirResultado(data.documentos);
 				}
 				objPrincipal.liberarBoton(button);
+				// verifica los tramites
+				objTramite.bloqueoPorTramite();
 				// Muestra formulario
 				$('#tab-registro-ar').click();
 				// Si se encuentra abiero, se habilita el boton para cerrar
@@ -188,6 +201,14 @@ $(function () {
 		$('#btnTramiteAbrir').hide();
 		$('#btnTramiteCerrar').show();
 		$('#btnTramiteGuardar').show();
+		// accion de botones
+		$('#btnAgregarTramite').show();
+		$('#btnAgregarProducto').show();
+		$('#btnEliminarProductosElegidos').show();
+		$('#btnDocumentoAgregar').show();
+		$('.option-tramite').show();
+		$('.option-producto').show();
+		$('.option-documento').show();
 	};
 
 	/**
@@ -197,6 +218,14 @@ $(function () {
 		$('#btnTramiteCerrar').hide();
 		$('#btnTramiteAbrir').show();
 		$('#btnTramiteGuardar').hide();
+		// accion de botones
+		$('#btnAgregarTramite').hide();
+		$('#btnAgregarProducto').hide();
+		$('#btnEliminarProductosElegidos').hide();
+		$('#btnDocumentoAgregar').hide();
+		$('.option-tramite').hide();
+		$('.option-producto').hide();
+		$('.option-documento').hide();
 	};
 
 	/**
@@ -253,7 +282,7 @@ $(function () {
 			objFormularioAR.data = res.data;
 			const ar = objFormularioAR.data.ar;
 			button.hide();
-			objFormularioAR.enableForm('formTramite');
+			objFormularioAR.enableForm('formTramite', 'all');
 			objFormularioAR.disabledForm('formAR', 'readonly', false);
 			objFormularioAR.printSave(ar);
 		}).fail(function (jqxhr) {
@@ -378,6 +407,8 @@ $(function () {
 				objFormularioAR.disabledForm('formTramite', 'readonly', false);
 				objFormularioAR.confirmarAbrirTramite(objFormularioAR.data.ar.CASUNTOREGULATORIO, button)
 					.done(function (res) {
+						// verifica los tramites
+						objTramite.bloqueoPorTramite();
 						objPrincipal.notify('success', res.message);
 					})
 					.always(function () {

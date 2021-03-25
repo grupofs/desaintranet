@@ -30,7 +30,7 @@ class cproductocliente extends FS_Controller
 			show_404();
 		}
 		try {
-			$id = $this->input->post('id');
+			$producto_cliente_id = $this->input->post('producto_cliente_id');
 			$codigo_cliente_id = (string) $this->input->post('codigo_cliente_id');
 			$entidad_id = (string) $this->input->post('entidad_id');
 			$tipo_producto_id = (string) $this->input->post('tipo_producto_id');
@@ -46,6 +46,7 @@ class cproductocliente extends FS_Controller
 			$fabricante_id = $this->input->post('producto_fabricante_id');
 			$pais = $this->input->post('producto_pais');
 			$direccion_fabricante = (string) $this->input->post('producto_direccion_fabricante');
+			$producto_vida_util = (string) $this->input->post('producto_vida_util');
 			$estado = (string) $this->input->post('producto_estado');
 
 			$objCliente = $this->mcliente->buscar($codigo_cliente_id);
@@ -59,7 +60,7 @@ class cproductocliente extends FS_Controller
 			}
 
 			$producto = $this->mproductocliente->guardar(
-				'0',
+				$producto_cliente_id,
 				$objCliente->CCLIENTE,
 				$objTipoProducto->id,
 				$codigo,
@@ -74,12 +75,14 @@ class cproductocliente extends FS_Controller
 				$pais,
 				$fabricante_id,
 				$direccion_fabricante,
+				$producto_vida_util,
 				$estado
 			);
 
 			$this->result['status'] = 200;
-			$this->result['message'] = "Producto {$producto['CPRODUCTOFS']} creado correctamente.";
-			$this->result['data'] = $producto;
+			$type = (empty($producto_cliente_id)) ? 'creado' : 'actualizado';
+			$this->result['message'] = "Producto {$producto['DPRODUCTOCLIENTE']} {$type} correctamente.";
+			$this->result['data'] = $this->mproductocliente->buscarDatos($producto['CPRODUCTOFS']);
 
 		} catch (Exception $ex) {
 			$this->result['message'] = $ex->getMessage();
@@ -109,6 +112,7 @@ class cproductocliente extends FS_Controller
 			$filter_producto_descripcion = (string) $this->input->post('filter_producto_descripcion');
 
 			$result = $this->mproductocliente->filtrar($codigo_cliente_id, $tipo_producto_id, $filter_producto_descripcion, $limit, $offset);
+			log_message('error', $this->db->last_query());
 			$total = $this->mproductocliente->filtrarTotal($codigo_cliente_id, $tipo_producto_id, $filter_producto_descripcion);
 
 			$this->result['status'] = 200;
@@ -128,6 +132,22 @@ class cproductocliente extends FS_Controller
 			$this->result['message'] = $ex->getMessage();
 		}
 		responseResult($this->result);
+	}
+
+	/**
+	 * Busqueda de producto
+	 */
+	public function buscar()
+	{
+		if (!$this->input->is_ajax_request()) {
+			show_404();
+		}
+		$ccliente = $this->input->post('ccliente');
+		$tipoProducto = $this->input->post('tipo_producto');
+		$tipo = $this->input->post('tipo');
+		$buscar = $this->input->post('buscar');
+		$items = $this->mproductocliente->buscar($ccliente, $tipoProducto, $tipo, $buscar);
+		echo json_encode(['items' => $items]);
 	}
 
 }

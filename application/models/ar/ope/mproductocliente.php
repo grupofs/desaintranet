@@ -87,8 +87,9 @@ class mproductocliente extends CI_Model
 	 * @param $ccliente
 	 * @param $tipoProducto
 	 * @param $busqueda
+	 * @param $tipo
 	 */
-	private function _filtro($ccliente, $tipoProducto, $busqueda): void
+	private function _filtro($ccliente, $tipoProducto, $busqueda, $tipo = null): void
 	{
 		$this->db->from('MPRODUCTOCLIENTE');
 		$this->db->join('MMARCAXCLIENTE', 'MPRODUCTOCLIENTE.CMARCA = MMARCAXCLIENTE.CMARCA AND MPRODUCTOCLIENTE.CCLIENTE = MMARCAXCLIENTE.CCLIENTE', 'left');
@@ -98,11 +99,53 @@ class mproductocliente extends CI_Model
 		$this->db->where('MPRODUCTOCLIENTE.CCLIENTE', $ccliente);
 		$this->db->where('MPRODUCTOCLIENTE.ZCTIPOCATEGORIAPRODUCTO', $tipoProducto);
 		$this->db->where('MPRODUCTOCLIENTE.SREGISTRO', 'A');
-		$this->db->group_start();
-		$this->db->like('MPRODUCTOCLIENTE.CPRODUCTOCLIENTE', $busqueda, 'both', false);
-		$this->db->or_like('MPRODUCTOCLIENTE.DPRODUCTOCLIENTE', $busqueda, 'both', false);
-		$this->db->or_like('MPRODUCTOCLIENTE.DREGISTROSANITARIO', $busqueda, 'both', false);
-		$this->db->group_end();
+		if (empty($tipo)) {
+			$this->db->group_start();
+			$this->db->like('MPRODUCTOCLIENTE.CPRODUCTOCLIENTE', $busqueda, 'both', false);
+			$this->db->or_like('MPRODUCTOCLIENTE.DPRODUCTOCLIENTE', $busqueda, 'both', false);
+			$this->db->or_like('MPRODUCTOCLIENTE.DREGISTROSANITARIO', $busqueda, 'both', false);
+			$this->db->group_end();
+		}
+		// Busqueda por RS
+		if ($tipo == 1) {
+			$this->db->where('MPRODUCTOCLIENTE.DREGISTROSANITARIO', $busqueda);
+		}
+		// Busqueda por Codigo
+		if ($tipo == 2) {
+			$this->db->where('MPRODUCTOCLIENTE.CPRODUCTOFS', $busqueda);
+		}
+	}
+
+	/**
+	 * @param $CPRODUCTOFS
+	 * @return array|mixed|object|null
+	 */
+	public function buscarDatos($CPRODUCTOFS)
+	{
+		$this->db->select("
+			MPRODUCTOCLIENTE.CPRODUCTOFS,
+			MPRODUCTOCLIENTE.CPRODUCTOCLIENTE,
+			MPRODUCTOCLIENTE.DPRODUCTOCLIENTE,
+			MPRODUCTOCLIENTE.DNOMBREPRODUCTO,
+			MMARCAXCLIENTE.DMARCA,
+			MFABRICANTEXCLIENTE.DFABRICANTE,
+			TTABLA.DREGISTRO,
+			MCATEGORIACLIENTE.DCATEGORIACLIENTE,
+			MPRODUCTOCLIENTE.DREGISTROSANITARIO,
+			DATEFORMAT(MPRODUCTOCLIENTE.FINICIOREGSANITARIO, 'DD/MM/YYYY') as FINICIOREGSANITARIO,
+			DATEFORMAT(MPRODUCTOCLIENTE.FFINREGSANITARIO, 'DD/MM/YYYY') as FFINREGSANITARIO
+		");
+		$this->db->from('MPRODUCTOCLIENTE');
+		$this->db->join('MMARCAXCLIENTE', 'MPRODUCTOCLIENTE.CMARCA = MMARCAXCLIENTE.CMARCA AND MPRODUCTOCLIENTE.CCLIENTE = MMARCAXCLIENTE.CCLIENTE', 'left');
+		$this->db->join('MFABRICANTEXCLIENTE', 'MPRODUCTOCLIENTE.CFABRICANTE = MFABRICANTEXCLIENTE.CFABRICANTE AND MPRODUCTOCLIENTE.CCLIENTE = MFABRICANTEXCLIENTE.CCLIENTE', 'left');
+		$this->db->join('MCATEGORIACLIENTE', 'MPRODUCTOCLIENTE.CCATEGORIACLIENTE = MCATEGORIACLIENTE.CCATEGORIACLIENTE AND MPRODUCTOCLIENTE.CCLIENTE = MCATEGORIACLIENTE.CCLIENTE', 'left');
+		$this->db->join('TTABLA', 'MPRODUCTOCLIENTE.ZCPAISFABRICANTE = TTABLA.CTIPO', 'left');
+		$this->db->where('MPRODUCTOCLIENTE.CPRODUCTOFS', $CPRODUCTOFS);
+		$query = $this->db->get();
+		if (!$query) {
+			return null;
+		}
+		return ($query->num_rows() > 0) ? $query->row() : null;
 	}
 
 	/**
@@ -121,16 +164,29 @@ class mproductocliente extends CI_Model
 	 * @param string|null|int $idPais
 	 * @param string|null|int $idFabricante
 	 * @param string $direccionFabricante
+	 * @param string $vidaUtil
 	 * @param string $estado
 	 * @return array
 	 * @throws Exception
 	 */
-	public function guardar(string $id, string $idCliente, string $idTipoProducto,
-							string $codigo, $idCategoria, string $registroSanitario,
-							string $fechaEmision, string $fechaVencimiento, string $descripcion,
-							string $nombre, $idMarca, string $presentacion,
-							$idPais, $idFabricante, string $direccionFabricante,
-							string $estado): array
+	public function guardar(string $id,
+							string $idCliente,
+							string $idTipoProducto,
+							string $codigo,
+							$idCategoria,
+							string $registroSanitario,
+							string $fechaEmision,
+							string $fechaVencimiento,
+							string $descripcion,
+							string $nombre,
+							$idMarca,
+							string $presentacion,
+							$idPais,
+							$idFabricante,
+							string $direccionFabricante,
+							string $vidaUtil,
+							string $estado
+	): array
 	{
 		if (empty($idCliente)) {
 			throw new Exception('Falta el ID del cliente');
@@ -190,6 +246,7 @@ class mproductocliente extends CI_Model
 			'CCATEGORIACLIENTE' => $idCategoria,
 			'DFORMACOSMETICA' => null,
 			'DCODIGOFORMULA' => null,
+			'VIDAUTIL' => $vidaUtil,
 		];
 		$res = (empty($id)) ? $this->crear($data) : $this->actualizar($id, $data);
 		if (!$res) {
@@ -256,6 +313,36 @@ class mproductocliente extends CI_Model
 			return null;
 		}
 		return ($query->num_rows() > 0) ? $query->row() : null;
+	}
+
+	/**
+	 * @param $ccliente
+	 * @param $tipoProducto
+	 * @param $tipo
+	 * @param $buscar
+	 * @return array|mixed|object|null
+	 */
+	public function buscar($ccliente, $tipoProducto, $tipo, $buscar)
+	{
+		$this->db->select("
+			MPRODUCTOCLIENTE.*,
+			MMARCAXCLIENTE.CMARCA,
+			MMARCAXCLIENTE.DMARCA,
+			MFABRICANTEXCLIENTE.CFABRICANTE,
+			MFABRICANTEXCLIENTE.DFABRICANTE,
+			TTABLA.CTIPO,
+			TTABLA.DREGISTRO,
+			MCATEGORIACLIENTE.CCATEGORIACLIENTE,
+			MCATEGORIACLIENTE.DCATEGORIACLIENTE,
+			DATEFORMAT(MPRODUCTOCLIENTE.FINICIOREGSANITARIO, 'DD/MM/YYYY') as FINICIOREGSANITARIO,
+			DATEFORMAT(MPRODUCTOCLIENTE.FFINREGSANITARIO, 'DD/MM/YYYY') as FFINREGSANITARIO
+		");
+		$this->_filtro($ccliente, $tipoProducto, $buscar, $tipo);
+		$query = $this->db->get();
+		if (!$query) {
+			return [];
+		}
+		return ($query->num_rows() > 0) ? $query->result() : [];
 	}
 
 }

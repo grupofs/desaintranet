@@ -39,9 +39,7 @@
 						<i class="fa fa-search"></i> Buscar
 					</button>
 					<button type="button" role="button" class="btn btn-primary ml-2"
-							id="btnProductoNuevo"
-							data-toggle="modal"
-							data-target="#modalAddProduct">
+							id="btnProductoNuevo">
 						<i class="fa fa-plus"></i> Nuevo Producto
 					</button>
 				</div>

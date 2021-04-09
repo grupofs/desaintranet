@@ -155,8 +155,7 @@ if (!function_exists('base64ResourceConvert')) {
 	 */
 	function base64ResourceConvert($resource): string
 	{
-		$type = pathinfo($resource, PATHINFO_EXTENSION);
 		$data = file_get_contents($resource);
-		return 'data:image/' . $type . ';base64,' . base64_encode($data);
+		return 'data:image/png;base64,' . base64_encode($data);
 	}
 }

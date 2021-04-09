@@ -1,45 +1,61 @@
 <?php
 
-if(!function_exists('getLinkFormChartBar')) {
+if (!function_exists('getLinkFormChartBar')) {
 	/**
 	 * Convierte al grafico BAR
-	 * @param string $type
-	 * @param string $title
 	 * @param array $label
 	 * @param array $data
 	 * @return string
 	 * @link https://quickchart.io/chart?c={type:'bar',data:{labels:['nomb1','nomb1','nomb1','nomb1','nomb1'],datasets:[{label:'Users',data:[100,101,102,103,104]}]}}
 	 */
-	function getLinkFormChartBar(string $title, array $label, array $data): string
+	function getLinkFormChartBar(array $label, array $data): string
 	{
-		$label = array_map(function($item) {
-			return "'" . rawurlencode($item) . "'";
-		}, $label);
-		$sLabels = implode(',', $label);
+		$sLabels = clearLabel($label);
 		$sData = implode(',', $data);
-		$title = rawurlencode($title);
-		return "https://quickchart.io/chart?c={type:'bar',data:{labels:[{$sLabels}],datasets:[{label:'{$title}',data:[{$sData}]}]}}";
+		return "https://quickchart.io/chart?c={type:'bar',data:{labels:[{$sLabels}],datasets:[{label:'',data:[{$sData}]}]},options:{legend:{display:false}}}";
 	}
 }
 
-if(!function_exists('getLinkFormChartBar2')) {
+if (!function_exists('getLinkFormChartBar2')) {
 	/**
 	 * Convierte al grafico BAR
-	 * @param string $type
-	 * @param string $title
 	 * @param array $label
-	 * @param array $data
+	 * @param string $sData
 	 * @return string
-	 * @link https://quickchart.io/chart?c={type:'bar',data:{labels:['nomb1','nomb1','nomb1','nomb1','nomb1'],datasets:[{label:'Users',backgroundColor:'rgba(255, 0, 0, 0.2)',data:[100,101,102,103,104]}]}}
+	 * @link https://quickchart.io/chart?c={type:'bar',data:{labels:['1','2','3'],datasets:[{label:'Maximo',data:[400,110,40]},{label:'Obtenido',data:[400,100,40]}]}}
 	 */
-	function getLinkFormChartBar2(string $title, array $label, array $data): string
+	function getLinkFormChartBar2(array $label, string $sData): string
 	{
-		$label = array_map(function($item) {
+		$sLabels = clearLabel($label);
+		return "https://quickchart.io/chart?c={type:'bar',data:{labels:[{$sLabels}],datasets:[{$sData}]},options:{legend:{display:true,position:'right',align:'middle'}}}";
+	}
+}
+
+if (!function_exists('clearLabel')) {
+	/**
+	 * @param array $label
+	 * @return string
+	 */
+	function clearLabel(array $label)
+	{
+		$label = array_map(function ($item) {
 			return "'" . rawurlencode($item) . "'";
 		}, $label);
-		$sLabels = implode(',', $label);
-		$sData = implode(',', $data);
-		$title = rawurlencode($title);
-		return "https://quickchart.io/chart?c={type:'bar',data:{labels:[{$sLabels}],datasets:[{label:'{$title}',data:[{$sData}]}]}}";
+		return implode(',', $label);
+	}
+}
+
+if (!function_exists('getValueGraphic2')) {
+	/**
+	 * @param array $data
+	 * @param string $filter
+	 * @return array
+	 */
+	function getValueGraphic2(array $data, string $filter) {
+		return array_map(function($res) use ($data) {
+			return $res->mayor_val;
+		}, array_filter($data, function($item) use ($filter) {
+			return (strtolower($item->Maximo) == $filter);
+		}, 0));
 	}
 }

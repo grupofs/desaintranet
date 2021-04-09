@@ -135,7 +135,8 @@ $(function () {
 		row += '<div class="table-responsive" >';
 		row += '<table class="table table-bordered table-striped tbl-documento-archivos-carga" id="tbl-documento-archivos-' + position + '" >';
 		row += '<thead>';
-		row += '<tr>';1
+		row += '<tr>';
+		1
 		row += '<th class="text-left" style="min-width: 220px;" >Archivo</th>';
 		row += '<th class="text-center" style="width: 130px; min-width: 130px;" >OP</th>';
 		row += '</tr>';
@@ -196,9 +197,9 @@ $(function () {
 	 * @param position
 	 * @returns {number}
 	 */
-	objDocumento.totalArchivos = function(position) {
+	objDocumento.totalArchivos = function (position) {
 		let total = 0;
-		$("#tbl-documento-archivos-" + position + " > tbody > tr").each(function() {
+		$("#tbl-documento-archivos-" + position + " > tbody > tr").each(function () {
 			const row = $(this);
 			const key = row.data('key');
 			const operation = parseInt(document.getElementById('archivo_documento_operation[' + position + '][' + key + ']').value);
@@ -297,9 +298,9 @@ $(function () {
 	/**
 	 * Realiza el contador de documentos
 	 */
-	objDocumento.verificarDocumentos = function() {
+	objDocumento.verificarDocumentos = function () {
 		objDocumento.rutaDocumentos = [];
-		$('table.tbl-documento-archivos-carga > tbody > tr').each(function() {
+		$('table.tbl-documento-archivos-carga > tbody > tr').each(function () {
 			const row = $(this);
 			const position = row.data('position');
 			const key = row.data('key');
@@ -309,7 +310,8 @@ $(function () {
 			if (archivo && (opoeration === 1 || opoeration === 2)) {
 				objDocumento.agregarRutaDocumento(RutaDocumento);
 			}
-		});	1
+		});
+		1
 		objDocumento.imprimirRutaDocumentos();
 	};
 
@@ -345,24 +347,57 @@ $(function () {
 		const position = button.data('position');
 		const key = row.data('key');
 		const id = button.data('id');
-		$.ajax({
-			url: BASE_URL + 'ar/ope/ctramite/eliminar_archivo',
-			method: 'POST',
-			data: {
-				id: id,
-			},
-			beforeSend: function () {
-				objPrincipal.botonCargando(button);
-			}
-		}).done(function (response) {
-			objPrincipal.notify('success', response.message);
-			objDocumento.confirmarEliminarArchivo(row, position, key);
-		}).fail(function (jqxhr) {
-			const message = (jqxhr && jqxhr.responseJSON && jqxhr.responseJSON.message) ? jqxhr.responseJSON.message : 'Error en la solicitud del servidor.';
-			objPrincipal.notify('error', message);
-		}).always(function () {
-			objPrincipal.liberarBoton(button);
-		});
+		const cdocumento = document.getElementById('documento_id[' + position + ']').value;
+		objDocumento.eliminarRealArchivoDet(button, id, cdocumento)
+			.done(function (response) {
+				objPrincipal.notify('success', response.message);
+				objDocumento.confirmarEliminarArchivo(row, position, key);
+			})
+			.fail(function (jqxhr) {
+				const message = (jqxhr && jqxhr.responseJSON && jqxhr.responseJSON.message) ? jqxhr.responseJSON.message : 'Error en la solicitud del servidor.';
+				objPrincipal.notify('error', message);
+			})
+			.always(function () {
+				objPrincipal.liberarBoton(button);
+			});
+	};
+
+	/**
+	 *
+	 * @param button
+	 * @param id
+	 * @param cdocumento
+	 * @returns {*|jQuery}
+	 */
+	objDocumento.eliminarRealArchivoDet = function (button, id, cdocumento) {
+		if (id) {
+			// Si no es null se elimina el archivo en el detalle
+			return $.ajax({
+				url: BASE_URL + 'ar/ope/ctramite/eliminar_archivo',
+				method: 'POST',
+				data: {
+					id: id,
+				},
+				beforeSend: function () {
+					objPrincipal.botonCargando(button);
+				}
+			});
+		} else {
+			// Si no es null se elimina el archivo en el detalle
+			return $.ajax({
+				url: BASE_URL + 'ar/ope/ctramite/eliminar_archivo_cab',
+				method: 'POST',
+				data: {
+					casuntoregula: objFormularioAR.data.ar.CASUNTOREGULATORIO,
+					centidadregula: objFormularioAR.data.tramite.CENTIDADREGULA,
+					ctramite: objFormularioAR.data.tramite.CTRAMITE,
+					cdocumento: cdocumento,
+				},
+				beforeSend: function () {
+					objPrincipal.botonCargando(button);
+				}
+			});
+		}
 	};
 
 	/**

@@ -86,14 +86,6 @@ $cia = $this->session->userdata('s_cia');
 														</div>
 													</div>
 												</div>
-												<div class="col-xl-3 col-lg-4 col-md-5 col-sm-8 col-12">
-													<div class="form-group">
-														<label for="">Cliente</label>
-														<div class="input-group">
-															<select name="" id="" class="custom-select"></select>
-														</div>
-													</div>
-												</div>
 												<div class="col-xl-6 col-lg-5 col-md-12 col-sm-12 col-12">
 													<div class="form-group">
 														<label for="" class="d-block">
@@ -107,18 +99,109 @@ $cia = $this->session->userdata('s_cia');
 																Cliente
 															</label>
 														</div>
+<!--														<div class="custom-control custom-control-inline custom-radio">-->
+<!--															<input type="radio" id="tipo2" name="tipo"-->
+<!--																   class="custom-control-input">-->
+<!--															<label class="custom-control-label" for="tipo2">-->
+<!--																Proveedor-->
+<!--															</label>-->
+<!--														</div>-->
+<!--														<div class="custom-control custom-control-inline custom-radio">-->
+<!--															<input type="radio" id="tipo3" name="tipo"-->
+<!--																   class="custom-control-input">-->
+<!--															<label class="custom-control-label" for="tipo3">-->
+<!--																Maquillador-->
+<!--															</label>-->
+<!--														</div>-->
+													</div>
+												</div>
+											</div>
+											<div class="row" >
+												<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+													<div class="form-group">
+														<label for="filtro_cliente">Cliente</label>
+														<div class="input-group">
+															<select name="filtro_cliente" id="filtro_cliente" class="custom-select"></select>
+														</div>
+													</div>
+												</div>
+<!--												<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">-->
+<!--													<div class="form-group">-->
+<!--														<label for="filtro_cliente_area">Área Cliente</label>-->
+<!--														<div class="input-group">-->
+<!--															<select name="filtro_cliente_area"-->
+<!--																	id="filtro_cliente_area" class="custom-select"></select>-->
+<!--														</div>-->
+<!--													</div>-->
+<!--												</div>-->
+<!--												<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">-->
+<!--													<div class="form-group">-->
+<!--														<label for="filtro_ubigeo_proveedor">Ubigeo Proveedor</label>-->
+<!--														<div class="input-group">-->
+<!--															<select name="filtro_ubigeo_proveedor"-->
+<!--																	id="filtro_ubigeo_proveedor" class="custom-select"></select>-->
+<!--														</div>-->
+<!--													</div>-->
+<!--												</div>-->
+<!--												<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">-->
+<!--													<div class="form-group">-->
+<!--														<label for="filtro_ubigeo_proveedor">Ubigeo Maquilador</label>-->
+<!--														<div class="input-group">-->
+<!--															<select name="filtro_ubigeo_proveedor"-->
+<!--																	id="filtro_ubigeo_proveedor" class="custom-select"></select>-->
+<!--														</div>-->
+<!--													</div>-->
+<!--												</div>-->
+											</div>
+											<div class="row" >
+<!--												<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">-->
+<!--													<div class="form-group">-->
+<!--														<label for="filtro_tipo_estado">Tipo Estado</label>-->
+<!--														<div class="input-group">-->
+<!--															<select name="filtro_tipo_estado"-->
+<!--																	id="filtro_tipo_estado" class="custom-select">-->
+<!--																<option value="1">Abierto</option>-->
+<!--																<option value="0" selected >Cerrado</option>-->
+<!--															</select>-->
+<!--														</div>-->
+<!--													</div>-->
+<!--												</div>-->
+<!--												<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">-->
+<!--													<div class="form-group">-->
+<!--														<label for="" class="d-block">&nbsp;</label>-->
+<!--														<div class="custom-control custom-checkbox">-->
+<!--															<input type="checkbox" class="custom-control-input" id="filtro_evalprod">-->
+<!--															<label class="custom-control-label" for="filtro_evalprod">-->
+<!--																Por Evaluación de Productos-->
+<!--															</label>-->
+<!--														</div>-->
+<!--													</div>-->
+<!--												</div>-->
+												<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
+													<div class="form-group">
+														<label for="" class="d-block">
+															Peligro
+														</label>
 														<div class="custom-control custom-control-inline custom-radio">
-															<input type="radio" id="tipo2" name="tipo"
-																   class="custom-control-input">
-															<label class="custom-control-label" for="tipo2">
-																Proveedor
+															<input type="radio" id="filtro_peligro_1" name="filtro_peligro"
+																   class="custom-control-input" value="S" >
+															<label class="custom-control-label" for="filtro_peligro_1">
+																Si
 															</label>
 														</div>
 														<div class="custom-control custom-control-inline custom-radio">
-															<input type="radio" id="tipo3" name="tipo"
-																   class="custom-control-input">
-															<label class="custom-control-label" for="tipo3">
-																Maquillador
+															<input type="radio" id="filtro_peligro_2" name="filtro_peligro"
+																   class="custom-control-input" value="N" >
+															<label class="custom-control-label" for="filtro_peligro_2">
+																No
+															</label>
+														</div>
+														<div class="custom-control custom-control-inline custom-radio">
+															<input type="radio" id="filtro_peligro_3" name="filtro_peligro"
+																   checked
+																   class="custom-control-input" value="" >
+															<label class="custom-control-label" for="filtro_peligro_3">
+																Todos
 															</label>
 														</div>
 													</div>
@@ -149,7 +232,7 @@ $cia = $this->session->userdata('s_cia');
 												   style="width:100%">
 												<thead>
 												<tr>
-													<th style="width: 120px" ></th>
+													<th style="width: 140px; min-width: 140px" ></th>
 <!--													<th style="width: 20px" >N°</th>-->
 													<th>Código</th>
 													<th>Fecha Inspección</th>
@@ -159,6 +242,34 @@ $cia = $this->session->userdata('s_cia');
 													<th>RUC</th>
 													<th>Dirección Proveedor</th>
 													<th>Ubigeo Proveedor</th>
+													<th>Maquilador</th>
+													<th>Dirección Maquilador</th>
+													<th>Ubigeo Maquilador</th>
+													<th>Área Cliente</th>
+													<th>Línea</th>
+													<th>Resultado CheckList (%)</th>
+													<th>Resultado Texto</th>
+													<th>Tamaño Empresa Proveedor</th>
+													<th>Tipo Estado Servicio</th>
+													<th>Comentario</th>
+													<th>Certificadora</th>
+													<th>Certificación</th>
+													<th>Estado Certificación</th>
+													<th>Licencia de Funcionamiento</th>
+													<th>Estado Licencia de Funcionamiento</th>
+													<th>Consultor</th>
+													<th>Empresa Inspectora</th>
+													<th>Convalidado</th>
+													<th>Acción Correctiva</th>
+<!--													<th>Archivos Subidos</th>-->
+													<th>Nro de Informe</th>
+													<th>Eval. Prod.</th>
+													<th>Es Peligro</th>
+													<th>C. Checklist</th>
+													<th>CheckList</th>
+													<th>Entidad</th>
+													<th>Sistema</th>
+													<th>Rubro</th>
 												</tr>
 												</thead>
 												<tbody></tbody>

@@ -30,110 +30,17 @@ class mcons_insp extends CI_Model
 	 * @param $id
 	 * @return array|bool|mixed|object|null
 	 */
-	public function buscarInspccion($id)
+	public function buscarInspccion($CAUDITORIAINSPECCION, $CINTERNOPTE)
 	{
 		$this->db->select('*');
-		$this->db->from('PCAUDITORIAINSPECCION');
-		$this->db->where('CAUDITORIAINSPECCION', $id);
+		$this->db->from('PDAUDITORIAINSPECCION');
+		$this->db->where('CAUDITORIAINSPECCION', $CAUDITORIAINSPECCION);
+		$this->db->where('FSERVICIO', $CINTERNOPTE);
 		$query = $this->db->get();
 		if (!$query) {
 			return null;
 		}
 		return ($query->num_rows() > 0) ? $query->row() : null;
-	}
-
-	/**
-	 * Pruebas
-	 * @return string[][]
-	 */
-	private function dataRef()
-	{
-		return [
-			[
-				'ID' => '00003491',
-				'DATA' => $this->buscarInspccion('00003491'),
-				'CODIGO' => '00000303',
-				'FECHAINSPECCION' => '01/10/2021',
-				'FCREACION' => '01/10/2021',
-				'CLIENTE' => 'HIPERMERCADOS TOTTUS S.A',
-				'PROVEEDOR' => 'AGRO INDUSTRIAL PARAMONGA S.A.A',
-				'ESTABLECIMIENTOPROV' => '',
-				'DIRECCIONPROV' => 'Av. Ferrocarril Nro. 212',
-				'UBIGEOPROV' => 'Lima-Barranca-Paramonga',
-				'RUC' => '20135948641',
-				'MAQUILADOR' => '', 'ESTABLECIMIENTOMAQUILA' => '', 'DIRECCIONMAQUILA' => '', 'UBIGEOMAQUILA' => '', 'AREACLIENTE' => '', 'LINEA' => '', 'RESULTADOCHECKLIST' => '', 'RESULTADOTEXTO' => '', 'TAMANOEMPRESAPROV' => '', 'TIPOESTADOSERVICIO' => '', 'COMENTARIO' => '', 'LICENCIADEFUNCIONAMIENTO' => '', 'ESTADOLICENCIADEFUNCIONAMIENTO' => '', 'CONSULTOR' => '', 'EMPRESAINSPECTORA' => '', 'CONVALIDADO' => '', 'ACCIONCORRECTIVA' => '', 'DUBICACIONFILESERVER' => '', 'COLOR' => '', 'CPROVEEDOR' => '', 'CERTIFICADORA' => '', 'CERTIFICACION' => '', 'SCERTIFICACION' => '', 'dmarca' => '', 'dmarca2' => '', 'DDESTINO' => '', 'SISTEMA' => '', 'CHECKLIST' => '', 'dinformefinal' => '', 'SEVALPROD' => '', 'ESPELIGRO' => '', 'CCHECKLIST' => '', 'DNORMA' => '', 'DSISTEMA' => '', 'DSUBNORMA' => '',
-			],
-			[
-				'ID' => '00003490',
-				'DATA' => $this->buscarInspccion('00003490'),
-				'CODIGO' => '00000303',
-				'FECHAINSPECCION' => '09/10/2020',
-				'FCREACION' => '01/06/2020',
-				'CLIENTE' => 'HIPERMERCADOS TOTTUS S.A',
-				'PROVEEDOR' => 'AGRO INDUSTRIAL PARAMONGA S.A.A',
-				'ESTABLECIMIENTOPROV' => '',
-				'DIRECCIONPROV' => 'Av. Ferrocarril Nro. 212',
-				'UBIGEOPROV' => 'Lima-Barranca-Paramonga',
-				'RUC' => '20135948641',
-				'MAQUILADOR' => '', 'ESTABLECIMIENTOMAQUILA' => '', 'DIRECCIONMAQUILA' => '', 'UBIGEOMAQUILA' => '', 'AREACLIENTE' => '', 'LINEA' => '', 'RESULTADOCHECKLIST' => '', 'RESULTADOTEXTO' => '', 'TAMANOEMPRESAPROV' => '', 'TIPOESTADOSERVICIO' => '', 'COMENTARIO' => '', 'LICENCIADEFUNCIONAMIENTO' => '', 'ESTADOLICENCIADEFUNCIONAMIENTO' => '', 'CONSULTOR' => '', 'EMPRESAINSPECTORA' => '', 'CONVALIDADO' => '', 'ACCIONCORRECTIVA' => '', 'DUBICACIONFILESERVER' => '', 'COLOR' => '', 'CPROVEEDOR' => '', 'CERTIFICADORA' => '', 'CERTIFICACION' => '', 'SCERTIFICACION' => '', 'dmarca' => '', 'dmarca2' => '', 'DDESTINO' => '', 'SISTEMA' => '', 'CHECKLIST' => '', 'dinformefinal' => '', 'SEVALPROD' => '', 'ESPELIGRO' => '', 'CCHECKLIST' => '', 'DNORMA' => '', 'DSISTEMA' => '', 'DSUBNORMA' => '',
-			],
-			[
-				'ID' => '00003489',
-				'DATA' => $this->buscarInspccion('00003489'),
-				'CODIGO' => '00000303',
-				'FECHAINSPECCION' => '02/12/2019',
-				'FCREACION' => '02/12/2019',
-				'CLIENTE' => 'HIPERMERCADOS TOTTUS S.A',
-				'PROVEEDOR' => 'AGRO INDUSTRIAL PARAMONGA S.A.A',
-				'ESTABLECIMIENTOPROV' => '',
-				'DIRECCIONPROV' => 'Av. Ferrocarril Nro. 212',
-				'UBIGEOPROV' => 'Lima-Barranca-Paramonga',
-				'RUC' => '20135948641',
-				'MAQUILADOR' => '', 'ESTABLECIMIENTOMAQUILA' => '', 'DIRECCIONMAQUILA' => '', 'UBIGEOMAQUILA' => '', 'AREACLIENTE' => '', 'LINEA' => '', 'RESULTADOCHECKLIST' => '', 'RESULTADOTEXTO' => '', 'TAMANOEMPRESAPROV' => '', 'TIPOESTADOSERVICIO' => '', 'COMENTARIO' => '', 'LICENCIADEFUNCIONAMIENTO' => '', 'ESTADOLICENCIADEFUNCIONAMIENTO' => '', 'CONSULTOR' => '', 'EMPRESAINSPECTORA' => '', 'CONVALIDADO' => '', 'ACCIONCORRECTIVA' => '', 'DUBICACIONFILESERVER' => '', 'COLOR' => '', 'CPROVEEDOR' => '', 'CERTIFICADORA' => '', 'CERTIFICACION' => '', 'SCERTIFICACION' => '', 'dmarca' => '', 'dmarca2' => '', 'DDESTINO' => '', 'SISTEMA' => '', 'CHECKLIST' => '', 'dinformefinal' => '', 'SEVALPROD' => '', 'ESPELIGRO' => '', 'CCHECKLIST' => '', 'DNORMA' => '', 'DSISTEMA' => '', 'DSUBNORMA' => '',
-			],
-			[
-				'ID' => '00003488',
-				'DATA' => $this->buscarInspccion('00003488'),
-				'CODIGO' => '00000303',
-				'FECHAINSPECCION' => '02/12/2018',
-				'FCREACION' => '02/06/2018',
-				'CLIENTE' => 'HIPERMERCADOS TOTTUS S.A',
-				'PROVEEDOR' => 'AGRO INDUSTRIAL PARAMONGA S.A.A',
-				'ESTABLECIMIENTOPROV' => '',
-				'DIRECCIONPROV' => 'Av. Ferrocarril Nro. 212',
-				'UBIGEOPROV' => 'Lima-Barranca-Paramonga',
-				'RUC' => '20135948641',
-				'MAQUILADOR' => '', 'ESTABLECIMIENTOMAQUILA' => '', 'DIRECCIONMAQUILA' => '', 'UBIGEOMAQUILA' => '', 'AREACLIENTE' => '', 'LINEA' => '', 'RESULTADOCHECKLIST' => '', 'RESULTADOTEXTO' => '', 'TAMANOEMPRESAPROV' => '', 'TIPOESTADOSERVICIO' => '', 'COMENTARIO' => '', 'LICENCIADEFUNCIONAMIENTO' => '', 'ESTADOLICENCIADEFUNCIONAMIENTO' => '', 'CONSULTOR' => '', 'EMPRESAINSPECTORA' => '', 'CONVALIDADO' => '', 'ACCIONCORRECTIVA' => '', 'DUBICACIONFILESERVER' => '', 'COLOR' => '', 'CPROVEEDOR' => '', 'CERTIFICADORA' => '', 'CERTIFICACION' => '', 'SCERTIFICACION' => '', 'dmarca' => '', 'dmarca2' => '', 'DDESTINO' => '', 'SISTEMA' => '', 'CHECKLIST' => '', 'dinformefinal' => '', 'SEVALPROD' => '', 'ESPELIGRO' => '', 'CCHECKLIST' => '', 'DNORMA' => '', 'DSISTEMA' => '', 'DSUBNORMA' => '',
-			],
-			[
-				'ID' => '00003487',
-				'DATA' => $this->buscarInspccion('00003487'),
-				'CODIGO' => '00000303',
-				'FECHAINSPECCION' => '01/11/2016',
-				'FCREACION' => '01/11/2016',
-				'CLIENTE' => 'HIPERMERCADOS TOTTUS S.A',
-				'PROVEEDOR' => 'AGRO INDUSTRIAL PARAMONGA S.A.A',
-				'ESTABLECIMIENTOPROV' => '',
-				'DIRECCIONPROV' => 'Av. Ferrocarril Nro. 212',
-				'UBIGEOPROV' => 'Lima-Barranca-Paramonga',
-				'RUC' => '20135948641',
-				'MAQUILADOR' => '', 'ESTABLECIMIENTOMAQUILA' => '', 'DIRECCIONMAQUILA' => '', 'UBIGEOMAQUILA' => '', 'AREACLIENTE' => '', 'LINEA' => '', 'RESULTADOCHECKLIST' => '', 'RESULTADOTEXTO' => '', 'TAMANOEMPRESAPROV' => '', 'TIPOESTADOSERVICIO' => '', 'COMENTARIO' => '', 'LICENCIADEFUNCIONAMIENTO' => '', 'ESTADOLICENCIADEFUNCIONAMIENTO' => '', 'CONSULTOR' => '', 'EMPRESAINSPECTORA' => '', 'CONVALIDADO' => '', 'ACCIONCORRECTIVA' => '', 'DUBICACIONFILESERVER' => '', 'COLOR' => '', 'CPROVEEDOR' => '', 'CERTIFICADORA' => '', 'CERTIFICACION' => '', 'SCERTIFICACION' => '', 'dmarca' => '', 'dmarca2' => '', 'DDESTINO' => '', 'SISTEMA' => '', 'CHECKLIST' => '', 'dinformefinal' => '', 'SEVALPROD' => '', 'ESPELIGRO' => '', 'CCHECKLIST' => '', 'DNORMA' => '', 'DSISTEMA' => '', 'DSUBNORMA' => '',
-			],
-			[
-				'ID' => '00003486',
-				'DATA' => $this->buscarInspccion('00003486'),
-				'CODIGO' => '00000303',
-				'FECHAINSPECCION' => '01/09/2015',
-				'FCREACION' => '01/09/2015',
-				'CLIENTE' => 'HIPERMERCADOS TOTTUS S.A',
-				'PROVEEDOR' => 'AGRO INDUSTRIAL PARAMONGA S.A.A',
-				'ESTABLECIMIENTOPROV' => '',
-				'DIRECCIONPROV' => 'Av. Ferrocarril Nro. 212',
-				'UBIGEOPROV' => 'Lima-Barranca-Paramonga',
-				'RUC' => '20135948641',
-				'MAQUILADOR' => '', 'ESTABLECIMIENTOMAQUILA' => '', 'DIRECCIONMAQUILA' => '', 'UBIGEOMAQUILA' => '', 'AREACLIENTE' => '', 'LINEA' => '', 'RESULTADOCHECKLIST' => '', 'RESULTADOTEXTO' => '', 'TAMANOEMPRESAPROV' => '', 'TIPOESTADOSERVICIO' => '', 'COMENTARIO' => '', 'LICENCIADEFUNCIONAMIENTO' => '', 'ESTADOLICENCIADEFUNCIONAMIENTO' => '', 'CONSULTOR' => '', 'EMPRESAINSPECTORA' => '', 'CONVALIDADO' => '', 'ACCIONCORRECTIVA' => '', 'DUBICACIONFILESERVER' => '', 'COLOR' => '', 'CPROVEEDOR' => '', 'CERTIFICADORA' => '', 'CERTIFICACION' => '', 'SCERTIFICACION' => '', 'dmarca' => '', 'dmarca2' => '', 'DDESTINO' => '', 'SISTEMA' => '', 'CHECKLIST' => '', 'dinformefinal' => '', 'SEVALPROD' => '', 'ESPELIGRO' => '', 'CCHECKLIST' => '', 'DNORMA' => '', 'DSISTEMA' => '', 'DSUBNORMA' => '',
-			],
-		];
 	}
 
 	/**
@@ -214,6 +121,180 @@ class mcons_insp extends CI_Model
 	public function pdfCuadro2(array $data): array
 	{
 		$query = $this->db->query("CALL sp_consulta_ctrlprov_pdf_cuadro2(?, ?)", $data);
+		if (!$query) {
+			return [];
+		}
+		return ($query->num_rows() > 0) ? $query->result() : [];
+	}
+
+	/**
+	 * @param array $data
+	 */
+	public function pdfGrafico2(array $data): array
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_pdf_grafico2(?, ?)", $data);
+		if (!$query) {
+			return [];
+		}
+		return ($query->num_rows() > 0) ? $query->result() : [];
+	}
+
+	/**
+	 * @param array $data
+	 */
+	public function pdfCuadro3(array $data)
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_pdf_cuadro3(?, ?)", $data);
+		if (!$query) {
+			return null;
+		}
+		return ($query->num_rows() > 0) ? $query->row() : null;
+	}
+
+	/**
+	 * @param array $data
+	 */
+	public function pdfCuadro4(array $data)
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_pdf_cuadro4(?, ?)", $data);
+		if (!$query) {
+			return [];
+		}
+		return ($query->num_rows() > 0) ? $query->result() : [];
+	}
+
+	/**
+	 * @param array $data
+	 */
+	public function pdfConclucionesGeneral(array $data)
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_pdf_concluciones(?, ?)", $data);
+		if (!$query) {
+			return '';
+		}
+		return ($query->num_rows() > 0) ? $query->row()->parrafo : '';
+	}
+
+	/**
+	 * @param array $data
+	 */
+	public function pdfConclucionesEspecificas(array $data)
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_pdf_concluciones_especificas(?, ?)", $data);
+		if (!$query) {
+			return [];
+		}
+		return ($query->num_rows() > 0) ? $query->result() : [];
+	}
+
+	/**
+	 * @param array $data
+	 */
+	public function pdfPlanAccionParrafo1(array $data)
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_pdf_plan_acciones_parrafo1(?, ?)", $data);
+		if (!$query) {
+			return '';
+		}
+		return ($query->num_rows() > 0) ? $query->row()->parrafo : '';
+	}
+
+	/**
+	 * @param array $data
+	 */
+	public function pdfPlanAccionParrafo2(array $data)
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_pdf_plan_acciones_parrafo2(?, ?)", $data);
+		if (!$query) {
+			return '';
+		}
+		return ($query->num_rows() > 0) ? $query->row()->parrafo : '';
+	}
+
+	/**
+	 * @param array $data
+	 */
+	public function pdfPlanAccionParrafo3(array $data)
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_pdf_plan_acciones_parrafo3(?, ?)", $data);
+		if (!$query) {
+			return '';
+		}
+		return ($query->num_rows() > 0) ? $query->row()->parrafo : '';
+	}
+
+	/**
+	 * @param array $data
+	 * @return null
+	 */
+	public function pdfCriteriosInspeccion(array $data)
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_pdf_criterio_insp(?, ?)", $data);
+		if (!$query) {
+			return null;
+		}
+		return ($query->num_rows() > 0) ? $query->row() : null;
+	}
+
+	/**
+	 * @param array $data
+	 * @return null
+	 */
+	public function pdfCriteriosEvaluacion(array $data)
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_pdf_criterio_eval(?, ?)", $data);
+		if (!$query) {
+			return [];
+		}
+		return ($query->num_rows() > 0) ? $query->result() : [];
+	}
+
+	/**
+	 * @param array $data
+	 * @return null
+	 */
+	public function pdfEscalaValoracion(array $data)
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_pdf_escala_val(?, ?)", $data);
+		if (!$query) {
+			return [];
+		}
+		return ($query->num_rows() > 0) ? $query->result() : [];
+	}
+
+	/**
+	 * @param array $data
+	 * @return null
+	 */
+	public function pdfParrafoRequisitos(array $data)
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_pdf_parrafo_requisitos(?, ?)", $data);
+		if (!$query) {
+			return '';
+		}
+		return ($query->num_rows() > 0) ? $query->row()->parrafo : '';
+	}
+
+	/**
+	 * @param array $data
+	 * @return null
+	 */
+	public function pdfRequisitoExcluyentes(array $data)
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_pdf_requisitos_excl(?, ?)", $data);
+		if (!$query) {
+			return [];
+		}
+		return ($query->num_rows() > 0) ? $query->result() : [];
+	}
+
+	/**
+	 * @param array $data
+	 * @return null
+	 */
+	public function pdfPeligros(array $data)
+	{
+		$query = $this->db->query("CALL sp_peligros_inspeccion(?, ?)", $data);
 		if (!$query) {
 			return [];
 		}

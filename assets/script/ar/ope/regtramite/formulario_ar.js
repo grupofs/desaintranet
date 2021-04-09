@@ -173,7 +173,7 @@ $(function () {
 				// Productos
 				if (data.productos && Array.isArray(data.productos)) {
 					objProductoLista.productosElegidos = data.productos;
-					objProductoLista.imprimirProductos();
+					objProductoLista.imprimirProductos(false);
 				}
 				// Documentos
 				if (data.documentos && Array.isArray(data.documentos)) {

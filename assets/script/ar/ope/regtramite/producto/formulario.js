@@ -77,25 +77,6 @@ $(function() {
 		// Pais
 		s2Pais.init($('#producto_pais'));
 
-		// Bloqueo de RS
-		const elProductoRS = $('#producto_rs');
-		const elProductoFechaIni = $('#producto_fecha_inicio');
-		const elProductoFechaVenc = $('#producto_fecha_vencimiento');
-		const esRS = objTramite.esRegistroSanitario();
-		elProductoRS.prop('readonly', esRS);
-		elProductoFechaIni.prop('readonly', esRS);
-		elProductoFechaVenc.prop('readonly', esRS);
-		// Se tomara en cuenta los datos del RS en el producto creado
-		if (esRS) {
-			elProductoRS.val($('#carga_registro_nro_rs').val());
-			elProductoFechaIni.val($('#carga_registro_fecha_inicio').val());
-			elProductoFechaVenc.val($('#carga_registro_fecha_final').val());
-			if (!elProductoRS.val()) {
-				objPrincipal.alert('warning', 'Debes ingresar los datos del RS para crear un nuevo producto.', 'Por ser un RS de alimentos (DIGESA)');
-				$('#modalAddProduct').modal('hide');
-			}
-		}
-
 		// Imprime los datos del producto
 		if (producto) {
 			$('#producto_cliente_id').val(producto.CPRODUCTOFS);
@@ -107,8 +88,12 @@ $(function() {
 					text: producto.DCATEGORIACLIENTE
 				}]);
 			}
-			$('#producto_fecha_inicio').val(producto.FFINREGSANITARIO);
-			$('#producto_fecha_vencimiento').val(producto.FINICIOREGSANITARIO);
+			const dateInit = $('#producto_fecha_inicio').data('daterangepicker');
+			dateInit.setStartDate(producto.FINICIOREGSANITARIO)
+			dateInit.setEndDate(producto.FINICIOREGSANITARIO);
+			const dateEnd = $('#producto_fecha_vencimiento').data('daterangepicker');
+			dateEnd.setStartDate(producto.FFINREGSANITARIO)
+			dateEnd.setEndDate(producto.FFINREGSANITARIO);
 			$('#producto_descripcion_sap').val(producto.DPRODUCTOCLIENTE);
 			$('#producto_nombre').val(producto.DNOMBREPRODUCTO);
 			if (producto.CMARCA) {
@@ -189,7 +174,9 @@ $(function() {
 		}).done(function(res) {
 			// Se valida que no exista
 			const indexProducto = objProductoLista.buscarProductoElegido(res.data.CPRODUCTOFS);
-			if (indexProducto === -1) {
+			if (indexProducto !== -1) {
+				objProductoLista.productosElegidos[indexProducto] = res.data;
+			} else {
 				// Se agrega el producto
 				objProductoLista.agregarProducto(res.data);
 				objProductoLista.calcularProductos();
@@ -208,6 +195,7 @@ $(function() {
 				}
 			} else {
 				$('#modalAddProduct').modal('hide');
+				objProductoLista.imprimirRS(res.data);
 			}
 		}).fail(function(jqxhr) {
 			const message = (jqxhr && jqxhr.responseJSON && jqxhr.responseJSON.message) ? jqxhr.responseJSON.message : 'Error en la solicitud del servidor.';
@@ -216,10 +204,6 @@ $(function() {
 			buttons.prop('disabled', false);
 			objPrincipal.liberarBoton(button);
 			objFormularioAR.enableForm('frmProducto', 'readonly', false);
-			// Dependiendo si es un RS se habilita o no los botones
-			elProductoRS.prop('readonly', esRS);
-			elProductoFechaIni.prop('readonly', esRS);
-			elProductoFechaVenc.prop('readonly', esRS);
 		});
 	};
 

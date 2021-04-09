@@ -76,6 +76,7 @@ class mproductocliente extends CI_Model
 		if ($limit > 0) {
 			$this->db->limitAnyWhere($limit, $offset);
 		}
+		$this->db->order_by('MPRODUCTOCLIENTE.TCREACION', 'DESC');
 		$query = $this->db->get();
 		if (!$query) {
 			return [];

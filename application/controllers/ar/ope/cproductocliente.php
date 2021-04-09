@@ -112,7 +112,6 @@ class cproductocliente extends FS_Controller
 			$filter_producto_descripcion = (string) $this->input->post('filter_producto_descripcion');
 
 			$result = $this->mproductocliente->filtrar($codigo_cliente_id, $tipo_producto_id, $filter_producto_descripcion, $limit, $offset);
-			log_message('error', $this->db->last_query());
 			$total = $this->mproductocliente->filtrarTotal($codigo_cliente_id, $tipo_producto_id, $filter_producto_descripcion);
 
 			$this->result['status'] = 200;

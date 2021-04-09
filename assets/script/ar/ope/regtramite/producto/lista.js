@@ -192,23 +192,13 @@ $(function () {
 	/**
 	 * Guarda los productos elegidos al tramite
 	 */
-	objProductoLista.imprimirProductos = function() {
+	objProductoLista.imprimirProductos = function(updateRS) {
+		updateRS = (typeof updateRS === 'undefined') ? true : updateRS;
 		const table = $('#tblTramiteProductos tbody');
 		const productos = objProductoLista.productosElegidos;
 		// Se imprime los datos del primero producto elegido cuando es Ampliacion o Reinscripcion
-		const tramites = objTramite.bloqueoPorTramite();
-		let primerProductoRS = '';
-		if (tramites.esAmpliacion || tramites.esReinscripcionRS) {
-			const primerProducto = productos[0];
-			if (primerProducto) {
-				primerProductoRS = primerProducto.DREGISTROSANITARIO;
-				$('#carga_registro_nro_rs').val(primerProductoRS);
-				$('#carga_registro_fecha_inicio').val(primerProducto.FINICIOREGSANITARIO);
-				$('#carga_registro_fecha_final').val(primerProducto.FFINREGSANITARIO);
-				if (!primerProductoRS) {
-					objPrincipal.notify('warning', 'El primer producto elegido no cuenta con un RS.');
-				}
-			}
+		if (updateRS) {
+			objProductoLista.imprimirRS(productos[0]);
 		}
 
 		let row = '';
@@ -251,6 +241,22 @@ $(function () {
 		table.html(row);
 		// Se limpia la tabla
 		$('#tblProductos tbody').html('');
+	};
+
+	/**
+	 * Imprime los datos del producto
+	 * @param producto
+	 */
+	objProductoLista.imprimirRS = function(producto) {
+		if (producto && producto.DREGISTROSANITARIO) {
+			$('#carga_registro_nro_rs').val(producto.DREGISTROSANITARIO);
+			const dateInit = $('#carga_registro_fecha_inicio').data('daterangepicker');
+			dateInit.setStartDate(producto.FINICIOREGSANITARIO)
+			dateInit.setEndDate(producto.FINICIOREGSANITARIO);
+			const dateEnd = $('#carga_registro_fecha_final').data('daterangepicker');
+			dateEnd.setStartDate(producto.FFINREGSANITARIO)
+			dateEnd.setEndDate(producto.FFINREGSANITARIO);
+		}
 	};
 
 	/**

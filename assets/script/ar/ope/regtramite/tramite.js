@@ -105,12 +105,14 @@ $(function () {
 		}
 		// Bloqueo de RS cuando es ampliacion o reinscripcion
 		$('#carga_registro_nro_rs').prop('readonly', false);
-		// $('#carga_registro_fecha_inicio').prop('readonly', false);
-		// $('#carga_registro_fecha_final').prop('readonly', false);
-		if (esAmpliacion) {
+		$('#carga_registro_fecha_inicio').prop('readonly', false);
+		$('#carga_registro_fecha_final').prop('readonly', false);
+		if (esAmpliacion || esRS || esReinscripcionRS) {
 			$('#carga_registro_nro_rs').prop('readonly', true);
-			// $('#carga_registro_fecha_inicio').prop('readonly', true);
-			// $('#carga_registro_fecha_final').prop('readonly', true);
+			if (esRS) {
+				$('#carga_registro_fecha_inicio').prop('readonly', true);
+				$('#carga_registro_fecha_final').prop('readonly', true);
+			}
 		}
 		return {
 			'total': total,

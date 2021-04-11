@@ -187,8 +187,8 @@ getListvistageneral = function (param) {
 								'<a data-original-title="SKU" data-toggle="modal" data-target="#modalSKU" onClick="editSKU(\'' + row.id_producto + '\',\'' + row.codsku + '\');"><i class="fa fa-edit fa-2x" data-original-title="SKU" data-toggle="tooltip"></i></a>' +
 								'</div>'
 						} else {
-							return '<div>' + row.codsku +
-								'<a data-original-title="SKU" data-toggle="modal" data-target="#modalSKU" onClick="editSKU(\'' + row.id_producto + '\',\'' + row.codsku + '\');"><i class="fa fa-edit fa-1x" data-original-title="SKU" data-toggle="tooltip"></i></a>' +
+							return '<div>' + row.codsku + '<br>' +
+								'<a data-original-title="SKU" data-toggle="modal" data-target="#modalSKU" onClick="editSKU(\'' + row.id_producto + '\',\'' + row.codsku + '\');"><i class="fa fa-edit fa-2x" data-original-title="SKU" data-toggle="tooltip"></i></a>' +
 								'</div>'
 						}
 					}
@@ -259,6 +259,31 @@ $('#frmRegSKU').submit(function (event) {
 		error: function () {
 			alert('Error, No se puede autenticar por error');
 		}
+	});
+});
+
+$('#mbtnGuardarModalSKU').click(function() {
+	const button = $(this);
+	$.ajax({
+		url: baseurl + 'ar/evalprod/cclientereportes/actualizar_sku',
+		method: 'POST',
+		data: {
+			id_producto: $('#mhdnIdproducto').val(),
+			sku: $('#mtxtSKU').val(),
+		},
+		dataType: 'json',
+		beforeSend: function() {
+			objPrincipal.botonCargando(button);
+		}
+	}).done(function(resp) {
+		objPrincipal.notify('success', resp.message);
+		oTable_vistageneral.ajax.reload(null, false);
+		$('#mbtnCerrarModalSKU').click();
+	}).fail(function(jqxhr) {
+		const message = (jqxhr && jqxhr.responseJSON && jqxhr.responseJSON.message) ? jqxhr.responseJSON.message : 'Error en la solicitud del servidor.';
+		objPrincipal.notify('error', message);
+	}).always(function() {
+		objPrincipal.liberarBoton(button);
 	});
 });
 

@@ -85,15 +85,22 @@
                 </div>
             </div>             
                         
-            <div class="card-footer justify-content-between" style="background-color: #D4EAFC;"> 
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="text-right">
-                            <button type="button" class="btn btn-primary" id="btnBuscar"><i class="fas fa-search"></i>&nbsp;&nbsp;Buscar</button>    
-                            <button type="submit" class="btn btn-outline-success" id="btnExel"><i class="far fa-file-excel"></i>&nbsp;&nbsp;Exportar</button>     
-                        </div>
-                    </div>
-                </div>
+            <div class="card-footer justify-content-between" style="background-color: #D4EAFC;">
+				<div class="row">
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12" >
+						<div class="text-left" >
+							<button type="button" role="button" class="btn btn-info" id="btnReporteExel" >
+								<i class="fa fa-file-export" ></i> Exportar Resultado
+							</button>
+						</div>
+					</div>
+					<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+						<div class="text-right">
+							<button type="button" class="btn btn-primary" id="btnBuscar"><i class="fas fa-search"></i>&nbsp;&nbsp;Buscar</button>
+<!--                            <button type="submit" class="btn btn-outline-success" id="btnExel"><i class="far fa-file-excel"></i>&nbsp;&nbsp;Exportar</button>     -->
+						</div>
+					</div>
+				</div>
             </div>
         </div>
         </form>

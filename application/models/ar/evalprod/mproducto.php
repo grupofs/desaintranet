@@ -81,6 +81,16 @@ class Mproducto extends CI_Model
         return $query->result();
     }
 
+	/**
+	 * @param $id
+	 * @param $datos
+	 * @return bool
+	 */
+    public function actualizar($id, $datos)
+	{
+    	return $this->db->update('evalprod_producto', $datos, ['id_producto' => $id]);
+	}
+
     /**
      * Elimina un producto
      * @param $idProducto

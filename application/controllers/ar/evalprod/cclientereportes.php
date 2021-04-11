@@ -1,10 +1,17 @@
 <?php
-class Cclientereportes extends CI_Controller 
+
+/**
+ * Class Cclientereportes
+ *
+ * @property mproducto mproducto
+ */
+class Cclientereportes extends FS_Controller
 {
     function __construct()
 	{
 		parent:: __construct();	
 		$this->load->model('ar/evalprod/mclientereportes');
+		$this->load->model('ar/evalprod/mproducto');
 		$this->load->helper(array('form','url','download','html','file'));
     }    
     
@@ -75,6 +82,34 @@ class Cclientereportes extends CI_Controller
 		echo json_encode($resultado);
 
     }
-    
+
+	/**
+	 * Actualiza el SKU del producto
+	 */
+    public function actualizar_sku()
+	{
+		if (!$this->input->is_ajax_request()) {
+			show_404();
+		}
+		try {
+			$id_producto = $this->input->post('id_producto');
+			$sku = $this->input->post('sku');
+
+			$objProducto = $this->mproducto->buscarPorId($id_producto);
+			if (empty($objProducto)) {
+				throw new Exception('El Producto no pudo ser encontrado al actualizar el SKU');
+			}
+			$actualizar = $this->mproducto->actualizar($objProducto->id_producto, ['codsku' => $sku]);
+			if (!$actualizar) {
+				throw new Exception('El SKU no pudo ser actualizado correctamente');
+			}
+			$this->result['status'] = 200;
+			$this->result['message'] = 'El SKU fue actualizado correctamente.';
+		} catch (Exception $ex) {
+			$this->result['message'] = $ex->getMessage();
+		}
+		responseResult($this->result);
+	}
+
 }
 ?>	

@@ -163,9 +163,9 @@ $infousuario = $this->session->userdata('s_infodato');
 								<button type="button" class="btn btn-primary" id="btnBuscar"><i
 											class="fa fa-search"></i>&nbsp;&nbsp;Buscar
 								</button>
-								<button type="submit" class="btn btn-outline-success" id="btnExel"><i
-											class="far fa-file-excel"></i>&nbsp;&nbsp;Exportar
-								</button>
+<!--								<button type="submit" class="btn btn-outline-success" id="btnExel"><i-->
+<!--											class="far fa-file-excel"></i>&nbsp;&nbsp;Exportar-->
+<!--								</button>-->
 							</div>
 						</div>
 					</div>
@@ -248,12 +248,13 @@ $infousuario = $this->session->userdata('s_infodato');
 				</button>
 			</div>
 			<div class="modal-body">
+				<input type="hidden" class="d-nne" id="mhdnIdproducto" name="mhdnIdproducto" value="" >
 				<div class="form-group">
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="text-light-black">SKU</div>
 							<div>
-								<input class="form-control" id="mtxtSKU" name="mtxtSKU">
+								<input class="form-control" id="mtxtSKU" name="mtxtSKU" value="" >
 							</div>
 						</div>
 					</div>

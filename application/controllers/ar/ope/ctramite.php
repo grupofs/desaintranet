@@ -25,7 +25,7 @@ class ctramite extends FS_Controller
 	 * Ruta para el ingreso de FICHA
 	 * @var string
 	 */
-	private $carpetaDocumento = '02779/';
+	private $carpetaDocumento = '1nullnull/';
 
 	/**
 	 * ctramite constructor.
@@ -197,6 +197,7 @@ class ctramite extends FS_Controller
 				}
 			}
 
+
 			// Datos del producto
 			$tramite_producto_id = $this->input->post('tramite_producto_id');
 			$tramite_producto_fecha_estimada = $this->input->post('tramite_producto_fecha_estimada');
@@ -241,8 +242,12 @@ class ctramite extends FS_Controller
 			$archivo_documento_operation = $this->input->post('archivo_documento_operation');
 			// Config archivo
 			$files = $_FILES;
-			$rutaArchivo = $this->carpetaDocumento . date('Y') . '/';
-			$config['upload_path'] = RUTA_ARCHIVOS . $rutaArchivo;
+			// Se verfica la ruta en caso no existe y se crea
+			$rutaArchivo = RUTA_ARCHIVOS . $this->carpetaDocumento . $objAsuntoRegulatorio->CCLIENTE . '/' .  $objAsuntoRegulatorio->CASUNTOREGULATORIO;
+			if (!file_exists($rutaArchivo)) {
+				mkdir($rutaArchivo, '0777', true);
+			}
+			$config['upload_path'] = $rutaArchivo;
 			$config['allowed_types'] = '*';
 			$this->load->library('upload', $config);
 			if (!empty($objTramite) && !empty($documento_tipo)) {
@@ -273,7 +278,7 @@ class ctramite extends FS_Controller
 								$objDocumento->CDOCUMENTO,
 								$documentoTipo,
 								'',
-								'',
+								null,
 								$s_cusuario,
 								'A'
 							);

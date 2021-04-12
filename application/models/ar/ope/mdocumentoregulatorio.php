@@ -46,7 +46,7 @@ class mdocumentoregulatorio extends CI_Model
 		$this->db->where('CENTIDADREGULA', $CENTIDADREGULA);
 		$this->db->where('CTRAMITE', $CTRAMITE);
 		$this->db->where('CDOCUMENTO', $CDOCUMENTO);
-		$this->db->where('SREGISTRO', 'A');
+//		$this->db->where('SREGISTRO', 'A');
 		$query = $this->db->get();
 		if (!$query) {
 			return null;

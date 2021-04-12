@@ -17,7 +17,7 @@ class mpdocumentoregulatorio extends CI_Model
 	 * @param string $CENTIDADREGULA
 	 * @param string $CTRAMITE
 	 * @param $CDOCUMENTO
-	 * @return array|int
+	 * @return array
 	 */
 	public function buscar(string $CASUNTOREGULATORIO,
 						   string $CENTIDADREGULA,
@@ -64,7 +64,7 @@ class mpdocumentoregulatorio extends CI_Model
 							string $CDOCUMENTO,
 							int $documentoTipo,
 							string $DNUEVODOCUMENTO,
-							string $DUBICACIONFILESERVER,
+							$DUBICACIONFILESERVER,
 							string $CUSUARIO,
 							string $SREGISTRO)
 	{
@@ -108,6 +108,11 @@ class mpdocumentoregulatorio extends CI_Model
 			$CENTIDADREGULA,
 			$CTRAMITE,
 			$CDOCUMENTO);
+
+		// solo si el archivo del documento esta vacio y existe el documento se intentara no actualizar el documento
+		if (is_null($DUBICACIONFILESERVER) && !empty($objDocument)) {
+			$data['DUBICACIONFILESERVER'] = $objDocument[0]->DUBICACIONFILESERVER;
+		}
 
 		$res = (empty($objDocument))
 			? $this->crear($data)

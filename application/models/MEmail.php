@@ -111,7 +111,7 @@ class Memail extends CI_Model
                 join evalprod_paises f on f.id_paises = c.pais
         ";
         $where = "
-            where a.estado!= 6 and a.id_expediente = " . $id . " and c.status = " . $status . " order by a.fecha;
+            where a.estado!= 6 and a.id_expediente = " . $id . " and c.status = " . $status . " order by b.id_producto;
         ";
         $query = $this->db->query($select . $from . $where);
         if (!$query) return [];

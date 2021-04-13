@@ -12,7 +12,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <ul class="list-group">
+				<button type="button" role="button" class="btn btn-secondary" id="download-cuadro-resultado" >
+					<i class="fa fa-download" ></i> Descargar Cuadro de Resultado
+				</button>
+				<input type="hidden" class="d-none" id="evaluar_status_id_expediente" value="" >
+                <ul class="list-group mt-2">
                     <li class="list-group-item d-flex justify-content-between align-items-center"
                         id="evaluar-status-progreso" >
                         En Progreso

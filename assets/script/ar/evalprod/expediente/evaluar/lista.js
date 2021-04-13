@@ -127,6 +127,7 @@ $(function() {
                 data: {},
                 dataType: 'json'
             }).done(function (res) {
+            	$('#evaluar_status_id_expediente').val(idExpediente);
                 container.find('h5.modal-title').text('Expediente ' + expediente);
                 const items = res.items;
                 const empty = items.find(function (item) {
@@ -203,10 +204,43 @@ $(function() {
         }
     };
 
+	/**
+	 *
+	 */
+	objLista.cuadroResultado = function() {
+		const button = $(this);
+		const idExpediente = $('#evaluar_status_id_expediente').val();
+		$.ajax({
+			url: baseurl + 'ar/evalprod/cevaluar/cuadro_resultado',
+			method: 'POST',
+			data: {
+				id_expediente: idExpediente,
+			},
+			dataType: 'json',
+			beforeSend: function() {
+				objPrincipal.botonCargando(button);
+			}
+		}).done(function(res) {
+			objPrincipal.notify('success', 'Descarga del reporte correctamente.');
+			const url = baseurl + 'ar/tramites/cexcelExport/download?filename=' + res.data;
+			const download = window.open(url, '_blank');
+			if (!download) {
+				objPrincipal.alert('warning', 'Habilite la ventana emergente de su navegador.');
+			}
+			download.focus();
+		}).fail(function() {
+			objPrincipal.notify('error', 'Error en la descarga el cuadro de resultado.');
+		}).always(function() {
+			objPrincipal.liberarBoton(button);
+		});
+	};
+
 });
 
 $(document).ready(function() {
 
     objFiltro.buscar();
+
+    $('#download-cuadro-resultado').click(objLista.cuadroResultado);
 
 });

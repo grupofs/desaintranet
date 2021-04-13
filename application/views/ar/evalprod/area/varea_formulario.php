@@ -5,15 +5,30 @@
     <input type="hidden" id="area_id" name="area_id" value="0">
 
     <div class="box-body">
-        <div class="form-group" >
-            <label for="area_nombre">
-                Área
-                <span class="fs-requerido text-danger">*</span>
-            </label>
-            <input type="text" maxlength="150" class="form-control"
-                   id="area_nombre" name="area_nombre"
-                   value="" >
-        </div>
+        <div class="row" >
+			<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12" >
+				<div class="form-group" >
+					<label for="area_nombre">
+						Área
+						<span class="fs-requerido text-danger">*</span>
+					</label>
+					<input type="text" maxlength="150" class="form-control"
+						   id="area_nombre" name="area_nombre" readonly
+						   value="" >
+				</div>
+			</div>
+			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12" >
+				<div class="form-group" >
+					<label for="area_estado">
+						Estado
+					</label>
+					<select name="area_estado" id="area_estado" class="custom-select d-block" style="width: 100% !important;" >
+						<option value="1">Activo</option>
+						<option value="2">Inactivo</option>
+					</select>
+				</div>
+			</div>
+		</div>
         <div class="table-responsible" >
             <table class="table table-bordered table-hover" id="tblContacto" >
                 <thead class="bg-light" >

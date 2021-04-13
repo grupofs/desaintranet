@@ -20,11 +20,13 @@ $(function() {
      * Habre el menu para crear o editar el área
      * @param id
      * @param nombreArea
+     * @param estadoArea
      * @param contactos
      */
-    objGenerar.abrir = function(id, nombreArea, contactos) {
+    objGenerar.abrir = function(id, nombreArea, estadoArea, contactos) {
         $('#area_id').val(id);
         $('#area_nombre').val(nombreArea);
+        $('#area_estado').val(estadoArea).change();
         var filas = '';
         if (contactos && contactos.length) {
             contactos.forEach(function(item, i) {

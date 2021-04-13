@@ -45,6 +45,7 @@ class Carea extends CI_Controller
         try {
             $area_id = $this->input->post('area_id');
             $area_nombre = $this->input->post('area_nombre');
+            $area_estado = $this->input->post('area_estado');
             $ccliente = $this->session->userdata('s_ccliente');
             $ccliente = (empty($ccliente)) ? '00005' : $ccliente; // por defecto es 00005
 
@@ -64,10 +65,10 @@ class Carea extends CI_Controller
                     throw new Exception('Lo siento no se pudo obetner un Identificado para el área, vuelva a intentarlo.');
                 }
                 $mensajeTexto = 'creado';
-                $respuesta = $this->marea->crear($area_id, $area_nombre, 1, $ccliente);
+                $respuesta = $this->marea->crear($area_id, $area_nombre, $area_estado, $ccliente);
             } else {
                 $mensajeTexto = 'actualizado';
-                $respuesta = $this->marea->editar($area_id, $area_nombre, 1);
+                $respuesta = $this->marea->editar($area_id, $area_nombre, $area_estado);
             }
 
             if (!$respuesta) {

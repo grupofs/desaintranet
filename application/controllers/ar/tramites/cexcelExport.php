@@ -23,9 +23,7 @@ class CexcelExport extends CI_Controller {
 	}
 
 	public function viewtramite() { // COCINADOR-SECADOR-HORNO
-
 		$this->layout->js(array(public_url('script/ar/tramitedigesa/constramdigesa.js')));
-
 		$data['content_for_layout'] = 'ar/tramitedigesa/vconstramdigesa';
 		$this->parser->parse('seguridad/vprincipalClie',$data);
 	}

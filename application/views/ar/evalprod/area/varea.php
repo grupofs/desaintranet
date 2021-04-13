@@ -39,7 +39,7 @@ $cia = $this-> session-> userdata('s_cia');
                                    aria-controls="tabReg1" aria-selected="true">LISTADO</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" style="color: #000000;" id="tabReg2-tab" data-toggle="pill"
+                                <a class="nav-link" style="color: #000000; display: none" id="tabReg2-tab" data-toggle="pill"
                                    href="#tabReg2" role="tab" aria-controls="tabReg2"
                                    aria-selected="false">REGISTRO</a>
                             </li>
@@ -83,9 +83,9 @@ $cia = $this-> session-> userdata('s_cia');
                                             <button type="button" class="btn btn-default" id="btnBuscar">
                                                 <i class="fa fa-fw fa-search"></i> Buscar
                                             </button>
-                                            <button type="button" class="btn btn-primary" id="btnNuevoArea">
-                                                <i class="fa fa-fw fa-plus"></i> Nueva Área
-                                            </button>
+<!--                                            <button type="button" class="btn btn-primary" id="btnNuevoArea">-->
+<!--                                                <i class="fa fa-fw fa-plus"></i> Nueva Área-->
+<!--                                            </button>-->
                                         </div>
                                     </div>
                                 </div>
@@ -100,11 +100,11 @@ $cia = $this-> session-> userdata('s_cia');
                                             <table id="tblLista" class="table table-striped table-bordered" style="width:100%">
                                                 <thead>
                                                 <tr>
-                                                    <th style="width: 25px" >#</th>
+                                                    <th>#</th>
                                                     <th>Área</th>
-                                                    <th style="width: 120px" >Estado</th>
-                                                    <th style="width: 50px;" ></th>
-                                                    <th style="width: 50px;" ></th>
+                                                    <th style="width: 60px" >Estado</th>
+                                                    <th style="width: 60px" ></th>
+<!--                                                    <th style="width: 50px;" ></th>-->
                                                 </tr>
                                                 </thead>
                                                 <tbody></tbody>

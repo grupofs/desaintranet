@@ -247,7 +247,8 @@ class ctramite extends FS_Controller
 			if (!file_exists($rutaArchivo)) {
 				mkdir($rutaArchivo, '0777', true);
 			}
-			$config['upload_path'] = $rutaArchivo;
+			$config['upload_path'] = $rutaArchivo . '/';
+			$rutaArchivo = $this->carpetaDocumento . $objAsuntoRegulatorio->CCLIENTE . '/' .  $objAsuntoRegulatorio->CASUNTOREGULATORIO . '/';
 			$config['allowed_types'] = '*';
 			$this->load->library('upload', $config);
 			if (!empty($objTramite) && !empty($documento_tipo)) {
@@ -282,9 +283,10 @@ class ctramite extends FS_Controller
 								$s_cusuario,
 								'A'
 							);
-							if (!empty($archivo_documento_operation) && is_array($archivo_documento_operation)) {
+							if (!empty($archivo_documento_operation[$key]) && is_array($archivo_documento_operation[$key])) {
+								$primerRegistro = true;
 								// Lectura de los documentos del archivo
-								foreach ($archivo_documento_operation as $keyArchivo => $valueArchivo) {
+								foreach ($archivo_documento_operation[$key] as $keyArchivo => $valueArchivo) {
 									$archivoDocumentoOperation = (isset($archivo_documento_operation[$key][$keyArchivo]) && isset($archivo_documento_operation[$key][$keyArchivo])) ? $archivo_documento_operation[$key][$keyArchivo] : '';
 									if ($archivoDocumentoOperation == 1) {
 										if (isset($files['archivo_documento']['name'][$key][$keyArchivo]) && !empty($files['archivo_documento']['name'][$key][$keyArchivo])) {
@@ -300,8 +302,9 @@ class ctramite extends FS_Controller
 											} else {
 												$archivo = $rutaArchivo . $this->upload->data('file_name');
 												// El primer archivo se guardara en el documento principal (como siempre lo a estado haciendo.)
-												if ($keyArchivo == 0) {
+												if ($primerRegistro) {
 													$updateData = [
+														'SCARGADOCUMENTO' => 'R',
 														'DUBICACIONFILESERVER' => $archivo,
 													];
 													$objDocumentoArchivoActualizado = new mpdocumentoregulatorio();
@@ -312,6 +315,7 @@ class ctramite extends FS_Controller
 														$objDocumento->CDOCUMENTO,
 														$updateData,
 													);
+													$primerRegistro = false;
 												} else {
 													// Los demás archivos se cargan en una tabla detalle de archivos
 													$objArchivo = new mpdocumentoregulatorioarchivo();
@@ -916,8 +920,11 @@ class ctramite extends FS_Controller
 				throw new Exception('El archivo no pudo ser encontrado.');
 			}
 
-			if (!empty($mdocumentoregula->DUBICACIONFILESERVER)) {
-				$data = ['DUBICACIONFILESERVER' => ''];
+			if (!empty($mdocumentoregula[0]->DUBICACIONFILESERVER)) {
+				$data = [
+					'DUBICACIONFILESERVER' => null,
+					'SCARGADOCUMENTO' => 'E',
+				];
 				$this->mpdocumentoregulatorio->actualizar(
 					$casuntoregula,
 					$centidadregula,
@@ -925,8 +932,8 @@ class ctramite extends FS_Controller
 					$cdocumento,
 					$data
 				);
-				if (file_exists('./FTPfileserver/Archivos/' . $mdocumentoregula->DUBICACIONFILESERVER)) {
-					unlink(RUTA_ARCHIVOS . $mdocumentoregula->DUBICACIONFILESERVER);
+				if (file_exists('./FTPfileserver/Archivos/' . $mdocumentoregula[0]->DUBICACIONFILESERVER)) {
+					unlink(RUTA_ARCHIVOS . $mdocumentoregula[0]->DUBICACIONFILESERVER);
 				}
 			}
 

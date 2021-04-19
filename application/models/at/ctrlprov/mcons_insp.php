@@ -27,7 +27,7 @@ class mcons_insp extends CI_Model
 
 	/**
 	 * Busca una inspección con su ID
-	 * @param $id
+	 * @param $CAUDITORIAINSPECCION, $CINTERNOPTE
 	 * @return array|bool|mixed|object|null
 	 */
 	public function buscarInspccion($CAUDITORIAINSPECCION, $CINTERNOPTE)
@@ -36,6 +36,23 @@ class mcons_insp extends CI_Model
 		$this->db->from('PDAUDITORIAINSPECCION');
 		$this->db->where('CAUDITORIAINSPECCION', $CAUDITORIAINSPECCION);
 		$this->db->where('FSERVICIO', $CINTERNOPTE);
+		$query = $this->db->get();
+		if (!$query) {
+			return null;
+		}
+		return ($query->num_rows() > 0) ? $query->row() : null;
+	}
+
+	/**
+	 * Busca una inspección con su ID
+	 * @param $CAUDITORIAINSPECCION
+	 * @return array|bool|mixed|object|null
+	 */
+	public function buscarInspccionCab($CAUDITORIAINSPECCION)
+	{
+		$this->db->select('*');
+		$this->db->from('PCAUDITORIAINSPECCION');
+		$this->db->where('CAUDITORIAINSPECCION', $CAUDITORIAINSPECCION);
 		$query = $this->db->get();
 		if (!$query) {
 			return null;
@@ -295,6 +312,84 @@ class mcons_insp extends CI_Model
 	public function pdfPeligros(array $data)
 	{
 		$query = $this->db->query("CALL sp_peligros_inspeccion(?, ?)", $data);
+		if (!$query) {
+			return [];
+		}
+		return ($query->num_rows() > 0) ? $query->result() : [];
+	}
+
+	/**
+	 * @param array $params
+	 * @return array
+	 */
+	public function getAccionesCorrectiva(array $params)
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_accion_correctiva(?, ?)", $params);
+		if (!$query) {
+			return [];
+		}
+		return ($query->num_rows() > 0) ? $query->result() : [];
+	}
+
+	/**
+	 * @param array $params
+	 * @return array
+	 */
+	public function getProveedor(array $params)
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_buscar_proveedor(?)", $params);
+		if (!$query) {
+			return null;
+		}
+		return ($query->num_rows() > 0) ? $query->row() : null;
+	}
+
+	/**
+	 * @param array $params
+	 * @return array
+	 */
+	public function getProveedorEstablecimiento(array $params)
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_buscar_proveedor_establecimiento(?)", $params);
+		if (!$query) {
+			return null;
+		}
+		return ($query->num_rows() > 0) ? $query->row()->ESTABLECIMIENTO : null;
+	}
+
+	/**
+	 * @param array $params
+	 * @return array
+	 */
+	public function getProveedorLinea(array $params)
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_buscar_proveedor_linea(?,?)", $params);
+		if (!$query) {
+			return null;
+		}
+		return ($query->num_rows() > 0) ? $query->row()->DLINEACLIENTEE : null;
+	}
+
+	/**
+	 * @param array $params
+	 * @return array
+	 */
+	public function getProveedorContactos(array $params)
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_buscar_proveedor_contactos(?)", $params);
+		if (!$query) {
+			return [];
+		}
+		return ($query->num_rows() > 0) ? $query->result() : [];
+	}
+
+	/**
+	 * @param array $params
+	 * @return array
+	 */
+	public function getAreaCliente(array $params)
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_area_cliente(?)", $params);
 		if (!$query) {
 			return [];
 		}

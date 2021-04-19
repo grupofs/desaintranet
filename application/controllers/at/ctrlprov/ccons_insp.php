@@ -8,10 +8,19 @@ define("DOMPDF_ENABLE_REMOTE", true);
 class ccons_insp extends FS_Controller
 {
 	/**
-	 * Ruta para los PDF de las inpescciones tecnicas
-	 * @var string
+	 * CODIGO CIA
 	 */
-	private $carpetaAT = 'AT/';
+	const CIA = '1';
+
+	/**
+	 * CODIGO DE AREA
+	 */
+	const AREA = '01';
+
+	/**
+	 * CODIGO DE SERVICIO
+	 */
+	const SERVICIO = '02';
 
 	/**
 	 * ccons_insp constructor.
@@ -21,6 +30,21 @@ class ccons_insp extends FS_Controller
 		parent::__construct();
 		$this->load->helper('consinsp');
 		$this->load->model('at/ctrlprov/mcons_insp', 'mcons_insp');
+	}
+
+	/**
+	 * Busqueda de areas del cliente
+	 */
+	public function get_areas()
+	{
+		if (!$this->input->is_ajax_request()) {
+			show_404();
+		}
+		$ccliente = $this->input->post('ccliente');
+		$items = $this->mcons_insp->getAreaCliente([
+			'@AS_CCLIENTE' => $ccliente,
+		]);
+		echo json_encode(['items' => $items]);
 	}
 
 	/**
@@ -35,12 +59,12 @@ class ccons_insp extends FS_Controller
 		$fini = $this->input->post('fini');
 		$ffin = $this->input->post('ffin');
 		$ccliente = $this->input->post('filtro_cliente');
-		$cclienteprov = $this->input->post('cclienteprov');
-		$cclientemaquila = $this->input->post('cclientemaquila');
-		$careacliente = $this->input->post('careacliente');
-		$ubigeoprov = $this->input->post('ubigeoprov');
-		$ubigeomaquila = $this->input->post('ubigeomaquila');
-		$tipoestado = $this->input->post('tipoestado');
+		$cclienteprov = $this->input->post('filtro_proveedor');
+		$cclientemaquila = $this->input->post('filtro_maquilador');
+		$careacliente = $this->input->post('filtro_cliente_area');
+		$ubigeoprov = null; // $this->input->post('ubigeoprov');
+		$ubigeomaquila = null; // $this->input->post('ubigeomaquila');
+		$tipoestado = $this->input->post('filtro_tipo_estado');
 		$cond = $this->input->post('cond');
 		$peligro = $this->input->post('filtro_peligro');
 		$nrorow = $this->input->post('nrorow');
@@ -49,15 +73,15 @@ class ccons_insp extends FS_Controller
 
 		$inspecciones = '';
 		if (!empty($ccliente)) {
-			$area = is_null($area) ? '01' : $area;
-			$cservicio = is_null($cservicio) ? '02' : $cservicio;
+			$area = self::AREA;
+			$cservicio = self::SERVICIO;
 //			$ccliente = is_null($ccliente) ? '00005' : $ccliente;
-			$cclienteprov = is_null($cclienteprov) ? '%' : $cclienteprov;
-			$cclientemaquila = is_null($cclientemaquila) ? '%' : $cclientemaquila;
-			$careacliente = is_null($careacliente) ? '%' : $careacliente;
+			$cclienteprov = (empty($cclienteprov)) ? '%' : $cclienteprov;
+			$cclientemaquila = (empty($cclientemaquila)) ? '%' : $cclientemaquila;
+			$careacliente = (empty($careacliente)) ? '%' : $careacliente;
 			$ubigeoprov = is_null($ubigeoprov) ? '%' : $ubigeoprov;
 			$ubigeomaquila = is_null($ubigeomaquila) ? '%' : $ubigeomaquila;
-			$tipoestado = is_null($tipoestado) ? '%' : $tipoestado;
+			$tipoestado = (empty($tipoestado)) ? '%' : $tipoestado;
 			$cond = is_null($cond) ? '0' : $cond;
 			$peligro = empty($peligro) ? '%' : $peligro;
 			$nrorow = is_null($nrorow) ? 0 : $nrorow;
@@ -110,8 +134,9 @@ class ccons_insp extends FS_Controller
 		try {
 			$codigo = $this->input->get('codigo');
 			$fecha = $this->input->get('fecha');
-			$dompdf = $this->_pdf($codigo, $fecha);
-			$dompdf->stream("ficha_tenica.pdf", array("Attachment" => 0));
+			$html2pdf = $this->_pdf($codigo, $fecha);
+//			$dompdf->stream("ficha_tenica.pdf", array("Attachment" => 0));
+			$html2pdf->output('file.pdf', 'I');
 		} catch (Exception $ex) {
 			show_error($ex->getMessage(), 500, 'Error al realizar la carga de PDF');
 		}
@@ -211,18 +236,9 @@ class ccons_insp extends FS_Controller
 			'requisitosExcluyentes' => $requisitosExcluyentes,
 			'peligros' => $peligros,
 		], TRUE);
-//		$options = new \Dompdf\Options();
-//		$options->set('dpi', 100);
-//		$options->set('isPhpEnabled', TRUE);
-//		// Realiza la creación del PDF
-//		$dompdf = new \Dompdf\Dompdf($options);
-//		$dompdf->loadHtml($content);
-//		$dompdf->setPaper('A4', 'portrait');
-//		$dompdf->render();
-//		return $dompdf;
 		$html2pdf = new \Spipu\Html2Pdf\Html2Pdf();
 		$html2pdf->writeHTML($content);
-		$html2pdf->output('file.pdf', 'I');
+		return $html2pdf;
 	}
 
 	/**
@@ -236,35 +252,43 @@ class ccons_insp extends FS_Controller
 		try {
 			$codigo = $this->input->post('codigo');
 			$fecha = $this->input->post('fecha');
-			$inspeccion = $this->mcons_insp->buscarInspccion($codigo, $fecha);
-			if (empty($inspeccion)) {
+			$inspecciondet = $this->mcons_insp->buscarInspccion($codigo, $fecha);
+			if (empty($inspecciondet)) {
 				throw new Exception('La inspección no pudo ser encontrada.');
 			}
-			$fileName = 'inspeccion_' . date('Ymdhis') . ' .pdf';
-			$filePath = $this->carpetaAT . $fileName;
-			$dompdf = $this->_pdf($codigo, $fecha);
-			$saveFile = file_put_contents(RUTA_ARCHIVOS . $filePath, $dompdf->output());
-			if (!$saveFile) {
-				throw new Exception('Error al guardar el archivo PDF.');
+			$inspeccioncab = $this->mcons_insp->buscarInspccionCab($codigo);
+			if (empty($inspeccioncab)) {
+				throw new Exception('La inspección cabecera no pudo ser encontrada.');
 			}
+			// codigo | fecha .pdf
+			$fileName = $codigo . str_replace('-', '', $fecha) . '.pdf';
+			$dompdf = $this->_pdf($codigo, $fecha);
+
+			// Separado por Archivos / cia|area|servicio / ccliente / caudi
+			$rutaCarpeta = '1' . self::AREA.self::SERVICIO . '/' . $inspeccioncab->CCLIENTE . '/' .  $inspeccioncab->CAUDITORIAINSPECCION;
+			if (!file_exists(RUTA_ARCHIVOS. $rutaCarpeta)) {
+				mkdir(RUTA_ARCHIVOS . $rutaCarpeta, '0777', true);
+			}
+			$filePath = $rutaCarpeta . '/' . $fileName;
+			$dompdf->output(RUTA_ARCHIVOS . $filePath, 'F');
 
 			$validate = $this->db->update('PDAUDITORIAINSPECCION',
 				[
 					'DUBICACIONFILESERVERPDF' => $filePath,
 				],
 				[
-					'CAUDITORIAINSPECCION' => $inspeccion->CAUDITORIAINSPECCION,
-					'FSERVICIO' => $inspeccion->FSERVICIO,
+					'CAUDITORIAINSPECCION' => $inspecciondet->CAUDITORIAINSPECCION,
+					'FSERVICIO' => $inspecciondet->FSERVICIO,
 				]
 			);
 			if (!$validate) {
 				throw new Exception('La inspección no pudo ser actualizada correctamente.');
 			}
-			$inspeccion->DUBICACIONFILESERVERPDF = $filePath;
+			$inspecciondet->DUBICACIONFILESERVERPDF = $filePath;
 
 			$this->result['status'] = 200;
 			$this->result['message'] = 'Descarga del archivo correctamente.';
-			$this->result['data'] = $inspeccion;
+			$this->result['data'] = $inspecciondet;
 		} catch (Exception $ex) {
 			$this->result['message'] = $ex->getMessage();
 		}
@@ -283,6 +307,54 @@ class ccons_insp extends FS_Controller
 			show_404();
 		}
 		force_download($pathFile, null, false);
+	}
+
+	/**
+	 * Busqueda de las acciones correctiva
+	 */
+	public function get_accion_correctiva()
+	{
+		if (!$this->input->is_ajax_request()) {
+			show_404();
+		}
+		$codigo = $this->input->post('codigo');
+		$fecha = $this->input->post('fecha');
+		$items = $this->mcons_insp->getAccionesCorrectiva([
+			'@CAUDI' => $codigo,
+			'@FSERV' => $fecha,
+		]);
+		echo json_encode(['items' => $items]);
+	}
+
+	/**
+	 * Busqueda de las acciones correctiva
+	 */
+	public function get_proveedor()
+	{
+		if (!$this->input->is_ajax_request()) {
+			show_404();
+		}
+		$caudi = $this->input->post('caudi');
+		$id_proveedor = $this->input->post('proveedor');
+		$proveedor = $this->mcons_insp->getProveedor([
+			'@AS_CCLIENTE' => $id_proveedor,
+		]);
+		$establecimiento = $this->mcons_insp->getProveedorEstablecimiento([
+			'@AS_CAUDITORIAINSPECCION' => $caudi,
+		]);
+		$linea = $this->mcons_insp->getProveedorLinea([
+			'@AS_CCLIENTE' => $id_proveedor,
+			'@AS_CCIA' => 1,
+		]);
+		$contactos = $this->mcons_insp->getProveedorContactos([
+			'@AS_CCLIENTE' => $id_proveedor,
+		]);
+		echo json_encode([
+			'proveedor' => $proveedor,
+			'establecimiento' => $establecimiento,
+			'linea' => $linea,
+			'contactos' => $contactos,
+		]);
 	}
 
 }

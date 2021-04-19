@@ -71,6 +71,11 @@ $(function () {
 						d.ffin = $('#ffin').val();
 						d.ccia = $('#idcia').val();
 						d.filtro_cliente = $('#filtro_cliente').val();
+						d.filtro_proveedor = $('#filtro_proveedor').val();
+						d.filtro_maquilador = $('#filtro_maquilador').val();
+						d.filtro_tipo_estado = $('#filtro_tipo_estado').val();
+						d.filtro_cliente_area = $('#filtro_cliente_area').val();
+						d.filtro_linea_proveedor = $('#filtro_linea_proveedor').val();
 						d.filtro_peligro = filtroPeligro;
 					},
 					dataSrc: function (data) {
@@ -86,23 +91,28 @@ $(function () {
 					{
 						"orderable": false,
 						render: function (data, type, row) {
-							if (row.DUBICACIONFILESERVERPDF) {
-								return '<button type="button" class="btn btn-success btn-block download-pdf" data-link="' + row.DUBICACIONFILESERVERPDF + '">' +
-									'<i class="fa fa-download" ></i> Descargar Insp' +
-									'</button>';
-							} else {
-								return '<button type="button" class="btn btn-light btn-block open-pdf" data-codigo="' + row.CODIGO + '" data-fecha="' + row.FECHAINSPECCION + '" data-toggle="modal" data-target="#staticBackdrop">' +
-									'<i class="fa fa-file-pdf" ></i> Ver Insp.' +
-									'</button>';
+							const rowId = 'dropdown-' + row.CODIGO + row.FECHAINSPECCION;
+							let htmlRow = '<div class="dropdown">';
+							htmlRow += '<button type="button" class="btn btn-secondary dropdown-toggle" role="button" id="' + rowId + '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+							htmlRow += '<i class="fa fa-bars" ></i> Opciones';
+							htmlRow += '</button>';
+							htmlRow += '<div class="dropdown-menu" aria-labelledby="' + rowId + '">';
+							let tipoEstado = String(row.TIPOESTADOSERVICIO).toLowerCase().trim();
+							console.log(tipoEstado);
+							if (tipoEstado === 'convalidado' || tipoEstado === 'concluido ok') {
+								if (row.DUBICACIONFILESERVERPDF) {
+									htmlRow += '<button type="button" class="dropdown-item download-pdf" data-link="' + row.DUBICACIONFILESERVERPDF + '" ><i class="fa fa-download" ></i> Descargar Informe Técnico</button>';
+								} else {
+									htmlRow += '<button type="button" class="dropdown-item open-pdf" data-codigo="' + row.CODIGO + '" data-fecha="' + row.FECHAINSPECCION + '" ><i class="fa fa-file-pdf" ></i> Ver Informe Técnico</button>';
+								}
 							}
+							htmlRow += '<button type="button" class="dropdown-item ver-accion-correctiva" data-codigo="' + row.CODIGO + '" data-fecha="' + row.FECHAINSPECCION + '" ><i class="fa fa-th-list" ></i> Ver Acciones Correctivas</button>';
+							htmlRow += '<button type="button" class="dropdown-item ver-proveedor" data-codigo="' + row.CODIGO + '" data-proveedor="' + row.CPROVEEDOR + '" ><i class="fa fa-eye" ></i> Ver Proveedor</button>';
+							htmlRow += '</div>';
+							htmlRow += '</div>';
+							return htmlRow;
 						}
 					},
-					// {
-					// 	"class": "index",
-					// 	orderable: false,
-					// 	data: null,
-					// 	targets: 1
-					// },
 					{data: 'CODIGO', orderable: false, targets: 1},
 					{
 						"orderable": false,
@@ -262,13 +272,239 @@ $(function () {
 		});
 	};
 
+	/**
+	 * @param idCliente
+	 */
+	objInsp.cargaArea = function(idCliente) {
+		$.ajax({
+			type: 'ajax',
+			method: 'post',
+			url: baseurl + "at/ctrlprov/ccons_insp/get_areas",
+			data: {
+				ccliente: idCliente,
+			},
+			dataType: "JSON",
+		}).done(function(res) {
+			const items = res.items;
+			let options = '<option value="" ></option>';
+			if (items && Array.isArray(items)) {
+				items.forEach(function(item) {
+					options += '<option value="' + item.AREACLIENTE + '" >' + item.DAREACLIENTE + '</option>';
+				});
+			}
+			$('#filtro_cliente_area').html(options);
+		}).fail(function() {
+			objPrincipal.notify('warning', 'Hubo un error al carga las areas.');
+		});
+	};
+
+	/**
+	 * Carga de proveedores
+	 */
+	objInsp.cargaProveedor = function (idCliente) {
+		$.ajax({
+			type: 'ajax',
+			method: 'post',
+			url: baseurl + "at/ctrlprov/cregctrolprov/getcboprovxclie",
+			data: {
+				ccliente: idCliente,
+			},
+			dataType: "JSON",
+		}).done(function(res) {
+			$('#filtro_proveedor').html(res);
+		}).fail(function() {
+			objPrincipal.notify('warning', 'Hubo un error al carga los proveedor.');
+		});
+	};
+
+	/**
+	 * Carga de proveedores
+	 */
+	objInsp.cargaEstados = function () {
+		$.ajax({
+			type: 'ajax',
+			method: 'post',
+			url: baseurl + "at/ctrlprov/cregctrolprov/getcboestado",
+			data: {},
+			dataType: "JSON",
+		}).done(function(res) {
+			$('#filtro_tipo_estado').html(res);
+		}).fail(function() {
+			objPrincipal.notify('warning', 'Hubo un error al carga los proveedor.');
+		});
+	};
+
+	/**
+	 * Carga de proveedores
+	 */
+	objInsp.cargaMaquilador = function (idProveedor) {
+		$.ajax({
+			type: 'ajax',
+			method: 'post',
+			url: baseurl + "at/ctrlprov/cregctrolprov/getcbomaqxprov",
+			data: {
+				cproveedor: idProveedor,
+			},
+			dataType: "JSON",
+		}).done(function(res) {
+			$('#filtro_maquilador').html(res);
+		}).fail(function() {
+			objPrincipal.notify('warning', 'Hubo un error al carga los maquilador.');
+		});
+	};
+
+	/**
+	 * Ver Acciones correctivas
+	 */
+	objInsp.verAccionCorrectiva = function() {
+		const button = $(this);
+		const codigo = button.data('codigo');
+		const fecha = button.data('fecha');
+		$.ajax({
+			url: baseurl + 'at/ctrlprov/ccons_insp/get_accion_correctiva',
+			method: 'POST',
+			data: {
+				codigo: codigo,
+				fecha: fecha,
+			},
+			dataType: 'json',
+			beforeSend: function() {
+				objPrincipal.botonCargando(button);
+			},
+		}).done(function(res) {
+			const elModal = $('#modalAccionCorrectiva');
+			elModal.find('h5').html('Acción Correctiva (Insp. ' + codigo + ' - ' + moment(fecha, 'YYYY-MM-DD').format('DD/MM/YYYY') + ')');
+			objInsp.imprimirAccionCorrectiva(res.items);
+			elModal.modal('show');
+		}).fail(function() {
+			objPrincipal.notify('warning', 'Error al intentar cargar las acciones correctivas')
+		}).always(function() {
+			objPrincipal.liberarBoton(button);
+		});
+	};
+
+	/**
+	 * @param data
+	 */
+	objInsp.imprimirAccionCorrectiva = function(data) {
+		let rows = '';
+		if (data && Array.isArray(data)) {
+			data.forEach(function(item) {
+				let responsable = (item.dresponsablecliente) ? item.dresponsablecliente : '';
+				let observacion = (item.dobservacion) ? item.dobservacion : '';
+				rows += '<tr>';
+				rows += '<td class="text-left" style="" >' + item.dnumerador + '</td>';
+				rows += '<td class="text-left" style="min-width: 250px" >' + item.drequisito + '</td>';
+				rows += '<td class="text-center" style="" >' + item.sexcluyente + '</td>';
+				rows += '<td class="text-left" style="min-width: 180px" >' + item.tipohallazgo + '</td>';
+				rows += '<td class="text-left" style="min-width: 250px" >' + item.dhallazgo + '</td>';
+				rows += '<td class="text-left" style="min-width: 250px" >' + item.dhallazgotext + '</td>';
+				rows += '<td class="text-left" style="min-width: 200px" >' + responsable + '</td>';
+				rows += '<td class="text-left" style="min-width: 60px" >' + moment(item.tcreacion).format('DD/MM/YYYY') + '</td>';
+				rows += '<td class="text-center" style="min-width: 60px" >' + item.svalor + '</td>';
+				rows += '<td class="text-left" style="min-width: 200px" >' + observacion + '</td>';
+				rows += '</tr>';
+			});
+		}
+		$('#tblAcciónCorrectiva > tbody').html(rows);
+	};
+
+	/**
+	 * DAtos del proveedor
+	 */
+	objInsp.verProveedor = function() {
+		const button = $(this);
+		const caudi = button.data('codigo');
+		const proveedor = button.data('proveedor');
+		$.ajax({
+			url: baseurl + 'at/ctrlprov/ccons_insp/get_proveedor',
+			method: 'POST',
+			data: {
+				proveedor: proveedor,
+				caudi: caudi,
+			},
+			dataType: 'json',
+			beforeSend: function() {
+				objPrincipal.botonCargando(button);
+			},
+		}).done(function(res) {
+			console.log(res);
+			objInsp.imprimirProveedor(res.proveedor);
+			objInsp.imprimirProveedorEstablecimiento(res.establecimiento);
+			objInsp.imprimirProveedorLinea(res.linea);
+			objInsp.imprimirProveedorContactos(res.contactos);
+			$('#modalProveedor').modal('show');
+		}).fail(function() {
+			objPrincipal.notify('warning', 'Error al cargar los datos del proveedor');
+		}).always(function() {
+			objPrincipal.liberarBoton(button);
+		});
+	};
+
+	/**
+	 * @param data
+	 */
+	objInsp.imprimirProveedor = function(data) {
+		$('#proveedor_ruc').html(data.NRUC);
+		$('#proveedor_razon_social').html(data.DRAZONSOCIAL);
+		$('#proveedor_direccion').html(data.DDIRECCIONCLIENTE);
+		$('#proveedor_ubigeo').html(data.UBIGEO);
+		$('#proveedor_telefono').html(data.DTELEFONO);
+		$('#proveedor_representante').html(data.DREPRESENTANTE);
+	};
+
+	/**
+	 * @param establecimiento
+	 */
+	objInsp.imprimirProveedorEstablecimiento = function(establecimiento) {
+		$('#proveedor_inspeccionado').html(establecimiento);
+	};
+
+	/**
+	 * @param linea
+	 */
+	objInsp.imprimirProveedorLinea = function(linea) {
+		$('#proveedor_linea').html(linea);
+	};
+
+	/**
+	 * @param datos
+	 */
+	objInsp.imprimirProveedorContactos = function(datos) {
+		let rows = '';
+		if (datos && Array.isArray(datos)) {
+			datos.forEach(function(item, key) {
+				rows += '<tr>';
+				rows += '<td class="text-center" style="min-width: 50px" >' + (key + 1) + '</td>';
+				rows += '<td class="text-left" style="min-width: 150px" >' + item.NOMBRES + '</td>';
+				rows += '<td class="text-left" style="min-width: 150px" >' + item.DCARGOCONTACTO + '</td>';
+				rows += '<td class="text-left" style="min-width: 150px" >' + item.DMAIL + '</td>';
+				rows += '<td class="text-left" style="min-width: 150px" >' + item.DTELEFONO + '</td>';
+				rows += '</tr>';
+			});
+		}
+		$('#tblProveedorContactos tbody').html(rows);
+	};
+
 });
 
 $(document).ready(function () {
 
 	objInsp.cargaClientes();
 
+	objInsp.cargaEstados();
+
 	$('#btnBuscar').click(objInsp.search);
+
+	$('#chkBusavanzada').click(function() {
+		const el = $(this);
+		const content = $('#filtroAvanzado');
+		if (el.is(':checked')) {
+			content.show();
+		} else {
+			content.hide();
+		}
+	});
 
 	$(document).on('click', '.open-pdf', objInsp.openPDF);
 
@@ -280,6 +516,46 @@ $(document).ready(function () {
 
 	$('#modalPDF').on('hidden.bs.modal', function () {
 		$('#framePDF').attr('src','about:blank');
-	})
+	});
+
+	$(document).on('click', '.ver-accion-correctiva', objInsp.verAccionCorrectiva);
+
+	$(document).on('click', '.ver-proveedor', objInsp.verProveedor);
+
+	$('#filtro_cliente').change(function() {
+		const value = $(this).val();
+		objInsp.cargaArea(value);
+		objInsp.cargaProveedor(value);
+		$('#contenedorMaquilador').hide();
+		$('#filtro_maquilador').html('').change();
+		if (value) {
+			$('#contenedorProveedor').show();
+		} else {
+			$('#contenedorProveedor').hide();
+		}
+	});
+
+	$('#filtro_proveedor').change(function() {
+		const value = $(this).val();
+		objInsp.cargaMaquilador(value);
+		if (value) {
+			$('#contenedorMaquilador').show();
+		} else {
+			$('#contenedorMaquilador').hide();
+		}
+	});
+
+	const initSelect2 = {
+		minimumInputLength: 0,
+		theme: 'bootstrap4',
+		placeholder: "::Elegir::",
+		allowClear: true,
+		width: '100%'
+	};
+	$('#filtro_cliente').select2(initSelect2);
+	$('#filtro_proveedor').select2(initSelect2);
+	$('#filtro_maquilador').select2(initSelect2);
+	$('#filtro_tipo_estado').select2(initSelect2);
+	$('#filtro_cliente_area').select2(initSelect2);
 
 });

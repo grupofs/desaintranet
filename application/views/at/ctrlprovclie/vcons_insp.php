@@ -62,18 +62,8 @@ $cia = $this->session->userdata('s_cia');
 											<input type="hidden" id="idcia" name="idcia"
 												   value="<?php echo $cia ?>">
 											<div class="row">
-												<div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
-													<div class="form-group">
-														<label for="filtro_cliente">Cliente</label>
-														<div class="input-group">
-															<select name="filtro_cliente" id="filtro_cliente"
-																	class="custom-select"></select>
-														</div>
-													</div>
-												</div>
 												<div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12"
-													 id="contenedorProveedor"
-													 style="display: none" >
+													 id="contenedorProveedor" >
 													<div class="form-group">
 														<label for="filtro_proveedor">Proveedor</label>
 														<div class="input-group">
@@ -147,8 +137,13 @@ $cia = $this->session->userdata('s_cia');
 									<!--Contenedor de botones-->
 									<div class="card-footer">
 										<div class="d-flex flex-row justify-content-end">
+											<div class="col-sm-6 col-12 text-left">
+												<button type="button" class="btn btn-success" id="btnDescargar">
+													<i class="fa fa-fw fa-download"></i> Descargar Resultado
+												</button>
+											</div>
 											<div class="col-sm-6 col-12 text-right">
-												<button type="button" class="btn btn-default" id="btnBuscar">
+												<button type="button" class="btn btn-primary" id="btnBuscar">
 													<i class="fa fa-fw fa-search"></i> Buscar
 												</button>
 											</div>
@@ -165,12 +160,9 @@ $cia = $this->session->userdata('s_cia');
 												   style="width:100%">
 												<thead>
 												<tr>
-													<th style="width: 80px; min-width: 80px"></th>
 													<th style="width: 100px; min-width: 100px"></th>
-													<th>Código</th>
+													<th style="width: 120px; min-width: 120px"></th>
 													<th>Fecha Inspección</th>
-													<th>Fecha Creación</th>
-													<th>Cliente</th>
 													<th>Proveedor</th>
 													<th>RUC</th>
 													<th>Establecimiento / Maquilador</th>
@@ -189,11 +181,6 @@ $cia = $this->session->userdata('s_cia');
 													<th>Empresa Inspectora</th>
 													<th>Eval. Prod.</th>
 													<th>Es Peligro</th>
-													<th>C. Checklist</th>
-													<th>CheckList</th>
-													<th>Entidad</th>
-													<th>Sistema</th>
-													<th>Rubro</th>
 												</tr>
 												</thead>
 												<tbody></tbody>
@@ -214,35 +201,6 @@ $cia = $this->session->userdata('s_cia');
 		</div>
 	</div>
 </section>
-
-<div class="modal fade" id="modalPDF" data-backdrop="static" data-keyboard="false" tabindex="-1"
-	 aria-labelledby="staticBackdropLabel" aria-hidden="true">
-	<div class="modal-dialog modal-xl">
-		<div class="modal-content">
-			<div class="modal-header bg-success">
-				<h5 class="modal-title fs w-100 font-weight-bold" id="staticBackdropLabel">INFOME TECNICO</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body"
-				 style="background-color:#ffffff; border-top: 1px solid #00a65a; border-bottom: 1px solid #00a65a;">
-				<div class="row">
-					<div class="col-xl-3 col-lg-4 col-md-5 col-sm-8 col-12">
-						<button class="btn btn-danger mb-3" id="closePDF">
-							<i class="fa fa-save"></i> Cerrar Informe Técnico
-						</button>
-					</div>
-					<div class="col-12">
-						<div class="embed-responsive embed-responsive-21by9" style="min-height: 480px; zoom: 1;">
-							<iframe class="embed-responsive-item" id="framePDF" src="" frameborder="0"></iframe>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
 
 <?php $this->load->view('at/ctrlprov/vcons_insp_ctiva'); ?>
 

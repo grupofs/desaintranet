@@ -306,6 +306,19 @@ class mcons_insp extends CI_Model
 	}
 
 	/**
+	 * @param array $params
+	 * @return mixed
+	 */
+	public function getDatosInspector(array $params)
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_pdf_inspector(?,?)", $params);
+		if (!$query) {
+			return null;
+		}
+		return ($query->num_rows() > 0) ? $query->row() : null;
+	}
+
+	/**
 	 * @param array $data
 	 * @return null
 	 */
@@ -346,7 +359,7 @@ class mcons_insp extends CI_Model
 
 	/**
 	 * @param array $params
-	 * @return array
+	 * @return mixed
 	 */
 	public function getProveedorEstablecimiento(array $params)
 	{
@@ -354,7 +367,7 @@ class mcons_insp extends CI_Model
 		if (!$query) {
 			return null;
 		}
-		return ($query->num_rows() > 0) ? $query->row()->ESTABLECIMIENTO : null;
+		return ($query->num_rows() > 0) ? $query->row() : null;
 	}
 
 	/**
@@ -376,7 +389,7 @@ class mcons_insp extends CI_Model
 	 */
 	public function getProveedorContactos(array $params)
 	{
-		$query = $this->db->query("CALL sp_consulta_ctrlprov_buscar_proveedor_contactos(?)", $params);
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_buscar_proveedor_contactos(?,?)", $params);
 		if (!$query) {
 			return [];
 		}

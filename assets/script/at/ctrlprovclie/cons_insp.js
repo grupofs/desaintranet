@@ -3,7 +3,7 @@
  * @version 1.0.0
  */
 
-const objInsp = {};
+const objInspCli = {};
 
 $(function () {
 
@@ -11,13 +11,13 @@ $(function () {
 	 * Verifica si la carga esta activa o no
 	 * @type {boolean}
 	 */
-	objInsp.loading = false;
+	objInspCli.loading = false;
 
 	/**
 	 * ID de la inspección abierta para realizar su descarga
 	 * @type {integer|null}
 	 */
-	objInsp.pdf = {
+	objInspCli.pdf = {
 		codigo: '',
 		fecha: ''
 	};
@@ -25,27 +25,27 @@ $(function () {
 	/**
 	 * Activa la carga de la busqueda
 	 */
-	objInsp.activeLoading = function () {
-		objInsp.loading = true;
+	objInspCli.activeLoading = function () {
+		objInspCli.loading = true;
 		objPrincipal.botonCargando($('#btnBuscar'));
 	};
 
 	/**
 	 * Desactiva la carga de la busqueda
 	 */
-	objInsp.inactiveLoading = function () {
-		objInsp.loading = false;
+	objInspCli.inactiveLoading = function () {
+		objInspCli.loading = false;
 		objPrincipal.liberarBoton($('#btnBuscar'));
 	};
 
 	/**
 	 * Realiza el filtro de las inspecciones
 	 */
-	objInsp.search = function () {
-		if (objInsp.loading) {
+	objInspCli.search = function () {
+		if (objInspCli.loading) {
 			objPrincipal.alert('warning', 'Aún se encuentra activa la busqueda. Por favor espere!');
 		} else {
-			objInsp.activeLoading();
+			objInspCli.activeLoading();
 			let filtroPeligro = '';
 			if ($('#filtro_peligro_1').is(':checked')) {
 				filtroPeligro = 'S';
@@ -63,14 +63,13 @@ $(function () {
 				'info': true,
 				'filter': true,
 				'ajax': {
-					"url": BASE_URL + 'at/ctrlprov/ccons_insp/search',
+					"url": baseurl + 'at/ctrlprovclie/ccons_inspcli/search',
 					"type": "POST",
 					"data": function (d) {
 						d.afecha = ($('#activar_fecha').is(':checked')) ? 1 : 0;
 						d.fini = $('#fini').val();
 						d.ffin = $('#ffin').val();
 						d.ccia = $('#idcia').val();
-						d.filtro_cliente = $('#filtro_cliente').val();
 						d.filtro_proveedor = $('#filtro_proveedor').val();
 						d.filtro_maquilador = $('#filtro_maquilador').val();
 						d.filtro_tipo_estado = $('#filtro_tipo_estado').val();
@@ -79,12 +78,12 @@ $(function () {
 						d.filtro_peligro = filtroPeligro;
 					},
 					dataSrc: function (data) {
-						objInsp.inactiveLoading();
+						objInspCli.inactiveLoading();
 						return data.items;
 					},
 					error: function () {
 						objPrincipal.alert('warning', 'Error en el proceso de ejecución.', 'Vuelva a intentarlo más tarde.');
-						objInsp.inactiveLoading();
+						objInspCli.inactiveLoading();
 					}
 				},
 				'columns': [
@@ -93,18 +92,12 @@ $(function () {
 						render: function (data, type, row) {
 							const rowId = 'dropdown-' + row.CODIGO + row.FECHAINSPECCION;
 							let htmlRow = '<div class="dropdown">';
-							htmlRow += '<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" role="button" id="' + rowId + '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
+							htmlRow += '<button type="button" class="btn btn-secondary dropdown-toggle" role="button" id="' + rowId + '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
 							htmlRow += '<i class="fa fa-bars" ></i> Opciones';
 							htmlRow += '</button>';
 							htmlRow += '<div class="dropdown-menu" aria-labelledby="' + rowId + '">';
-							let tipoEstado = String(row.TIPOESTADOSERVICIO).toLowerCase().trim();
-							if (tipoEstado === 'convalidado' || tipoEstado === 'concluido ok') {
-								if (!row.DUBICACIONFILESERVERPDF) {
-									htmlRow += '<button type="button" class="btn bt-sm dropdown-item open-pdf" data-codigo="' + row.CODIGO + '" data-fecha="' + row.FECHAINSPECCION + '" ><i class="fa fa-file-pdf" ></i> Ver Informe Técnico</button>';
-								}
-							}
-							htmlRow += '<button type="button" class="btn btn-sm dropdown-item ver-accion-correctiva" data-codigo="' + row.CODIGO + '" data-fecha="' + row.FECHAINSPECCION + '" ><i class="fa fa-th-list" ></i> Ver Acciones Correctivas</button>';
-							htmlRow += '<button type="button" class="btn btn-sm dropdown-item ver-proveedor" data-codigo="' + row.CODIGO + '" data-proveedor="' + row.CPROVEEDOR + '" ><i class="fa fa-eye" ></i> Datos del Proveedor</button>';
+							htmlRow += '<button type="button" class="dropdown-item ver-accion-correctiva" data-codigo="' + row.CODIGO + '" data-fecha="' + row.FECHAINSPECCION + '" ><i class="fa fa-th-list" ></i> Ver Acciones Correctivas</button>';
+							htmlRow += '<button type="button" class="dropdown-item ver-proveedor" data-codigo="' + row.CODIGO + '" data-proveedor="' + row.CPROVEEDOR + '" ><i class="fa fa-eye" ></i> Datos del Proveedor</button>';
 							htmlRow += '</div>';
 							htmlRow += '</div>';
 							return htmlRow;
@@ -113,34 +106,19 @@ $(function () {
 					{
 						"orderable": false,
 						render: function (data, type, row) {
-							if (!row.DUBICACIONFILESERVERPDF) {
-								let tipoEstado = String(row.TIPOESTADOSERVICIO).toLowerCase().trim();
-								if (tipoEstado === 'convalidado' || tipoEstado === 'concluido ok') {
-									return '<button type="button" class="btn btn-danger btn-sm btn-block close-pdf" data-codigo="' + row.CODIGO + '" data-fecha="' + row.FECHAINSPECCION + '" ><i class="fa fa-save"></i> Cerrar Info.</button>';
-								}
-							} else {
-								return '<button type="button" class="btn btn-success btn-sm btn-block download-pdf" data-link="' + row.DUBICACIONFILESERVERPDF + '" ><i class="fa fa-download" ></i> Descargar Info.</button>';
+							if (row.DUBICACIONFILESERVERPDF) {
+								return '<button type="button" class="btn btn-success download-pdf" data-link="' + row.DUBICACIONFILESERVERPDF + '" ><i class="fa fa-download" ></i> Descargar Informe</button>';
 							}
 						}
 					},
-					{data: 'CODIGO', orderable: false, targets: 1},
 					{
 						"orderable": false,
 						render: function (data, type, row) {
 							return moment(row.FECHAINSPECCION, 'YYYY-MM-DD').format('DD/MM/YYYY');
 						}
 					},
-					// {data: 'FECHAINSPECCION', orderable: false, targets: 2},
-					{
-						"orderable": false,
-						render: function (data, type, row) {
-							return moment(row.FCREACION, 'YYYY-MM-DD').format('DD/MM/YYYY');
-						}
-					},
-					// {data: 'FCREACION', orderable: false, targets: 3},
-					{data: 'CLIENTE', orderable: false, targets: 4},
-					{data: 'PROVEEDOR', orderable: false, targets: 5},
-					{data: 'nruc', orderable: false, targets: 6},
+					{data: 'PROVEEDOR', orderable: false, targets: 2},
+					{data: 'nruc', orderable: false, targets: 3},
 					{
 						"orderable": false,
 						render: function (data, type, row) {
@@ -204,11 +182,6 @@ $(function () {
 					{data: 'EMPRESAINSPECTORA', orderable: false, targets: 17},
 					{data: 'SEVALPROD', orderable: false, targets: 18},
 					{data: 'espeligro', orderable: false, targets: 19},
-					{data: 'CCHECKLIST', orderable: false, targets: 20},
-					{data: 'CHECKLIST', orderable: false, targets: 21},
-					{data: 'CERTIFICADORA', orderable: false, targets: 22},
-					{data: 'DSISTEMA', orderable: false, targets: 23},
-					{data: 'DSUBNORMA', orderable: false, targets: 24},
 				],
 				"columnDefs": [
 					{
@@ -231,68 +204,62 @@ $(function () {
 	/**
 	 * Habre el modal para visualizar el informe tecnico
 	 */
-	objInsp.openPDF = function () {
+	objInspCli.openPDF = function () {
 		const button = $(this);
 		// save ID
-		objInsp.pdf.codigo = button.data('codigo');
-		objInsp.pdf.fecha = button.data('fecha');
+		objInspCli.pdf.codigo = button.data('codigo');
+		objInspCli.pdf.fecha = button.data('fecha');
 		const modalPDF = $('#modalPDF');
 		modalPDF.modal('show');
-		$('#framePDF').attr('src', objInsp.getLink());
+		$('#framePDF').attr('src', objInspCli.getLink());
 	};
 
 	/**
 	 * Link del PDF
 	 * @returns {string}
 	 */
-	objInsp.getLink = function () {
-		return BASE_URL + 'at/ctrlprov/ccons_insp/pdf?codigo=' + objInsp.pdf.codigo + '&fecha=' + objInsp.pdf.fecha;
+	objInspCli.getLink = function () {
+		return BASE_URL + 'at/ctrlprov/ccons_insp/pdf?codigo=' + objInspCli.pdf.codigo + '&fecha=' + objInspCli.pdf.fecha;
 	};
 
 	/**
 	 * Cierra el PF
 	 */
-	objInsp.closePDF = function (btn) {
-		if (objInsp.loading) {
-			objPrincipal.alert('info', 'Existe una carga pendiente! Intentalo más tarde.');
-		} else {
-			objInsp.loading = true;
-			$.ajax({
-				url: BASE_URL + 'at/ctrlprov/ccons_insp/close_download',
-				method: 'POST',
-				data: objInsp.pdf,
-				dataType: 'json',
-				beforeSend: function () {
-					objPrincipal.botonCargando(btn);
-				}
-			}).done(function (res) {
-				objInsp.download(res.data.DUBICACIONFILESERVERPDF);
-				$('#modalPDF').modal('hide');
-				objInsp.loading = false;
-				objInsp.search();
-			}).fail(function () {
-				objInsp.loading = false;
-				objPrincipal.alert('error', 'Error en la descarga del archivo.', 'Vuelva a inentarlo más tarde.');
-			}).always(function () {
-				objPrincipal.liberarBoton(btn);
-			});
-		}
+	objInspCli.closePDF = function () {
+		const btn = $('#closePDF');
+		$.ajax({
+			url: BASE_URL + 'at/ctrlprov/ccons_insp/close_download',
+			method: 'POST',
+			data: objInspCli.pdf,
+			dataType: 'json',
+			beforeSend: function () {
+				objPrincipal.botonCargando(btn);
+			}
+		}).done(function (res) {
+			objInspCli.download(res.data.DUBICACIONFILESERVERPDF);
+			$('#modalPDF').modal('hide');
+			objInspCli.search();
+		}).fail(function () {
+			objPrincipal.alert('error', 'Error en la descarga del archivo.', 'Vuelva a inentarlo más tarde.');
+		}).always(function () {
+			objPrincipal.liberarBoton(btn);
+		});
 	};
 
 	/**
 	 * Descarga del link del PDF
 	 */
-	objInsp.downloadPDF = function () {
+	objInspCli.downloadPDF = function () {
 		const button = $(this);
 		const link = button.data('link');
-		objInsp.download(link);
+		objInspCli.download(link);
 	};
 
 	/**
 	 * Realiza la descarga del archivo
 	 * @param linkPdf
 	 */
-	objInsp.download = function (linkPdf) {
+	objInspCli.download = function (linkPdf) {
 		const url = BASE_URL + 'at/ctrlprov/ccons_insp/download?filename=' + linkPdf;
 		const download = window.open(url, '_blank');
 		if (!download) {
@@ -304,33 +271,16 @@ $(function () {
 	/**
 	 * Activa o desactiva las fechas
 	 */
-	objInsp.activeDate = function () {
+	objInspCli.activeDate = function () {
 		const chech = !$(this).is(':checked');
 		$('#fini').prop('disabled', chech);
 		$('#ffin').prop('disabled', chech);
 	};
 
 	/**
-	 * Carga de clientes
-	 */
-	objInsp.cargaClientes = function () {
-		/*LLENADO DE COMBOS*/
-		$.ajax({
-			type: 'ajax',
-			method: 'post',
-			url: baseurl + "at/ctrlprov/cregctrolprov/getcboclieserv",
-			dataType: "JSON",
-		}).done(function(res) {
-			$('#filtro_cliente').html(res);
-		}).fail(function() {
-			objPrincipal.notify('warning', 'Hubo un error al carga los clientes.');
-		});
-	};
-
-	/**
 	 * @param idCliente
 	 */
-	objInsp.cargaArea = function(idCliente) {
+	objInspCli.cargaArea = function(idCliente) {
 		$.ajax({
 			type: 'ajax',
 			method: 'post',
@@ -356,7 +306,7 @@ $(function () {
 	/**
 	 * Carga de proveedores
 	 */
-	objInsp.cargaProveedor = function (idCliente) {
+	objInspCli.cargaProveedor = function (idCliente) {
 		$.ajax({
 			type: 'ajax',
 			method: 'post',
@@ -375,7 +325,7 @@ $(function () {
 	/**
 	 * Carga de proveedores
 	 */
-	objInsp.cargaEstados = function () {
+	objInspCli.cargaEstados = function () {
 		$.ajax({
 			type: 'ajax',
 			method: 'post',
@@ -392,7 +342,7 @@ $(function () {
 	/**
 	 * Carga de proveedores
 	 */
-	objInsp.cargaMaquilador = function (idProveedor) {
+	objInspCli.cargaMaquilador = function (idProveedor) {
 		$.ajax({
 			type: 'ajax',
 			method: 'post',
@@ -411,7 +361,7 @@ $(function () {
 	/**
 	 * Ver Acciones correctivas
 	 */
-	objInsp.verAccionCorrectiva = function() {
+	objInspCli.verAccionCorrectiva = function() {
 		const button = $(this);
 		const codigo = button.data('codigo');
 		const fecha = button.data('fecha');
@@ -429,7 +379,7 @@ $(function () {
 		}).done(function(res) {
 			const elModal = $('#modalAccionCorrectiva');
 			elModal.find('h5').html('Acción Correctiva (Insp. ' + codigo + ' - ' + moment(fecha, 'YYYY-MM-DD').format('DD/MM/YYYY') + ')');
-			objInsp.imprimirAccionCorrectiva(res.items);
+			objInspCli.imprimirAccionCorrectiva(res.items);
 			elModal.modal('show');
 		}).fail(function() {
 			objPrincipal.notify('warning', 'Error al intentar cargar las acciones correctivas')
@@ -441,7 +391,7 @@ $(function () {
 	/**
 	 * @param data
 	 */
-	objInsp.imprimirAccionCorrectiva = function(data) {
+	objInspCli.imprimirAccionCorrectiva = function(data) {
 		let rows = '';
 		if (data && Array.isArray(data)) {
 			data.forEach(function(item) {
@@ -467,7 +417,7 @@ $(function () {
 	/**
 	 * DAtos del proveedor
 	 */
-	objInsp.verProveedor = function() {
+	objInspCli.verProveedor = function() {
 		const button = $(this);
 		const caudi = button.data('codigo');
 		const proveedor = button.data('proveedor');
@@ -484,10 +434,10 @@ $(function () {
 			},
 		}).done(function(res) {
 			console.log(res);
-			objInsp.imprimirProveedor(res.proveedor);
-			objInsp.imprimirProveedorEstablecimiento(res.establecimiento);
-			objInsp.imprimirProveedorLinea(res.linea);
-			objInsp.imprimirProveedorContactos(res.contactos);
+			objInspCli.imprimirProveedor(res.proveedor);
+			objInspCli.imprimirProveedorEstablecimiento(res.establecimiento);
+			objInspCli.imprimirProveedorLinea(res.linea);
+			objInspCli.imprimirProveedorContactos(res.contactos);
 			$('#modalProveedor').modal('show');
 		}).fail(function() {
 			objPrincipal.notify('warning', 'Error al cargar los datos del proveedor');
@@ -499,7 +449,7 @@ $(function () {
 	/**
 	 * @param data
 	 */
-	objInsp.imprimirProveedor = function(data) {
+	objInspCli.imprimirProveedor = function(data) {
 		$('#proveedor_ruc').html(data.NRUC);
 		$('#proveedor_razon_social').html(data.DRAZONSOCIAL);
 		$('#proveedor_direccion').html(data.DDIRECCIONCLIENTE);
@@ -512,21 +462,21 @@ $(function () {
 	/**
 	 * @param establecimiento
 	 */
-	objInsp.imprimirProveedorEstablecimiento = function(establecimiento) {
+	objInspCli.imprimirProveedorEstablecimiento = function(establecimiento) {
 		$('#proveedor_inspeccionado').html(establecimiento);
 	};
 
 	/**
 	 * @param linea
 	 */
-	objInsp.imprimirProveedorLinea = function(linea) {
+	objInspCli.imprimirProveedorLinea = function(linea) {
 		$('#proveedor_linea').html(linea);
 	};
 
 	/**
 	 * @param datos
 	 */
-	objInsp.imprimirProveedorContactos = function(datos) {
+	objInspCli.imprimirProveedorContactos = function(datos) {
 		let rows = '';
 		if (datos && Array.isArray(datos)) {
 			datos.forEach(function(item, key) {
@@ -542,15 +492,61 @@ $(function () {
 		$('#tblProveedorContactos tbody').html(rows);
 	};
 
+	/**
+	 * Exporta los registros
+	 */
+	objInspCli.descargarResultado = function() {
+		const button = $(this);
+		let filtroPeligro = '';
+		if ($('#filtro_peligro_1').is(':checked')) {
+			filtroPeligro = 'S';
+		}
+		if ($('#filtro_peligro_2').is(':checked')) {
+			filtroPeligro = 'N';
+		}
+		$.ajax({
+			url: baseurl + 'at/ctrlprovclie/ccons_inspcli/exportar_registros',
+			method: 'POST',
+			data: {
+				afecha: ($('#activar_fecha').is(':checked')) ? 1 : 0,
+				fini: $('#fini').val(),
+				ffin: $('#ffin').val(),
+				ccia: $('#idcia').val(),
+				filtro_proveedor: $('#filtro_proveedor').val(),
+				filtro_maquilador: $('#filtro_maquilador').val(),
+				filtro_tipo_estado: $('#filtro_tipo_estado').val(),
+				filtro_cliente_area: $('#filtro_cliente_area').val(),
+				filtro_linea_proveedor: $('#filtro_linea_proveedor').val(),
+				filtro_peligro: filtroPeligro,
+			},
+			dataType: 'json',
+			beforeSend: function() {
+				objPrincipal.botonCargando(button);
+			}
+		}).done(function(res) {
+			objPrincipal.notify('success', 'Descarga del reporte correctamente.');
+			const url = baseurl + 'ar/tramites/cexcelExport/download?filename=' + res.data;
+			const download = window.open(url, '_blank');
+			if (!download) {
+				objPrincipal.alert('warning', 'Habilite la ventana emergente de su navegador.');
+			}
+			download.focus();
+		}).fail(function() {
+			objPrincipal.notify('error', 'Error en la descarga del reporte');
+		}).always(function() {
+			objPrincipal.liberarBoton(button);
+		});
+	};
+
 });
 
 $(document).ready(function () {
 
-	objInsp.cargaClientes();
+	objInspCli.cargaProveedor($('#idcliente').val());
 
-	objInsp.cargaEstados();
+	objInspCli.cargaEstados();
 
-	$('#btnBuscar').click(objInsp.search);
+	$('#btnBuscar').click(objInspCli.search);
 
 	$('#chkBusavanzada').click(function() {
 		$('#modalFiltro').modal('show');
@@ -560,48 +556,27 @@ $(document).ready(function () {
 		$('#chkBusavanzada').prop('checked', false);
 	});
 
-	$(document).on('click', '.open-pdf', objInsp.openPDF);
+	$(document).on('click', '.open-pdf', objInspCli.openPDF);
 
-	$(document).on('click', '.close-pdf', function() {
-		const btn = $(this);
-		objInsp.pdf.codigo = btn.data('codigo');
-		objInsp.pdf.fecha = btn.data('fecha');
-		objInsp.closePDF(btn);
-	});
+	$(document).on('click', '.download-pdf', objInspCli.downloadPDF);
 
-	$(document).on('click', '.download-pdf', objInsp.downloadPDF);
+	$('#closePDF').click(objInspCli.closePDF);
 
-	$('#closePDF').click(function() {
-		const btn = $(this);
-		objInsp.closePDF(btn);
-	});
-
-	$('#activar_fecha').change(objInsp.activeDate);
+	$('#activar_fecha').change(objInspCli.activeDate);
 
 	$('#modalPDF').on('hidden.bs.modal', function () {
 		$('#framePDF').attr('src','about:blank');
 	});
 
-	$(document).on('click', '.ver-accion-correctiva', objInsp.verAccionCorrectiva);
+	$('#btnDescargar').click(objInspCli.descargarResultado);
 
-	$(document).on('click', '.ver-proveedor', objInsp.verProveedor);
+	$(document).on('click', '.ver-accion-correctiva', objInspCli.verAccionCorrectiva);
 
-	$('#filtro_cliente').change(function() {
-		const value = $(this).val();
-		objInsp.cargaArea(value);
-		objInsp.cargaProveedor(value);
-		$('#contenedorMaquilador').hide();
-		$('#filtro_maquilador').html('').change();
-		if (value) {
-			$('#contenedorProveedor').show();
-		} else {
-			$('#contenedorProveedor').hide();
-		}
-	});
+	$(document).on('click', '.ver-proveedor', objInspCli.verProveedor);
 
 	$('#filtro_proveedor').change(function() {
 		const value = $(this).val();
-		objInsp.cargaMaquilador(value);
+		objInspCli.cargaMaquilador(value);
 		if (value) {
 			$('#contenedorMaquilador').show();
 		} else {
@@ -616,7 +591,6 @@ $(document).ready(function () {
 		allowClear: true,
 		width: '100%'
 	};
-	$('#filtro_cliente').select2(initSelect2);
 	$('#filtro_proveedor').select2(initSelect2);
 	$('#filtro_maquilador').select2(initSelect2);
 	$('#filtro_tipo_estado').select2(initSelect2);

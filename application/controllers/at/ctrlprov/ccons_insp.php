@@ -210,7 +210,15 @@ class ccons_insp extends FS_Controller
 		$escalaValoracion = $this->mcons_insp->pdfEscalaValoracion($data);
 		$parrafoExcluyentes = $this->mcons_insp->pdfParrafoRequisitos($data);
 		$requisitosExcluyentes = $this->mcons_insp->pdfRequisitoExcluyentes($data);
+		$inspector = $this->mcons_insp->getDatosInspector($data);
 		$peligros = $this->mcons_insp->pdfPeligros($data);
+		$rutafirma = null;
+		if (!empty($inspector)) {
+			$rutafirma = 'http://plataforma.grupofs.com:82/demointranet/FTPfileserver/Imagenes/internos/firmas/' . $inspector->rutafirma;
+			if (file_exists($rutafirma)) {
+				$rutafirma = base64ResourceConvert($rutafirma);
+			}
+		}
 		// Contenedor de la ficha tecnica
 		$content = $this->load->view('at/ctrlprov/vcons_insp_pdf', [
 			'caratula' => $caratula,
@@ -235,6 +243,8 @@ class ccons_insp extends FS_Controller
 			'parrafoExcluyentes' => $parrafoExcluyentes,
 			'requisitosExcluyentes' => $requisitosExcluyentes,
 			'peligros' => $peligros,
+			'rutafirma' => $rutafirma,
+			'inspector' => $inspector,
 		], TRUE);
 		$html2pdf = new \Spipu\Html2Pdf\Html2Pdf();
 		$html2pdf->writeHTML($content);
@@ -348,10 +358,11 @@ class ccons_insp extends FS_Controller
 		]);
 		$contactos = $this->mcons_insp->getProveedorContactos([
 			'@AS_CCLIENTE' => $id_proveedor,
+			'@AS_CESTABLECIMIENTO' => (!empty($establecimiento)) ? $establecimiento->cestablecimientoprov : '',
 		]);
 		echo json_encode([
 			'proveedor' => $proveedor,
-			'establecimiento' => $establecimiento,
+			'establecimiento' => (!empty($establecimiento)) ? $establecimiento->ESTABLECIMIENTO : '',
 			'linea' => $linea,
 			'contactos' => $contactos,
 		]);

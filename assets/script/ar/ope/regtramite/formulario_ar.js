@@ -328,7 +328,7 @@ $(function () {
 			},
 		}).done(function (res) {
 			objPrincipal.notify('success', res.message);
-			objFormularioAR.habilitarCierre();
+			objFormularioAR.editForm(res.data.ar.CASUNTOREGULATORIO , button);
 		}).fail(function (jqxhr) {
 			const message = (jqxhr && jqxhr.responseJSON && jqxhr.responseJSON.message) ? jqxhr.responseJSON.message : 'Error en la solicitud del servidor.';
 			objPrincipal.alert('error', message);

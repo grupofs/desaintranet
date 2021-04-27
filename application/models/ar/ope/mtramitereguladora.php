@@ -56,6 +56,7 @@ class mtramitereguladora extends CI_Model
 		$this->db->where('CENTIDADREGULA', $centidad, false);
 		$this->db->where('zctipocategoriaproducto', $ctipoProducto, false);
 		$this->db->like('dtramite', $search, 'both', false);
+		$this->db->where('SREGISTRO', 'A');
 		$this->db->order_by('dtramite', 'ASC');
 		$this->db->limitAnyWhere(LIMITE_AUTOCOMPLETADO);
 		$query = $this->db->get();

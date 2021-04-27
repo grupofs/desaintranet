@@ -50,11 +50,13 @@ $(function () {
 		if (data && Array.isArray(data)) {
 			let position = $('table#tblDocumentos > tbody > tr').length;
 			data.forEach(function (item) {
-				row += objDocumento.imprimir(position, 1, item.CDOCUMENTO, item.DDOCUMENTO, item.archivos);
+				let tipo = (item.TIPO) ? parseInt(item.TIPO) : 1;
+				row += objDocumento.imprimir(position, tipo, item.CDOCUMENTO, item.DDOCUMENTO, item.archivos, item.CTRAMITE, item.DTRAMITE);
 				++position;
 			});
 		}
 		$('table#tblDocumentos > tbody').append(row);
+		objDocumento.cargarTramites();
 	};
 
 	/**
@@ -66,8 +68,44 @@ $(function () {
 		const type = (data && data.TIPO) ? parseInt(data.TIPO) : 1;
 		const codigo = (data && data.CDOCUMENTO) ? data.CDOCUMENTO : '';
 		const documento = (data && data.DDOCUMENTO) ? data.DDOCUMENTO : '';
-		const row = objDocumento.imprimir(position, type, codigo, documento, []);
+		const row = objDocumento.imprimir(position, type, codigo, documento, [], null, '');
 		table.append(row);
+	};
+
+	/**
+	 * Carga los tramites en los documentos
+	 */
+	objDocumento.cargarTramites = function () {
+		// Se busca los tramites
+		const tramites = [];
+		$('#tblTramite tbody tr').each(function () {
+			const row = $(this);
+			const position = row.data('position');
+			const elTramite = $(document.getElementById('tramite_id[' + position + ']'));
+			const tramite = elTramite.val();
+			const txtTramite = elTramite.children("option").filter(":selected").text();
+			const operation = parseInt(document.getElementById('tramite_operation[' + position + ']').value);
+			if (operation === 0 || operation === 1) {
+				tramites.push({id: tramite, text: txtTramite});
+			}
+		});
+
+		// Se imprime los tramites dentro del documento
+		$('table#tblDocumentos > tbody > tr').each(function () {
+			const position = $(this).data('position');
+			const operation = parseInt(document.getElementById('documento_operation[' + position + ']').value);
+			const elDocumentoTramite = $(document.getElementById('documento_tramite_id[' + position + ']'));
+			const tramiteId = parseInt(elDocumentoTramite.val());
+			if (operation === 1) {
+				let opciones = '';
+				tramites.forEach(function (tramite) {
+					let selected = (parseInt(tramite.id) === tramiteId) ? 'selected' : '';
+					opciones += '<option value="' + tramite.id + '" ' + selected + ' >' + tramite.text + '</option>';
+				});
+				elDocumentoTramite.html(opciones);
+			}
+		});
+
 	};
 
 	/**
@@ -77,9 +115,11 @@ $(function () {
 	 * @param codigo
 	 * @param documento
 	 * @param archivos
+	 * @param tramiteId
+	 * @param tramiteText
 	 * @returns {string}
 	 */
-	objDocumento.imprimir = function (position, tipo, codigo, documento, archivos) {
+	objDocumento.imprimir = function (position, tipo, codigo, documento, archivos, tramiteId, tramiteText) {
 		const type1Selected = (parseInt(tipo) === 1) ? 'selected' : '';
 		const type2Selected = (parseInt(tipo) === 2) ? 'selected' : '';
 		const modal = 'document-modal-' + position;
@@ -87,6 +127,13 @@ $(function () {
 		let row = '<tr data-position="' + position + '" >';
 		row += '<td class="text-center" >';
 		row += '<span class="font-weight-bold" >' + (position + 1) + '</span>';
+		row += '</td>';
+		row += '<td class="text-center" >';
+		row += '<select class="custom-select documento-tramite" id="documento_tramite_id[' + position + ']" name="documento_tramite_id[' + position + ']" >';
+		if (tramiteId) {
+			row += '<option value="' + tramiteId + '" selected >' + tramiteText + '</option>';
+		}
+		row += '</select>';
 		row += '</td>';
 		row += '<td class="text-center" >';
 		row += '<select class="custom-select" id="documento_tipo[' + position + ']" name="documento_tipo[' + position + ']" >';
@@ -97,7 +144,9 @@ $(function () {
 		row += '<td class="text-left" >';
 		row += '<div class="input-group" >';
 		if (codigo) {
-			row += '<div class="form-control bg-light" >' + documento + '</div>';
+			let refCodigo = parseInt(codigo);
+			let block = (refCodigo >= 900) ? '' : 'readonly';
+			row += '<input type="text" class="form-control" id="documento_nombre[' + position + ']" name="documento_nombre[' + position + ']" ' + block + ' value="' + documento + '" >';
 		} else {
 			row += '<input type="text" class="form-control" id="documento_nombre[' + position + ']" name="documento_nombre[' + position + ']" value="" >';
 		}

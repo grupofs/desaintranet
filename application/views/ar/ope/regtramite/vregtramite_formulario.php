@@ -337,6 +337,9 @@
 										<th class="text-center" style="width: 50px; min-width: 50px;">
 											N°
 										</th>
+										<th class="text-center" style="min-width: 280px; width: 280px">
+											Tramite
+										</th>
 										<th class="text-center" style="min-width: 150px; width: 150px">
 											Tipo
 										</th>

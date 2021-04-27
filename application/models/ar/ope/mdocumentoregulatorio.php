@@ -30,6 +30,9 @@ class mdocumentoregulatorio extends CI_Model
 			throw new Exception('Error al encontrar el Código de producto');
 		}
 		$newId = intval($query->row()->id) + 1;
+		if ($newId < 900) {
+			$newId = 900;
+		}
 		return str_pad($newId, 3, '0', STR_PAD_LEFT);
 	}
 
@@ -98,6 +101,8 @@ class mdocumentoregulatorio extends CI_Model
 		if (empty($DDOCUMENTO)) {
 			throw new Exception('Debes ingresar el nombre del documento.');
 		}
+		// Se busca el documento para realizar su registro o actualización
+		$documento = $this->buscar($CENTIDADREGULA, $CTRAMITE, $CDOCUMENTO);
 		$data = [
 			'CDOCUMENTO' => $CDOCUMENTO,
 			'CENTIDADREGULA' => $CENTIDADREGULA,
@@ -107,7 +112,7 @@ class mdocumentoregulatorio extends CI_Model
 			'CUSUARIOMODIFICA' => $CUSUARIO,
 			'SREGISTRO' => $SREGISTRO,
 		];
-		(empty($CDOCUMENTO)) ? $this->crear($data) : $this->actualizar($CDOCUMENTO, $CENTIDADREGULA, $CTRAMITE, $data);
+		(empty($documento)) ? $this->crear($data) : $this->actualizar($CENTIDADREGULA, $CTRAMITE, $CDOCUMENTO, $data);
 		return (Object) $data;
 	}
 
@@ -139,19 +144,24 @@ class mdocumentoregulatorio extends CI_Model
 	 * @return bool
 	 * @throws Exception
 	 */
-	public function actualizar(string $CENTIDADREGULA, string $CTRAMITE, string $CDOCUMENTO, array &$datos): bool
+	public function actualizar(string $CENTIDADREGULA, string $CTRAMITE, string $CDOCUMENTO, array $datos): bool
 	{
 		if (empty($CENTIDADREGULA) || empty($CTRAMITE) || empty($CDOCUMENTO)) {
 			throw new Exception('El Documento no es valido para actualizar.');
 		}
-		$datos['TMODIFICACION'] = date('Y-m-d H:i:s');
-		unset($datos['TCREACION']);
-		unset($datos['CUSUARIOCREA']);
-		$res = $this->db->update('MDOCUMENTOTRAMITEREGULA', $datos, [
+		$refData = $datos;
+		$refData['TMODIFICACION'] = date('Y-m-d H:i:s');
+		unset($refData['CDOCUMENTO']);
+		unset($refData['CENTIDADREGULA']);
+		unset($refData['CTRAMITE']);
+		unset($refData['TCREACION']);
+		unset($refData['CUSUARIOCREA']);
+		$res = $this->db->update('MDOCUMENTOTRAMITEREGULA', $refData, [
 			'CENTIDADREGULA' => $CENTIDADREGULA,
 			'CTRAMITE' => $CTRAMITE,
 			'CDOCUMENTO' => $CDOCUMENTO,
 		]);
+		log_message('error', $this->db->last_query());
 		if (!$res) {
 			throw new Exception('El Documento no pudo ser actualizado correctamente.');
 		}

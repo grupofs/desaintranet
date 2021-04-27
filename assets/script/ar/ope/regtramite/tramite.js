@@ -54,6 +54,7 @@ $(function () {
 		if (activeSelected) {
 			s2TramiteReguladoraEntidad.init($(document.getElementById('tramite_id[' + position + ']')));
 		}
+		// Cargar tramites
 	};
 
 	/**
@@ -66,10 +67,12 @@ $(function () {
 		let esRS = false;
 		let esAmpliacion = false;
 		let esReinscripcionRS = false;
+		let documentoTramite = '';
 		$('#tblTramite tbody tr').each(function (pos) {
 			const row = $(this);
 			const position = row.data('position');
-			const tramite = document.getElementById('tramite_id[' + position + ']').value;
+			const elTramite = $(document.getElementById('tramite_id[' + position + ']'));
+			const tramite = elTramite.val();
 			const operation = parseInt(document.getElementById('tramite_operation[' + position + ']').value);
 			if (operation === 0 || operation === 1) {
 				++total;
@@ -80,16 +83,21 @@ $(function () {
 						esRS = true;
 					}
 					// Ampliación
-					if (tramite === '008' ||
-						tramite === '033' ||
-						tramite === '005' ||
-						tramite === '032' ||
-						tramite === '009' ||
-						tramite === '004' ||
-						tramite === '006' ||
+					if (
 						tramite === '002' ||
 						tramite === '003' ||
-						tramite === '031') {
+						tramite === '004' ||
+						tramite === '005' ||
+						tramite === '006' ||
+						tramite === '008' ||
+						tramite === '009' ||
+						tramite === '031' ||
+						tramite === '032' ||
+						tramite === '033' ||
+						tramite === '034' ||
+						tramite === '035' ||
+						tramite === '036'
+					) {
 						esAmpliacion = true;
 					}
 					if (tramite === '012') {
@@ -239,15 +247,16 @@ $(function () {
 			objDocumento.eliminarArchivos();
 			objDocumento.obtener(value);
 		}
+		objDocumento.cargarTramites();
 	};
 
 	/**
 	 * Realiza la busqueda de los RS
 	 */
-	objTramite.buscarRS = function() {
+	objTramite.buscarRS = function () {
 		const boton = $('#btnBuscarRS');
 		objProducto.buscar(1, $('#carga_registro_nro_rs').val(), boton)
-			.done(function(res) {
+			.done(function (res) {
 				if (res && res.items) {
 					objProductoLista.productosElegidos = res.items;
 					objProductoLista.calcularProductos();

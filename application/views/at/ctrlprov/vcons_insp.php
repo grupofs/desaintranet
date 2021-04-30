@@ -220,7 +220,7 @@ $cia = $this->session->userdata('s_cia');
 	<div class="modal-dialog modal-xl">
 		<div class="modal-content">
 			<div class="modal-header bg-success">
-				<h5 class="modal-title fs w-100 font-weight-bold" id="staticBackdropLabel">INFOME TECNICO</h5>
+				<h5 class="modal-title fs w-100 font-weight-bold" id="staticBackdropLabel">INFORME TECNICO</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>

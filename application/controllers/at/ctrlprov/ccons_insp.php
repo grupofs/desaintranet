@@ -169,29 +169,47 @@ class ccons_insp extends FS_Controller
 		if (!empty($grafico1)) {
 			$imgGrafico1 = getLinkFormChartBar(
 				[
-					$grafico1->TF1 . ' ' . $grafico1->CERT1,
-					$grafico1->TF2 . ' ' . $grafico1->CERT2,
-					$grafico1->TF3 . ' ' . $grafico1->CERT3,
-					$grafico1->TF4 . ' ' . $grafico1->CERT4,
-					$grafico1->TF5 . ' ' . $grafico1->CERT5,
+					date('d/m/Y', strtotime($grafico1->TF1)) . ' ' . $grafico1->CERT1,
+					date('d/m/Y', strtotime($grafico1->TF2)) . ' ' . $grafico1->CERT2,
+					date('d/m/Y', strtotime($grafico1->TF3)) . ' ' . $grafico1->CERT3,
+					date('d/m/Y', strtotime($grafico1->TF4)) . ' ' . $grafico1->CERT4,
+					date('d/m/Y', strtotime($grafico1->TF5)) . ' ' . $grafico1->CERT5,
 				],
 				[
-					floatval($grafico1->TR1),
-					floatval($grafico1->TR2),
-					floatval($grafico1->TR3),
-					floatval($grafico1->TR4),
-					floatval($grafico1->TR5),
+					floatval(round($grafico1->TR1)),
+					floatval(round($grafico1->TR2)),
+					floatval(round($grafico1->TR3)),
+					floatval(round($grafico1->TR4)),
+					floatval(round($grafico1->TR5)),
+				],
+				[
+					getColorRgba($grafico1->TR1),
+					getColorRgba($grafico1->TR2),
+					getColorRgba($grafico1->TR3),
+					getColorRgba($grafico1->TR4),
+					getColorRgba($grafico1->TR5),
 				]
 			);
 		}
 		$imgGrafico2 = '';
 		if (!empty($grafico2)) {
-			$totalRows = (count($grafico2) / 2);
+			$lenRows = count($grafico2);
+			$totalRows = ($lenRows / 2);
 			$labels = range(1, $totalRows);
 			$dataMaximo = implode(',', getValueGraphic2($grafico2, 'máximo'));
 			$dataObtenido = implode(',', getValueGraphic2($grafico2, 'obtenido'));
-			$datasets = "{label:'Maximo',data:[{$dataMaximo}]}";
-			$datasets .= ",{label:'Obtenido',data:[{$dataObtenido}]}";
+			$backgroundColorMaximo = "'rgba(255,0,0,1)'";
+			$backgroundColorObtenido = "'rgba(0,128,0,1)'";
+			if ($lenRows == 4) {
+				$backgroundColorMaximo = "'rgba(255,0,0,1)','rgba(255,0,0,1)'";
+				$backgroundColorObtenido = "'rgba(0,128,0,1)','rgba(0,128,0,1)'";
+			}
+			if ($lenRows > 4) {
+				$backgroundColorMaximo = "'rgba(255,0,0,1)','rgba(255,0,0,1)','rgba(255,0,0,1)'";
+				$backgroundColorObtenido = "'rgba(0,128,0,1)','rgba(0,128,0,1)','rgba(0,128,0,1)'";
+			}
+			$datasets = "{label:'Maximo',data:[{$dataMaximo}],backgroundColor:[{$backgroundColorMaximo}]}";
+			$datasets .= ",{label:'Obtenido',data:[{$dataObtenido}],backgroundColor:[{$backgroundColorObtenido}]}";
 			$imgGrafico2 = getLinkFormChartBar2($labels, $datasets);
 		}
 		$cuadro3 = $this->mcons_insp->pdfCuadro3($data);
@@ -247,6 +265,7 @@ class ccons_insp extends FS_Controller
 			'inspector' => $inspector,
 		], TRUE);
 		$html2pdf = new \Spipu\Html2Pdf\Html2Pdf();
+//		$html2pdf->setDefaultFont('arial');
 		$html2pdf->writeHTML($content);
 		return $html2pdf;
 	}

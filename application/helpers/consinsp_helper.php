@@ -5,14 +5,29 @@ if (!function_exists('getLinkFormChartBar')) {
 	 * Convierte al grafico BAR
 	 * @param array $label
 	 * @param array $data
+	 * @param array $colors
 	 * @return string
 	 * @link https://quickchart.io/chart?c={type:'bar',data:{labels:['nomb1','nomb1','nomb1','nomb1','nomb1'],datasets:[{label:'Users',data:[100,101,102,103,104]}]}}
 	 */
-	function getLinkFormChartBar(array $label, array $data): string
+	function getLinkFormChartBar(array $label, array $data, array $colors): string
 	{
 		$sLabels = clearLabel($label);
 		$sData = implode(',', $data);
-		return "https://quickchart.io/chart?c={type:'bar',data:{labels:[{$sLabels}],datasets:[{label:'',data:[{$sData}]}]},options:{legend:{display:false}}}";
+		$cColor = implode(',', $colors);
+		$url = "https://quickchart.io/chart?c=";
+		$url .= "{";
+		$url .= "type:'bar',";
+		$url .= "data:{";
+		$url .= "labels:[{$sLabels}],";
+		$url .= "datasets:[{label:'',data:[{$sData}],backgroundColor:[$cColor]}]";
+		$url .= "},";
+		$url .= "options:{";
+		$url .= "legend:{display:false},";
+		$url .= urlencode("scales:{yAxes:[{ticks:{fontSize:10,beginAtZero:true,fontFamily:'Arial'}}],xAxes:[{ticks:{fontSize:10,fontFamily:'Arial'}}]},");
+		$url .= urlencode("plugins:{datalabels:{anchor:'end',align:'bottom',color:'#ffffff',formatter:(value)=>{return value+'%'}}}");
+		$url .= "}";
+		$url .= "}";
+		return $url;
 	}
 }
 
@@ -27,7 +42,20 @@ if (!function_exists('getLinkFormChartBar2')) {
 	function getLinkFormChartBar2(array $label, string $sData): string
 	{
 		$sLabels = clearLabel($label);
-		return "https://quickchart.io/chart?c={type:'bar',data:{labels:[{$sLabels}],datasets:[{$sData}]},options:{legend:{display:true,position:'right',align:'middle'}}}";
+		$url = "https://quickchart.io/chart?c=";
+		$url .= "{";
+		$url .= "type:'bar',";
+		$url .= "data:{";
+		$url .= "labels:[{$sLabels}],";
+		$url .= "datasets:[{$sData}]";
+		$url .= "},";
+		$url .= "options:{";
+		$url .= "legend:{display:true,position:'right',align:'middle',labels:{fontSize:10,fontFamily:'Arial'}},";
+		$url .= urlencode("scales:{yAxes:[{ticks:{fontSize:10,beginAtZero:true,fontFamily:'Arial'}}],xAxes:[{ticks:{fontSize:10,fontFamily:'Arial'}}]},");
+		$url .= urlencode("plugins:{datalabels:{anchor:'end',align:'bottom',color:'#ffffff'}}");
+		$url .= "}";
+		$url .= "}";
+		return $url;
 	}
 }
 
@@ -57,5 +85,47 @@ if (!function_exists('getValueGraphic2')) {
 		}, array_filter($data, function($item) use ($filter) {
 			return (strtolower($item->Maximo) == $filter);
 		}, 0));
+	}
+}
+
+if (!function_exists('getColorRgba')) {
+	/**
+	 * Se obtiene el color por su calificacion
+	 * @param $value
+	 * @return string
+	 */
+	function getColorRgba($value) {
+		$value = floatval($value);
+		if ($value >= 86) {
+			$color = "'rgba(0,128,0,1)'";
+		} else if ($value >= 71 && $value <= 85.99) {
+			$color = "'rgba(0,0,255,1)'";
+		} else if ($value >= 51 && $value <= 70.99) {
+			$color = "'rgba(255,255,0,1)'";
+		} else { // 50.99
+			$color = "'rgba(255,0,0,1)'";
+		}
+		return $color;
+	}
+}
+
+if (!function_exists('getColor')) {
+	/**
+	 * Se obtiene el color por su calificacion
+	 * @param $value
+	 * @return string
+	 */
+	function getColor($value) {
+		$value = floatval($value);
+		if ($value >= 86) {
+			$color = "green";
+		} else if ($value >= 71 && $value <= 85.99) {
+			$color = "#0000ff";
+		} else if ($value >= 51 && $value <= 70.99) {
+			$color = "yellow";
+		} else { // 50.99
+			$color = "red";
+		}
+		return $color;
 	}
 }

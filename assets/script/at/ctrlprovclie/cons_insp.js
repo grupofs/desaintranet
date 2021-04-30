@@ -129,7 +129,7 @@ $(function () {
 							if (DIRECCIONPROV) {
 								return ESTABLECIMIENTOPROV;
 							} else {
-								return MAQUILADOR;
+								return ESTABLECIMIENTOPROV + ' - ' + MAQUILADOR;
 							}
 						}
 					},

@@ -146,12 +146,11 @@ $(function () {
 						render: function (data, type, row) {
 							let DIRECCIONPROV = (row.DIRECCIONPROV) ? row.DIRECCIONPROV : '';
 							let ESTABLECIMIENTOPROV = (row.ESTABLECIMIENTOPROV) ? row.ESTABLECIMIENTOPROV : '';
-							// let UBIGEOPROV = (row.UBIGEOPROV) ? row.UBIGEOPROV : '';
 							let MAQUILADOR = (row.MAQUILADOR) ? row.MAQUILADOR : '';
 							if (DIRECCIONPROV) {
 								return ESTABLECIMIENTOPROV;
 							} else {
-								return MAQUILADOR;
+								return ESTABLECIMIENTOPROV + ' - ' + MAQUILADOR;
 							}
 						}
 					},

@@ -143,7 +143,7 @@ $(function () {
 				const tipoProducto = (data.tipoProducto) ? [{
 					id: data.tipoProducto.id,
 					text: data.tipoProducto.text
-				}] : []
+				}] : [];
 				const nroSeguimiento = (data.tramite && data.tramite.DTRACKIDTRAMITE) ? data.tramite.DTRACKIDTRAMITE : '';
 				const nroDR = (data.tramite && data.tramite.DNUMERODR) ? data.tramite.DNUMERODR : '';
 				const nroExpediente = (data.tramite && data.tramite.DNUMEROEXPEDIENTE) ? data.tramite.DNUMEROEXPEDIENTE : '';

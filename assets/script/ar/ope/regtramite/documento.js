@@ -70,6 +70,7 @@ $(function () {
 		const documento = (data && data.DDOCUMENTO) ? data.DDOCUMENTO : '';
 		const row = objDocumento.imprimir(position, type, codigo, documento, [], null, '');
 		table.append(row);
+		objDocumento.cargarTramites();
 	};
 
 	/**
@@ -202,7 +203,7 @@ $(function () {
 				row += '<td class="text-left" >';
 				row += '<div class="input-group" >';
 				row += '<div class="form-control bg-light" >';
-				row += '<a href="' + BASE_URL + 'FTPfileserver/Archivos/' + item.DUBICACIONFILESERVER + '" download="' + realName + '" class="text-primary" ><i class="fa fa-download" ></i> ' + realName + '</a>';
+				row += '<a href="' + BASE_URL + 'FTPfileserver/Archivos/' + item.DUBICACIONFILESERVER + '" target="_blank" class="text-primary" ><i class="fa fa-download" ></i> ' + realName + '</a>';
 				row += '</div>';
 				row += '</div>';
 				row += '</td>';

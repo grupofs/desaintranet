@@ -88,12 +88,15 @@ $(function() {
 					text: producto.DCATEGORIACLIENTE
 				}]);
 			}
-			const dateInit = $('#producto_fecha_inicio').data('daterangepicker');
-			dateInit.setStartDate(producto.FINICIOREGSANITARIO)
-			dateInit.setEndDate(producto.FINICIOREGSANITARIO);
-			const dateEnd = $('#producto_fecha_vencimiento').data('daterangepicker');
-			dateEnd.setStartDate(producto.FFINREGSANITARIO)
-			dateEnd.setEndDate(producto.FFINREGSANITARIO);
+			// const dateInit = $('#producto_fecha_inicio').data('daterangepicker');
+			// dateInit.setStartDate(producto.FINICIOREGSANITARIO)
+			// dateInit.setEndDate(producto.FINICIOREGSANITARIO);
+			// const dateEnd = $('#producto_fecha_vencimiento').data('daterangepicker');
+			// dateEnd.setStartDate(producto.FFINREGSANITARIO)
+			// dateEnd.setEndDate(producto.FFINREGSANITARIO);
+			$('#producto_fecha_inicio').val(producto.FINICIOREGSANITARIO);
+			$('#producto_fecha_vencimiento').val(producto.FFINREGSANITARIO);
+
 			$('#producto_descripcion_sap').val(producto.DPRODUCTOCLIENTE);
 			$('#producto_nombre').val(producto.DNOMBREPRODUCTO);
 			if (producto.CMARCA) {

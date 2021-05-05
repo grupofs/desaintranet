@@ -267,13 +267,15 @@ class ctramite extends FS_Controller
 					switch ($documentoOperation) {
 						// Se crea el documento del tramite
 						case 1:
+							// Solo los nuevos se guardan como inactivo
+							$sregistro = (intval($documentoId) >= 900 || empty($documentoId)) ? 'I' : 'A';
 							$objDocumento = (new mdocumentoregulatorio())->guardar(
 								$documentoId,
 								$objEntidad->CENTIDADREGULA,
 								$objTramite->CTRAMITE,
 								$documentoNombre,
 								$s_cusuario,
-								'I'
+								$sregistro
 							);
 							$objDocumentoArchivo = new mpdocumentoregulatorio();
 							$objDocumentoArchivo->guardar(

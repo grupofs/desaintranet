@@ -68,7 +68,8 @@ $(function () {
 		let esAmpliacion = false;
 		let esReinscripcionRS = false;
 		let documentoTramite = '';
-		$('#tblTramite tbody tr').each(function (pos) {
+		let countPos = 0;
+		$('#tblTramite tbody tr').each(function () {
 			const row = $(this);
 			const position = row.data('position');
 			const elTramite = $(document.getElementById('tramite_id[' + position + ']'));
@@ -77,7 +78,7 @@ $(function () {
 			if (operation === 0 || operation === 1) {
 				++total;
 				// Solo se toma el primer tramite, y se verifica el tramite
-				if (pos === 0 && esDigesa && esAlimento) {
+				if (countPos === 0 && esDigesa && esAlimento) {
 					// RS
 					if (tramite === '001') {
 						esRS = true;
@@ -104,6 +105,7 @@ $(function () {
 						esReinscripcionRS = true;
 					}
 				}
+				++countPos;
 			}
 		});
 		// Bloqueo de agregar tramite

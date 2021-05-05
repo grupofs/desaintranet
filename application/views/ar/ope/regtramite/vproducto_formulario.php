@@ -14,8 +14,8 @@
 			<div class="modal-body"
 				 style="background-color:#ffffff; border-top: 1px solid #00a65a; border-bottom: 1px solid #00a65a;">
 				<form action="<?php echo base_url('ar/ope/cproductocliente/guardar') ?>" method="POST"
-					  accept-charset="UTF-8" id="frmProducto" >
-					<input type="hidden" class="d-none" id="producto_cliente_id" name="producto_cliente_id" value="" >
+					  accept-charset="UTF-8" id="frmProducto">
+					<input type="hidden" class="d-none" id="producto_cliente_id" name="producto_cliente_id" value="">
 					<div class="form-group row">
 						<label for="producto_cliente_text" class="col-xl-2 col-lg-2 col-md-4 col-sm-12 col-12">
 							Cliente
@@ -39,7 +39,8 @@
 					<div class="row">
 						<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
 							<div class="form-group row">
-								<label for="producto_codigo_producto" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+								<label for="producto_codigo_producto"
+									   class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
 									Código de Producto
 								</label>
 								<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
@@ -56,7 +57,7 @@
 								</label>
 								<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
 									<select class="custom-select" aria-label=""
-											id="producto_categoria_id" name="producto_categoria_id" >
+											id="producto_categoria_id" name="producto_categoria_id">
 									</select>
 								</div>
 							</div>
@@ -83,7 +84,7 @@
 									<span class="fs-requerido text-danger">*</span>
 								</label>
 								<div class="col-xl-7 col-lg-8 col-md-8 col-sm-12 col-12">
-									<input type="text" class="form-control datepicker" aria-label=""
+									<input type="text" class="form-control" aria-label=""
 										   id="producto_fecha_inicio" name="producto_fecha_inicio"
 										   value=""/>
 								</div>
@@ -91,12 +92,13 @@
 						</div>
 						<div class="col-xl-3 col-lg-6 col-md-12 col-sm-12 col-12">
 							<div class="form-group row">
-								<label for="producto_fecha_vencimiento" class="col-xl-6 col-lg-4 col-md-4 col-sm-12 col-12">
+								<label for="producto_fecha_vencimiento"
+									   class="col-xl-6 col-lg-4 col-md-4 col-sm-12 col-12">
 									F. Vencimiento
 									<span class="fs-requerido text-danger">*</span>
 								</label>
 								<div class="col-xl-6 col-lg-8 col-md-8 col-sm-12 col-12">
-									<input type="text" class="form-control datepicker" aria-label=""
+									<input type="text" class="form-control" aria-label=""
 										   id="producto_fecha_vencimiento" name="producto_fecha_vencimiento"
 										   value=""/>
 								</div>
@@ -129,16 +131,16 @@
 							Marca
 						</label>
 						<div class="col-xl-10 col-lg-10 col-md-8 col-sm-12 col-12">
-							<div class="row" >
-								 <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12" >
-									 <select class="custom-select" aria-label=""
-											 id="producto_marca_id" name="producto_marca_id">
-									 </select>
-								 </div>
-								<div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12" >
+							<div class="row">
+								<div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
+									<select class="custom-select" aria-label=""
+											id="producto_marca_id" name="producto_marca_id">
+									</select>
+								</div>
+								<div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12">
 									<button type="button" role="button" class="btn btn-light btn-block"
 											data-toggle="modal" data-target="#modalFormularioMarca">
-										<i class="fa fa-plus" ></i> Nuevo
+										<i class="fa fa-plus"></i> Nuevo
 									</button>
 								</div>
 							</div>
@@ -157,20 +159,21 @@
 					<div class="row">
 						<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
 							<div class="form-group row">
-								<label for="producto_fabricante_id" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+								<label for="producto_fabricante_id"
+									   class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
 									Fabricante
 								</label>
 								<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
-									<div class="row" >
-										<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12" >
+									<div class="row">
+										<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
 											<select class="custom-select" aria-label=""
 													id="producto_fabricante_id" name="producto_fabricante_id">
 											</select>
 										</div>
-										<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12" >
+										<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
 											<button type="button" role="button" class="btn btn-light btn-block"
 													data-toggle="modal" data-target="#modalFormularioFabricante">
-												<i class="fa fa-plus" ></i> Nuevo
+												<i class="fa fa-plus"></i> Nuevo
 											</button>
 										</div>
 									</div>
@@ -184,7 +187,7 @@
 								</label>
 								<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
 									<select class="custom-select" aria-label=""
-											id="producto_pais" name="producto_pais" >
+											id="producto_pais" name="producto_pais">
 									</select>
 								</div>
 							</div>
@@ -219,22 +222,163 @@
 								</label>
 								<div class="col-xl-6 col-lg-7 col-md-8 col-sm-12 col-12">
 									<select class="custom-select" aria-label=""
-											id="producto_estado" name="producto_estado" >
-										<option value="A" selected >Activo</option>
+											id="producto_estado" name="producto_estado">
+										<option value="A" selected>Activo</option>
 										<option value="I">Inactivo</option>
 									</select>
 								</div>
 							</div>
 						</div>
+<!--						<div class="col-xl-8 col-lg-7 col-md-12 col-sm-12 col-12">-->
+<!--							<div class="form-group row">-->
+<!--								<label for="producto_formula" class="col-xl-6 col-lg-5 col-md-4 col-sm-12 col-12">-->
+<!--									Código de Formula-->
+<!--								</label>-->
+<!--								<div class="col-xl-6 col-lg-7 col-md-8 col-sm-12 col-12">-->
+<!--									<input type="text" class="form-control" aria-label="" maxlength="250"-->
+<!--										   id="producto_formula" name="producto_formula"-->
+<!--										   value=""/>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--						</div>-->
 					</div>
+<!--					<div class="card card-success">-->
+<!--						<div class="card-header">-->
+<!--							<h3 class="card-title">Exlusivo para DIGEMID</h3>-->
+<!--						</div>-->
+<!--						<div class="card-body">-->
+<!--							<div class="row" >-->
+<!--								<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">-->
+<!--									<div class="form-group row">-->
+<!--										<label for="producto_digemid_modelo"-->
+<!--											   class="col-xl-6 col-lg-5 col-md-4 col-sm-12 col-12">-->
+<!--											Modelo (Tono, variedades, Sub-marca):-->
+<!--										</label>-->
+<!--										<div class="col-xl-6 col-lg-7 col-md-8 col-sm-12 col-12">-->
+<!--										<textarea name="producto_digemid_modelo" id="producto_digemid_modelo"-->
+<!--												  class="form-control" rows="10"></textarea>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								<div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12">-->
+<!--									<div class="custom-control custom-checkbox">-->
+<!--										<input type="checkbox" checked-->
+<!--											   class="custom-control-input"-->
+<!--											   id="producto_digemid_tramitable"-->
+<!--											   name="producto_digemid_tramitable"><label-->
+<!--												class="custom-control-label" for="producto_digemid_tramitable">-->
+<!--											Tramitable-->
+<!--										</label>-->
+<!--									</div>-->
+<!--									<div class="custom-control custom-checkbox">-->
+<!--										<input type="checkbox"-->
+<!--											   class="custom-control-input"-->
+<!--											   id="producto_digemid_inflamable"-->
+<!--											   name="producto_digemid_inflamable"><label-->
+<!--												class="custom-control-label" for="producto_digemid_inflamable">-->
+<!--											Inflamable-->
+<!--										</label>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							<div class="row" >-->
+<!--								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">-->
+<!--									<div class="form-group row">-->
+<!--										<label for="producto_digemid_forma_cosmetica" class="col-xl-6 col-lg-5 col-md-4 col-sm-12 col-12">-->
+<!--											Forma Cosmetica-->
+<!--										</label>-->
+<!--										<div class="col-xl-6 col-lg-7 col-md-8 col-sm-12 col-12">-->
+<!--											<input type="text" class="form-control" aria-label="" maxlength="250"-->
+<!--												   id="producto_digemid_forma_cosmetica" name="producto_digemid_forma_cosmetica"-->
+<!--												   value=""/>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							<div class="row">-->
+<!--								<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">-->
+<!--									<div class="form-group row">-->
+<!--										<label for="producto_digemid_fabricante_id"-->
+<!--											   class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">-->
+<!--											Fabricante 2-->
+<!--										</label>-->
+<!--										<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">-->
+<!--											<div class="row">-->
+<!--												<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">-->
+<!--													<select class="custom-select" aria-label=""-->
+<!--															id="producto_digemid_fabricante_id" name="producto_digemid_fabricante_id">-->
+<!--													</select>-->
+<!--												</div>-->
+<!--												<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">-->
+<!--													<button type="button" role="button" class="btn btn-light btn-block"-->
+<!--															data-toggle="modal" data-target="#modalFormularioFabricante">-->
+<!--														<i class="fa fa-plus"></i> Nuevo-->
+<!--													</button>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">-->
+<!--									<div class="form-group row">-->
+<!--										<label for="producto_digemid_pais" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">-->
+<!--											País 2-->
+<!--										</label>-->
+<!--										<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">-->
+<!--											<select class="custom-select" aria-label=""-->
+<!--													id="producto_digemid_pais" name="producto_digemid_pais">-->
+<!--											</select>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							<div class="row">-->
+<!--								<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">-->
+<!--									<div class="form-group row">-->
+<!--										<label for="producto_digemid_fabricante3_id"-->
+<!--											   class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">-->
+<!--											Fabricante 2-->
+<!--										</label>-->
+<!--										<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">-->
+<!--											<div class="row">-->
+<!--												<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">-->
+<!--													<select class="custom-select" aria-label=""-->
+<!--															id="producto_digemid_fabricante3_id" name="producto_digemid_fabricante3_id">-->
+<!--													</select>-->
+<!--												</div>-->
+<!--												<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">-->
+<!--													<button type="button" role="button" class="btn btn-light btn-block"-->
+<!--															data-toggle="modal" data-target="#modalFormularioFabricante">-->
+<!--														<i class="fa fa-plus"></i> Nuevo-->
+<!--													</button>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">-->
+<!--									<div class="form-group row">-->
+<!--										<label for="producto_digemid_pais3" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">-->
+<!--											País 3-->
+<!--										</label>-->
+<!--										<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">-->
+<!--											<select class="custom-select" aria-label=""-->
+<!--													id="producto_digemid_pais3" name="producto_digemid_pais3">-->
+<!--											</select>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--						</div>-->
+<!--					</div>-->
 				</form>
 			</div>
 			<div class="modal-footer w-100 d-flex flex-row">
 				<div class="custom-control custom-checkbox">
-					<input type="checkbox" class="custom-control-input" id="producto-copia-pega" value="1" >
+					<input type="checkbox" class="custom-control-input" id="producto-copia-pega" value="1">
 					<label class="custom-control-label" for="producto-copia-pega">Copiar y Guardar</label>
 				</div>
-				<button type="button" class="btn btn-danger btn-producto-guardar" >
+				<button type="button" class="btn btn-danger btn-producto-guardar">
 					<i class="fa fa-save"></i> Guardar
 				</button>
 				<button type="button" class="btn btn-link" data-dismiss="modal">

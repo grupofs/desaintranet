@@ -23,8 +23,8 @@ if (!function_exists('getLinkFormChartBar')) {
 		$url .= "},";
 		$url .= "options:{";
 		$url .= "legend:{display:false},";
-		$url .= urlencode("scales:{yAxes:[{ticks:{fontSize:10,beginAtZero:true,fontFamily:'Arial'}}],xAxes:[{ticks:{fontSize:10,fontFamily:'Arial'}}]},");
-		$url .= urlencode("plugins:{datalabels:{anchor:'end',align:'bottom',color:'#ffffff',formatter:(value)=>{return value+'%'}}}");
+		$url .= urlencode("scales:{yAxes:[{ticks:{fontSize:10,beginAtZero:true,fontFamily:'Arial',min:0,max:110,stepSize:10}}],xAxes:[{ticks:{fontSize:10,fontFamily:'Arial'}}]},");
+		$url .= urlencode("plugins:{datalabels:{anchor:'end',align:'top',color:'#000',font:{size:10},formatter:(value)=>{return value+'%'}}}");
 		$url .= "}";
 		$url .= "}";
 		return $url;
@@ -52,7 +52,7 @@ if (!function_exists('getLinkFormChartBar2')) {
 		$url .= "options:{";
 		$url .= "legend:{display:true,position:'right',align:'middle',labels:{fontSize:10,fontFamily:'Arial'}},";
 		$url .= urlencode("scales:{yAxes:[{ticks:{fontSize:10,beginAtZero:true,fontFamily:'Arial'}}],xAxes:[{ticks:{fontSize:10,fontFamily:'Arial'}}]},");
-		$url .= urlencode("plugins:{datalabels:{anchor:'end',align:'bottom',color:'#ffffff'}}");
+		$url .= urlencode("plugins:{datalabels:{anchor:'end',align:'top',color:'#000',font:{size:10}}}");
 		$url .= "}";
 		$url .= "}";
 		return $url;

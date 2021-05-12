@@ -332,6 +332,19 @@ class mcons_insp extends CI_Model
 	}
 
 	/**
+	 * @param array $data
+	 * @return null
+	 */
+	public function pdfExcluyentes(array $data)
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_pdf_excluyentes(?, ?)", $data);
+		if (!$query) {
+			return [];
+		}
+		return ($query->num_rows() > 0) ? $query->result() : [];
+	}
+
+	/**
 	 * @param array $params
 	 * @return array
 	 */

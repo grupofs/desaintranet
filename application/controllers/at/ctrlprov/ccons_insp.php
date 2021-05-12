@@ -146,7 +146,6 @@ class ccons_insp extends FS_Controller
 	 * Recurso para obtener el PDF
 	 * @param string $codigo
 	 * @param string $pdf
-	 * @return \Dompdf\Dompdf
 	 */
 	private function _pdf($codigo, $fecha)
 	{
@@ -169,11 +168,11 @@ class ccons_insp extends FS_Controller
 		if (!empty($grafico1)) {
 			$imgGrafico1 = getLinkFormChartBar(
 				[
-					date('d/m/Y', strtotime($grafico1->TF1)) . ' ' . $grafico1->CERT1,
-					date('d/m/Y', strtotime($grafico1->TF2)) . ' ' . $grafico1->CERT2,
-					date('d/m/Y', strtotime($grafico1->TF3)) . ' ' . $grafico1->CERT3,
-					date('d/m/Y', strtotime($grafico1->TF4)) . ' ' . $grafico1->CERT4,
-					date('d/m/Y', strtotime($grafico1->TF5)) . ' ' . $grafico1->CERT5,
+					date('d/m/Y', strtotime($grafico1->TF1)) . " " . $grafico1->CERT1,
+					date('d/m/Y', strtotime($grafico1->TF2)) . " " . $grafico1->CERT2,
+					date('d/m/Y', strtotime($grafico1->TF3)) . " " . $grafico1->CERT3,
+					date('d/m/Y', strtotime($grafico1->TF4)) . " " . $grafico1->CERT4,
+					date('d/m/Y', strtotime($grafico1->TF5)) . " " . $grafico1->CERT5,
 				],
 				[
 					floatval(round($grafico1->TR1)),
@@ -230,6 +229,7 @@ class ccons_insp extends FS_Controller
 		$requisitosExcluyentes = $this->mcons_insp->pdfRequisitoExcluyentes($data);
 		$inspector = $this->mcons_insp->getDatosInspector($data);
 		$peligros = $this->mcons_insp->pdfPeligros($data);
+		$excluyentes = $this->mcons_insp->pdfExcluyentes($data);
 		$rutafirma = null;
 		if (!empty($inspector)) {
 			$rutafirma = 'http://plataforma.grupofs.com:82/demointranet/FTPfileserver/Imagenes/internos/firmas/' . $inspector->rutafirma;
@@ -263,6 +263,7 @@ class ccons_insp extends FS_Controller
 			'peligros' => $peligros,
 			'rutafirma' => $rutafirma,
 			'inspector' => $inspector,
+			'excluyentes' => $excluyentes,
 		], TRUE);
 		$html2pdf = new \Spipu\Html2Pdf\Html2Pdf();
 //		$html2pdf->setDefaultFont('arial');

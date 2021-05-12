@@ -74,7 +74,7 @@
 	}
 
 	.text-caratula {
-		font-size: 14px;
+		font-size: 16px;
 	}
 
 	.text-sm {
@@ -122,12 +122,12 @@
 	h1 {
 		padding: 0;
 		margin: 0;
-		font-size: 10px;
+		font-size: 12px;
 		font-weight: normal;
 	}
 
 	h3 {
-		font-size: 10px;
+		font-size: 11px;
 		font-weight: normal;
 		padding-bottom: 20px;
 	}
@@ -182,16 +182,19 @@
 	<div class="col-12 text-caratula">
 		<table class="table">
 			<tr>
+				<td style="height: 150px">&nbsp;</td>
+			</tr>
+			<tr>
 				<td class="col-12 text-center"
-					style="vertical-align: middle; height: 250px">
+					style="vertical-align: middle; height: 170px">
 					<span class="text-caratula">INFORME TECNICO N° <?php echo $caratula->dinforme ?></span>
 				</td>
 			</tr>
 			<tr>
-				<td class="col-12" style="border: 0; padding: 80px;">
+				<td class="col-12" style="border: 0; padding-left: 80px; padding-right: 80px">
 					<table class="table bg-gray border-gray">
 						<tr>
-							<td class="col-12 text-center font-weigth-bold" style="padding-top: 15px" >
+							<td class="col-12 text-center font-weigth-bold" style="padding-top: 15px">
 								<span class="text-caratula">INSPECCION SANITARIA</span>
 							</td>
 						</tr>
@@ -206,7 +209,10 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="col-12 text-center" style="height: 200px; vertical-align: middle">
+				<td style="height: 50px">&nbsp;</td>
+			</tr>
+			<tr>
+				<td class="col-12 text-center" style="height: 50px; vertical-align: middle">
 					<p class="uppercase pb text-caratula">
 						<?php echo $caratula->proveedor; ?>
 					</p>
@@ -216,7 +222,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="col-12 text-center" style="height: 120px; vertical-align: middle">
+				<td class="col-12 text-center" style="height: 200px; vertical-align: middle">
 					<p class="uppercase text-caratula">
 						<?php
 						$fservicio = explode('-', $caratula->finformefin);
@@ -236,10 +242,10 @@
 				</td>
 			</tr>
 		</table>
-		<div class="col-12 pb" >
+		<div class="col-12 pb text-justify">
 			<?php echo $parrafo1Pt1; ?>
 		</div>
-		<div class="col-12 pb" >
+		<div class="col-12 pb text-justify">
 			<?php echo $parrafo1Pt2; ?>
 		</div>
 		<table class="table">
@@ -260,7 +266,7 @@
 								Puntaje Final
 							</td>
 							<td class="col-6 text-center">
-								<?php echo round($cuadro1->presultadochecklist) ?>%
+								<?php echo $cuadro1->presultadochecklist ?>%
 							</td>
 						</tr>
 						<tr>
@@ -270,7 +276,7 @@
 							<td class="col-8 text-center" style="padding: 0">
 								<table class="table" border="0" cellspacing="0">
 									<tr>
-										<td class="col-4 text-center" style="border: none" >
+										<td class="col-4 text-center" style="border: none">
 											<?php echo $cuadro1->descripcion_result ?>
 										</td>
 										<td class="col-8 text-center"
@@ -289,15 +295,16 @@
 			</tr>
 			<tr>
 				<td class="col-12 text-center pt">
-					<table class="col-12" >
+					<table class="col-12">
 						<tr>
-							<td class="col-2" ></td>
-							<td class="col-8 border-gray text-center" style="padding: 20px" >
-								<p style="padding-top: 0; margin-top: 0; padding-bottom: 20px;" >CUMPLIMIENTO ENTRE INSPECCIONES</p>
+							<td class="col-2"></td>
+							<td class="col-8 border-gray text-center" style="padding: 20px">
+								<p style="padding-top: 0; margin-top: 0; padding-bottom: 20px;">CUMPLIMIENTO ENTRE
+									INSPECCIONES</p>
 								<img src="<?php echo base64ResourceConvert($imgGrafico1); ?>" alt="Grafico-1"
 									 style="width: 100%; height: 220px">
 							</td>
-							<td class="col-2" ></td>
+							<td class="col-2"></td>
 						</tr>
 					</table>
 				</td>
@@ -348,22 +355,36 @@
 			?>
 			<?php if (!empty($cuadro2)) { ?>
 				<?php foreach ($cuadro2 as $key => $value) { ?>
+					<?php
+					$mayorVal = $value->mayor_val;
+					$nvalorReguisito = $value->nvalorrequisito;
+					$nporcentaje = ($value->mayor_val > 0) ? round(($value->nvalorrequisito * 100) / $value->mayor_val, 2) : '0' . '%';
+					if ($mayorVal <= 0 && $nvalorReguisito <= 0) {
+						$mayorVal = 'N.A.';
+						$nvalorReguisito = 'N.A.';
+						$nporcentaje = 'N.A.';
+					}
+					?>
 					<tr>
 						<td class="text-center" style="width: 20px">
-							<span class="text-sm" ><?php echo $value->dnumerador ?></span>
+							<span class="text-sm"><?php echo $value->dnumerador ?></span>
 						</td>
 						<td class="text-left" style="width: 278px">
 							<span class="text-sm"><?php echo $value->drequisito ?></span>
 						</td>
 						<td class="text-center" style="width: 40px">
-							<span class="text-sm"><?php echo round($value->mayor_val) ?></span>
+							<span class="text-sm">
+								<?php echo $mayorVal; ?>
+							</span>
 						</td>
 						<td class="text-center" style="width: 40px">
-							<span class="text-sm"><?php echo round($value->nvalorrequisito) ?></span>
+							<span class="text-sm">
+								<?php echo $nvalorReguisito; ?>
+							</span>
 						</td>
 						<td class="text-center" style="width: 55px">
 							<span class="text-sm">
-								<?php echo ($value->mayor_val > 0) ? round(($value->nvalorrequisito * 100) / $value->mayor_val) : '0'; ?>%
+								<?php echo $nporcentaje; ?>
 							</span>
 						</td>
 						<td class="text-center bg-gray" style="width: 30px">
@@ -382,6 +403,10 @@
 					?>
 				<?php } ?>
 			<?php } ?>
+			<?php
+			$puntajeParcial = ($totalMayorVal > 0) ? round(($totalRequisitos * 100) / $totalMayorVal, 2) : 0;
+			$totalExcluyentes = count($excluyentes);
+			?>
 			<tr>
 				<td class="text-center" colspan="2">
 					<span class="text-sm">Puntaje Parcial</span>
@@ -394,36 +419,41 @@
 				</td>
 				<td class="text-center" colspan="3">
 					<span class="text-sm">
-						<?php echo ($totalMayorVal > 0) ? round(($totalRequisitos * 100) / $totalMayorVal) : 0; ?>%
+						<?php echo $puntajeParcial . '%'; ?>
 					</span>
 				</td>
 			</tr>
 			<tr>
 				<td class="text-center" colspan="2">
-					<span class="text-sm">Puntaje Final</span>
+					<span class="text-sm">
+						Puntaje Final
+						<?php if ($totalExcluyentes > 0) { ?>
+							ajustado por excluyentes (<?php echo $totalExcluyentes; ?>)
+						<?php } ?>
+					</span>
 				</td>
 				<td class="text-center" colspan="5">
 					<span class="text-sm">
-						<?php echo ($totalMayorVal > 0) ? round(($totalRequisitos * 100) / $totalMayorVal) : 0; ?>%
+						<?php echo $cuadro1->presultadochecklist . '%'; ?>
 					</span>
 				</td>
 			</tr>
 		</table>
 	</div>
 	<?php if (!empty($imgGrafico2)) { ?>
-		<div class="col-12">
-			<table class="col-12" >
+		<div class="col-12 pt">
+			<table class="col-12">
 				<tr>
-					<td class="col-2" ></td>
-					<td class="col-8 border-gray text-center" style="padding: 20px" >
+					<td class="col-2"></td>
+					<td class="col-8 border-gray text-center" style="padding: 20px">
 						<p style="padding-top: 0; margin-top: 0; padding-bottom: 20px;"
-						   class="uppercase" >
+						   class="uppercase">
 							<?php echo $caratula->proveedor; ?>
 						</p>
 						<img src="<?php echo base64ResourceConvert($imgGrafico2); ?>" alt="Grafico-2"
 							 style="width: 100%; height: 280px">
 					</td>
-					<td class="col-2" ></td>
+					<td class="col-2"></td>
 				</tr>
 			</table>
 		</div>
@@ -431,7 +461,7 @@
 	<div style="page-break-after:always"></div>
 	<h1 class="text-center">ASPECTOS EVALUADOS</h1>
 	<h3 class="text-left">I. INFORMACIÓN GENERAL</h3>
-	<div style="padding-left: 8px" >
+	<div style="padding-left: 8px">
 		<table class="table table-bordered">
 			<tr>
 				<td colspan="2" class="text-left bg-gray">
@@ -555,13 +585,13 @@
 					Inspector
 				</td>
 				<td class="text-left" style="width: 423px">
-					<Ing class=""></Ing> <?php echo (!empty($cuadro3)) ? ucwords(strtolower($cuadro3->insp_dnombre)) . ' ' . ucwords(strtolower($cuadro3->insp_dapepat)) . ' ' . ucwords(strtolower($cuadro3->insp_dapemat)) : ''; ?>
+					Ing. <?php echo (!empty($cuadro3)) ? ucwords(mb_strtolower($cuadro3->insp_dnombre, 'utf-8')) . ' ' . ucwords(mb_strtolower($cuadro3->insp_dapepat, 'utf-8')) . ' ' . ucwords(mb_strtolower($cuadro3->insp_dapemat, 'utf-8')) : ''; ?>
 				</td>
 			</tr>
 		</table>
 	</div>
 	<h3>II. OBJETIVOS</h3>
-	<div class="text-left text-justify col-12" >
+	<div class="text-left text-justify col-12">
 		Verificar las condiciones sanitarias del proceso de producción de alimentos, en
 		cumplimiento a los criterios de inspección, que permita a <?php echo $caratula->nomcliente ?>
 		asegurar la calidad sanitaria de sus diferentes establecimientos ubicados a nivel
@@ -569,21 +599,21 @@
 	</div>
 	<div>
 		<h3>III. ALCANCE</h3>
-		<div class="text-left text-justify" style="padding-left: 8px" >
+		<div class="text-left text-justify" style="padding-left: 8px">
 			<table class="table pb">
 				<tr>
-					<td class="col-1" >
+					<td class="col-1">
 						Linea
 					</td>
-					<td class="col-11" >
+					<td class="col-11 text-justify">
 						: <?php echo (!empty($cuadro1)) ? $cuadro1->alcance : ''; ?>
 					</td>
 				</tr>
 				<tr>
-					<td class="col-1" >
+					<td class="col-1">
 						Marca
 					</td>
-					<td class="col-11" >
+					<td class="col-11 text-justify">
 						: <?php echo (!empty($cuadro1)) ? $cuadro1->marca : ''; ?>
 					</td>
 				</tr>
@@ -592,19 +622,19 @@
 	</div>
 	<div>
 		<h3 style="margin-top: 0; padding-top: 0">IV. CRITERIOS DE INSPECCION</h3>
-		<div class="text-justify col-12 " >
+		<div class="text-justify col-12 ">
 			<?php echo (!empty($criterioInspeccion)) ? nl2br($criterioInspeccion->dcriterios) : ''; ?>
 		</div>
 	</div>
 	<h3>V. CRITERIOS DE EVALUACION Y CALIFICACION</h3>
-	<table class="table table-bordered" style="padding-left: 12px" >
+	<table class="table table-bordered" style="padding-left: 12px">
 		<tr>
 			<td class="text-center bg-gray" style="width: 640px;">
 				Criterios de evaluación
 			</td>
 		</tr>
 	</table>
-	<table class="table table-bordered pb" style="padding-left: 12px" >
+	<table class="table table-bordered pb" style="padding-left: 12px">
 		<?php if (!empty($criterioEvaluacion)) { ?>
 			<?php foreach ($criterioEvaluacion as $key => $value) { ?>
 				<tr>
@@ -618,7 +648,7 @@
 			<?php } ?>
 		<?php } ?>
 	</table>
-	<div class="text-left text-justify pb col-12" >
+	<div class="text-left text-justify pb col-12">
 		<p class="pb" style="margin-bottom: 0; padding-top: 0; margin-top: 0">
 			La inspeccción es realizada con la ayuda de una lista de verificación específica para la linea
 			inspeccionada,
@@ -628,7 +658,7 @@
 		</p>
 		Cada requisito es valorado de acuerdo a lo indicado en la siguiente escala:
 	</div>
-	<table class="table table-bordered" style="padding-left: 12px" >
+	<table class="table table-bordered" style="padding-left: 12px">
 		<tr>
 			<td colspan="2" class="text-center bg-gray">
 				Criterios de Calificación
@@ -650,14 +680,14 @@
 	<div class="text-justify pt col-12">
 		<?php echo $parrafoExcluyentes; ?>
 	</div>
-	<table class="table table-bordered pt" style="padding-left: 12px" >
+	<table class="table table-bordered pt" style="padding-left: 12px">
 		<tr>
 			<td class="text-center bg-gray" style="width: 643px">
 				Requisitos excluyentes
 			</td>
 		</tr>
 	</table>
-	<table class="table table-bordered" style="padding-left: 12px" >
+	<table class="table table-bordered" style="padding-left: 12px">
 		<tr>
 			<td class="text-center bg-gray" style="width: 75px;">
 				N° <br> Requisito
@@ -670,7 +700,7 @@
 			</td>
 		</tr>
 	</table>
-	<table class="table table-bordered" style="padding-left: 12px" >
+	<table class="table table-bordered" style="padding-left: 12px">
 		<?php if (!empty($requisitosExcluyentes)) { ?>
 			<?php foreach ($requisitosExcluyentes as $key => $value) { ?>
 				<tr>
@@ -687,72 +717,72 @@
 			<?php } ?>
 		<?php } ?>
 	</table>
-	<div class="text-justify pt pb col-12" >
+	<div class="text-justify pt pb col-12">
 		En función al puntaje obtenido por el proveedor en la inspección sanitaria, puede ser clasificado según la
 		siguiente escala; asi mismo se le asigna una identificación por color.
 	</div>
-	<table class="table table-bordered pb" style="padding-left: 100px" >
-			<tr>
-				<td colspan="3" class="text-center bg-gray">
-					Escala de Clasificación del Proveedor
-				</td>
-			</tr>
-			<tr>
-				<td class="text-center bg-gray" style="width: 100px;">
-					Calificación
-				</td>
-				<td class="text-center bg-gray" style="width: 180px;">
-					Rango de Cumplimiento
-				</td>
-				<td class="text-center bg-gray" style="width: 150px;">
-					Identifiación por Color
-				</td>
-			</tr>
-			<tr>
-				<td class="text-center" style="width: 100px">
-					Muy Bueno
-				</td>
-				<td class="text-center" style="width: 180px">
-					86% a 100%
-				</td>
-				<td class="text-center" style="width: 150px; background: <?php echo getColor(100); ?>; padding: 3px;">
-					&nbsp;
-				</td>
-			</tr>
-			<tr>
-				<td class="text-center" style="width: 100px">
-					Bueno
-				</td>
-				<td class="text-center" style="width: 180px">
-					71% a 85.99%
-				</td>
-				<td class="text-center" style="width: 150px; background: <?php echo getColor(80); ?>; padding: 3px;">
-					&nbsp;
-				</td>
-			</tr>
-			<tr>
-				<td class="text-center" style="width: 100px">
-					Regular
-				</td>
-				<td class="text-center" style="width: 180px">
-					51% a 70.99%
-				</td>
-				<td class="text-center" style="width: 150px; background: <?php echo getColor(60); ?>; padding: 3px;">
-					&nbsp;
-				</td>
-			</tr>
-			<tr>
-				<td class="text-center" style="width: 100px">
-					Deficiente
-				</td>
-				<td class="text-center" style="width: 180px">
-					0% a 50.99%
-				</td>
-				<td class="text-center" style="width: 150px; background: <?php echo getColor(10); ?>; padding: 3px;">
-					&nbsp;
-				</td>
-			</tr>
-		</table>
+	<table class="table table-bordered pb" style="padding-left: 100px">
+		<tr>
+			<td colspan="3" class="text-center bg-gray">
+				Escala de Clasificación del Proveedor
+			</td>
+		</tr>
+		<tr>
+			<td class="text-center bg-gray" style="width: 100px;">
+				Calificación
+			</td>
+			<td class="text-center bg-gray" style="width: 180px;">
+				Rango de Cumplimiento
+			</td>
+			<td class="text-center bg-gray" style="width: 150px;">
+				Identifiación por Color
+			</td>
+		</tr>
+		<tr>
+			<td class="text-center" style="width: 100px">
+				Muy Bueno
+			</td>
+			<td class="text-center" style="width: 180px">
+				86% a 100%
+			</td>
+			<td class="text-center" style="width: 150px; background: <?php echo getColor(100); ?>; padding: 3px;">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td class="text-center" style="width: 100px">
+				Bueno
+			</td>
+			<td class="text-center" style="width: 180px">
+				71% a 85.99%
+			</td>
+			<td class="text-center" style="width: 150px; background: <?php echo getColor(80); ?>; padding: 3px;">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td class="text-center" style="width: 100px">
+				Regular
+			</td>
+			<td class="text-center" style="width: 180px">
+				51% a 70.99%
+			</td>
+			<td class="text-center" style="width: 150px; background: <?php echo getColor(60); ?>; padding: 3px;">
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td class="text-center" style="width: 100px">
+				Deficiente
+			</td>
+			<td class="text-center" style="width: 180px">
+				0% a 50.99%
+			</td>
+			<td class="text-center" style="width: 150px; background: <?php echo getColor(10); ?>; padding: 3px;">
+				&nbsp;
+			</td>
+		</tr>
+	</table>
 	<div class="text-justify col-12">
 		Nota: En caso un establecimiento haya sido calificado con una No Conformidad en alguno de los requisitos
 		excluyentes, bajará al nivel inmediato inferior; cabe señalar, que por cada excluyente incumplido, bajará
@@ -792,8 +822,8 @@
 		<?php foreach ($cuadro4 as $key => $value) { ?>
 			<?php
 			$bgGray = (count(explode('.', $value->DNUMERADOR)) <= 2) ? 'bg-gray' : '';
-			$NVALORMAXREQUISITO = round($value->NVALORMAXREQUISITO);
-			$NVALORREQUISITO = round($value->NVALORREQUISITO);
+			$NVALORMAXREQUISITO = $value->NVALORMAXREQUISITO;
+			$NVALORREQUISITO = $value->NVALORREQUISITO;
 			if ($NVALORMAXREQUISITO <= 0 && $NVALORREQUISITO <= 0) {
 				$NVALORMAXREQUISITO = 'N.A.';
 				$NVALORREQUISITO = 'N.A.';
@@ -806,7 +836,7 @@
 				<td class="text-left text-justify <?php echo $bgGray; ?>" style="width: 140px">
 					<span class="text-sm"><?php echo $value->DREQUISITO ?></span>
 				</td>
-				<td class="text-left <?php echo $bgGray; ?>" style="width: 100px">
+				<td class="text-center <?php echo $bgGray; ?>" style="width: 100px">
 					<span class="text-sm"><?php echo $value->DNORMATIVA ?></span>
 				</td>
 				<td class="text-center <?php echo $bgGray; ?>" style="width: 20px">
@@ -815,10 +845,10 @@
 				<td class="text-center <?php echo $bgGray; ?>" style="width: 20px">
 					<span class="text-sm"><?php echo $NVALORREQUISITO ?></span>
 				</td>
-				<td class="text-lef text-justify <?php echo $bgGray; ?>" style="width: 140px">
+				<td class="text-left text-justify <?php echo $bgGray; ?>" style="width: 140px">
 					<span class="text-sm"><?php echo $value->DHALLAZGOTEXT ?></span>
 				</td>
-				<td class="text-lef <?php echo $bgGray; ?>" style="width: 75px">
+				<td class="text-center <?php echo $bgGray; ?>" style="width: 75px">
 					<span class="text-sm"><?php echo $value->DDETALLEVALOR ?></span>
 				</td>
 			</tr>
@@ -838,10 +868,10 @@
 				<span class="text-sm">Puntaje Total</span>
 			</td>
 			<td class="text-center">
-				<span class="text-sm"><?php echo round($totalValorMaxRequisito); ?></span>
+				<span class="text-sm"><?php echo round($totalValorMaxRequisito, 2); ?></span>
 			</td>
 			<td class="text-center">
-				<span class="text-sm"><?php echo round($totalValorRequisito); ?></span>
+				<span class="text-sm"><?php echo round($totalValorRequisito, 2); ?></span>
 			</td>
 			<td colspan="2"></td>
 		</tr>
@@ -851,49 +881,90 @@
 	<div class="text-justify pb co-12">
 		<?php echo $conclucionesGenerales; ?>
 	</div>
+	<?php if (!empty($excluyentes)) { ?>
+		<h4>Requisitos Excluyentes</h4>
+		<table class="table table-bordered pb">
+			<tr>
+				<td class="text-center bg-gray" style="width: 20px">
+					<span class="text-sm">N°</span>
+				</td>
+				<td class="text-center bg-gray" style="width: 105px;">
+					<span class="text-sm">Título</span>
+				</td>
+				<td class="text-center bg-gray" style="width: 140px">
+					<span class="text-sm">Requisito</span>
+				</td>
+				<td class="text-center bg-gray" style="width: 100px">
+					<span class="text-sm">Normativa</span>
+				</td>
+				<td class="text-center bg-gray" style="width: 140px">
+					<span class="text-sm">Hallazgo / Seguimiento</span>
+				</td>
+			</tr>
+			<?php foreach ($excluyentes as $key => $excluyente) { ?>
+				<tr>
+					<td class="text-left" style="width: 20px">
+						<span class="text-sm"><?php echo $excluyente->dnumerador ?></span>
+					</td>
+					<td class="text-left" style="width: 105px;">
+						<span class="text-sm"><?php echo $excluyente->titulo ?></span>
+					</td>
+					<td class="text-left text-justify" style="width: 170px">
+						<span class="text-sm"><?php echo $excluyente->drequisito ?></span>
+					</td>
+					<td class="text-center" style="width: 100px">
+						<span class="text-sm"><?php echo $excluyente->DNORMATIVA ?></span>
+					</td>
+					<td class="text-left text-justify" style="width: 170px">
+						<span class="text-sm"><?php echo $excluyente->dhallazgotext ?></span>
+					</td>
+				</tr>
+			<?php } ?>
+		</table>
+	<?php } ?>
 	<?php if (!empty($peligros)) { ?>
 		<?php if ($peligros[0]->dproducto != 'SIN PRODUCTO') { ?>
 			<h4>Tabla de Peligros</h4>
 			<table class="table table-bordered pb">
 				<tr>
 					<td class="text-center bg-gray" style="width: 20px">
-						N°
+						<span class="text-sm">N°</span>
 					</td>
 					<td class="text-center bg-gray" style="width: 105px;">
-						Producto
+						<span class="text-sm">Producto</span>
 					</td>
 					<td class="text-center bg-gray" style="width: 110px;">
-						Peligro Cliente
+						<span class="text-sm">Peligro Cliente</span>
 					</td>
 					<td class="text-center bg-gray" style="width: 110px;">
-						Peligro Proveedor
+						<span class="text-sm">Peligro Proveedor</span>
 					</td>
 					<td class="text-center bg-gray" style="width: 100px;">
-						Peligro Inspeccion
+						<span class="text-sm">Peligro Inspeccion</span>
 					</td>
 					<td class="text-center bg-gray" style="width: 100px;">
-						Observacion
+						<span class="text-sm">Observación</span>
 					</td>
 				</tr>
 				<?php foreach ($peligros as $key => $value) { ?>
 					<tr>
 						<td class="text-center" style="width: 20px">
-							<?php echo($key + 1) ?>
+							<span class="text-sm"><?php echo($key + 1) ?></span>
 						</td>
 						<td class="text-left" style="width: 105px;">
-							<?php echo $value->dproducto ?>
+							<span class="text-sm"><?php echo $value->dproducto ?></span>
 						</td>
 						<td class="text-left" style="width: 100px;">
-							<?php echo $value->dpeligrocliente ?>
+							<span class="text-sm"><?php echo $value->dpeligrocliente ?></span>
 						</td>
 						<td class="text-left" style="width: 100px;">
-							<?php echo $value->dpeligroproveedor ?>
+							<span class="text-sm"><?php echo $value->dpeligroproveedor ?></span>
 						</td>
 						<td class="text-left" style="width: 100px;">
-							<?php echo $value->dpeligroinspeccion ?>
+							<span class="text-sm"><?php echo $value->dpeligroinspeccion ?></span>
 						</td>
 						<td class="text-left" style="width: 100px;">
-							<?php echo $value->observacion ?>
+							<span class="text-sm"><?php echo $value->observacion ?></span>
 						</td>
 					</tr>
 				<?php } ?>
@@ -902,7 +973,7 @@
 	<?php } ?>
 	<div class="">
 		<h3 style="padding-top: 0; margin-top: 0">VIII. PLAN DE ACCIONES CORRECTIVAS</h3>
-		<div class="text-justify col-12" >
+		<div class="text-justify col-12">
 			<p class="pb" style="margin-bottom: 0; padding-top: 0; margin-top: 0"><?php echo $planAccionParrafo1; ?></p>
 			<p class="pb" style="margin-bottom: 0; padding-top: 0; margin-top: 0"><?php echo $planAccionParrafo2; ?></p>
 			<p style="margin-bottom: 0; padding-bottom: 0; padding-top: 0; margin-top: 0"><?php echo $planAccionParrafo3; ?></p>

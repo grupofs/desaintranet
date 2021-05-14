@@ -290,8 +290,17 @@ class ccons_insp extends FS_Controller
 			if (empty($inspeccioncab)) {
 				throw new Exception('La inspección cabecera no pudo ser encontrada.');
 			}
+
+			$caratula = $this->mcons_insp->pdfCaratula([
+				'@CAUDI' => $codigo, // '00000303',
+				'@FSERV' => $fecha, // '2020-10-09',
+			]);
+
+			$informe = $caratula->dinforme;
+			$dinforme = explode('/',$informe);
+
 			// codigo | fecha .pdf
-			$fileName = $codigo . str_replace('-', '', $fecha) . '.pdf';
+			$fileName = date('dmY', strtotime($fecha)) . '-' . $dinforme[0] . '.pdf';
 			$dompdf = $this->_pdf($codigo, $fecha);
 
 			// Separado por Archivos / cia|area|servicio / ccliente / caudi

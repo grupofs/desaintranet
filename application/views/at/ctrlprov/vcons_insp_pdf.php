@@ -356,8 +356,8 @@
 			<?php if (!empty($cuadro2)) { ?>
 				<?php foreach ($cuadro2 as $key => $value) { ?>
 					<?php
-					$mayorVal = $value->mayor_val;
-					$nvalorReguisito = $value->nvalorrequisito;
+					$mayorVal = round($value->mayor_val);
+					$nvalorReguisito = round($value->nvalorrequisito);
 					$nporcentaje = ($value->mayor_val > 0) ? round(($value->nvalorrequisito * 100) / $value->mayor_val, 2) : '0' . '%';
 					if ($mayorVal <= 0 && $nvalorReguisito <= 0) {
 						$mayorVal = 'N.A.';
@@ -840,10 +840,10 @@
 					<span class="text-sm"><?php echo $value->DNORMATIVA ?></span>
 				</td>
 				<td class="text-center <?php echo $bgGray; ?>" style="width: 20px">
-					<span class="text-sm"><?php echo $NVALORMAXREQUISITO ?></span>
+					<span class="text-sm"><?php echo round($NVALORMAXREQUISITO) ?></span>
 				</td>
 				<td class="text-center <?php echo $bgGray; ?>" style="width: 20px">
-					<span class="text-sm"><?php echo $NVALORREQUISITO ?></span>
+					<span class="text-sm"><?php echo round($NVALORREQUISITO) ?></span>
 				</td>
 				<td class="text-left text-justify <?php echo $bgGray; ?>" style="width: 140px">
 					<span class="text-sm"><?php echo $value->DHALLAZGOTEXT ?></span>

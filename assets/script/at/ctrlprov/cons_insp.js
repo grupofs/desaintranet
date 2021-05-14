@@ -99,7 +99,9 @@ $(function () {
 							htmlRow += '<div class="dropdown-menu" aria-labelledby="' + rowId + '">';
 							let tipoEstado = String(row.TIPOESTADOSERVICIO).toLowerCase().trim();
 							if (tipoEstado === 'convalidado' || tipoEstado === 'concluido ok') {
-								if (!row.DUBICACIONFILESERVERPDF) {
+								if (row.DUBICACIONFILESERVERPDF) {
+									htmlRow += '<a href="' + baseurl + 'FTPfileserver/Archivos/' + row.DUBICACIONFILESERVERPDF + '" target="_blank" class="btn bt-sm dropdown-item" ><i class="fa fa-file-pdf" ></i> Ver Informe Técnico</a>';
+								} else {
 									htmlRow += '<button type="button" class="btn bt-sm dropdown-item open-pdf" data-codigo="' + row.CODIGO + '" data-fecha="' + row.FECHAINSPECCION + '" ><i class="fa fa-file-pdf" ></i> Ver Informe Técnico</button>';
 								}
 							}

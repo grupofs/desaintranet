@@ -91,10 +91,10 @@ class ccons_inspcli extends FS_Controller
 		} else {
 			// En caso sea un formato invalido se tomara la fecha de hoy
 			$fini = (validateDate($fini, 'd/m/Y'))
-				? \Carbon\Carbon::createFromFormat('d/m/Y', $fini, 'America/Lima')->format('Y-m-m')
+				? \Carbon\Carbon::createFromFormat('d/m/Y', $fini, 'America/Lima')->format('Y-m-d')
 				: $now;
 			$ffin = (validateDate($ffin, 'd/m/Y'))
-				? \Carbon\Carbon::createFromFormat('d/m/Y', $ffin, 'America/Lima')->format('Y-m-m')
+				? \Carbon\Carbon::createFromFormat('d/m/Y', $ffin, 'America/Lima')->format('Y-m-d')
 				: $now;
 		}
 
@@ -174,10 +174,10 @@ class ccons_inspcli extends FS_Controller
 			} else {
 				// En caso sea un formato invalido se tomara la fecha de hoy
 				$fini = (validateDate($fini, 'd/m/Y'))
-					? \Carbon\Carbon::createFromFormat('d/m/Y', $fini, 'America/Lima')->format('Y-m-m')
+					? \Carbon\Carbon::createFromFormat('d/m/Y', $fini, 'America/Lima')->format('Y-m-d')
 					: $now;
 				$ffin = (validateDate($ffin, 'd/m/Y'))
-					? \Carbon\Carbon::createFromFormat('d/m/Y', $ffin, 'America/Lima')->format('Y-m-m')
+					? \Carbon\Carbon::createFromFormat('d/m/Y', $ffin, 'America/Lima')->format('Y-m-d')
 					: $now;
 			}
 

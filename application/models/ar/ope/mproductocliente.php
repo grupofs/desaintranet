@@ -67,6 +67,10 @@ class mproductocliente extends CI_Model
 			MMARCAXCLIENTE.DMARCA,
 			MFABRICANTEXCLIENTE.DFABRICANTE,
 			TTABLA.DREGISTRO,
+			MFABRICANTEXCLIENTE2.CFABRICANTE AS CFABRICANTE2,
+			MFABRICANTEXCLIENTE2.DFABRICANTE AS DFABRICANTE2,
+			TTABLA2.CTIPO AS CTIPO2,
+			TTABLA2.DREGISTRO AS DREGISTRO2,
 			MCATEGORIACLIENTE.DCATEGORIACLIENTE,
 			MPRODUCTOCLIENTE.DREGISTROSANITARIO,
 			DATEFORMAT(MPRODUCTOCLIENTE.FINICIOREGSANITARIO, 'DD/MM/YYYY') as FINICIOREGSANITARIO,
@@ -95,8 +99,10 @@ class mproductocliente extends CI_Model
 		$this->db->from('MPRODUCTOCLIENTE');
 		$this->db->join('MMARCAXCLIENTE', 'MPRODUCTOCLIENTE.CMARCA = MMARCAXCLIENTE.CMARCA AND MPRODUCTOCLIENTE.CCLIENTE = MMARCAXCLIENTE.CCLIENTE', 'left');
 		$this->db->join('MFABRICANTEXCLIENTE', 'MPRODUCTOCLIENTE.CFABRICANTE = MFABRICANTEXCLIENTE.CFABRICANTE AND MPRODUCTOCLIENTE.CCLIENTE = MFABRICANTEXCLIENTE.CCLIENTE', 'left');
+		$this->db->join('MFABRICANTEXCLIENTE MFABRICANTEXCLIENTE2', 'MPRODUCTOCLIENTE.CFABRICANTE2 = MFABRICANTEXCLIENTE2.CFABRICANTE AND MPRODUCTOCLIENTE.CCLIENTE = MFABRICANTEXCLIENTE2.CCLIENTE', 'left');
 		$this->db->join('MCATEGORIACLIENTE', 'MPRODUCTOCLIENTE.CCATEGORIACLIENTE = MCATEGORIACLIENTE.CCATEGORIACLIENTE AND MPRODUCTOCLIENTE.CCLIENTE = MCATEGORIACLIENTE.CCLIENTE', 'left');
 		$this->db->join('TTABLA', 'MPRODUCTOCLIENTE.ZCPAISFABRICANTE = TTABLA.CTIPO', 'left');
+		$this->db->join('TTABLA AS TTABLA2', 'MPRODUCTOCLIENTE.ZCPAISFABRICANTE2 = TTABLA2.CTIPO', 'left');
 		$this->db->where('MPRODUCTOCLIENTE.CCLIENTE', $ccliente);
 		$this->db->where('MPRODUCTOCLIENTE.ZCTIPOCATEGORIAPRODUCTO', $tipoProducto);
 		$this->db->where('MPRODUCTOCLIENTE.SREGISTRO', 'A');
@@ -154,18 +160,25 @@ class mproductocliente extends CI_Model
 	 * @param string $idCliente
 	 * @param string $idTipoProducto
 	 * @param string $codigo
-	 * @param string|null|int $idCategoria
+	 * @param $idCategoria
 	 * @param string $registroSanitario
 	 * @param string $fechaEmision
 	 * @param string $fechaVencimiento
 	 * @param string $descripcion
 	 * @param string $nombre
-	 * @param string|null|int $idMarca
+	 * @param $idMarca
 	 * @param string $presentacion
-	 * @param string|null|int $idPais
-	 * @param string|null|int $idFabricante
+	 * @param $idPais
+	 * @param $idFabricante
 	 * @param string $direccionFabricante
 	 * @param string $vidaUtil
+	 * @param $idFabricante2
+	 * @param $idPais2
+	 * @param $dformacosmetica
+	 * @param $dmodeloProducto
+	 * @param $codigoFormula
+	 * @param $sinflamable
+	 * @param $stramitable
 	 * @param string $estado
 	 * @return array
 	 * @throws Exception
@@ -186,6 +199,13 @@ class mproductocliente extends CI_Model
 							$idFabricante,
 							string $direccionFabricante,
 							string $vidaUtil,
+							$idFabricante2,
+							$idPais2,
+							$dformacosmetica,
+							$dmodeloProducto,
+							$codigoFormula,
+							$sinflamable,
+							$stramitable,
 							string $estado
 	): array
 	{
@@ -226,16 +246,16 @@ class mproductocliente extends CI_Model
 			'CPRODUCTOCLIENTE' => $codigo,
 			'DNOMBREPRODUCTO' => $nombre,
 			'DPRODUCTOCLIENTE' => $descripcion,
-			'SINFLAMABLE' => 'N',
-			'STRAMITABLE' => 'S',
-			'DMODELOPRODUCTO' => '',
+			'SINFLAMABLE' => $sinflamable,
+			'STRAMITABLE' => $stramitable,
+			'DMODELOPRODUCTO' => $dmodeloProducto,
 			'DPRESENTACION' => $presentacion,
 			'CFABRICANTE' => $idFabricante,
 			'ZCPAISFABRICANTE' => $idPais,
 			'DDIRECCIONFABRICANTE' => $direccionFabricante,
 			'CMARCA' => $idMarca,
-			'CFABRICANTE2' => null,
-			'ZCPAISFABRICANTE2' => null,
+			'CFABRICANTE2' => $idFabricante2,
+			'ZCPAISFABRICANTE2' => $idPais2,
 			'DREGISTROSANITARIO' => $registroSanitario,
 			'FINICIOREGSANITARIO' => $fechaEmision,
 			'FFINREGSANITARIO' => $fechaVencimiento,
@@ -245,8 +265,8 @@ class mproductocliente extends CI_Model
 			'TMODIFICACION' => null,
 			'SREGISTRO' => $estado,
 			'CCATEGORIACLIENTE' => $idCategoria,
-			'DFORMACOSMETICA' => null,
-			'DCODIGOFORMULA' => null,
+			'DFORMACOSMETICA' => $dformacosmetica,
+			'DCODIGOFORMULA' => $codigoFormula,
 			'VIDAUTIL' => $vidaUtil,
 		];
 		$res = (empty($id)) ? $this->crear($data) : $this->actualizar($id, $data);
@@ -333,6 +353,10 @@ class mproductocliente extends CI_Model
 			MFABRICANTEXCLIENTE.DFABRICANTE,
 			TTABLA.CTIPO,
 			TTABLA.DREGISTRO,
+			MFABRICANTEXCLIENTE2.CFABRICANTE AS CFABRICANTE2,
+			MFABRICANTEXCLIENTE2.DFABRICANTE AS DFABRICANTE2,
+			TTABLA2.CTIPO AS CTIPO2,
+			TTABLA2.DREGISTRO AS DREGISTRO2,
 			MCATEGORIACLIENTE.CCATEGORIACLIENTE,
 			MCATEGORIACLIENTE.DCATEGORIACLIENTE,
 			DATEFORMAT(MPRODUCTOCLIENTE.FINICIOREGSANITARIO, 'DD/MM/YYYY') as FINICIOREGSANITARIO,

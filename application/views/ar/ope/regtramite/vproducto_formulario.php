@@ -229,148 +229,172 @@
 								</div>
 							</div>
 						</div>
-<!--						<div class="col-xl-8 col-lg-7 col-md-12 col-sm-12 col-12">-->
-<!--							<div class="form-group row">-->
-<!--								<label for="producto_formula" class="col-xl-6 col-lg-5 col-md-4 col-sm-12 col-12">-->
-<!--									Código de Formula-->
-<!--								</label>-->
-<!--								<div class="col-xl-6 col-lg-7 col-md-8 col-sm-12 col-12">-->
-<!--									<input type="text" class="form-control" aria-label="" maxlength="250"-->
-<!--										   id="producto_formula" name="producto_formula"-->
-<!--										   value=""/>-->
-<!--								</div>-->
-<!--							</div>-->
-<!--						</div>-->
+						<div class="col-xl-8 col-lg-7 col-md-12 col-sm-12 col-12 contenido-digemid" style="display: none" >
+							<div class="form-group row">
+								<label for="producto_formula" class="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12">
+									Código de Formula
+								</label>
+								<div class="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12">
+									<input type="text" class="form-control" aria-label="" maxlength="250"
+										   id="producto_formula" name="producto_formula"
+										   value=""/>
+								</div>
+							</div>
+						</div>
 					</div>
-<!--					<div class="card card-success">-->
-<!--						<div class="card-header">-->
-<!--							<h3 class="card-title">Exlusivo para DIGEMID</h3>-->
-<!--						</div>-->
-<!--						<div class="card-body">-->
-<!--							<div class="row" >-->
-<!--								<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">-->
-<!--									<div class="form-group row">-->
-<!--										<label for="producto_digemid_modelo"-->
-<!--											   class="col-xl-6 col-lg-5 col-md-4 col-sm-12 col-12">-->
-<!--											Modelo (Tono, variedades, Sub-marca):-->
-<!--										</label>-->
-<!--										<div class="col-xl-6 col-lg-7 col-md-8 col-sm-12 col-12">-->
-<!--										<textarea name="producto_digemid_modelo" id="producto_digemid_modelo"-->
-<!--												  class="form-control" rows="10"></textarea>-->
-<!--										</div>-->
-<!--									</div>-->
-<!--								</div>-->
-<!--								<div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12">-->
-<!--									<div class="custom-control custom-checkbox">-->
-<!--										<input type="checkbox" checked-->
-<!--											   class="custom-control-input"-->
-<!--											   id="producto_digemid_tramitable"-->
-<!--											   name="producto_digemid_tramitable"><label-->
-<!--												class="custom-control-label" for="producto_digemid_tramitable">-->
-<!--											Tramitable-->
-<!--										</label>-->
-<!--									</div>-->
-<!--									<div class="custom-control custom-checkbox">-->
-<!--										<input type="checkbox"-->
-<!--											   class="custom-control-input"-->
-<!--											   id="producto_digemid_inflamable"-->
-<!--											   name="producto_digemid_inflamable"><label-->
-<!--												class="custom-control-label" for="producto_digemid_inflamable">-->
-<!--											Inflamable-->
-<!--										</label>-->
-<!--									</div>-->
-<!--								</div>-->
-<!--							</div>-->
-<!--							<div class="row" >-->
-<!--								<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">-->
-<!--									<div class="form-group row">-->
-<!--										<label for="producto_digemid_forma_cosmetica" class="col-xl-6 col-lg-5 col-md-4 col-sm-12 col-12">-->
-<!--											Forma Cosmetica-->
-<!--										</label>-->
-<!--										<div class="col-xl-6 col-lg-7 col-md-8 col-sm-12 col-12">-->
-<!--											<input type="text" class="form-control" aria-label="" maxlength="250"-->
-<!--												   id="producto_digemid_forma_cosmetica" name="producto_digemid_forma_cosmetica"-->
-<!--												   value=""/>-->
-<!--										</div>-->
-<!--									</div>-->
-<!--								</div>-->
-<!--							</div>-->
-<!--							<div class="row">-->
-<!--								<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">-->
-<!--									<div class="form-group row">-->
-<!--										<label for="producto_digemid_fabricante_id"-->
-<!--											   class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">-->
-<!--											Fabricante 2-->
-<!--										</label>-->
-<!--										<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">-->
-<!--											<div class="row">-->
-<!--												<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">-->
-<!--													<select class="custom-select" aria-label=""-->
-<!--															id="producto_digemid_fabricante_id" name="producto_digemid_fabricante_id">-->
-<!--													</select>-->
-<!--												</div>-->
-<!--												<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">-->
-<!--													<button type="button" role="button" class="btn btn-light btn-block"-->
-<!--															data-toggle="modal" data-target="#modalFormularioFabricante">-->
-<!--														<i class="fa fa-plus"></i> Nuevo-->
-<!--													</button>-->
-<!--												</div>-->
-<!--											</div>-->
-<!--										</div>-->
-<!--									</div>-->
-<!--								</div>-->
-<!--								<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">-->
-<!--									<div class="form-group row">-->
-<!--										<label for="producto_digemid_pais" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">-->
-<!--											País 2-->
-<!--										</label>-->
-<!--										<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">-->
-<!--											<select class="custom-select" aria-label=""-->
-<!--													id="producto_digemid_pais" name="producto_digemid_pais">-->
-<!--											</select>-->
-<!--										</div>-->
-<!--									</div>-->
-<!--								</div>-->
-<!--							</div>-->
-<!--							<div class="row">-->
-<!--								<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">-->
-<!--									<div class="form-group row">-->
-<!--										<label for="producto_digemid_fabricante3_id"-->
-<!--											   class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">-->
-<!--											Fabricante 2-->
-<!--										</label>-->
-<!--										<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">-->
-<!--											<div class="row">-->
-<!--												<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">-->
-<!--													<select class="custom-select" aria-label=""-->
-<!--															id="producto_digemid_fabricante3_id" name="producto_digemid_fabricante3_id">-->
-<!--													</select>-->
-<!--												</div>-->
-<!--												<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">-->
-<!--													<button type="button" role="button" class="btn btn-light btn-block"-->
-<!--															data-toggle="modal" data-target="#modalFormularioFabricante">-->
-<!--														<i class="fa fa-plus"></i> Nuevo-->
-<!--													</button>-->
-<!--												</div>-->
-<!--											</div>-->
-<!--										</div>-->
-<!--									</div>-->
-<!--								</div>-->
-<!--								<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">-->
-<!--									<div class="form-group row">-->
-<!--										<label for="producto_digemid_pais3" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">-->
-<!--											País 3-->
-<!--										</label>-->
-<!--										<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">-->
-<!--											<select class="custom-select" aria-label=""-->
-<!--													id="producto_digemid_pais3" name="producto_digemid_pais3">-->
-<!--											</select>-->
-<!--										</div>-->
-<!--									</div>-->
-<!--								</div>-->
-<!--							</div>-->
-<!--						</div>-->
-<!--					</div>-->
+					<div class="card card-success contenido-digemid" style="display: none">
+						<div class="card-header">
+							<h3 class="card-title">Exlusivo para DIGEMID</h3>
+						</div>
+						<div class="card-body">
+							<div class="row" >
+								<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
+									<div class="form-group row">
+										<label for="producto_digemid_modelo"
+											   class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+											Modelo (Tono, variedades, Sub-marca):
+										</label>
+										<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+										<textarea name="producto_digemid_modelo" id="producto_digemid_modelo"
+												  class="form-control" rows="5"></textarea>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 text-right">
+									<div class="custom-control custom-checkbox">
+										<input type="checkbox"
+											   class="custom-control-input custom-control-input-checked"
+											   id="producto_digemid_tramitable" value="1"
+											   name="producto_digemid_tramitable"><label
+												class="custom-control-label" for="producto_digemid_tramitable">
+											Tramitable
+										</label>
+									</div>
+									<div class="custom-control custom-checkbox">
+										<input type="checkbox"
+											   class="custom-control-input custom-control-input-checked"
+											   id="producto_digemid_inflamable" value="1"
+											   name="producto_digemid_inflamable"><label
+												class="custom-control-label" for="producto_digemid_inflamable">
+											Inflamable
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="row" >
+								<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
+									<div class="form-group row">
+										<label for="producto_digemid_forma_cosmetica" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+											Forma Cosmetica
+										</label>
+										<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+											<select class="custom-select"
+													name="producto_digemid_forma_cosmetica"
+													id="producto_digemid_forma_cosmetica">
+												<option value="Aceite">Aceite</option>
+												<option value="Aerosol">Aerosol</option>
+												<option value="Bálsamo labial">Bálsamo labial</option>
+												<option value="Barra">Barra</option>
+												<option value="Cera">Cera</option>
+												<option value="Crema Gel">Crema Gel</option>
+												<option value="Crema">Crema</option>
+												<option value="Emulasión">Emulasión</option>
+												<option value="Esmalte">Esmalte</option>
+												<option value="Gel">Gel</option>
+												<option value="Granulado">Granulado</option>
+												<option value="Lápiz">Lápiz</option>
+												<option value="Líquido">Líquido</option>
+												<option value="Loción">Loción</option>
+												<option value="Pasta">Pasta</option>
+												<option value="Perfume">Perfume</option>
+												<option value="Polvo">Polvo</option>
+												<option value="Solido">Solido</option>
+												<option value="Solido compacto">Solido compacto</option>
+												<option value="Solución">Solución</option>
+												<option value="Soporte impregnado">Soporte impregnado</option>
+												<option value="Suero">Suero</option>
+												<option value="Suspensión">Suspensión</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
+									<div class="form-group row">
+										<label for="producto_digemid_fabricante_id"
+											   class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+											Fabricante 2
+										</label>
+										<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+											<div class="row">
+												<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
+													<select class="custom-select" aria-label=""
+															id="producto_digemid_fabricante_id" name="producto_digemid_fabricante_id">
+													</select>
+												</div>
+												<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
+													<button type="button" role="button" class="btn btn-light btn-block"
+															data-toggle="modal" data-target="#modalFormularioFabricante">
+														<i class="fa fa-plus"></i> Nuevo
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
+									<div class="form-group row">
+										<label for="producto_digemid_pais" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+											País 2
+										</label>
+										<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+											<select class="custom-select" aria-label=""
+													id="producto_digemid_pais" name="producto_digemid_pais">
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row" style="display: none" >
+								<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
+									<div class="form-group row">
+										<label for="producto_digemid_fabricante3_id"
+											   class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+											Fabricante 3
+										</label>
+										<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+											<div class="row">
+												<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
+													<select class="custom-select" aria-label=""
+															id="producto_digemid_fabricante3_id" name="producto_digemid_fabricante3_id">
+													</select>
+												</div>
+												<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
+													<button type="button" role="button" class="btn btn-light btn-block"
+															data-toggle="modal" data-target="#modalFormularioFabricante">
+														<i class="fa fa-plus"></i> Nuevo
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
+									<div class="form-group row">
+										<label for="producto_digemid_pais3" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+											País 3
+										</label>
+										<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+											<select class="custom-select" aria-label=""
+													id="producto_digemid_pais3" name="producto_digemid_pais3">
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</form>
 			</div>
 			<div class="modal-footer w-100 d-flex flex-row">

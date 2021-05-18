@@ -225,11 +225,11 @@ $(function () {
 				row += '</button>';
 				row += '<div class="dropdown-menu dropdown-menu-right">';
 				row += '<h6 class="dropdown-header">Opciones</h6>';
-				row += '<button type="button" role="button" class="dropdown-item option-tramite-producto-eliminar">';
-				row += '<i class="fa fa-trash"></i> Eliminar';
-				row += '</button>';
 				row += '<button type="button" role="button" class="dropdown-item option-tramite-producto-editar" data-id="' + producto.CPRODUCTOFS + '" >';
 				row += '<i class="fa fa-edit"></i> Editar';
+				row += '</button>';
+				row += '<button type="button" role="button" class="dropdown-item option-tramite-producto-eliminar">';
+				row += '<i class="fa fa-trash"></i> Eliminar';
 				row += '</button>';
 				row += '</div>';
 				row += '<input type="hidden" class="d-none" readonly id="tramite_producto_id[' + position + ']" name="tramite_producto_id[' + position + ']" value="' + producto.CPRODUCTOFS + '" />';

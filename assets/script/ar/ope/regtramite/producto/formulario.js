@@ -38,6 +38,7 @@ $(function() {
 		// Se limpia el campo del formulario
 		const formData = $('#frmProducto');
 		formData.find('input, select, textarea').val(null);
+		formData.find('checkbox').prop('checked', false);
 
 		// Cliente elegido
 		const customer = objFormularioAR.data.cliente;
@@ -75,7 +76,33 @@ $(function() {
 		s2FabricanteProducto.params.ccliente = customerID;
 
 		// Pais
-		s2Pais.init($('#producto_pais'));
+		const s2Pais1 = Object.assign({}, s2Pais);
+		s2Pais1.init($('#producto_pais'));
+
+		let esDigemid = objTramite.tramiteEntidadDigemid();
+		let elContenidoDigemid = $('.contenido-digemid');
+		elContenidoDigemid.hide();
+		if (esDigemid) {
+			elContenidoDigemid.show();
+
+			// Fabricante 2
+			const s2FabricanteProducto2 = Object.assign({}, s2Fabricante);
+			s2FabricanteProducto2.init($('#producto_digemid_fabricante_id'));
+			s2FabricanteProducto2.params.ccliente = customerID;
+
+			// Pais 2
+			const s2Pais2 = Object.assign({}, s2Pais);
+			s2Pais2.init($('#producto_digemid_pais'));
+
+			// Fabricante 3
+			const s2FabricanteProducto3 = Object.assign({}, s2Fabricante);
+			s2FabricanteProducto3.init($('#producto_digemid_fabricante3_id'));
+			s2FabricanteProducto3.params.ccliente = customerID;
+
+			// Pais 3
+			const s2Pais3 = Object.assign({}, s2Pais);
+			s2Pais3.init($('#producto_digemid_pais3'));
+		}
 
 		// Imprime los datos del producto
 		if (producto) {
@@ -88,12 +115,7 @@ $(function() {
 					text: producto.DCATEGORIACLIENTE
 				}]);
 			}
-			// const dateInit = $('#producto_fecha_inicio').data('daterangepicker');
-			// dateInit.setStartDate(producto.FINICIOREGSANITARIO)
-			// dateInit.setEndDate(producto.FINICIOREGSANITARIO);
-			// const dateEnd = $('#producto_fecha_vencimiento').data('daterangepicker');
-			// dateEnd.setStartDate(producto.FFINREGSANITARIO)
-			// dateEnd.setEndDate(producto.FFINREGSANITARIO);
+
 			$('#producto_fecha_inicio').val(producto.FINICIOREGSANITARIO);
 			$('#producto_fecha_vencimiento').val(producto.FFINREGSANITARIO);
 
@@ -112,6 +134,39 @@ $(function() {
 			$('#producto_direccion_fabricante').val(producto.DDIRECCIONFABRICANTE);
 			$('#producto_vida_util').val(producto.VIDAUTIL);
 			$('#producto_estado').val(producto.SREGISTRO).change();
+			// Solo para cosmeticos
+			if (esDigemid) {
+				let DCODIGOFORMULA = (producto.DCODIGOFORMULA) ? producto.DCODIGOFORMULA : '';
+				$('#producto_formula').val(DCODIGOFORMULA);
+				let DMODELOPRODUCTO = (producto.DMODELOPRODUCTO) ? producto.DMODELOPRODUCTO : '';
+				$('#producto_digemid_modelo').val(DMODELOPRODUCTO);
+				let DFORMACOSMETICA = (producto.DFORMACOSMETICA) ? producto.DFORMACOSMETICA : '';
+				if (DFORMACOSMETICA) {
+					let elFormaCosmetica = $('#producto_digemid_forma_cosmetica option[value="' + DFORMACOSMETICA + '"]');
+					// Si no existe se crea el option
+					if (elFormaCosmetica.length <= 0) {
+						$("#producto_digemid_forma_cosmetica").append(new Option(DFORMACOSMETICA, DFORMACOSMETICA));
+						elFormaCosmetica = $('#producto_digemid_forma_cosmetica option[value="' + DFORMACOSMETICA + '"]');
+					}
+					elFormaCosmetica.prop('selected', true);
+				}
+				if (producto.CFABRICANTE2) {
+					$('#producto_digemid_fabricante_id').refreshSelect2([{id: producto.CFABRICANTE2, text: producto.DFABRICANTE2}]);
+				}
+				if (producto.CTIPO2) {
+					$('#producto_digemid_pais').refreshSelect2([{id: producto.CTIPO2, text: producto.DREGISTRO2}]);
+				}
+				if (producto.STRAMITABLE === 'S') {
+					$('#producto_digemid_tramitable').prop('checked', true).val(1);
+				} else {
+					$('#producto_digemid_tramitable').prop('checked', false).val(0);
+				}
+				if (producto.SINFLAMABLE === 'S') {
+					$('#producto_digemid_inflamable').prop('checked', true).val(1);
+				} else {
+					$('#producto_digemid_inflamable').prop('checked', false).val(0);
+				}
+			}
 		}
 	};
 
@@ -223,5 +278,14 @@ $(document).ready(function() {
 	});
 
 	$('.btn-producto-guardar').click(objProducto.guardar);
+
+	$('.custom-control-input-checked').click(function() {
+		const el = $(this);
+		if (el.is(':checked')) {
+			el.val(1);
+		} else {
+			el.val(0);
+		}
+	});
 
 });

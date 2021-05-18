@@ -48,6 +48,13 @@ class cproductocliente extends FS_Controller
 			$direccion_fabricante = (string) $this->input->post('producto_direccion_fabricante');
 			$producto_vida_util = (string) $this->input->post('producto_vida_util');
 			$estado = (string) $this->input->post('producto_estado');
+			$fabricante_id2 = (string) $this->input->post('producto_digemid_fabricante_id');
+			$pais2 = (string) $this->input->post('producto_digemid_pais');
+			$codigoFormula = (string) $this->input->post('producto_formula');
+			$dformacosmetica = (string) $this->input->post('producto_digemid_forma_cosmetica');
+			$dmodeloProducto = (string) $this->input->post('producto_digemid_modelo');
+			$tramitable = (string) $this->input->post('producto_digemid_tramitable');
+			$inflamable = (string) $this->input->post('producto_digemid_inflamable');
 
 			$objCliente = $this->mcliente->buscar($codigo_cliente_id);
 			if (empty($objCliente)) {
@@ -58,6 +65,9 @@ class cproductocliente extends FS_Controller
 			if (empty($objTipoProducto)) {
 				throw new Exception('Debe elegir el cliente.');
 			}
+
+			$inflamable = ($inflamable == "1") ? 'S' : 'N';
+			$tramitable = ($tramitable == "1") ? 'S' : 'N';
 
 			$producto = $this->mproductocliente->guardar(
 				$producto_cliente_id,
@@ -76,6 +86,13 @@ class cproductocliente extends FS_Controller
 				$fabricante_id,
 				$direccion_fabricante,
 				$producto_vida_util,
+				$fabricante_id2,
+				$pais2,
+				$dformacosmetica,
+				$dmodeloProducto,
+				$codigoFormula,
+				$inflamable,
+				$tramitable,
 				$estado
 			);
 

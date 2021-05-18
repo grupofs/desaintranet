@@ -158,6 +158,15 @@ $(function () {
 	};
 
 	/**
+	 * Verifica si la entidad es digesa
+	 * @return boolean
+	 */
+	objTramite.tramiteEntidadDigemid = function () {
+		const entidad = $('#tramite_entidad_id').val();
+		return (entidad === '002');
+	};
+
+	/**
 	 * Verifica si el tipo de producto es alimento
 	 * @returns {boolean}
 	 */

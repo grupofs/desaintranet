@@ -68,11 +68,29 @@ class Cproveedor extends FS_Controller
             if (empty($contacto1) && empty($contacto2)) {
                 throw new Exception('Debes ingresar al menos un contacto.');
             }
-            // Valida el RUC no exista
-            /*$validarRuc = $this->mproveedor->buscarPorRuc($ruc, $id);
-            if (!empty($validarRuc)) {
-                throw new Exception('El RUC del Proveedor ya existe.');
-            }*/
+
+			// Solo si se edita el proveedor, sera validado para no editar el RUC y NOMBRE
+			// en caso tenga expedientes
+			if (!empty($id)) {
+				$expedientes = $this->mproveedor->validarExpedientes($id);
+				if(!empty($expedientes)) {
+					$objProveedor = $this->mproveedor->buscarPorId($id);
+					if (empty($objProveedor)) {
+						throw new Exception('No puedes editar el proveedor, por que tiene expedientes ya asignados.');
+					}
+					// Solo si trata de modificar el RUC o Nombre
+					if (!empty($objProveedor->ruc) && $objProveedor->ruc != $ruc) {
+						throw new Exception('No puedes editar Ruc del proveedor por que tiene expedientes asignados.');
+					}
+					if (!empty($objProveedor->nombre) && $objProveedor->nombre != $proveedor) {
+						throw new Exception('No puedes editar el nombre del proveedor por que tiene expedientes asignados');
+					}
+				}
+			}
+
+			$s_cusuario = $this->session->userdata('s_idusuario');
+			$fechaActual = \Carbon\Carbon::now('America/Lima')->format('Y-m-d H:i:s');
+
             $this->db->trans_begin();
             $parametros = array(
                 '@id_proveedor' => $id,
@@ -85,6 +103,10 @@ class Cproveedor extends FS_Controller
                 '@ruc' => $ruc,
                 '@ccliente' => '00005',
                 '@accion' => $this->input->post('mhdnAccionprov'),
+				'@cusuariocrea' => $s_cusuario,
+				'@tcreacion' => $fechaActual,
+				'@cusuariomodifica' => $s_cusuario,
+				'@tmodificacion' => $fechaActual,
             );
             $respuesta = $this->mproveedor->guardar($parametros);
             if ($this->db->trans_status() === FALSE) {

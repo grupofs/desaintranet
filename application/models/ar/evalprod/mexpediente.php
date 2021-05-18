@@ -51,7 +51,7 @@ class Mexpediente extends CI_Model
      */
     public function guardar($parametros)
     {
-        $procedure = "call usp_ar_evalprod_setexpediente(?,?,?,?,?,?,?,?,?,?,?,?);";
+        $procedure = "call usp_ar_evalprod_setexpediente(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
         $query = $this->db->query($procedure, $parametros);
         return $query->result();
     }

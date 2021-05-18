@@ -87,7 +87,7 @@ class Mproveedor extends CI_Model
      */
     public function guardar($parametros)
     {
-        $procedure = "call usp_ar_evalprod_setproveedor(?,?,?,?,?,?,?,?,?,?);";
+        $procedure = "call usp_ar_evalprod_setproveedor(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
         $query = $this->db->query($procedure, $parametros);
         return $query->result();
     }
@@ -125,5 +125,21 @@ class Mproveedor extends CI_Model
         if (!$query) return null;
         return ($query->num_rows() > 0) ? $query->row() : null;
     }
+
+	/**
+	 * @param $idProveedor
+	 * @return array|mixed|object|null
+	 */
+    public function validarExpedientes($idProveedor)
+	{
+		$query = $this->db->select('*')
+			->from('evalprod_proveedor')
+			->join('evalprod_expediente', 'evalprod_proveedor.id_proveedor = evalprod_expediente.id_proveedor', 'inner')
+			->where('evalprod_proveedor.id_proveedor', $idProveedor)
+			->limitAnyWhere(1)
+			->get();
+		if (!$query) return null;
+		return ($query->num_rows() > 0) ? $query->row() : null;
+	}
 
 }

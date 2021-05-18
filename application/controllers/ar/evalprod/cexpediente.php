@@ -205,9 +205,29 @@ class Cexpediente extends CI_Controller
             if (is_array($arrayDocumentos) && !empty($arrayDocumentos)) {
                 $documentos = implode("-", $arrayDocumentos);
             }
+
+            $id_expediente = $this->input->post('hdnIdexpe');
+
+			$sproveedormodificado = 0;
+			if (!empty($id_expediente)) {
+				$objExpediente = $this->mexpediente->buscarPorId($id_expediente);
+				if (!empty($objExpediente)) {
+					$sproveedormodificado = $objExpediente->sproveedormodificado;
+					// Solo si tiene inactivo el editar el proveedor y
+					// se intenta editar el proveedor cuando
+					// no tiene el mismo codigo, se entiendo que lo esta cambiando
+					if ($objExpediente->id_proveedor != $proveedor->id_proveedor) {
+						$sproveedormodificado = 1;
+					}
+				}
+			}
+
+			$s_cusuario = $this->session->userdata('s_idusuario');
+			$fechaActual = \Carbon\Carbon::now('America/Lima')->format('Y-m-d H:i:s');
+
             $this->db->trans_begin();
             $respuesta = $this->mexpediente->guardar([
-                '@id_expediente' => $this->input->post('hdnIdexpe'),
+                '@id_expediente' => $id_expediente,
                 '@expediente' => $this->input->post('txtexpe'),
                 '@fecha' => substr($freg, 6, 4) . '-' . substr($freg, 3, 2) . '-' . substr($freg, 0, 2),
                 '@id_proveedor' => $proveedor->id_proveedor,
@@ -218,7 +238,12 @@ class Cexpediente extends CI_Controller
                 '@estado' => 1,
                 '@observaciones' => '',
                 '@ccliente' => '00005',
-                '@accion' => $this->input->post('hdnAccion')
+                '@accion' => $this->input->post('hdnAccion'),
+				'@sproveedormodificado' => $sproveedormodificado,
+				'@cusuariocrea' => $s_cusuario,
+				'@tcreacion' => $fechaActual,
+				'@cusuariomodifica' => $s_cusuario,
+				'@tmodificacion' => $fechaActual,
             ]);
             if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();

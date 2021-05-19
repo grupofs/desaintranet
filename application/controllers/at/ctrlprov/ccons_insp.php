@@ -53,8 +53,6 @@ class ccons_insp extends FS_Controller
 	public function search()
 	{
 		$ccia = $this->input->post('ccia');
-		$area = $this->input->post('area');
-		$cservicio = $this->input->post('cservicio');
 		$afecha = (int)$this->input->post('afecha');
 		$fini = $this->input->post('fini');
 		$ffin = $this->input->post('ffin');
@@ -62,31 +60,28 @@ class ccons_insp extends FS_Controller
 		$cclienteprov = $this->input->post('filtro_proveedor');
 		$cclientemaquila = $this->input->post('filtro_maquilador');
 		$careacliente = $this->input->post('filtro_cliente_area');
-		$ubigeoprov = null; // $this->input->post('ubigeoprov');
-		$ubigeomaquila = null; // $this->input->post('ubigeomaquila');
 		$tipoestado = $this->input->post('filtro_tipo_estado');
-		$cond = $this->input->post('cond');
 		$peligro = $this->input->post('filtro_peligro');
-		$nrorow = $this->input->post('nrorow');
 		$sevalprod = $this->input->post('sevalprod');
-		$ultinsp = $this->input->post('ultinsp');
+		$filtro_calificacion = $this->input->post('filtro_calificacion');
+		$establecimientoMaqui = $this->input->post('filtro_establecimiento_maqui');
+		$dirEstablecimientoMaqui = $this->input->post('filtro_dir_establecimiento_maqui');
+		$nroInforme = $this->input->post('filtro_nro_informe');
 
 		$inspecciones = '';
 		if (!empty($ccliente)) {
 			$area = self::AREA;
 			$cservicio = self::SERVICIO;
-//			$ccliente = is_null($ccliente) ? '00005' : $ccliente;
 			$cclienteprov = (empty($cclienteprov)) ? '%' : $cclienteprov;
 			$cclientemaquila = (empty($cclientemaquila)) ? '%' : $cclientemaquila;
-			$careacliente = (empty($careacliente)) ? '%' : $careacliente;
-			$ubigeoprov = is_null($ubigeoprov) ? '%' : $ubigeoprov;
-			$ubigeomaquila = is_null($ubigeomaquila) ? '%' : $ubigeomaquila;
-			$tipoestado = (empty($tipoestado)) ? '%' : $tipoestado;
-			$cond = is_null($cond) ? '0' : $cond;
+			$careacliente = (empty($careacliente)) ? [] : $careacliente;
+			$establecimientoMaqui = is_null($establecimientoMaqui) ? '%' : "%{$establecimientoMaqui}%";
+			$dirEstablecimientoMaqui = is_null($dirEstablecimientoMaqui) ? '%' : "%{$dirEstablecimientoMaqui}%";
+			$nroInforme = is_null($nroInforme) ? '%' : "%{$nroInforme}%";
+			$tipoestado = (empty($tipoestado)) ? [] : $tipoestado;
 			$peligro = empty($peligro) ? '%' : $peligro;
-			$nrorow = is_null($nrorow) ? 0 : $nrorow;
 			$sevalprod = is_null($sevalprod) ? '0' : $sevalprod;
-			$ultinsp = is_null($ultinsp) ? '0' : $ultinsp;
+			$filtro_calificacion = is_null($filtro_calificacion) ? [] : $filtro_calificacion;
 
 			// Se verifica si filtrara con fecha o no
 			$now = \Carbon\Carbon::now('America/Lima')->format('Y-m-d');
@@ -103,25 +98,28 @@ class ccons_insp extends FS_Controller
 					: $now;
 			}
 
-			$inspecciones = $this->mcons_insp->buscarInspecciones([
-				"@CCIA" => $ccia,
-				"@CAREA" => $area,
-				"@CSERVICIO" => $cservicio,
-				"@FINI" => $fini,
-				"@FFIN" => $ffin,
-				"@CCLIENTE" => $ccliente,
-				"@CCLIENTEPROV" => $cclienteprov,
-				"@CCLIENTEMAQUILA" => $cclientemaquila,
-				"@CAREACLIENTE" => $careacliente,
-				"@UBIGEOPROV" => $ubigeoprov,
-				"@UBIGEOMAQUILA" => $ubigeomaquila,
-				"@TIPOESTADO" => $tipoestado,
-				"@COND" => $cond,
-				"@PELIGRO" => $peligro,
-				"@NROROW" => $nrorow,
-				"@SEVALPROD" => $sevalprod,
-				"@ULTINSP" => $ultinsp
-			]);
+			$calificacion = clearLabel($filtro_calificacion, false);
+			$tipoestado = clearLabel($tipoestado, false);
+			$careacliente = clearLabel($careacliente, false);
+
+			$inspecciones = $this->mcons_insp->buscarInspecciones(
+				$ccia,
+				$area,
+				$cservicio,
+				$ccliente,
+				$cclienteprov,
+				$cclientemaquila,
+				$careacliente,
+				$establecimientoMaqui,
+				$dirEstablecimientoMaqui,
+				$nroInforme,
+				$tipoestado,
+				$fini,
+				$ffin,
+				$peligro,
+				$sevalprod,
+				$calificacion
+			);
 		}
 		echo json_encode(['items' => $inspecciones]);
 	}

@@ -11,49 +11,38 @@
 			<div class="modal-body"
 				 style="background-color:#ffffff; border-top: 1px solid #00a65a; border-bottom: 1px solid #00a65a;">
 				<div class="row">
-					<div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-12">
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
 						<div class="form-group">
 							<label for="filtro_cliente_area">Área Cliente</label>
-							<div class="input-group">
-								<select name="filtro_cliente_area"
-										id="filtro_cliente_area"
-										class="custom-select"></select>
-							</div>
+							<select name="filtro_cliente_area" style="width: 100% !important;"
+									id="filtro_cliente_area" multiple
+									class="custom-select select2"></select>
 						</div>
 					</div>
-					<div class="col-xl-4 col-lg-4 coñ-md-6 col-sm-6 col-12" >
+					<div class="col-xl-4 col-lg-4 coñ-md-4 col-sm-12 col-12" >
 						<div class="form-group">
-							<label for="" class="d-block">
-								Peligro
-							</label>
-							<div class="custom-control custom-control-inline custom-radio">
-								<input type="radio" id="filtro_peligro_1"
-									   name="filtro_peligro"
-									   class="custom-control-input" value="S">
-								<label class="custom-control-label"
-									   for="filtro_peligro_1">
-									Si
-								</label>
-							</div>
-							<div class="custom-control custom-control-inline custom-radio">
-								<input type="radio" id="filtro_peligro_2"
-									   name="filtro_peligro"
-									   class="custom-control-input" value="N">
-								<label class="custom-control-label"
-									   for="filtro_peligro_2">
-									No
-								</label>
-							</div>
-							<div class="custom-control custom-control-inline custom-radio">
-								<input type="radio" id="filtro_peligro_3"
-									   name="filtro_peligro"
-									   checked
-									   class="custom-control-input" value="">
-								<label class="custom-control-label"
-									   for="filtro_peligro_3">
-									Todos
-								</label>
-							</div>
+							<label for="filtro_establecimiento_maqui">Establecimiento / Maquilador</label>
+							<input type="text" class="form-control"
+								   id="filtro_establecimiento_maqui"
+								   value="" >
+						</div>
+					</div>
+					<div class="col-xl-4 col-lg-4 coñ-md-4 col-sm-12 col-12" >
+						<div class="form-group">
+							<label for="filtro_dir_establecimiento_maqui">Dirección Establecimiento / Maquilador</label>
+							<input type="text" class="form-control"
+								   id="filtro_dir_establecimiento_maqui"
+								   value="" >
+						</div>
+					</div>
+				</div>
+				<div class="row" >
+					<div class="col-xl-2 col-lg-2 coñ-md-6 col-sm-6 col-12" >
+						<div class="form-group">
+							<label for="filtro_nro_informe">Nro Informe</label>
+							<input type="text" class="form-control"
+								   id="filtro_nro_informe"
+								   value="" >
 						</div>
 					</div>
 				</div>

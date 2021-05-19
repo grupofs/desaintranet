@@ -76,6 +76,10 @@ $(function () {
 						d.filtro_tipo_estado = $('#filtro_tipo_estado').val();
 						d.filtro_cliente_area = $('#filtro_cliente_area').val();
 						d.filtro_linea_proveedor = $('#filtro_linea_proveedor').val();
+						d.filtro_calificacion = $('#filtro_calificacion').val();
+						d.filtro_establecimiento_maqui = $('#filtro_establecimiento_maqui').val();
+						d.filtro_dir_establecimiento_maqui = $('#filtro_dir_establecimiento_maqui').val();
+						d.filtro_nro_informe = $('#filtro_nro_informe').val();
 						d.filtro_peligro = filtroPeligro;
 					},
 					dataSrc: function (data) {
@@ -98,14 +102,16 @@ $(function () {
 							htmlRow += '</button>';
 							htmlRow += '<div class="dropdown-menu" aria-labelledby="' + rowId + '">';
 							let tipoEstado = String(row.TIPOESTADOSERVICIO).toLowerCase().trim();
-							if (tipoEstado === 'convalidado' || tipoEstado === 'concluido ok') {
-								if (row.DUBICACIONFILESERVERPDF) {
-									htmlRow += '<a href="' + baseurl + 'FTPfileserver/Archivos/' + row.DUBICACIONFILESERVERPDF + '" target="_blank" class="btn bt-sm dropdown-item" ><i class="fa fa-file-pdf" ></i> Ver Informe Técnico</a>';
-								} else {
-									htmlRow += '<button type="button" class="btn bt-sm dropdown-item open-pdf" data-codigo="' + row.CODIGO + '" data-fecha="' + row.FECHAINSPECCION + '" ><i class="fa fa-file-pdf" ></i> Ver Informe Técnico</button>';
+							if (tipoEstado === 'concluido ok') {
+								if (!row.DUBICACIONFILESERVERPDF) {
+									htmlRow += '<button type="button" class="btn btn-sm dropdown-item open-pdf" data-codigo="' + row.CODIGO + '" data-fecha="' + row.FECHAINSPECCION + '" ><i class="fa fa-file-pdf" ></i> Ver Informe Técnico</button>';
 								}
 							}
-							htmlRow += '<button type="button" class="btn btn-sm dropdown-item ver-accion-correctiva" data-codigo="' + row.CODIGO + '" data-fecha="' + row.FECHAINSPECCION + '" ><i class="fa fa-th-list" ></i> Ver Acciones Correctivas</button>';
+							let DIRECCIONPROV = (row.DIRECCIONPROV) ? row.DIRECCIONPROV : '';
+							let ESTABLECIMIENTOPROV = (row.ESTABLECIMIENTOPROV) ? row.ESTABLECIMIENTOPROV : '';
+							let MAQUILADOR = (row.MAQUILADOR) ? row.MAQUILADOR : '';
+							let dirProvMaqui = (DIRECCIONPROV) ? ESTABLECIMIENTOPROV : ESTABLECIMIENTOPROV + ' - ' + MAQUILADOR;
+							htmlRow += '<button type="button" class="btn btn-sm dropdown-item ver-accion-correctiva" data-excel="' + row.DUBICACIONFILESERVERAC + '" data-codigo="' + row.CODIGO + '" data-fecha="' + row.FECHAINSPECCION + '" data-proveedor="' + row.PROVEEDOR + '" data-direccion="' + dirProvMaqui + '" ><i class="fa fa-th-list" ></i> Ver Acciones Correctivas</button>';
 							htmlRow += '<button type="button" class="btn btn-sm dropdown-item ver-proveedor" data-codigo="' + row.CODIGO + '" data-proveedor="' + row.CPROVEEDOR + '" ><i class="fa fa-eye" ></i> Datos del Proveedor</button>';
 							htmlRow += '</div>';
 							htmlRow += '</div>';
@@ -115,13 +121,17 @@ $(function () {
 					{
 						"orderable": false,
 						render: function (data, type, row) {
-							if (!row.DUBICACIONFILESERVERPDF) {
-								let tipoEstado = String(row.TIPOESTADOSERVICIO).toLowerCase().trim();
-								if (tipoEstado === 'convalidado' || tipoEstado === 'concluido ok') {
-									return '<button type="button" class="btn btn-danger btn-sm btn-block close-pdf" data-codigo="' + row.CODIGO + '" data-fecha="' + row.FECHAINSPECCION + '" ><i class="fa fa-save"></i> Cerrar Info.</button>';
-								}
+							if (row.DUBICACIONFILESERVER) {
+								return '<a href="' + baseurl + 'FTPfileserver/Archivos/' + row.DUBICACIONFILESERVER + '" target="_blank" class="btn btn-sm btn-success btn-block" ><i class="fa fa-folder" ></i> Ver Informe Convalidado</a>';
 							} else {
-								return '<button type="button" class="btn btn-success btn-sm btn-block download-pdf" data-link="' + row.DUBICACIONFILESERVERPDF + '" ><i class="fa fa-download" ></i> Descargar Info.</button>';
+								if (!row.DUBICACIONFILESERVERPDF) {
+									let tipoEstado = String(row.TIPOESTADOSERVICIO).toLowerCase().trim();
+									if (tipoEstado === 'concluido ok') {
+										return '<button type="button" class="btn btn-danger btn-sm btn-block close-pdf" data-codigo="' + row.CODIGO + '" data-fecha="' + row.FECHAINSPECCION + '" ><i class="fa fa-save"></i> Cerrar Informe</button>';
+									}
+								} else {
+									return '<a href="' + baseurl + 'FTPfileserver/Archivos/' + row.DUBICACIONFILESERVERPDF + '" target="_blank" class="btn btn-sm btn-success btn-block" ><i class="fa fa-file-pdf" ></i> Ver Informe Técnico</a>';
+								}
 							}
 						}
 					},
@@ -132,17 +142,15 @@ $(function () {
 							return moment(row.FECHAINSPECCION, 'YYYY-MM-DD').format('DD/MM/YYYY');
 						}
 					},
-					// {data: 'FECHAINSPECCION', orderable: false, targets: 2},
 					{
 						"orderable": false,
 						render: function (data, type, row) {
 							return moment(row.FCREACION, 'YYYY-MM-DD').format('DD/MM/YYYY');
 						}
 					},
-					// {data: 'FCREACION', orderable: false, targets: 3},
 					{data: 'CLIENTE', orderable: false, targets: 4},
-					{data: 'PROVEEDOR', orderable: false, targets: 5},
-					{data: 'nruc', orderable: false, targets: 6},
+					{data: 'nruc', orderable: false, targets: 5},
+					{data: 'PROVEEDOR', orderable: false, targets: 6},
 					{
 						"orderable": false,
 						render: function (data, type, row) {
@@ -171,7 +179,16 @@ $(function () {
 						}
 					},
 					{data: 'AREACLIENTE', orderable: false, targets: 6},
-					{data: 'LINEA', orderable: false, targets: 7},
+					{
+						"orderable": false,
+						render: function (data, type, row) {
+							if (String(row.espeligro).toUpperCase() === 'S') {
+								return '<span class="text-danger" >' + row.LINEA + '</span>';
+							}
+							return row.LINEA;
+						}
+					},
+					// {data: 'LINEA', orderable: false, targets: 7},
 					{data: 'TIPOESTADOSERVICIO', orderable: false, targets: 8},
 					{data: 'COMENTARIO', orderable: false, targets: 9},
 					{data: 'dinformefinal', orderable: false, targets: 10},
@@ -190,7 +207,18 @@ $(function () {
 						render: function (data, type, row) {
 							let CERTIFICADORA = (row.CERTIFICADORA) ? row.CERTIFICADORA : '';
 							let CERTIFICACION = (row.CERTIFICACION) ? row.CERTIFICACION : '';
-							return CERTIFICADORA + '<br>' + CERTIFICACION;
+							if (CERTIFICADORA || CERTIFICACION) {
+								return CERTIFICADORA + '<br>' + CERTIFICACION;
+							}
+							let tipoEstado = String(row.TIPOESTADOSERVICIO).toLowerCase().trim();
+							let EMPRESAINSPECTORA = String(row.EMPRESAINSPECTORA).toLowerCase().trim();
+							if (tipoEstado === 'convalidado' && (
+								EMPRESAINSPECTORA === 'senasa' ||
+								EMPRESAINSPECTORA === 'digesa' ||
+								EMPRESAINSPECTORA === 'sanipes'
+							)) {
+								return row.EMPRESAINSPECTORA;
+							}
 						}
 					},
 					{data: 'SCERTIFICACION', orderable: false, targets: 15},
@@ -342,7 +370,7 @@ $(function () {
 			dataType: "JSON",
 		}).done(function(res) {
 			const items = res.items;
-			let options = '<option value="" ></option>';
+			let options = '';
 			if (items && Array.isArray(items)) {
 				items.forEach(function(item) {
 					options += '<option value="' + item.AREACLIENTE + '" >' + item.DAREACLIENTE + '</option>';
@@ -385,6 +413,7 @@ $(function () {
 			dataType: "JSON",
 		}).done(function(res) {
 			$('#filtro_tipo_estado').html(res);
+			$('#filtro_tipo_estado').val(0).trigger('change');
 		}).fail(function() {
 			objPrincipal.notify('warning', 'Hubo un error al carga los proveedor.');
 		});
@@ -416,53 +445,78 @@ $(function () {
 		const button = $(this);
 		const codigo = button.data('codigo');
 		const fecha = button.data('fecha');
-		$.ajax({
-			url: baseurl + 'at/ctrlprov/ccons_insp/get_accion_correctiva',
-			method: 'POST',
-			data: {
-				codigo: codigo,
-				fecha: fecha,
+		const proveedor = button.data('proveedor');
+		const dirProvMaqui = button.data('direccion');
+		const excel = button.data('excel');
+		objPrincipal.botonCargando(button);
+		const oTableLista = $('#tblAcciónCorrectiva').DataTable({
+			'bJQueryUI': true,
+			'scrollY': '500px',
+			'scrollX': true,
+			'processing': true,
+			'bDestroy': true,
+			'paging': true,
+			'info': true,
+			'filter': true,
+			'ajax': {
+				"url": baseurl + 'at/ctrlprov/ccons_insp/get_accion_correctiva',
+				"type": "POST",
+				"data": function (d) {
+					d.codigo = codigo;
+					d.fecha = fecha;
+				},
+				dataSrc: function (data) {
+					objPrincipal.liberarBoton(button);
+					return data.items;
+				},
+				error: function () {
+					objPrincipal.alert('warning', 'Error en el proceso de ejecución.', 'Vuelva a intentarlo más tarde.');
+					objPrincipal.liberarBoton(button);
+				}
 			},
-			dataType: 'json',
-			beforeSend: function() {
-				objPrincipal.botonCargando(button);
-			},
-		}).done(function(res) {
-			const elModal = $('#modalAccionCorrectiva');
-			elModal.find('h5').html('Acción Correctiva (Insp. ' + codigo + ' - ' + moment(fecha, 'YYYY-MM-DD').format('DD/MM/YYYY') + ')');
-			objInsp.imprimirAccionCorrectiva(res.items);
-			elModal.modal('show');
-		}).fail(function() {
-			objPrincipal.notify('warning', 'Error al intentar cargar las acciones correctivas')
-		}).always(function() {
-			objPrincipal.liberarBoton(button);
+			'columns': [
+				{data: 'dnumerador', orderable: false, targets: 0},
+				{data: 'drequisito', orderable: false, targets: 1},
+				{data: 'sexcluyente', orderable: false, targets: 2},
+				{data: 'tipohallazgo', orderable: false, targets: 3},
+				{data: 'dhallazgo', orderable: false, targets: 4},
+				// {data: 'dhallazgotext', orderable: false, targets: 5},
+				{
+					"orderable": false,
+					render: function (data, type, row) {
+						if (row.dhallazgo == row.dhallazgotext) {
+							return '';
+						}
+						return row.dhallazgotext;
+					}
+				},
+				{data: 'dresponsablecliente', orderable: false, targets: 6},
+				{
+					"orderable": false,
+					render: function (data, type, row) {
+						return moment(row.tcreacion).format('DD/MM/YYYY');
+					}
+				},
+				{data: 'svalor', orderable: false, targets: 8},
+				{data: 'dobservacion', orderable: false, targets: 9},
+			],
+			"columnDefs": [
+				{
+					"defaultContent": " ",
+					"targets": "_all"
+				}
+			]
 		});
-	};
-
-	/**
-	 * @param data
-	 */
-	objInsp.imprimirAccionCorrectiva = function(data) {
-		let rows = '';
-		if (data && Array.isArray(data)) {
-			data.forEach(function(item) {
-				let responsable = (item.dresponsablecliente) ? item.dresponsablecliente : '';
-				let observacion = (item.dobservacion) ? item.dobservacion : '';
-				rows += '<tr>';
-				rows += '<td class="text-left" style="" >' + item.dnumerador + '</td>';
-				rows += '<td class="text-left" style="min-width: 250px" >' + item.drequisito + '</td>';
-				rows += '<td class="text-center" style="" >' + item.sexcluyente + '</td>';
-				rows += '<td class="text-left" style="min-width: 180px" >' + item.tipohallazgo + '</td>';
-				rows += '<td class="text-left" style="min-width: 250px" >' + item.dhallazgo + '</td>';
-				rows += '<td class="text-left" style="min-width: 250px" >' + item.dhallazgotext + '</td>';
-				rows += '<td class="text-left" style="min-width: 200px" >' + responsable + '</td>';
-				rows += '<td class="text-left" style="min-width: 60px" >' + moment(item.tcreacion).format('DD/MM/YYYY') + '</td>';
-				rows += '<td class="text-center" style="min-width: 60px" >' + item.svalor + '</td>';
-				rows += '<td class="text-left" style="min-width: 200px" >' + observacion + '</td>';
-				rows += '</tr>';
-			});
+		const elModal = $('#modalAccionCorrectiva');
+		elModal.find('h5').html('Acción Correctiva (' + proveedor + ' - ' + dirProvMaqui + ' - ' + moment(fecha, 'YYYY-MM-DD').format('DD/MM/YYYY') + ')');
+		if (excel) {
+			$('#btnDownloadAccionCorrectiva').attr('href', baseurl + 'FTPfileserver/Archivos/' + excel);
+			$('#download-excel').show();
+		} else {
+			$('#btnDownloadAccionCorrectiva').attr('href', '#');
+			$('#download-excel').hide();
 		}
-		$('#tblAcciónCorrectiva > tbody').html(rows);
+		elModal.modal('show');
 	};
 
 	/**
@@ -620,7 +674,7 @@ $(document).ready(function () {
 	$('#filtro_cliente').select2(initSelect2);
 	$('#filtro_proveedor').select2(initSelect2);
 	$('#filtro_maquilador').select2(initSelect2);
-	$('#filtro_tipo_estado').select2(initSelect2);
-	$('#filtro_cliente_area').select2(initSelect2);
+	// $('#filtro_tipo_estado').select2(initSelect2);
+	// $('#filtro_cliente_area').select2(initSelect2);
 
 });

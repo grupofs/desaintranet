@@ -62,12 +62,17 @@ if (!function_exists('getLinkFormChartBar2')) {
 if (!function_exists('clearLabel')) {
 	/**
 	 * @param array $label
+	 * @param boolean $typeUrl
 	 * @return string
 	 */
-	function clearLabel(array $label)
+	function clearLabel(array $label, $typeUrl = true)
 	{
-		$label = array_map(function ($item) {
-			return "'" . rawurlencode($item) . "'";
+		$label = array_map(function ($item) use ($typeUrl) {
+			if ($typeUrl) {
+				return "'" . rawurlencode($item) . "'";
+			} else {
+				return "'" . $item . "'";
+			}
 		}, $label);
 		return implode(',', $label);
 	}

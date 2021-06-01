@@ -176,7 +176,7 @@ class mcons_insp extends CI_Model
 			$where .= " AND (M.FSERVICIO <= '{$FFIN}' OR ISNULL('{$FFIN}', '1900-01-01') = '1900-01-01') ";
 		}
 
-		$sql = "SELECT {$select} FROM {$from} WHERE {$where} ORDER BY A.CAUDITORIAINSPECCION DESC, M.FSERVICIO DESC";
+		$sql = "SELECT {$select} FROM {$from} WHERE {$where} ORDER BY M.FSERVICIO DESC";
 
 		$query = $this->db->query($sql);
 		if (!$query) {
@@ -274,6 +274,18 @@ class mcons_insp extends CI_Model
 	public function pdfParrafo2(array $data): string
 	{
 		$query = $this->db->query("CALL sp_consulta_ctrlprov_pdf_parrafo2(?, ?)", $data);
+		if (!$query) {
+			return '';
+		}
+		return ($query->num_rows() > 0) ? $query->row()->parrafo : '';
+	}
+
+	/**
+	 * @param array $data
+	 */
+	public function pdfPrimeraInsp(array $data): string
+	{
+		$query = $this->db->query("CALL sp_consulta_ctrlprov_pdf_primera_insp(?, ?)", $data);
 		if (!$query) {
 			return '';
 		}
@@ -511,6 +523,7 @@ class mcons_insp extends CI_Model
 	public function getAccionesCorrectiva(array $params)
 	{
 		$query = $this->db->query("CALL sp_consulta_ctrlprov_accion_correctiva(?, ?)", $params);
+//		$query = $this->db->query("CALL usp_at_ctrlprov_getaacc(?, ?)", $params);
 		if (!$query) {
 			return [];
 		}

@@ -24,7 +24,7 @@ if (!function_exists('getLinkFormChartBar')) {
 		$url .= "options:{";
 		$url .= "legend:{display:false},";
 		$url .= urlencode("scales:{yAxes:[{ticks:{fontSize:10,beginAtZero:true,fontFamily:'Arial',min:0,max:110,stepSize:10}}],xAxes:[{ticks:{fontSize:10,fontFamily:'Arial'}}]},");
-		$url .= urlencode("plugins:{datalabels:{anchor:'end',align:'top',color:'#000',font:{size:10},formatter:(value)=>{return value+'%'}}}");
+		$url .= urlencode("plugins:{datalabels:{anchor:'end',align:'top',color:'#000',font:{size:10},formatter:(value)=>{return (value<0)?'':value+'%'}}}");
 		$url .= "}";
 		$url .= "}";
 		return $url;
@@ -39,7 +39,7 @@ if (!function_exists('getLinkFormChartBar2')) {
 	 * @return string
 	 * @link https://quickchart.io/chart?c={type:'bar',data:{labels:['1','2','3'],datasets:[{label:'Maximo',data:[400,110,40]},{label:'Obtenido',data:[400,100,40]}]}}
 	 */
-	function getLinkFormChartBar2(array $label, string $sData): string
+	function getLinkFormChartBar2(array $label, string $sData, $maxValue): string
 	{
 		$sLabels = clearLabel($label);
 		$url = "https://quickchart.io/chart?c=";
@@ -51,7 +51,7 @@ if (!function_exists('getLinkFormChartBar2')) {
 		$url .= "},";
 		$url .= "options:{";
 		$url .= "legend:{display:true,position:'right',align:'middle',labels:{fontSize:10,fontFamily:'Arial'}},";
-		$url .= urlencode("scales:{yAxes:[{ticks:{fontSize:10,beginAtZero:true,fontFamily:'Arial'}}],xAxes:[{ticks:{fontSize:10,fontFamily:'Arial'}}]},");
+		$url .= urlencode("scales:{yAxes:[{ticks:{fontSize:10,beginAtZero:true,fontFamily:'Arial',min:0,max:{$maxValue},stepSize:10}}],xAxes:[{ticks:{fontSize:10,fontFamily:'Arial'}}]},");
 		$url .= urlencode("plugins:{datalabels:{anchor:'end',align:'top',color:'#000',font:{size:10}}}");
 		$url .= "}";
 		$url .= "}";
@@ -86,7 +86,7 @@ if (!function_exists('getValueGraphic2')) {
 	 */
 	function getValueGraphic2(array $data, string $filter) {
 		return array_map(function($res) use ($data) {
-			return $res->mayor_val;
+			return round($res->mayor_val);
 		}, array_filter($data, function($item) use ($filter) {
 			return (strtolower($item->Maximo) == $filter);
 		}, 0));

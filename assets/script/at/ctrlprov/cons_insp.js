@@ -450,14 +450,19 @@ $(function () {
 		const excel = button.data('excel');
 		objPrincipal.botonCargando(button);
 		const oTableLista = $('#tblAcciónCorrectiva').DataTable({
-			'bJQueryUI': true,
-			'scrollY': '500px',
-			'scrollX': true,
-			'processing': true,
-			'bDestroy': true,
-			'paging': true,
-			'info': true,
-			'filter': true,
+			"processing"  	: true,
+			"bDestroy"    	: true,
+			"stateSave"     : true,
+			"bJQueryUI"     : true,
+			"scrollY"     	: "540px",
+			"scrollX"     	: true,
+			'AutoWidth'     : true,
+			"paging"      	: false,
+			"info"        	: true,
+			"filter"      	: true,
+			"ordering"		: false,
+			"responsive"    : false,
+			"select"        : true,
 			'ajax': {
 				"url": baseurl + 'at/ctrlprov/ccons_insp/get_accion_correctiva',
 				"type": "POST",
@@ -475,30 +480,21 @@ $(function () {
 				}
 			},
 			'columns': [
-				{data: 'dnumerador', orderable: false, targets: 0},
-				{data: 'drequisito', orderable: false, targets: 1},
-				{data: 'sexcluyente', orderable: false, targets: 2},
-				{data: 'tipohallazgo', orderable: false, targets: 3},
-				{data: 'dhallazgo', orderable: false, targets: 4},
-				// {data: 'dhallazgotext', orderable: false, targets: 5},
-				{
-					"orderable": false,
-					render: function (data, type, row) {
-						if (row.dhallazgo == row.dhallazgotext) {
-							return '';
-						}
-						return row.dhallazgotext;
-					}
-				},
-				{data: 'dresponsablecliente', orderable: false, targets: 6},
+				{data: 'dnumerador', orderable: false, targets: 0, "class": "col-s"},
+				{data: 'drequisito', orderable: false, targets: 1, "class": "col-1m"},
+				{data: 'sexcluyente', orderable: false, targets: 2, "class": "col-xs"},
+				{data: 'tipohallazgo', orderable: false, targets: 3, "class": "col-sm"},
+				{data: 'dhallazgo', orderable: false, targets: 4, "class": "col-1m"},
+				{data: 'daccioncorrectiva', orderable: false, targets: 5, "class": "col-1m"},
+				{data: 'dresponsablecliente', orderable: false, targets: 6, "class": "col-sm"},
 				{
 					"orderable": false,
 					render: function (data, type, row) {
 						return moment(row.tcreacion).format('DD/MM/YYYY');
 					}
 				},
-				{data: 'svalor', orderable: false, targets: 8},
-				{data: 'dobservacion', orderable: false, targets: 9},
+				{data: 'svalor', orderable: false, targets: 8, "class": "col-xs"},
+				{data: 'dobservacion', orderable: false, targets: 9, "class": "col-xm"},
 			],
 			"columnDefs": [
 				{

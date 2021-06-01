@@ -242,12 +242,18 @@
 				</td>
 			</tr>
 		</table>
-		<div class="col-12 pb text-justify">
-			<?php echo $parrafo1Pt1; ?>
-		</div>
-		<div class="col-12 pb text-justify">
-			<?php echo $parrafo1Pt2; ?>
-		</div>
+		<?php if ($unicaInspeccion) { ?>
+			<div class="col-12 pb text-justify">
+				<?php echo $parrafoPrimeraInsp; ?>
+			</div>
+		<?php } else { ?>
+			<div class="col-12 pb text-justify">
+				<?php echo $parrafo1Pt1; ?>
+			</div>
+			<div class="col-12 pb text-justify">
+				<?php echo $parrafo1Pt2; ?>
+			</div>
+		<?php } ?>
 		<table class="table">
 			<tr>
 				<td class="col-12" style="padding-left: 130px; padding-right: 130px">
@@ -290,7 +296,11 @@
 			</tr>
 			<tr>
 				<td class="col-12 text-justify pt">
-					<?php echo $parrafo2; ?>
+					<?php if ($unicaInspeccion) { ?>
+						En el siguiente gráfico se puede apreciar el resultado obtenido.
+					<?php } else { ?>
+						<?php echo $parrafo2; ?>
+					<?php } ?>
 				</td>
 			</tr>
 			<tr>
@@ -577,7 +587,7 @@
 					Certificados / otros
 				</td>
 				<td class="text-left" style="width: 423px">
-					<?php echo (!empty($cuadro3)) ? $cuadro3->CERTIFICACION . ' - ' . $cuadro3->SCERTIFICACION . ' - ' . $cuadro3->dpermisoautoridadsanitaria : ''; ?>
+					<?php echo (!empty($cuadro3)) ? $cuadro3->SCERTIFICACION . ' - ' . $cuadro3->CERTIFICACION . ' - ' . $cuadro3->dpermisoautoridadsanitaria : ''; ?>
 				</td>
 			</tr>
 			<tr>
@@ -827,6 +837,9 @@
 			if ($NVALORMAXREQUISITO <= 0 && $NVALORREQUISITO <= 0) {
 				$NVALORMAXREQUISITO = 'N.A.';
 				$NVALORREQUISITO = 'N.A.';
+			} else {
+				$NVALORMAXREQUISITO = round($NVALORMAXREQUISITO);
+				$NVALORREQUISITO = round($NVALORREQUISITO);
 			}
 			?>
 			<tr>
@@ -840,10 +853,10 @@
 					<span class="text-sm"><?php echo $value->DNORMATIVA ?></span>
 				</td>
 				<td class="text-center <?php echo $bgGray; ?>" style="width: 20px">
-					<span class="text-sm"><?php echo round($NVALORMAXREQUISITO) ?></span>
+					<span class="text-sm"><?php echo $NVALORMAXREQUISITO ?></span>
 				</td>
 				<td class="text-center <?php echo $bgGray; ?>" style="width: 20px">
-					<span class="text-sm"><?php echo round($NVALORREQUISITO) ?></span>
+					<span class="text-sm"><?php echo $NVALORREQUISITO ?></span>
 				</td>
 				<td class="text-left text-justify <?php echo $bgGray; ?>" style="width: 140px">
 					<span class="text-sm"><?php echo $value->DHALLAZGOTEXT ?></span>
@@ -991,7 +1004,7 @@
 			</tr>
 			<tr>
 				<td class="col-12 text-center" style="border-top: 1px solid #000;">
-					Ing. <?php echo (!empty($inspector)) ? $inspector->dnombre . ' ' . $inspector->dapepat . ' ' . $inspector->dapemat : ''; ?>
+					ING. <?php echo (!empty($inspector)) ? $inspector->dnombre . ' ' . $inspector->dapepat . ' ' . $inspector->dapemat : ''; ?>
 					<br>
 					INSPECTOR <br>
 					GRUPO FS S.A.C.

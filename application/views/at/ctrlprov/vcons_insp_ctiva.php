@@ -10,31 +10,33 @@
 			</div>
 			<div class="modal-body"
 				 style="background-color:#ffffff; border-top: 1px solid #00a65a; border-bottom: 1px solid #00a65a;">
-				<div>
-					<table class="table table-striped table-bordered" id="tblAcciónCorrectiva"
-						   style="width:100%">
-						<thead>
-						<tr>
-							<th class="text-center" style="width: 60px; min-width: 60px;" >ID</th>
-							<th class="text-center" style="width: 200px; min-width 200px;" >Requisito</th>
-							<th class="text-center" style="width: 100px; min-width: 100px" >Excluyente</th>
-							<th class="text-center" style="width: 180px; min-width: 180px;" >Tipo de Hallazgo</th>
-							<th class="text-center" style="width: 180px; min-width: 180px;" >Hallazgo</th>
-							<th class="text-center" style="width: 180px; min-width: 180px;" >Acción Correctiva</th>
-							<th class="text-center" style="width: 100px; min-width: 100px;" >Responsable por Cliente</th>
-							<th class="text-center" style="width: 60px; min-width: 60px;" >Fecha Corrección</th>
-							<th class="text-center" style="width: 60px; min-width: 60px;" >Aceptar Acción</th>
-							<th class="text-center" style="width: 150px; min-width: 150px;" >Comentarios</th>
-						</tr>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
+				<div class="row">
+					<div class="col-12" style="overflow-x: scroll">
+						<table class="table table-striped table-bordered" id="tblAcciónCorrectiva"
+							   style="width: 100%">
+							<thead>
+							<tr>
+								<th>ID</th>
+								<th>Requisito</th>
+								<th>Excluyente</th>
+								<th>Tipo de Hallazgo</th>
+								<th>Hallazgo</th>
+								<th>Acción Correctiva</th>
+								<th>Responsable por Cliente</th>
+								<th>Fecha Corrección</th>
+								<th>Aceptar Acción</th>
+								<th>Comentarios</th>
+							</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
-			<div class="modal-footer" id="download-excel" style="display: none" >
-				<a class="btn btn-sm btn-success" href="#" target="_blank" id="btnDownloadAccionCorrectiva" >
-					<i class="fa fa-file-excel" ></i> Descargar Acción Correctiva
+			<div class="modal-footer" id="download-excel" style="display: none">
+				<a class="btn btn-sm btn-success" href="#" target="_blank" id="btnDownloadAccionCorrectiva">
+					<i class="fa fa-file-excel"></i> Descargar Acción Correctiva
 				</a>
 			</div>
 		</div>

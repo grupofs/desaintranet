@@ -5,6 +5,12 @@ $idrol = $this->session->userdata('s_idrol');
 $cia = $this->session->userdata('s_cia');
 ?>
 
+<style>
+	.select2-container--default .select2-selection--multiple .select2-selection__choice {
+		color: #000;
+	}
+</style>
+
 <div class="content-header">
 	<div class="container-fluid">
 		<div class="row mb-2">
@@ -62,8 +68,8 @@ $cia = $this->session->userdata('s_cia');
 											<input type="hidden" id="idcia" name="idcia"
 												   value="<?php echo $cia ?>">
 											<div class="row">
-												<div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12"
-													 id="contenedorProveedor" >
+												<div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12"
+													 id="contenedorProveedor">
 													<div class="form-group">
 														<label for="filtro_proveedor">Proveedor</label>
 														<div class="input-group">
@@ -72,7 +78,7 @@ $cia = $this->session->userdata('s_cia');
 														</div>
 													</div>
 												</div>
-												<div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12"
+												<div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12"
 													 id="contenedorMaquilador"
 													 style="display: none" >
 													<div class="form-group">
@@ -85,7 +91,7 @@ $cia = $this->session->userdata('s_cia');
 												</div>
 											</div>
 											<div class="row">
-												<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+												<div class="col-xl-3 col-lg-4 col-md-5 col-sm-4 col-12">
 													<div class="form-group">
 														<div class="custom-control custom-checkbox mb-2">
 															<input type="checkbox" class="custom-control-input"
@@ -108,20 +114,65 @@ $cia = $this->session->userdata('s_cia');
 														</div>
 													</div>
 												</div>
-												<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+												<div class="col-xl-3 col-lg-4 col-md-7 col-sm-4 col-12">
 													<div class="form-group">
 														<label for="filtro_tipo_estado">Tipo Estado</label>
-														<div class="input-group">
-															<select name="filtro_tipo_estado"
-																	id="filtro_tipo_estado" class="custom-select"></select>
+														<select name="filtro_tipo_estado" style="width: 100% !important;"
+																id="filtro_tipo_estado" multiple
+																class="custom-select select2"></select>
+													</div>
+												</div>
+												<div class="col-xl-2 col-lg-4 col-md-6 col-sm-4 col-12">
+													<div class="form-group">
+														<label for="filtro_calificacion">Calificación</label>
+														<select name="filtro_calificacion" id="filtro_calificacion" multiple
+																class="custom-select select2" style="width: 100% !important;" >
+															<option value="muy bueno">Muy Bueno</option>
+															<option value="bueno">Bueno</option>
+															<option value="regular">Regular</option>
+															<option value="deficiente">Deficiente</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12">
+													<div class="form-group">
+														<label for="" class="d-block">
+															Peligro
+														</label>
+														<div class="custom-control custom-control-inline custom-radio">
+															<input type="radio" id="filtro_peligro_1"
+																   name="filtro_peligro"
+																   class="custom-control-input" value="S">
+															<label class="custom-control-label"
+																   for="filtro_peligro_1">
+																Si
+															</label>
+														</div>
+														<div class="custom-control custom-control-inline custom-radio">
+															<input type="radio" id="filtro_peligro_2"
+																   name="filtro_peligro"
+																   class="custom-control-input" value="N">
+															<label class="custom-control-label"
+																   for="filtro_peligro_2">
+																No
+															</label>
+														</div>
+														<div class="custom-control custom-control-inline custom-radio">
+															<input type="radio" id="filtro_peligro_3"
+																   name="filtro_peligro"
+																   checked
+																   class="custom-control-input" value="">
+															<label class="custom-control-label"
+																   for="filtro_peligro_3">
+																Todos
+															</label>
 														</div>
 													</div>
 												</div>
+											</div>
+											<div class="row" >
 												<div class="col-xl-3 col-lg-3 col-md-4 col-sm-4 col-12">
 													<div class="form-group">
-														<label for="" class="d-block">
-															&nbsp;&nbsp;
-														</label>
 														<div class="icheck-primary d-inline">
 															<input type="checkbox" id="chkBusavanzada">
 															<label for="chkBusavanzada">
@@ -161,10 +212,10 @@ $cia = $this->session->userdata('s_cia');
 												<thead>
 												<tr>
 													<th style="width: 100px; min-width: 100px"></th>
-													<th style="width: 120px; min-width: 120px"></th>
+													<th style="width: 180px; min-width: 180px"></th>
 													<th>Fecha Inspección</th>
-													<th>Proveedor</th>
 													<th>RUC</th>
+													<th>Proveedor</th>
 													<th>Establecimiento / Maquilador</th>
 													<th>Dirección Establecimiento / Maquilador</th>
 													<th>Área Cliente</th>

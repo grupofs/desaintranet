@@ -21,7 +21,7 @@ class mdocumentoregulatorio extends CI_Model
 	 */
 	private function obtenerNuevoID($CENTIDADREGULA, $CTRAMITE): string
 	{
-		$query = $this->db->select('MAX(CDOCUMENTO) as id')
+		$query = $this->db->select('MAX(CONVERT(INTEGER, CDOCUMENTO)) as id')
 			->from('MDOCUMENTOTRAMITEREGULA')
 			->where('CENTIDADREGULA', $CENTIDADREGULA)
 			->where('CTRAMITE', $CTRAMITE)
@@ -33,7 +33,7 @@ class mdocumentoregulatorio extends CI_Model
 		if ($newId < 900) {
 			$newId = 900;
 		}
-		return str_pad($newId, 3, '0', STR_PAD_LEFT);
+		return str_pad($newId, 12, '0', STR_PAD_LEFT);
 	}
 
 	/**

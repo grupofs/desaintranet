@@ -163,37 +163,86 @@ class ccons_insp extends FS_Controller
 		$cuadro2 = $this->mcons_insp->pdfCuadro2($data);
 		$grafico2 = $this->mcons_insp->pdfGrafico2($data);
 		$imgGrafico1 = '';
+		$unicaInspeccion = true;
 		if (!empty($grafico1)) {
+			$arrayLabel = [];
+			$arrayData = [];
+			$arrayColor = [];
+			if (!empty($grafico1->TF1)) {
+				$arrayLabel[] = date('d/m/Y', strtotime($grafico1->TF1)) . " " . $grafico1->CERT1;
+				$arrayData[] = $grafico1->TR1;
+				$arrayColor[] = getColorRgba($grafico1->TR1);
+			} else {
+				$arrayLabel[] = '';
+				$arrayData[] = -1; // $grafico1->TR2;
+				$arrayColor[] = "'rgba(255,255,255,1)'";
+			}
+			if (!empty($grafico1->TF2)) {
+				$unicaInspeccion = false;
+				$arrayLabel[] = date('d/m/Y', strtotime($grafico1->TF2)) . " " . $grafico1->CERT2;
+				$arrayData[] = $grafico1->TR2;
+				$arrayColor[] = getColorRgba($grafico1->TR2);
+			} else {
+				$arrayLabel[] = '';
+				$arrayData[] = -1; // $grafico1->TR2;
+				$arrayColor[] = "'rgba(255,255,255,1)'";
+			}
+			if (!empty($grafico1->TF3)) {
+				$unicaInspeccion = false;
+				$arrayLabel[] = date('d/m/Y', strtotime($grafico1->TF3)) . " " . $grafico1->CERT3;
+				$arrayData[] = $grafico1->TR3;
+				$arrayColor[] = getColorRgba($grafico1->TR3);
+			} else {
+				$arrayLabel[] = '';
+				$arrayData[] = -1; // $grafico1->TR2;
+				$arrayColor[] = "'rgba(255,255,255,1)'";
+			}
+			if (!empty($grafico1->TF4)) {
+				$unicaInspeccion = false;
+				$arrayLabel[] = date('d/m/Y', strtotime($grafico1->TF4)) . " " . $grafico1->CERT4;
+				$arrayData[] = $grafico1->TR4;
+				$arrayColor[] = getColorRgba($grafico1->TR4);
+			} else {
+				$arrayLabel[] = '';
+				$arrayData[] = -1; // $grafico1->TR2;
+				$arrayColor[] = "'rgba(255,255,255,1)'";
+			}
+			if (!empty($grafico1->TF5)) {
+				$unicaInspeccion = false;
+				$arrayLabel[] = date('d/m/Y', strtotime($grafico1->TF5)) . " " . $grafico1->CERT5;
+				$arrayData[] = $grafico1->TR5;
+				$arrayColor[] = getColorRgba($grafico1->TR5);
+			} else {
+				$arrayLabel[] = '';
+				$arrayData[] = -1; // $grafico1->TR2;
+				$arrayColor[] = "'rgba(255,255,255,1)'";
+			}
 			$imgGrafico1 = getLinkFormChartBar(
-				[
-					date('d/m/Y', strtotime($grafico1->TF1)) . " " . $grafico1->CERT1,
-					date('d/m/Y', strtotime($grafico1->TF2)) . " " . $grafico1->CERT2,
-					date('d/m/Y', strtotime($grafico1->TF3)) . " " . $grafico1->CERT3,
-					date('d/m/Y', strtotime($grafico1->TF4)) . " " . $grafico1->CERT4,
-					date('d/m/Y', strtotime($grafico1->TF5)) . " " . $grafico1->CERT5,
-				],
-				[
-					floatval(round($grafico1->TR1)),
-					floatval(round($grafico1->TR2)),
-					floatval(round($grafico1->TR3)),
-					floatval(round($grafico1->TR4)),
-					floatval(round($grafico1->TR5)),
-				],
-				[
-					getColorRgba($grafico1->TR1),
-					getColorRgba($grafico1->TR2),
-					getColorRgba($grafico1->TR3),
-					getColorRgba($grafico1->TR4),
-					getColorRgba($grafico1->TR5),
-				]
+				$arrayLabel,
+				$arrayData,
+				$arrayColor
 			);
+		}
+		$parrafoPrimeraInsp = '';
+		if ($unicaInspeccion) {
+			$parrafoPrimeraInsp = $this->mcons_insp->pdfPrimeraInsp($data);
 		}
 		$imgGrafico2 = '';
 		if (!empty($grafico2)) {
 			$lenRows = count($grafico2);
 			$totalRows = ($lenRows / 2);
-			$labels = range(1, $totalRows);
-			$dataMaximo = implode(',', getValueGraphic2($grafico2, 'máximo'));
+			$labels = [];
+			$maxValue = 0;
+			foreach ($grafico2 as $key => $value) {
+				if (!in_array($value->dnumerador, $labels)) {
+					$labels[] = $value->dnumerador;
+				}
+				if ($value->mayor_val > $maxValue) {
+					$maxValue = $value->mayor_val;
+				}
+			}
+			$maxValue += 30; // Se aumenta 10 para poder mostrar el texto hacia arriba
+			$dataMaximo = implode(',', getValueGraphic2($grafico2, 'maximo'));
 			$dataObtenido = implode(',', getValueGraphic2($grafico2, 'obtenido'));
 			$backgroundColorMaximo = "'rgba(255,0,0,1)'";
 			$backgroundColorObtenido = "'rgba(0,128,0,1)'";
@@ -207,7 +256,7 @@ class ccons_insp extends FS_Controller
 			}
 			$datasets = "{label:'Maximo',data:[{$dataMaximo}],backgroundColor:[{$backgroundColorMaximo}]}";
 			$datasets .= ",{label:'Obtenido',data:[{$dataObtenido}],backgroundColor:[{$backgroundColorObtenido}]}";
-			$imgGrafico2 = getLinkFormChartBar2($labels, $datasets);
+			$imgGrafico2 = getLinkFormChartBar2($labels, $datasets, $maxValue);
 		}
 		$cuadro3 = $this->mcons_insp->pdfCuadro3($data);
 		$cuadro4 = $this->mcons_insp->pdfCuadro4($data);
@@ -240,6 +289,7 @@ class ccons_insp extends FS_Controller
 			'caratula' => $caratula,
 			'parrafo1Pt1' => $parrafo1Pt1,
 			'parrafo1Pt2' => $parrafo1Pt2,
+			'parrafoPrimeraInsp' => $parrafoPrimeraInsp,
 			'cuadro1' => $cuadro1,
 			'parrafo2' => $parrafo2,
 			'imgGrafico1' => $imgGrafico1,
@@ -262,6 +312,7 @@ class ccons_insp extends FS_Controller
 			'rutafirma' => $rutafirma,
 			'inspector' => $inspector,
 			'excluyentes' => $excluyentes,
+			'unicaInspeccion' => $unicaInspeccion,
 		], TRUE);
 		$html2pdf = new \Spipu\Html2Pdf\Html2Pdf();
 //		$html2pdf->setDefaultFont('arial');

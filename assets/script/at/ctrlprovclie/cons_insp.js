@@ -189,19 +189,19 @@ $(function () {
 					{
 						"orderable": false,
 						render: function (data, type, row) {
+							let CERTIFICADORA = (row.CERTIFICADORA) ? row.CERTIFICADORA : '';
+							let CERTIFICACION = (row.CERTIFICACION) ? row.CERTIFICACION : '';
+							if (CERTIFICADORA || CERTIFICACION) {
+								return CERTIFICADORA + '<br>' + CERTIFICACION;
+							}
 							let tipoEstado = String(row.TIPOESTADOSERVICIO).toLowerCase().trim();
 							let EMPRESAINSPECTORA = String(row.EMPRESAINSPECTORA).toLowerCase().trim();
 							if (tipoEstado === 'convalidado' && (
 								EMPRESAINSPECTORA === 'senasa' ||
-								EMPRESAINSPECTORA === 'digemid' ||
 								EMPRESAINSPECTORA === 'digesa' ||
 								EMPRESAINSPECTORA === 'sanipes'
 							)) {
-								return row.EMPRESAINSPECTORA;
-							} else {
-								let CERTIFICADORA = (row.CERTIFICADORA) ? row.CERTIFICADORA : '';
-								let CERTIFICACION = (row.CERTIFICACION) ? row.CERTIFICACION : '';
-								return CERTIFICADORA + '<br>' + CERTIFICACION;
+								return row.EMPRESAINSPECTORACONV;
 							}
 						}
 					},

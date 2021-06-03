@@ -217,11 +217,29 @@ $(function () {
 								EMPRESAINSPECTORA === 'digesa' ||
 								EMPRESAINSPECTORA === 'sanipes'
 							)) {
-								return row.EMPRESAINSPECTORA;
+								return row.EMPRESAINSPECTORACONV;
 							}
 						}
 					},
-					{data: 'SCERTIFICACION', orderable: false, targets: 15},
+					// {data: 'SCERTIFICACION', orderable: false, targets: 15},
+					{
+						"orderable": false,
+						render: function (data, type, row) {
+							let SCERTIFICACION = (row.SCERTIFICACION) ? row.SCERTIFICACION : '';
+							let EMPRESAINSPECTORA = String(row.EMPRESAINSPECTORA).toLowerCase().trim();
+							let tipoEstado = String(row.TIPOESTADOSERVICIO).toLowerCase().trim();
+							if (tipoEstado === 'convalidado' && (
+								EMPRESAINSPECTORA === 'senasa' ||
+								EMPRESAINSPECTORA === 'digemid' ||
+								EMPRESAINSPECTORA === 'digesa' ||
+								EMPRESAINSPECTORA === 'sanipes'
+							)) {
+								return 'SI TIENE';
+							} else {
+								return SCERTIFICACION;
+							}
+						}
+					},
 					{
 						"orderable": false,
 						render: function (data, type, row) {

@@ -72,6 +72,17 @@ class mcons_insp extends CI_Model
            (SELECT MAX(V.DRAZONSOCIAL) FROM POTRACERTIFICADORA T, MCERTIFICADORA V 
                                WHERE T.CAUDITORIAINSPECCION = M.CAUDITORIAINSPECCION 
                               AND T.CCERTIFICADORA = V.CCERTIFICADORA AND T.FSERVICIO = M.FSERVICIO) AS 'EMPRESAINSPECTORA',
+           (
+           	SELECT TOP 1 mcertificaciones.dcertificacion + '(' + MCERTIFICADORA.drazonsocial + ')' as 'dcertificacionconv'
+           	FROM mcertificaciones join MCERTIFICADORA on mcertificaciones.ccertificadora = MCERTIFICADORA.ccertificadora
+   			WHERE mcertificaciones.sregistro = 'A' 
+   				AND mcertificaciones.ccompania = '1' 
+   				AND MCERTIFICADORA.ccertificadora = (
+					SELECT TOP 1 CCERTIFICADORA 
+					FROM POTRACERTIFICADORA 
+					WHERE POTRACERTIFICADORA.CAUDITORIAINSPECCION = M.CAUDITORIAINSPECCION AND POTRACERTIFICADORA.FSERVICIO =  M.FSERVICIO
+				)
+           ) AS 'EMPRESAINSPECTORACONV',
             (CASE M.ZCTIPOESTADOSERVICIO WHEN '519' THEN 'SI' ELSE 'NO' END) AS 'CONVALIDADO',
             (SELECT 
                 (CASE

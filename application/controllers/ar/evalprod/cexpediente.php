@@ -27,6 +27,12 @@ class Cexpediente extends CI_Controller
      */
     private $carpetaPDF = '1/04/07/PDF/';
 
+    /**
+     * Ruta para el ingreso de PDF
+     * @var string
+     */
+    private $carpetaRotulos = '1/04/07/ROTULOS/';
+
 
     /**
      * Cexpediente constructor.
@@ -630,6 +636,102 @@ class Cexpediente extends CI_Controller
             echo json_encode(['error' => $ex->getMessage()]);
         }
     }
+
+	/**
+	 * Guardar un PDF en el expediente
+	 */
+	public function guardar_rotulo()
+	{
+		if (!$this->input->is_ajax_request()) {
+			show_404();
+		}
+		try {
+
+			$ficha_id_expediente = $this->input->post('rotulo_id_expediente');
+			$expediente = $this->mexpediente->buscarPorId($ficha_id_expediente);
+			if (empty($expediente)) {
+				throw new Exception('El expediente no pudo ser encontrado.');
+			}
+
+			$inputFile = $_FILES['rotulo_arhivo'];
+			if (!isset($inputFile) || empty($inputFile)) {
+				throw new Exception('Debes elegir un archivo.');
+			}
+			$fileExt = pathinfo($inputFile['name']);
+			if (!isset($fileExt['extension'])) {
+				throw new Exception('Error al obtener la extension del archivo.');
+			}
+
+			$nombrepdf = 'rotulo_' . $expediente->id_expediente . '-' . $expediente->fecha . '.' . $fileExt['extension'];
+			$rutapdf = RUTA_ARCHIVOS . $this->carpetaRotulos;
+			$rutaarchivopdf = $this->carpetaRotulos . $nombrepdf;
+
+			!is_dir($rutapdf) && @mkdir($rutapdf, 0777, true);
+
+			$config['upload_path']      = $rutapdf;
+			$config['file_name']        = $nombrepdf;
+			$config['allowed_types']    = '*';
+			$config['max_size']         = '60048';
+			$config['overwrite'] 		= TRUE;
+
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+
+			if (!($this->upload->do_upload('rotulo_arhivo'))) {
+				throw new Exception($this->upload->display_errors());
+			} else {
+				$expediente->ruta_rotulos = $rutaarchivopdf; // Se almacena para devolverlo como respuesta
+				$actualizar = $this->mexpediente->actualizar($expediente->id_expediente, [
+					'ruta_rotulos' => $rutaarchivopdf
+				]);
+				if (!$actualizar) {
+					throw new Exception('No se pudo actualizar la ficha cargada. Vuelva a intentarlo.');
+				}
+			}
+
+			echo json_encode([
+				'datos' => $expediente
+			]);
+
+		} catch (Exception $ex) {
+			echo json_encode(['error' => $ex->getMessage()]);
+		}
+	}
+
+	/**
+	 * Elimina de el rotulo de expediente
+	 */
+	public function eliminar_rotulo()
+	{
+		if (!$this->input->is_ajax_request()) {
+			show_404();
+		}
+		try {
+
+			$id = $this->input->post('id');
+			$expediente = $this->mexpediente->buscarPorId($id);
+			if (empty($expediente)) {
+				throw new Exception('El expediente no pudo ser encontrado.');
+			}
+
+			$rutaFicha = RUTA_ARCHIVOS . $expediente->ruta_rotulos;
+			if (file_exists($rutaFicha)) {
+				unlink($rutaFicha);
+			}
+
+			$actualizar = $this->mexpediente->actualizar($expediente->id_expediente, [
+				'ruta_rotulos' => null
+			]);
+
+			$expediente->ruta_rotulos = null;
+			echo json_encode([
+				'datos' => $expediente
+			]);
+
+		} catch (Exception $ex) {
+			echo json_encode(['error' => $ex->getMessage()]);
+		}
+	}
 
     /** 
      * Recupera los cartas a proveedores

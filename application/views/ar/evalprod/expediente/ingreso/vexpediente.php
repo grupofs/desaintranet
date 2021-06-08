@@ -154,6 +154,7 @@ $cia = $this-> session-> userdata('s_cia');
                                                     <th>Total</th>
                                                     <th>Fecha Ingreso</th>
                                                     <th>Fecha Limite</th>
+                                                    <th>Rótulos</th>
                                                     <th>Ficha</th>
                                                     <th>Pdf</th>
                                                     <th>Estado</th>
@@ -188,3 +189,4 @@ $cia = $this-> session-> userdata('s_cia');
 <?php $this->load->view('ar/evalprod/proveedor/vproveedor_formulario'); ?>
 <?php $this->load->view('ar/evalprod/expediente/ingreso/vexpediente_ficha_modal'); ?>
 <?php $this->load->view('ar/evalprod/expediente/ingreso/vexpediente_pdf_modal'); ?>
+<?php $this->load->view('ar/evalprod/expediente/ingreso/vexpediente_rotulo_modal'); ?>

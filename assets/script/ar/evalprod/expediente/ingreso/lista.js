@@ -41,6 +41,23 @@ $(function () {
 		columnas.push({
 			"orderable": false,
 			render: function (data, type, row) {
+				if (row.ruta_rotulos != null) {
+					return '<div class="text-left position-relative" >' +
+						'<a href="' + BASE_URL + 'FTPfileserver/Archivos/' + row.ruta_rotulos + '" target="_blank" title="Descargar Rotulo" class="btn btn-transparent text-danger" id="descarga-rotulo-' + row.id_expediente + '" ><i class="fa fa-file-pdf fa-2x" data-original-title="Descargar" data-toggle="tooltip"></i></a>' +
+						'<button class="btn btn-transparent position-absolute" onclick="objLista.eliminarRotulo(\'' + row.id_expediente + '\', this)" style="top: -10px; right: 0;" ><i class="fa fa-times" title="Eliminar Rotulo"></i></button>' +
+						'</div>';
+				} else {
+					return '<div class="text-left position-relative" >' +
+						'<button class="btn btn-transparent btn-sm" onClick="objLista.cargarRotulo(\'' + row.id_expediente + '\',\'' + row.expediente + '\');">' +
+						'<i class="fa fa-cloud-upload-alt fa-2x" title="Cargar Rotulo" ></i>' +
+						'</button>' +
+						'</div>';
+				}
+			}
+		});
+		columnas.push({
+			"orderable": false,
+			render: function (data, type, row) {
 				if (row.ruta_ficha != null) {
 					return '<div class="text-left position-relative" >' +
 						'<a href="' + BASE_URL + 'FTPfileserver/Archivos/' + row.ruta_ficha + '" target="_blank" title="Descargar Ficha" class="btn btn-transparent text-danger" id="descarga-ficha-' + row.id_expediente + '" ><i class="fa fa-file-pdf fa-2x" data-original-title="Descargar" data-toggle="tooltip"></i></a>' +
@@ -72,7 +89,7 @@ $(function () {
 				}
 			}
 		});
-		columnas.push({data: 'destado', orderable: false, targets: 8});
+		columnas.push({data: 'destado', orderable: false, targets: 9});
 		columnas.push({
 			"orderable": false,
 			render: function (data, type, row) {
@@ -464,6 +481,107 @@ $(function () {
 		}
 	};
 
+	/**
+	 * Metodo para cargar la ficha del expediente
+	 * @param idExpediente
+	 * @param expediente
+	 */
+	objLista.cargarRotulo = function (idExpediente, expediente) {
+		$('#rotulo_id_expediente').val(idExpediente);
+		const modalFormulario = $('#modalSubirRotulo');
+		modalFormulario.find('h5').html('Expediente ' + expediente);
+		modalFormulario.modal('show');
+	};
+
+	/**
+	 * Metodo para realizar la carga del pdf
+	 * @see objLista.buscar
+	 */
+	objLista.guardarRotulo = function () {
+		const form = $('form#frmRotulo');
+		const datos = new FormData(form[0]);
+		const botonGuardar = $(this);
+		const botonCancelar = $('#btnCancelarRotulo');
+		$.ajax({
+			url: form.attr('action'),
+			method: 'POST',
+			data: datos,
+			dataType: 'json',
+			cache: false,
+			contentType: false,
+			processData: false,
+			beforeSend: function () {
+				botonCancelar.prop('disabled', true);
+				objPrincipal.botonCargando(botonGuardar);
+			}
+		}).done(function (response) {
+			if (response.error) {
+				sweetalert(response.error, 'error');
+			} else {
+				sweetalert('Rotulo cargado correctamente.', 'success');
+				$('#modalSubirRotulo').modal('hide');
+				objFiltro.buscar();
+			}
+		}).fail(function (jqxhr) {
+			sweetalert('Error en el proceso de ejecución', 'error');
+		}).always(function () {
+			botonCancelar.prop('disabled', false);
+			objPrincipal.liberarBoton(botonGuardar);
+		});
+	};
+
+	/**
+	 * Elimina el PDF del expediente
+	 * @param idExpediente
+	 * @param boton
+	 */
+	objLista.eliminarRotulo = function (idExpediente, boton) {
+		if (objFiltro.cargando) {
+			sweetalert('Por favor espere existe un proceso pendiente.', 'error');
+		} else {
+			boton = $(boton);
+			const botonPDF = $('#descarga-pdf-' + idExpediente);
+			Swal.fire({
+				type: 'warning',
+				title: 'Expediente',
+				text: '¿Estas seguro(a) de eliminar el Rotulo?',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Si',
+				cancelButtonText: 'No deseo eliminar!'
+			}).then(function (result) {
+				const accept = (result && result.value);
+				if (accept) {
+					$.ajax({
+						url: BASE_URL + 'ar/evalprod/cexpediente/eliminar_rotulo',
+						method: 'POST',
+						data: {
+							id: idExpediente
+						},
+						dataType: 'json',
+						beforeSend: function () {
+							botonPDF.removeAttr('target');
+							botonPDF.attr('href', 'javascript:void(0)');
+							objPrincipal.botonCargando(boton);
+						}
+					}).done(function (response) {
+						if (response.error) {
+							sweetalert(response.error, 'error');
+						} else {
+							sweetalert('PDF eliminada correctamente', 'success');
+							objFiltro.buscar();
+						}
+					}).fail(function (jqxhr) {
+						sweetalert('Error en el proceso de ejecución', 'error');
+					}).always(function () {
+						objPrincipal.liberarBoton(boton);
+					});
+				}
+			});
+		}
+	};
+
 });
 
 $(document).ready(function () {
@@ -476,6 +594,8 @@ $(document).ready(function () {
 
 	$('#btnGuardarPDF').click(objLista.guardarPDF);
 
+	$('#btnGuardarRotulo').click(objLista.guardarRotulo);
+
 	$('#modalSubirFicha').on('hidden.bs.modal', function () {
 		$('#frmFicha').trigger("reset");
 		$('#ficha_id_expediente').val(0);
@@ -484,6 +604,11 @@ $(document).ready(function () {
 	$('#modalSubirPDF').on('hidden.bs.modal', function () {
 		$('#frmPDF').trigger("reset");
 		$('#pdf_id_expediente').val(0);
+	});
+
+	$('#modalSubirRotulo').on('hidden.bs.modal', function () {
+		$('#frmRotulo').trigger("reset");
+		$('#rotulo_id_expediente').val(0);
 	});
 
 	$('#btnExportar').click(objLista.exportar);

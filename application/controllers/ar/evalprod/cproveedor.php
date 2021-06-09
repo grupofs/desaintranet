@@ -82,9 +82,6 @@ class Cproveedor extends FS_Controller
 					if (!empty($objProveedor->ruc) && $objProveedor->ruc != $ruc) {
 						throw new Exception('No puedes editar Ruc del proveedor por que tiene expedientes asignados.');
 					}
-					if (!empty($objProveedor->nombre) && $objProveedor->nombre != $proveedor) {
-						throw new Exception('No puedes editar el nombre del proveedor por que tiene expedientes asignados');
-					}
 				}
 			}
 

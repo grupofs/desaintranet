@@ -34,26 +34,6 @@ class Mbusctramdigesa extends CI_Model {
             return false;
         }	
 	} 
-	
-    public function getcboempresa() { // Visualizar Clientes del servicio en CBO	
-        
-        $procedure = "call usp_adm_conta_getcboempresa()";
-		$query = $this->db-> query($procedure);
-        
-        if ($query->num_rows() > 0) {
-
-            $listas = '<option value="0" selected="selected">::Elegir</option>';
-            
-            foreach ($query->result() as $row)
-            {
-                $listas .= '<option value="'.$row->CCLIENTE.'">'.$row->DCLIENTE.'</option>';  
-            }
-               return $listas;
-        }{
-            $listas = '<option value="" selected="selected">Sin Datos...</option>';
-            return $listas;
-        }	
-    } 
 
 	public function getcbomarcaxclie($ccliente){
 		$this->db->select('
@@ -153,7 +133,7 @@ class Mbusctramdigesa extends CI_Model {
     }
 
     public function getconsulta_excel_tr($parametros) { // Recupera Listado de Propuestas      
-		$procedure = "call sp_appweb_aarr_consulta_excel_tr(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		$procedure = "call usp_ar_tramite_getconsulta_excel_tr(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		$query = $this->db-> query($procedure,$parametros);
 
 		if ($query->num_rows() > 0) { 
@@ -164,7 +144,7 @@ class Mbusctramdigesa extends CI_Model {
     }
 
     public function getbuscartramite($parametros) { // Recupera Listado de Propuestas      
-		$procedure = "call sp_appweb_tramdoc_buscartramite(?,?,?)";
+		$procedure = "call usp_ar_tramite_getbuscartramite(?,?,?)";
 		$query = $this->db-> query($procedure,$parametros);
 
 		if ($query->num_rows() > 0) { 
@@ -175,7 +155,7 @@ class Mbusctramdigesa extends CI_Model {
     }
 
     public function getdocum_aarr($parametros) { // Recupera Listado de Propuestas      
-		$procedure = "call sp_appweb_tramdoc_docum_aarr(?,?,?,?)";
+		$procedure = "call usp_ar_tramite_getdocum_aarr(?,?,?,?)";
 		$query = $this->db-> query($procedure,$parametros);
 
 		if ($query->num_rows() > 0) { 
@@ -185,7 +165,22 @@ class Mbusctramdigesa extends CI_Model {
 		}	
     }
 
-    public function getcaractprodu($ccliente) { // Visualizar Clientes del servicio en CBO	
+	public function getArchivos(string $CASUNTOREGULATORIO, string $CENTIDADREGULA, string $CTRAMITE, string $CDOCUMENTO) {
+		$this->db->select('DUBICACIONFILESERVER');
+		$this->db->from('PDOCUMENTOREGULATORIOARCHIVOS');
+		$this->db->where('CASUNTOREGULATORIO', $CASUNTOREGULATORIO);
+		$this->db->where('CENTIDADREGULA', $CENTIDADREGULA);
+		$this->db->where('CTRAMITE', $CTRAMITE);
+		$this->db->where('CDOCUMENTO', $CDOCUMENTO);
+		$this->db->where('SREGISTRO', 'A');
+		$query = $this->db->get();
+		if (!$query) {
+			return [];
+		}
+		return ($query->num_rows()) ? $query->result() : [];
+	}
+
+	public function getcaractprodu($ccliente) { // Visualizar Clientes del servicio en CBO
         
         $sql = "select ccategoriacliente,dcategoriacliente from mcategoriacliente where ccliente = ".$ccliente.";";
 		$query = $this->db-> query($sql);
@@ -202,7 +197,7 @@ class Mbusctramdigesa extends CI_Model {
         }{
             return false;
         }	
-	} 
+	}
 
 }
 ?>

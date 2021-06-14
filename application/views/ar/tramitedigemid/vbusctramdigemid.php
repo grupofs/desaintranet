@@ -151,19 +151,19 @@
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label>Código</label>
-                                <input type="text" class="form-control" id="txtcodprodu" name="txtcodprodu" placeholder="...">
+                                <input type="text" class="form-control" id="txtcodprodu" name="txtcodprodu" placeholder="..." onkeypress="pulsarListTramite(event)">
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label>Nro. NSO</label>
-                                <input type="text" class="form-control" id="txtnrors" name="txtnrors" placeholder="...">
+                                <input type="text" class="form-control" id="txtnrors" name="txtnrors" placeholder="..." onkeypress="pulsarListTramite(event)">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Nombre del producto /Descripción SAP</label>
-                                <input type="text" class="form-control" id="txtdescprodu" name="txtdescprodu" placeholder="...">
+                                <input type="text" class="form-control" id="txtdescprodu" name="txtdescprodu" placeholder="..." onkeypress="pulsarListTramite(event)">
                             </div>
                         </div>
                     </div>
@@ -171,7 +171,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Modelo /tono /variedad /submarca</label>
-                                <input type="text" class="form-control" id="txtcaractprodu" name="txtcaractprodu" placeholder="...">
+                                <input type="text" class="form-control" id="txtcaractprodu" name="txtcaractprodu" placeholder="..." onkeypress="pulsarListTramite(event)">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -191,7 +191,7 @@
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <label>Nº de Expediente</label>
-                                <input type="text" class="form-control" id="txtnroexpe" name="txtnroexpe" placeholder="...">
+                                <input type="text" class="form-control" id="txtnroexpe" name="txtnroexpe" placeholder="..." onkeypress="pulsarListTramite(event)">
                             </div>
                         </div>
                     </div>
@@ -246,12 +246,14 @@
                         <h3 class="card-title">Listado  - Tipo <label id="lblCia"></label></h3>
                     </div>                
                     <div class="card-body" id="divtblGrid" style="overflow-x: scroll;">
-                        <table id="tblListTramGrid" class="table table-striped table-bordered" style="width:100%">
+                        <table id="tblListTramGrid" class="table table-striped table-bordered compact" style="width:100%">
                             <thead>
                             <tr>
                                 <th>grupo</th>
-                                <th>Nro</th>
+                                <th>N°</th>
+                                <th></th>
                                 <th>Código</th>
+                                <th>Código Formula ILN</th>
                                 <th>Descripción SAP</th>
                                 <th>Nombre del Producto</th>
                                 <th>Marca</th>
@@ -269,11 +271,13 @@
                         </table>
                     </div>               
                     <div class="card-body" id="divtblExcel" style="overflow-x: scroll;">
-                        <table id="tblListTramExcel" class="table table-striped table-bordered" style="width:100%">
+                        <table id="tblListTramExcel" class="table table-striped table-bordered compact" style="width:100%">
                             <thead>
                             <tr>
-                                <th>Nro.</th>
+                                <th>N°</th>
+                                <th>AR</th>
                                 <th>Código</th>
+                                <th>Código Formula ILN</th>
                                 <th>Descripción SAP</th>
                                 <th>Nombre del Producto</th>
                                 <th>Marca</th>
@@ -324,8 +328,7 @@
                                 <tr>
                                 <th>N°</th>
                                 <th>Documento</th>
-                                <th>Archivo</th>
-                                <th></th>
+                                <th>Archivo(s)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -349,6 +352,68 @@
 </div> 
 <!-- /.modal-->
 
+
+<!-- /.modal-Mante Producto --> 
+<div class="modal fade" id="modalMantprod" data-backdrop="static" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <form class="form-horizontal" id="frmMantprod" name="frmMantprod" action="<?= base_url('ar/tramites/cbusctramdigemid/setregproducto')?>" method="POST" enctype="multipart/form-data" role="form"> 
+        <div class="modal-header text-center bg-info">
+            <h4 class="modal-title w-100 font-weight-bold">Mantenimiento Producto</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body"> 
+            <input type="hidden" id="mhdncproductofs" name="mhdncproductofs">                          
+            <div class="form-group">  
+                <div class="row">
+                    <div class="col-md-4"> 
+                        <div class="text-info">Código</div>
+                        <div>    
+                            <input type="text" name="mhdnmantCodigoprod"id="mhdnmantCodigoprod" class="form-control" ><!-- disable -->
+                        </div>
+                    </div>
+                    <div class="col-md-8"> 
+                        <div class="text-info">Código Formula ILN</div>
+                        <div>    
+                            <input type="text" name="mhdnmantCodformula"id="mhdnmantCodformula" class="form-control" ><!-- disable -->
+                        </div>
+                    </div>          
+                </div>  
+                <div class="row">
+                    <div class="col-md-12"> 
+                        <div class="text-info">Nombre del Producto</div>
+                        <div>    
+                            <textarea type="text" name="mhdnmantNombprod"id="mhdnmantNombprod" class="form-control" rows="2"></textarea><!-- disable -->
+                        </div>
+                    </div>
+                </div>  
+                <div class="row">
+                    <div class="col-md-12"> 
+                        <div class="text-info">Modelo /tono /variedad /submarca</div>
+                        <div>    
+                            <textarea type="text" name="mhdnmantModeloprod"id="mhdnmantModeloprod" class="form-control" rows="2"></textarea><!-- disable -->
+                        </div>
+                    </div>          
+                </div>                
+            </div>   
+        </div>
+        <div class="modal-footer justify-content-between" style="background-color: #D4EAFC;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-right">
+                        <button type="reset" class="btn btn-default" id="mbtnCManteprod" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-info" id="mbtnGManteprod">Grabar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+  </div>
+</div> 
+<!-- /.modal-->
 
 <!-- Script Generales -->
 <script type="text/javascript">

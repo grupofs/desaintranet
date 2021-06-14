@@ -51,7 +51,8 @@ $(function () {
 			let position = $('table#tblDocumentos > tbody > tr').length;
 			data.forEach(function (item) {
 				let tipo = (item.TIPO) ? parseInt(item.TIPO) : 1;
-				row += objDocumento.imprimir(position, tipo, item.CDOCUMENTO, item.DDOCUMENTO, item.archivos, item.CTRAMITE, item.DTRAMITE);
+				let archivoAnt = (item.CDOCUMENTOREGULAARCHIVO) ? 0 : 1;
+				row += objDocumento.imprimir(position, tipo, item.CDOCUMENTO, item.DDOCUMENTO, item.archivos, item.CTRAMITE, item.DTRAMITE, archivoAnt);
 				++position;
 			});
 		}
@@ -68,7 +69,7 @@ $(function () {
 		const type = (data && data.TIPO) ? parseInt(data.TIPO) : 1;
 		const codigo = (data && data.CDOCUMENTO) ? data.CDOCUMENTO : '';
 		const documento = (data && data.DDOCUMENTO) ? data.DDOCUMENTO : '';
-		const row = objDocumento.imprimir(position, type, codigo, documento, [], null, '');
+		const row = objDocumento.imprimir(position, type, codigo, documento, [], null, '', 0);
 		table.append(row);
 		objDocumento.cargarTramites();
 	};
@@ -118,9 +119,10 @@ $(function () {
 	 * @param archivos
 	 * @param tramiteId
 	 * @param tramiteText
+	 * @param archivoAnt
 	 * @returns {string}
 	 */
-	objDocumento.imprimir = function (position, tipo, codigo, documento, archivos, tramiteId, tramiteText) {
+	objDocumento.imprimir = function (position, tipo, codigo, documento, archivos, tramiteId, tramiteText, archivoAnt) {
 		const type1Selected = (parseInt(tipo) === 1) ? 'selected' : '';
 		const type2Selected = (parseInt(tipo) === 2) ? 'selected' : '';
 		const modal = 'document-modal-' + position;
@@ -152,33 +154,33 @@ $(function () {
 			row += '<input type="text" class="form-control" id="documento_nombre[' + position + ']" name="documento_nombre[' + position + ']" value="" >';
 		}
 		row += '<div class="input-group-prepend" >';
-		row += '<button type="button" role="button" class="btn btn-light" data-toggle="modal" data-target="#' + modal + '" ><i class="fa fa-plus" ></i> Cargar Archivo</button>';
+		row += '<button type="button" role="button" class="btn btn-light btn-cargar-documento-' + position + '" data-toggle="modal" data-target="#' + modal + '" ><i class="fa fa-plus" ></i> Cargar Archivo</button>';
 		row += '<button type="button" role="button" id="btn-download-files-' + position + '" class="btn btn-light documento-descargar-archivos" style="display: none" ><i class="fa fa-download" ></i> Descargar Archivos</button>';
 		row += '</div>';
 		row += '</div>';
 		row += '</td>';
 		row += '<td class="text-center" >';
 		row += '<span class="font-weight-bold text-success" id="documento_archivos_total[' + position + ']" >' + totalArchivos + '</span>';
-		row += '</td>';
-		row += '<td>';
-		row += '<div class="text-center" >';
-		row += '<button type="button" role="button" class="btn btn-light btn-sm dropdown-toggle option-documento" data-boundary="viewport" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >';
-		row += '<i class="fa fa-bars"></i>';
-		row += '</button>';
-		row += '<div class="dropdown-menu dropdown-menu-right">';
-		row += '<h6 class="dropdown-header">Opciones</h6>';
-		row += '<button type="button" role="button" class="dropdown-item option-documento-remove" >';
-		row += '<i class="fa fa-trash"></i> Eliminar';
-		row += '</button>';
-		row += '</div>';
+		// row += '</td>';
+		// row += '<td>';
+		// row += '<div class="text-center" >';
+		// row += '<button type="button" role="button" class="btn btn-light btn-sm dropdown-toggle option-documento" data-boundary="viewport" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >';
+		// row += '<i class="fa fa-bars"></i>';
+		// row += '</button>';
+		// row += '<div class="dropdown-menu dropdown-menu-right">';
+		// row += '<h6 class="dropdown-header">Opciones</h6>';
+		// row += '<button type="button" role="button" class="dropdown-item option-documento-remove" >';
+		// row += '<i class="fa fa-trash"></i> Eliminar';
+		// row += '</button>';
+		// row += '</div>';
 		// 0: Nuevo, 1: Editable, 2: Eliminar, otros: no se toma encuenta
 		row += '<input type="hidden" class="d-none" id="documento_id[' + position + ']" name="documento_id[' + position + ']" value="' + codigo + '" />';
 		row += '<input type="hidden" class="d-none" id="documento_operation[' + position + ']" name="documento_operation[' + position + ']" value="1" />';
 
-		row += '<div class="modal fade" id="' + modal + '" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-hidden="true">';
+		row += '<div class="modal fade" id="' + modal + '" style="display: none" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-hidden="true">';
 		row += '<div class="modal-dialog modal-lg modal-dialog-scrollable">';
 		row += '<div class="modal-content">';
-		row += '<div class="modal-header bg-success">';
+		row += '<div class="modal-header bg-success text-left">';
 		row += '<h5 class="modal-title fs w-100 font-weight-bold">Cargar archivo(s)</h5>';
 		row += '</div>';
 		row += '<div class="modal-body" style="background-color:#ffffff; border-top: 1px solid #00a65a; border-bottom: 1px solid #00a65a;">';
@@ -186,7 +188,6 @@ $(function () {
 		row += '<table class="table table-bordered table-striped tbl-documento-archivos-carga" id="tbl-documento-archivos-' + position + '" >';
 		row += '<thead>';
 		row += '<tr>';
-		1
 		row += '<th class="text-left" style="min-width: 220px;" >Archivo</th>';
 		row += '<th class="text-center" style="width: 130px; min-width: 130px;" >OP</th>';
 		row += '</tr>';
@@ -230,7 +231,7 @@ $(function () {
 		row += '</div>';
 		row += '</div>';
 		row += '<div class="modal-footer w-100 d-flex flex-row">';
-		row += '<button type="button" class="btn btn-link btn-save-upload-file" data-position="' + position + '" >';
+		row += '<button type="button" class="btn btn-link" id="cerrarVentanArchivo-' + position + '" data-dismiss="modal" data-position="' + position + '" >';
 		row += 'Cerrar Ventana';
 		row += '</button>';
 		row += '</div>';
@@ -266,7 +267,7 @@ $(function () {
 	objDocumento.agregarArchivo = function () {
 		const button = $(this);
 		const position = button.data('position');
-		if (objDocumento.totalArchivos(position) >= 1) {
+		if (objDocumento.totalArchivos(position) >= 10) {
 			objPrincipal.notify('error', 'No puede agregar más documentos por el momento.');
 			return false;
 		}
@@ -274,7 +275,7 @@ $(function () {
 		const key = $("#tbl-documento-archivos-" + position + " > tbody > tr").length;
 		tabla.append('<tr data-key="' + key + '" data-position="' + position + '" >' +
 			'<td class="text-left" >' +
-			'<input type="file" class="form-control" id="archivo_documento[' + position + '][' + key + ']" name="archivo_documento[' + position + '][' + key + ']" value="" />' +
+			'<input type="file" class="form-control upload-document" id="archivo_documento[' + position + '][' + key + ']" name="archivo_documento[' + position + '][' + key + ']" value="" />' +
 			'</td>' +
 			'<td class="text-center" >' +
 			'<button type="button" role="button" class="btn btn-danger option-archivo-remove" data-position="' + position + '" >' +
@@ -321,7 +322,7 @@ $(function () {
 	/**
 	 * Guarda el total de archivos del documento
 	 */
-	objDocumento.guardarArchivo = function () {
+	objDocumento.guardarTotalArchivo = function () {
 		const position = $(this).data('position');
 		const table = $('table#tbl-documento-archivos-' + position)
 		let total = 0;
@@ -393,15 +394,16 @@ $(function () {
 	 */
 	objDocumento.eliminarRealArchivo = function () {
 		const button = $(this);
-		const row = button.parent('td').parent('tr');
 		const position = button.data('position');
-		const key = row.data('key');
 		const id = button.data('id');
 		const cdocumento = document.getElementById('documento_id[' + position + ']').value;
 		objDocumento.eliminarRealArchivoDet(button, id, cdocumento)
 			.done(function (response) {
 				objPrincipal.notify('success', response.message);
-				objDocumento.confirmarEliminarArchivo(row, position, key);
+				$('#cerrarVentanArchivo-' + position).click();
+				setTimeout(function() {
+					objFormularioAR.editForm(objFormularioAR.data.ar.CASUNTOREGULATORIO, $('#btnTramiteGuardar'));
+				}, 1000);
 			})
 			.fail(function (jqxhr) {
 				const message = (jqxhr && jqxhr.responseJSON && jqxhr.responseJSON.message) ? jqxhr.responseJSON.message : 'Error en la solicitud del servidor.';
@@ -428,6 +430,7 @@ $(function () {
 				data: {
 					id: id,
 				},
+				dataType: 'json',
 				beforeSend: function () {
 					objPrincipal.botonCargando(button);
 				}
@@ -443,6 +446,7 @@ $(function () {
 					ctramite: objFormularioAR.data.tramite.CTRAMITE,
 					cdocumento: cdocumento,
 				},
+				dataType: 'json',
 				beforeSend: function () {
 					objPrincipal.botonCargando(button);
 				}
@@ -464,6 +468,48 @@ $(function () {
 		row.hide();
 	};
 
+	/**
+	 * Guarda el archivo elegido
+	 */
+	objDocumento.guardarArchivo = function() {
+		// Solo cuando se elige el archivo
+		if ($(this).val()) {
+			const row = $(this).parent('td').parent('tr');
+			const position = row.data('position');
+			const button = $('.btn-cargar-documento-' + position);
+			var formData = new FormData();
+			var files = $(this)[0].files[0];
+			formData.append('archivo_documento', files);
+			formData.append('asuntoregulatorio_id', objFormularioAR.data.ar.CASUNTOREGULATORIO);
+			formData.append('tramite_entidad_id', $('#tramite_entidad_id').val());
+			formData.append('tramite_tipo_producto_id', $('#tramite_tipo_producto_id').val());
+			formData.append('documento_tramite_id', document.getElementById('documento_tramite_id[' + position + ']').value);
+			formData.append('documento_tipo', document.getElementById('documento_tipo[' + position + ']').value);
+			formData.append('documento_nombre', document.getElementById('documento_nombre[' + position + ']').value);
+			formData.append('documento_id', document.getElementById('documento_id[' + position + ']').value);
+			$('#cerrarVentanArchivo-' + position).click();
+			$.ajax({
+				url: BASE_URL + 'ar/ope/ctramite/guardar_archivo',
+				type: 'POST',
+				data: formData,
+				contentType: false,
+				processData: false,
+				beforeSend: function () {
+					objPrincipal.botonCargando(button);
+				}
+			}).done(function (res) {
+				objPrincipal.notify('success', 'Archivo cargado correctamente.')
+			}).fail(function () {
+				objPrincipal.notify('error', 'Error al cargar el archivo.');
+			}).always(function () {
+				objPrincipal.liberarBoton(button);
+				setTimeout(function() {
+					objFormularioAR.editForm(objFormularioAR.data.ar.CASUNTOREGULATORIO, $('#btnTramiteGuardar'));
+				}, 1000);
+			});
+		}
+	};
+
 });
 
 $(document).ready(function () {
@@ -472,11 +518,13 @@ $(document).ready(function () {
 
 	$(document).on('click', '.btn-add-document-file', objDocumento.agregarArchivo);
 
-	$(document).on('click', '.btn-save-upload-file', objDocumento.guardarArchivo);
+	// $(document).on('click', '.btn-save-upload-file', objDocumento.guardarTotalArchivo);
 
 	$(document).on('click', '.option-remove-real-file', objDocumento.eliminarRealArchivo);
 
 	$(document).on('click', '.option-documento-remove', objDocumento.eliminarDocumento);
+
+	$(document).on('change', '.upload-document', objDocumento.guardarArchivo);
 
 	$('#btnDocumentoAgregar').click(function () {
 		objDocumento.agregarItem();

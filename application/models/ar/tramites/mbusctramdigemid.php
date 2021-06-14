@@ -34,26 +34,6 @@ class Mbusctramdigemid extends CI_Model {
             return false;
         }	
 	} 
-	
-    public function getcboempresa() { // Visualizar Clientes del servicio en CBO	
-        
-        $procedure = "call usp_adm_conta_getcboempresa()";
-		$query = $this->db-> query($procedure);
-        
-        if ($query->num_rows() > 0) {
-
-            $listas = '<option value="0" selected="selected">::Elegir</option>';
-            
-            foreach ($query->result() as $row)
-            {
-                $listas .= '<option value="'.$row->CCLIENTE.'">'.$row->DCLIENTE.'</option>';  
-            }
-               return $listas;
-        }{
-            $listas = '<option value="" selected="selected">Sin Datos...</option>';
-            return $listas;
-        }	
-    } 
 
 	public function getcbomarcaxclie($ccliente){
 		$this->db->select('
@@ -138,8 +118,6 @@ class Mbusctramdigemid extends CI_Model {
             return $listas;
         }	
     }
-    
-        
 
     public function getconsulta_grid_tr($parametros) { // Recupera Listado de Propuestas      
 		$procedure = "call usp_ar_tramite_getconsulta_grid_tr(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -164,7 +142,7 @@ class Mbusctramdigemid extends CI_Model {
     }
 
     public function getbuscartramite($parametros) { // Recupera Listado de Propuestas      
-		$procedure = "call sp_appweb_tramdoc_buscartramite(?,?)";
+		$procedure = "call sp_appweb_tramdoc_buscartramite(?,?,?)";
 		$query = $this->db-> query($procedure,$parametros);
 
 		if ($query->num_rows() > 0) { 
@@ -184,6 +162,38 @@ class Mbusctramdigemid extends CI_Model {
 			return False;
 		}	
     }
+
+	public function getArchivos(string $CASUNTOREGULATORIO, string $CENTIDADREGULA, string $CTRAMITE, string $CDOCUMENTO) {
+		$this->db->select('DUBICACIONFILESERVER');
+		$this->db->from('PDOCUMENTOREGULATORIOARCHIVOS');
+		$this->db->where('CASUNTOREGULATORIO', $CASUNTOREGULATORIO);
+		$this->db->where('CENTIDADREGULA', $CENTIDADREGULA);
+		$this->db->where('CTRAMITE', $CTRAMITE);
+		$this->db->where('CDOCUMENTO', $CDOCUMENTO);
+		$this->db->where('SREGISTRO', 'A');
+		$query = $this->db->get();
+		if (!$query) {
+			return [];
+		}
+		return ($query->num_rows()) ? $query->result() : [];
+	}
+
+    public function setregproducto($parametros) {  // Registrar evaluacion PT
+        $this->db->trans_begin();
+
+        $procedure = "call usp_ar_tramite_setproducto(?,?,?,?,?);";
+        $query = $this->db->query($procedure,$parametros);
+
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+        }
+        else
+        {
+            $this->db->trans_commit();
+            return $query->result(); 
+        }   
+    } 
 
 }
 ?>

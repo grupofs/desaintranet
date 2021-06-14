@@ -58,7 +58,7 @@ class mtramitereguladora extends CI_Model
 		$this->db->like('dtramite', $search, 'both', false);
 		$this->db->where('SREGISTRO', 'A');
 		$this->db->order_by('dtramite', 'ASC');
-		$this->db->limitAnyWhere(LIMITE_AUTOCOMPLETADO);
+		// $this->db->limitAnyWhere(LIMITE_AUTOCOMPLETADO);
 		$query = $this->db->get();
 		if (!$query) {
 			return [];

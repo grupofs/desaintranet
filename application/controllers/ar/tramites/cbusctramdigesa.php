@@ -36,6 +36,12 @@ class Cbusctramdigesa extends CI_Controller {
 		echo json_encode($resultado);
 	}
 
+    public function getcaractprodu() {	// Visualizar 	
+        $ccliente= $this->input->post('ccliente');
+		$resultado = $this->mbusctramdigesa->getcaractprodu($ccliente);
+		echo json_encode($resultado);
+    }
+
     public function getconsulta_grid_tr() {	// Recupera Listado de Propuestas	
         		
         $varnull = '';
@@ -45,7 +51,7 @@ class Cbusctramdigesa extends CI_Controller {
         $regsan = 		($this->input->post('regsan') == $varnull) ? '%' : '%'.$this->input->post('regsan').'%';
         $tono = 		($this->input->post('tono') == $varnull) ? '%' : '%'.$this->input->post('tono').'%';
         $estado = 		($this->input->post('estado') == $varnull) ? '%' : '%'.$this->input->post('estado').'%';
-        $marca = 		($this->input->post('marca') == $varnull) ? '%' : '%'.$this->input->post('marca').'%';
+        $marca = 		($this->input->post('marca') == $varnull) ? '0' : $this->input->post('marca');
         $tramite = 		($this->input->post('tramite') == $varnull) ? '%' : '%'.$this->input->post('tramite').'%';
         $allf = 		$this->input->post('allf');
         $fini = 		$this->input->post('fi');
@@ -124,7 +130,6 @@ class Cbusctramdigesa extends CI_Controller {
 		$resultado = $this->mbusctramdigesa->getconsulta_excel_tr($parametros);
 		echo json_encode($resultado);
 	}
-
     public function getbuscartramite(){
         $parametros['@codaarr'] = $this->input->post('codaarr');
         $parametros['@codrsnso'] = $this->input->post('codrsnso');
@@ -133,7 +138,6 @@ class Cbusctramdigesa extends CI_Controller {
         $resultado = $this->mbusctramdigesa->getbuscartramite($parametros);
         echo json_encode($resultado);
     }
-
     public function getdocum_aarr(){
         $parametros['@casuntoregula'] = $this->input->post('casuntoregula');
         $parametros['@centidad'] = $this->input->post('centidad');
@@ -141,14 +145,21 @@ class Cbusctramdigesa extends CI_Controller {
         $parametros['@csumario'] = $this->input->post('csumario');
         
         $resultado = $this->mbusctramdigesa->getdocum_aarr($parametros);
+
+        if ($resultado && !empty($resultado)) {
+        	foreach ($resultado as $key => $value) {
+				$archivos = [];
+				if (!empty($value->DUBICACIONFILESERVER)) {
+					$archivos[] = $value->DUBICACIONFILESERVER;
+				}
+        		$otrosArchivos = $this->mbusctramdigesa->getArchivos($value->casuntoregulatorio, $value->centidadregula, $value->ctramite, $value->cdocumento);
+				$archivos = array_merge($archivos, $otrosArchivos);
+        		$resultado[$key]->archivos = $archivos;
+			}
+		}
+
         echo json_encode($resultado);
     }	
-
-    public function getcaractprodu() {	// Visualizar 	
-        $ccliente= $this->input->post('ccliente');
-		$resultado = $this->mbusctramdigesa->getcaractprodu($ccliente);
-		echo json_encode($resultado);
-    }
 
 }
 ?>

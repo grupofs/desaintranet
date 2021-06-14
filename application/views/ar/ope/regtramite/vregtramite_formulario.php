@@ -178,7 +178,7 @@
 					<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
 						<div class="form-group row">
 							<label for="carga_registro_nro_dr" class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12"
-								   title="Hoja de Resumen del Documento Resolutivo" >
+								   title="Hoja de Resumen del Documento Resolutivo">
 								Nro. DR
 							</label>
 							<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
@@ -198,8 +198,8 @@
 								<select class="custom-select"
 										id="carga_registro_estado"
 										name="carga_registro_estado">
-<!--									<option value="P">En proceso</option>-->
-<!--									<option value="O">Observado DG</option>-->
+									<!--									<option value="P">En proceso</option>-->
+									<!--									<option value="O">Observado DG</option>-->
 									<option value="A">Aprobado</option>
 									<option value="T">Trunco</option>
 									<option value="G">Rechazado DG</option>
@@ -311,81 +311,6 @@
 			</fieldset>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-12">
-			<fieldset class="scheduler-border">
-				<legend class="scheduler-border text-primary">
-					Documentos del tramite
-				</legend>
-				<div class="box-body">
-					<ul class="nav nav-tabs" id="myTab" role="tablist">
-						<li class="nav-item" role="presentation">
-							<a class="nav-link border-left active" id="home-tab" data-toggle="tab" href="#listaDocumentos" role="tab"
-							   aria-controls="home" aria-selected="true">Lista de Documentos</a>
-						</li>
-						<li class="nav-item" role="presentation">
-							<a class="nav-link" id="profile-tab" data-toggle="tab" href="#rutaDocumentos" role="tab"
-							   aria-controls="profile" aria-selected="false">Archivos (<span id="totalRutaDocumentos" >0</span>)</a>
-						</li>
-					</ul>
-					<div class="tab-content border border-top-0" id="myTabContent">
-						<div class="tab-pane fade show active" id="listaDocumentos" role="tabpanel" aria-labelledby="home-tab">
-							<div class="table-responsive">
-								<table class="table table-bordered table-valign-middle table-hover" id="tblDocumentos">
-									<thead>
-									<tr>
-										<th class="text-center" style="width: 50px; min-width: 50px;">
-											N°
-										</th>
-										<th class="text-center" style="min-width: 280px; width: 280px">
-											Tramite
-										</th>
-										<th class="text-center" style="min-width: 150px; width: 150px">
-											Tipo
-										</th>
-										<th class="text-center" style="min-width: 200px">
-											Documento
-										</th>
-										<th class="text-center" style="width: 100px; min-width: 100px;">
-											Adjuntos
-										</th>
-										<th class="text-center" style="width: 50px; min-width: 50px">OP</th>
-									</tr>
-									</thead>
-									<tbody>
-									</tbody>
-									<tfoot>
-									<tr>
-										<td colspan="10">
-											<button type="button" role="button" class="btn btn-link btn-sm"
-													id="btnDocumentoAgregar">
-												<i class="fa fa-plus"></i> Agregar requisito
-											</button>
-										</td>
-									</tr>
-									</tfoot>
-								</table>
-							</div>
-						</div>
-						<div class="tab-pane fade" id="rutaDocumentos" role="tabpanel" aria-labelledby="profile-tab">
-							<div class="table-responsive" >
-								<table class="table table-bordered table-striped" id="btnRutaDocumentos" >
-									<thead>
-									<tr>
-										<th class="text-center" style="width: 60px; min-width: 60px" >#</th>
-										<th class="text-left" style="min-width: 250px" >Ruta</th>
-									</tr>
-									</thead>
-									<tbody>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-			</fieldset>
-		</div>
-	</div>
 	<div class="form-group row justify-content-end">
 		<div class="col-sm-6 col-12 text-right">
 			<button type="button" id="btnTramiteCerrar" style="display: none"
@@ -410,6 +335,83 @@
 		</div>
 	</div>
 </form>
+<div class="row" style="display: none" id="contentDocuments">
+	<div class="col-12">
+		<fieldset class="scheduler-border">
+			<legend class="scheduler-border text-primary">
+				Documentos del tramite
+			</legend>
+			<div class="box-body">
+				<ul class="nav nav-tabs" id="myTab" role="tablist">
+					<li class="nav-item" role="presentation">
+						<a class="nav-link border-left active" id="home-tab" data-toggle="tab" href="#listaDocumentos"
+						   role="tab"
+						   aria-controls="home" aria-selected="true">Lista de Documentos</a>
+					</li>
+					<li class="nav-item" role="presentation">
+						<a class="nav-link" id="profile-tab" data-toggle="tab" href="#rutaDocumentos" role="tab"
+						   aria-controls="profile" aria-selected="false">Archivos (<span
+									id="totalRutaDocumentos">0</span>)</a>
+					</li>
+				</ul>
+				<div class="tab-content border border-top-0" id="myTabContent">
+					<div class="tab-pane fade show active" id="listaDocumentos" role="tabpanel"
+						 aria-labelledby="home-tab">
+						<div class="table-responsive">
+							<table class="table table-bordered table-valign-middle table-hover" id="tblDocumentos">
+								<thead>
+								<tr>
+									<th class="text-center" style="width: 50px; min-width: 50px;">
+										N°
+									</th>
+									<th class="text-center" style="min-width: 280px; width: 280px">
+										Tramite
+									</th>
+									<th class="text-center" style="min-width: 150px; width: 150px">
+										Tipo
+									</th>
+									<th class="text-center" style="min-width: 200px">
+										Documento
+									</th>
+									<th class="text-center" style="width: 100px; min-width: 100px;">
+										Adjuntos
+									</th>
+								</tr>
+								</thead>
+								<tbody>
+								</tbody>
+								<tfoot>
+								<tr>
+									<td colspan="10">
+										<button type="button" role="button" class="btn btn-link btn-sm"
+												id="btnDocumentoAgregar">
+											<i class="fa fa-plus"></i> Agregar requisito
+										</button>
+									</td>
+								</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="rutaDocumentos" role="tabpanel" aria-labelledby="profile-tab">
+						<div class="table-responsive">
+							<table class="table table-bordered table-striped" id="btnRutaDocumentos">
+								<thead>
+								<tr>
+									<th class="text-center" style="width: 60px; min-width: 60px">#</th>
+									<th class="text-left" style="min-width: 250px">Ruta</th>
+								</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+	</div>
+</div>
 
 <!-- Modal -->
 <?php $this->load->view('ar/ope/regtramite/vproducto_lista'); ?>
@@ -422,7 +424,7 @@
 	<div class="modal-dialog modal-lg modal-dialog-scrollable">
 		<div class="modal-content">
 			<div class="modal-header bg-success">
-				<h5 class="modal-title fs w-100 font-weight-bold">
+				<h5 class="modal-title fs w-100 font-weight-bold text-left">
 					Cargar archivo(s)
 				</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">

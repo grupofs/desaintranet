@@ -252,13 +252,7 @@ $(function () {
 	 * Se ejecuta cuando se realiza un cambio en el tramite
 	 */
 	objTramite.changeTramite = function () {
-		const value = $(this).val();
-		const tramite = objTramite.bloqueoPorTramite();
-		if (value && tramite.total === 1) {
-			objDocumento.eliminarArchivos();
-			objDocumento.obtener(value);
-		}
-		objDocumento.cargarTramites();
+		objTramite.bloqueoPorTramite();
 	};
 
 	/**

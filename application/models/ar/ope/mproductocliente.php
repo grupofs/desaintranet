@@ -234,10 +234,10 @@ class mproductocliente extends CI_Model
 		$fechaEmision = \Carbon\Carbon::createFromFormat('d/m/Y', $fechaEmision, 'America/Lima')->format('Y-m-d');
 		$fechaVencimiento = \Carbon\Carbon::createFromFormat('d/m/Y', $fechaVencimiento, 'America/Lima')->format('Y-m-d');
 
-		$validate = $this->validarSKU($codigo, $registroSanitario, $id);
-		if (!empty($validate)) {
-			throw new Exception('El RS + SKU ya existe registro un un producto.');
-		}
+//		$validate = $this->validarSKU($codigo, $registroSanitario, $id);
+//		if (!empty($validate)) {
+//			throw new Exception('El RS + SKU ya existe registrado en un producto.');
+//		}
 
 		$data = [
 			'CPRODUCTOFS' => $id,

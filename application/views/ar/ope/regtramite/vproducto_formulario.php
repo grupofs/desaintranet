@@ -298,7 +298,7 @@
 												<option value="Cera">Cera</option>
 												<option value="Crema Gel">Crema Gel</option>
 												<option value="Crema">Crema</option>
-												<option value="Emulasión">Emulasión</option>
+												<option value="Emulsión">Emulsión</option>
 												<option value="Esmalte">Esmalte</option>
 												<option value="Gel">Gel</option>
 												<option value="Granulado">Granulado</option>

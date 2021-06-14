@@ -45,14 +45,14 @@ class Cbusctramdigemid extends CI_Controller {
         $regsan = 		($this->input->post('regsan') == $varnull) ? '%' : '%'.$this->input->post('regsan').'%';
         $tono = 		($this->input->post('tono') == $varnull) ? '%' : '%'.$this->input->post('tono').'%';
         $estado = 		($this->input->post('estado') == $varnull) ? '%' : '%'.$this->input->post('estado').'%';
-        $marca = 		($this->input->post('marca') == $varnull) ? '%' : '%'.$this->input->post('marca').'%';
+        $marca = 		($this->input->post('marca') == $varnull) ? '0' : $this->input->post('marca');
         $tramite = 		($this->input->post('tramite') == $varnull) ? '%' : '%'.$this->input->post('tramite').'%';
         $allf = 		$this->input->post('allf');
         $fini = 		$this->input->post('fi');
         $ffin = 		$this->input->post('ff');
         $ccliente = 	$this->input->post('ccliente'); 
         $numexpdiente = ($this->input->post('numexpdiente') == $varnull) ? '%' : '%'.$this->input->post('numexpdiente').'%';
-        $ccategoria = 	($this->input->post('ccategoria') == $varnull) ? '%' : '%'.$this->input->post('ccategoria').'%';
+        $ccategoria = 	($this->input->post('ccategoria') == $varnull) ? '0' : $this->input->post('ccategoria');
         $est = 			($this->input->post('est') == $varnull) ? '%' : '%'.$this->input->post('est').'%';	
         $tipoest = 		($this->input->post('tipoest') == $varnull) ? '%' : $this->input->post('tipoest');
         $tiporeporte = 	'G'; 
@@ -96,7 +96,7 @@ class Cbusctramdigemid extends CI_Controller {
         $ffin = 		$this->input->post('ff');
         $ccliente = 	$this->input->post('ccliente'); 
         $numexpdiente = ($this->input->post('numexpdiente') == $varnull) ? '%' : '%'.$this->input->post('numexpdiente').'%';
-        $ccategoria = 	($this->input->post('ccategoria') == $varnull) ? '%' : '%'.$this->input->post('ccategoria').'%';
+        $ccategoria = 	($this->input->post('ccategoria') == $varnull) ? '0' : $this->input->post('ccategoria');
         $est = 			($this->input->post('est') == $varnull) ? '%' : '%'.$this->input->post('est').'%';	
         $tipoest = 		($this->input->post('tipoest') == $varnull) ? '%' : $this->input->post('tipoest');
         $tiporeporte = 	'E'; 
@@ -126,8 +126,9 @@ class Cbusctramdigemid extends CI_Controller {
 	}
 
     public function getbuscartramite(){
+        $parametros['@codaarr'] = $this->input->post('codaarr');
+        $parametros['@codrsnso'] = $this->input->post('codrsnso');
         $parametros['@codprod'] = $this->input->post('codprod');
-        $parametros['@tipo'] = $this->input->post('tipo');
         
         $resultado = $this->mbusctramdigemid->getbuscartramite($parametros);
         echo json_encode($resultado);
@@ -140,8 +141,40 @@ class Cbusctramdigemid extends CI_Controller {
         $parametros['@csumario'] = $this->input->post('csumario');
         
         $resultado = $this->mbusctramdigemid->getdocum_aarr($parametros);
+		if ($resultado && !empty($resultado)) {
+			foreach ($resultado as $key => $value) {
+				$archivos = [];
+				if (!empty($value->DUBICACIONFILESERVER)) {
+					$archivos[] = $value->DUBICACIONFILESERVER;
+				}
+				$otrosArchivos = $this->mbusctramdigemid->getArchivos($value->casuntoregulatorio, $value->centidadregula, $value->ctramite, $value->cdocumento);
+				$archivos = array_merge($archivos, $otrosArchivos);
+				$resultado[$key]->archivos = $archivos;
+			}
+		}
         echo json_encode($resultado);
     }	
+
+    public function setregproducto() {	// Visualizar Inspectores en CBO
+		$varnull = '';
+		
+		$cproductofs    = $this->input->post('mhdncproductofs');	
+		$codigoprod     = $this->input->post('mhdnmantCodigoprod');	
+		$codformula     = $this->input->post('mhdnmantCodformula');	
+		$nombprod       = $this->input->post('mhdnmantNombprod');	
+		$modeloprod     = $this->input->post('mhdnmantModeloprod');
+        
+        $parametros = array(
+            '@cproductofs'  => $cproductofs,
+            '@codigoprod'   => $codigoprod,
+            '@codformula'   => $codformula,
+            '@nombprod'     => $nombprod,
+            '@modeloprod'   => $modeloprod,
+        );
+		$resultado = $this->mbusctramdigemid->setregproducto($parametros);
+
+		echo json_encode($resultado);
+	}
 
 }
 ?>

@@ -62,7 +62,7 @@ class mdocumentoregulatorio extends CI_Model
 	 * @param $CTRAMITE
 	 * @return array|array[]|object|object[]
 	 */
-	public function obtenerDocumentos($CENTIDADREGULA, $CTRAMITE)
+	public function obtenerDocumentos($CENTIDADREGULA, $CTRAMITE, $SREGISTRO = 'A')
 	{
 		$this->db->select('
 			CDOCUMENTO AS id,
@@ -71,8 +71,16 @@ class mdocumentoregulatorio extends CI_Model
 		');
 		$this->db->from('MDOCUMENTOTRAMITEREGULA');
 		$this->db->where('CENTIDADREGULA', $CENTIDADREGULA);
-		$this->db->where('CTRAMITE', $CTRAMITE);
-		$this->db->where('SREGISTRO', 'A');
+		if (is_array($CTRAMITE)) {
+			$this->db->where_in('CTRAMITE', $CTRAMITE);
+		} else {
+			$this->db->where('CTRAMITE', $CTRAMITE);
+		}
+		if (!empty($SREGISTRO)) {
+			$this->db->where('SREGISTRO', $SREGISTRO);
+		}
+		$this->db->order_by('CONVERT(INTEGER, CTRAMITE)', 'DESC', false);
+		$this->db->order_by('CONVERT(INTEGER, CDOCUMENTO)', 'ASC', false);
 		$query = $this->db->get();
 		if (!$query) {
 			return [];

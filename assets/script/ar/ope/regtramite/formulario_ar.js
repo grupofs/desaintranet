@@ -191,6 +191,8 @@ $(function () {
 				if (data.ar.SCIERRE === 'C') {
 					objFormularioAR.habilitarAbrir();
 				}
+				// Se muestran los documentos
+				$('#contentDocuments').show();
 			});
 	};
 
